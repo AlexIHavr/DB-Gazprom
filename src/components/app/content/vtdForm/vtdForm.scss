@@ -1,0 +1,25 @@
+.vtdForm {
+  height: 600px;
+
+  svg {
+    color: black;
+  }
+
+  .MuiDataGrid-cell {
+    justify-content: center !important;
+    border-color: black !important;
+  }
+
+  .MuiDataGrid-columnHeaders {
+    background-color: #6bb3fa;
+
+    .MuiDataGrid-columnHeaderTitle {
+      font-weight: bold;
+    }
+  }
+
+  .MuiButton-root {
+    color: black;
+    font-weight: bold;
+  }
+}

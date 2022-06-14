@@ -36,6 +36,7 @@
     "no-unused-vars": "warn",
     "multiline-ternary": "off",
     "no-console": "warn",
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "space-before-function-paren": "off"
   }
 }

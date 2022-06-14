@@ -1,0 +1,38 @@
+.vtdTree {
+  width: 80%;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+  }
+
+  .MuiAccordion-root {
+    background-color: #1976d2;
+    margin-bottom: 0 !important;
+
+    h3,
+    h4 {
+      margin: 10px;
+    }
+
+    &:not(.typeAccordion) {
+      border-top: 2px solid white;
+      box-shadow: none;
+      border-radius: 0 !important;
+      -webkit-border-radius: 0 !important;
+      -moz-border-radius: 0 !important;
+      -ms-border-radius: 0 !important;
+      -o-border-radius: 0 !important;
+    }
+
+    .MuiAccordionDetails-root {
+      padding: 0 0 0 30px;
+
+      .VtdForms {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 20px;
+      }
+    }
+  }
+}

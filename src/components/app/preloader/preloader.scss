@@ -1,0 +1,13 @@
+.wrapper .preloader-wrapper {
+  display: none;
+  width: 60px !important;
+  height: 60px !important;
+  position: fixed;
+  top: calc(100vh / 2 - 64px / 2);
+  left: calc(100vw / 2 - 64px / 2);
+  z-index: 100;
+
+  &.active {
+    display: block;
+  }
+}
