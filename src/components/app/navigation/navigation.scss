@@ -1,4 +1,7 @@
+@import '../app.scss';
+
 header {
+  height: $heightHeader;
   .navigation {
     display: flex;
     padding: 0;

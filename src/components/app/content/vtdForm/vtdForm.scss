@@ -1,25 +1,45 @@
-.vtdForm {
-  height: 600px;
+.vtdForm .MuiPaper-root {
+  height: calc(100vh - 100px);
 
-  svg {
-    color: black;
-  }
+  table {
+    border-spacing: 0;
+    border-collapse: initial;
+    svg {
+      color: black;
+    }
 
-  .MuiDataGrid-cell {
-    justify-content: center !important;
-    border-color: black !important;
-  }
+    td,
+    th {
+      padding: 5px;
+      text-align: center;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+    }
 
-  .MuiDataGrid-columnHeaders {
-    background-color: #6bb3fa;
-
-    .MuiDataGrid-columnHeaderTitle {
+    .MuiButton-root {
+      color: black;
       font-weight: bold;
     }
-  }
 
-  .MuiButton-root {
-    color: black;
-    font-weight: bold;
+    thead {
+      th {
+        position: relative;
+        top: 0;
+        position: sticky;
+        font-weight: bold;
+        background-color: #d9d9d9;
+        z-index: 1;
+      }
+    }
+
+    tfoot {
+      .Mui-disabled svg {
+        color: grey;
+      }
+
+      .MuiTablePagination-spacer {
+        flex: none;
+      }
+    }
   }
 }
