@@ -1,12 +1,14 @@
 import { ExpandMore } from '@mui/icons-material';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 
-import { VTD_TREE_LEVELS } from '../../../../redux/vtdTree/constants';
 import { PAGES } from '../../constants';
 import { useAppSelector } from '../../../../hooks/redux';
-import { VtdTreeLevels } from '../../../../redux/vtdTree/types';
+import { getAdaptedVtdTree } from '../../../../helpers/vtdTree';
+
+import { VTD_TREE_LEVELS } from './constants';
+import { VtdTreeLevels } from './types';
 
 import './vtdTree.scss';
 
@@ -21,10 +23,12 @@ const VtdTree: React.FC = () => {
     [expanded],
   );
 
+  const adaptedVtdTree = useMemo(() => getAdaptedVtdTree(vtdTree), [vtdTree]);
+
   return (
     <div className="vtdTree">
       <h1>Дерево ВТД</h1>
-      {vtdTree.map(({ type, pipelines }) => (
+      {adaptedVtdTree.map(({ type, pipelines }) => (
         <Accordion
           className="typeAccordion"
           key={type}

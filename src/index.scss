@@ -7,7 +7,6 @@ body {
   background-color: #92c9ffc3;
   min-width: 800px;
 
-  button:not(.MuiButton-root),
   h3,
   h4,
   h1,
@@ -15,6 +14,10 @@ body {
   svg {
     color: white;
     text-shadow: 1px 1px 5px black;
+  }
+
+  button {
+    text-shadow: 1px 1px 1px black;
   }
 
   input[type='file'] {

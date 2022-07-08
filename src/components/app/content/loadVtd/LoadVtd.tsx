@@ -1,11 +1,10 @@
 import { Button } from '@mui/material';
 import { ChangeEvent, useCallback } from 'react';
-import { v4 } from 'uuid';
 
 import { excelRenderer } from '../../../../helpers/excel';
 import { useAppDispatch } from '../../../../hooks/redux';
 import { setIsLoading } from '../../../../redux/app/reducer';
-import { setVtdData } from '../../../../redux/vtdData/reducer';
+import { setPipelinesData } from '../../../../redux/vtdTree/reducer';
 
 import './loadVtd.scss';
 
@@ -24,8 +23,8 @@ const LoadVtd: React.FC = () => {
           try {
             const data = await excelRenderer(fileObj);
             dispatch(
-              setVtdData({
-                id: '1',
+              setPipelinesData({
+                vtdId: '1',
                 data: {
                   form: data,
                 },

@@ -4,7 +4,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
   TablePagination,
   TableRow,
@@ -23,18 +22,16 @@ import { ROWS_PER_PAGE } from './constants';
 import './vtdForm.scss';
 
 const VtdForm: React.FC = () => {
-  const { vtdData } = useAppSelector((state) => state.vtdData);
+  const { vtdTree } = useAppSelector((state) => state.vtdTree);
 
-  const { [PAGES.vtdForm.param]: id } = useParams();
+  const { [PAGES.vtdForm.param]: vtdId } = useParams();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE[0]);
 
-  const columns = useMemo(() => ['Номер', ...vtdData[id!].form[0]], [vtdData, id]);
-
-  const rows = useMemo(
-    () => vtdData[id!].form.slice(1).map((row, i) => [i + 1, ...row]),
-    [vtdData, id],
+  const vtdForm = useMemo(
+    () => vtdTree.find(({ id }) => id === vtdId)?.pipelineData.form,
+    [vtdId, vtdTree],
   );
 
   const onChangePage = useCallback(
@@ -54,45 +51,45 @@ const VtdForm: React.FC = () => {
 
   return (
     <div className="vtdForm">
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableHeadCell key={column} columnName={column} />
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row, i) => (
-              <TableRow key={v4()}>
-                {row.map((cell) => (
-                  <TableCell key={v4()}>{cell}</TableCell>
+      {vtdForm && vtdId && (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[...ROWS_PER_PAGE, { label: 'Все', value: -1 }]}
+                  count={vtdForm.rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={onChangePage}
+                  onRowsPerPageChange={onChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                  labelRowsPerPage="Показывать строк: "
+                  showFirstButton
+                  showLastButton
+                />
+              </TableRow>
+              <TableRow>
+                {vtdForm.columns.map((column) => (
+                  <TableHeadCell key={column.id} vtdId={vtdId} tableType="form" column={column} />
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[...ROWS_PER_PAGE, { label: 'Все', value: -1 }]}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={onChangePage}
-                onRowsPerPageChange={onChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-                labelRowsPerPage="Показывать строк: "
-                showFirstButton
-                showLastButton
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? vtdForm.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : vtdForm.rows
+              ).map((row) => (
+                <TableRow key={v4()}>
+                  {row.map((cell) => (
+                    <TableCell key={v4()}>{cell}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 };

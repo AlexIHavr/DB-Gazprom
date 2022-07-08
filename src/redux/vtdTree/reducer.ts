@@ -1,133 +1,125 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { InitialState } from './types';
+import { InitialState, PipelineData, PipelineDataTables } from './types';
 
 const initialState: InitialState = {
   vtdTree: [
     {
+      id: '1',
       type: 'Магистральные газопроводы',
-      pipelines: [
-        {
-          pipeline: 'МГ Торжок-Минск-Ивацевичи III',
-          sections: [
-            {
-              section: '390-424',
-              umg: 'Оршанское',
-              years: [
-                {
-                  id: '1',
-                  year: '2018',
-                },
-                {
-                  id: '2',
-                  year: '2006',
-                },
-                {
-                  id: '3',
-                  year: '2003',
-                },
-              ],
-            },
-            {
-              section: '425,9-529',
-              umg: 'Оршанское-Крупское',
-              years: [
-                {
-                  id: '4',
-                  year: '2020',
-                },
-                {
-                  id: '5',
-                  year: '2015',
-                },
-                {
-                  id: '6',
-                  year: '2006',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          pipeline: 'МГ Торжок-Минск-Ивацевичи II',
-          sections: [
-            {
-              section: '390-424',
-              umg: 'Оршанское',
-              years: [
-                {
-                  id: '7',
-                  year: '2018',
-                },
-                {
-                  id: '8',
-                  year: '2006',
-                },
-                {
-                  id: '9',
-                  year: '2003',
-                },
-              ],
-            },
-            {
-              section: '425,9-529',
-              umg: 'Оршанское-Крупское',
-              years: [
-                {
-                  id: '10',
-                  year: '2020',
-                },
-                {
-                  id: '11',
-                  year: '2015',
-                },
-                {
-                  id: '12',
-                  year: '2006',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
+      section: '390-424',
+      umg: 'Оршанское',
+      year: '2018',
+      pipelineData: {},
     },
     {
+      id: '2',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
+      section: '390-424',
+      umg: 'Оршанское',
+      year: '2006',
+      pipelineData: {},
+    },
+    {
+      id: '3',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
+      section: '390-424',
+      umg: 'Оршанское',
+      year: '2003',
+      pipelineData: {},
+    },
+    {
+      id: '4',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
+      section: '425,9-529',
+      umg: 'Оршанское-Крупское',
+      year: '2020',
+      pipelineData: {},
+    },
+    {
+      id: '5',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
+      section: '425,9-529',
+      umg: 'Оршанское-Крупское',
+      year: '2015',
+      pipelineData: {},
+    },
+    {
+      id: '6',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
+      section: '425,9-529',
+      umg: 'Оршанское-Крупское',
+      year: '2006',
+      pipelineData: {},
+    },
+    {
+      id: '7',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи II',
+      section: '390-424',
+      umg: 'Оршанское',
+      year: '2018',
+      pipelineData: {},
+    },
+    {
+      id: '8',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи II',
+      section: '390-424',
+      umg: 'Оршанское',
+      year: '2006',
+      pipelineData: {},
+    },
+    {
+      id: '9',
+      type: 'Магистральные газопроводы',
+      pipeline: 'МГ Торжок-Минск-Ивацевичи II',
+      section: '390-424',
+      umg: 'Оршанское',
+      year: '2003',
+      pipelineData: {},
+    },
+    {
+      id: '10',
       type: 'Газопроводы-отводы',
-      pipelines: [
-        {
-          pipeline: 'газопровод-отвод Минск-Гомель',
-          sections: [
-            {
-              section: '1,5-65',
-              umg: 'Минское-Осиповичское',
-              years: [
-                {
-                  id: '13',
-                  year: '2016',
-                },
-                {
-                  id: '14',
-                  year: '2002',
-                },
-              ],
-            },
-            {
-              section: '65,01-190,24',
-              umg: 'Осиповичское',
-              years: [
-                {
-                  id: '15',
-                  year: '2016',
-                },
-                {
-                  id: '16',
-                  year: '2002',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      pipeline: 'газопровод-отвод Минск-Гомель',
+      section: '1,5-65',
+      umg: 'Минское-Осиповичское',
+      year: '2006',
+      pipelineData: {},
+    },
+    {
+      id: '11',
+      type: 'Газопроводы-отводы',
+      pipeline: 'газопровод-отвод Минск-Гомель',
+      section: '1,5-65',
+      umg: 'Минское-Осиповичское',
+      year: '2002',
+      pipelineData: {},
+    },
+    {
+      id: '12',
+      type: 'Газопроводы-отводы',
+      pipeline: 'газопровод-отвод Минск-Гомель',
+      section: '65,01-190,24',
+      umg: 'Осиповичское',
+      year: '2006',
+      pipelineData: {},
+    },
+    {
+      id: '13',
+      type: 'Газопроводы-отводы',
+      pipeline: 'газопровод-отвод Минск-Гомель',
+      section: '65,01-190,24',
+      umg: 'Оршанское',
+      year: '2002',
+      pipelineData: {},
     },
   ],
 };
@@ -135,8 +127,30 @@ const initialState: InitialState = {
 export const vtdTreeSlice = createSlice({
   name: 'vtdTree',
   initialState,
-  reducers: {},
+  reducers: {
+    setPipelinesData: (state, action: PayloadAction<{ vtdId: string; data: PipelineData }>) => {
+      state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData =
+        action.payload.data;
+    },
+    setPipelineColumnWidth: (
+      state,
+      action: PayloadAction<{
+        vtdId: string;
+        tableType: PipelineDataTables;
+        columnId: string;
+        width: number;
+      }>,
+    ) => {
+      state.vtdTree
+        .find(({ id }) => action.payload.vtdId === id)!
+        .pipelineData[action.payload.tableType]!.columns.find(
+          ({ id }) => action.payload.columnId === id,
+        )!.minWidth = action.payload.width;
+    },
+  },
 });
+
+export const { setPipelinesData, setPipelineColumnWidth } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;

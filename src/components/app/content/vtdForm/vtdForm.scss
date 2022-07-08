@@ -22,17 +22,16 @@
     }
 
     thead {
+      position: sticky;
+      top: 0;
+
       th {
         position: relative;
-        top: 0;
-        position: sticky;
         font-weight: bold;
         background-color: #d9d9d9;
         z-index: 1;
       }
-    }
 
-    tfoot {
       .Mui-disabled svg {
         color: grey;
       }

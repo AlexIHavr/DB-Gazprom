@@ -7,7 +7,7 @@ const initialState: InitialState = {
 };
 
 export const appSlice = createSlice({
-  name: 'vtdTree',
+  name: 'app',
   initialState,
   reducers: {
     setIsLoading: (state, action: PayloadAction<boolean>) => {

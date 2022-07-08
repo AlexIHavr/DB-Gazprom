@@ -1,34 +1,61 @@
 import { TableCell } from '@mui/material';
-import { useCallback } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
+
+import { useAppDispatch } from '../../../hooks/redux';
+import { setPipelineColumnWidth } from '../../../redux/vtdTree/reducer';
+import { PipelineColumn, PipelineDataTables } from '../../../redux/vtdTree/types';
+
+import './tableHeadCell.scss';
 
 type TableHeadCellProps = {
-  columnName: string | number;
+  vtdId: string;
+  tableType: PipelineDataTables;
+  column: PipelineColumn;
 };
 
-const TableHeadCell: React.FC<TableHeadCellProps> = ({ columnName }) => {
-  const onMouseDownChangeSizeTool = useCallback((e: React.MouseEvent) => {
-    if (e.button) return;
+const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column }) => {
+  const dispatch = useAppDispatch();
+  const tableCellRef = useRef<HTMLTableCellElement>();
 
-    const parentElem = (e.target as HTMLDivElement).parentElement;
+  const onMouseDownChangeSizeTool = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.button) return;
 
-    const onMouseMove = (event: MouseEvent) => {
-      if (parentElem && event.pageX) {
-        parentElem.style.minWidth = event.pageX - parentElem.getBoundingClientRect().left + 'px';
-      }
-    };
+      const parentElem = (e.target as HTMLDivElement).parentElement;
+      let width: number;
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', () => window.removeEventListener('mousemove', onMouseMove), {
-      once: true,
-    });
-  }, []);
+      const onMouseMove = (event: MouseEvent) => {
+        if (parentElem && event.pageX) {
+          width = event.pageX - parentElem.getBoundingClientRect().left;
+          parentElem.style.minWidth = width + 'px';
+        }
+      };
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener(
+        'mouseup',
+        () => {
+          dispatch(setPipelineColumnWidth({ vtdId, tableType, columnId: column.id, width }));
+          window.removeEventListener('mousemove', onMouseMove);
+        },
+        {
+          once: true,
+        },
+      );
+    },
+    [dispatch, vtdId, tableType, column.id],
+  );
+
+  useEffect(() => {
+    if (column.minWidth) tableCellRef.current!.style.minWidth = column.minWidth + 'px';
+  }, [column.minWidth]);
 
   return (
-    <TableCell>
-      <span>{columnName}</span>
+    <TableCell ref={tableCellRef}>
+      <span>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
     </TableCell>
   );
 };
 
-export default TableHeadCell;
+export default memo(TableHeadCell);
