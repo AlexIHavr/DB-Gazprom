@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { InitialState, PipelineData, PipelineDataTables } from './types';
+import { InitialState, PipelineColumn, PipelineData, PipelineDataTables } from './types';
 
 const initialState: InitialState = {
   vtdTree: [
@@ -132,25 +132,26 @@ export const vtdTreeSlice = createSlice({
       state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData =
         action.payload.data;
     },
-    setPipelineColumnWidth: (
+    setColumn: (
       state,
       action: PayloadAction<{
         vtdId: string;
         tableType: PipelineDataTables;
-        columnId: string;
-        width: number;
+        column: PipelineColumn;
       }>,
     ) => {
-      state.vtdTree
-        .find(({ id }) => action.payload.vtdId === id)!
-        .pipelineData[action.payload.tableType]!.columns.find(
-          ({ id }) => action.payload.columnId === id,
-        )!.minWidth = action.payload.width;
+      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!
+        .pipelineData[action.payload.tableType]!;
+      const columnIndex = pipelineTable.columns.findIndex(
+        ({ id }) => action.payload.column.id === id,
+      );
+
+      pipelineTable.columns[columnIndex] = action.payload.column;
     },
   },
 });
 
-export const { setPipelinesData, setPipelineColumnWidth } = vtdTreeSlice.actions;
+export const { setPipelinesData, setColumn } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;

@@ -1,43 +1,65 @@
-.vtdForm .MuiPaper-root {
-  height: calc(100vh - 100px);
+.vtdForm {
+  user-select: none;
 
-  table {
-    border-spacing: 0;
-    border-collapse: initial;
-    svg {
-      color: black;
-    }
+  .virtualScroll {
+    height: calc(100vh - 100px - 86px);
+    overflow: auto;
+  }
 
-    td,
-    th {
-      padding: 5px;
-      text-align: center;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-    }
+  .MuiPaper-root {
+    overflow: hidden;
 
-    .MuiButton-root {
-      color: black;
-      font-weight: bold;
-    }
+    table {
+      position: relative;
+      border-spacing: 0;
+      border-collapse: initial;
+      width: auto;
 
-    thead {
-      position: sticky;
-      top: 0;
+      svg {
+        color: black;
+      }
+
+      td,
+      th {
+        padding: 0;
+        text-align: center;
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
 
       th {
-        position: relative;
+        overflow-wrap: break-word;
+
+        span {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
+
+      td {
+        white-space: nowrap;
+      }
+
+      .MuiButton-root {
+        color: black;
         font-weight: bold;
-        background-color: #d9d9d9;
-        z-index: 1;
       }
 
-      .Mui-disabled svg {
-        color: grey;
-      }
+      thead {
+        th {
+          position: relative;
+          font-weight: bold;
+          background-color: #d9d9d9;
+          z-index: 1;
+        }
 
-      .MuiTablePagination-spacer {
-        flex: none;
+        .Mui-disabled svg {
+          color: grey;
+        }
       }
     }
   }

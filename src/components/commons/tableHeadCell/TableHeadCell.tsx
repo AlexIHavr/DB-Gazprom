@@ -1,9 +1,10 @@
-import { TableCell } from '@mui/material';
+import { IconButton, TableCell } from '@mui/material';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
 import { useAppDispatch } from '../../../hooks/redux';
-import { setPipelineColumnWidth } from '../../../redux/vtdTree/reducer';
 import { PipelineColumn, PipelineDataTables } from '../../../redux/vtdTree/types';
+import { setColumn } from '../../../redux/vtdTree/reducer';
 
 import './tableHeadCell.scss';
 
@@ -11,9 +12,10 @@ type TableHeadCellProps = {
   vtdId: string;
   tableType: PipelineDataTables;
   column: PipelineColumn;
+  style?: React.CSSProperties;
 };
 
-const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column }) => {
+const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column, style }) => {
   const dispatch = useAppDispatch();
   const tableCellRef = useRef<HTMLTableCellElement>();
 
@@ -25,8 +27,9 @@ const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column 
       let width: number;
 
       const onMouseMove = (event: MouseEvent) => {
-        if (parentElem && event.pageX) {
+        if (parentElem) {
           width = event.pageX - parentElem.getBoundingClientRect().left;
+          parentElem.style.maxWidth = width + 'px';
           parentElem.style.minWidth = width + 'px';
         }
       };
@@ -35,7 +38,7 @@ const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column 
       window.addEventListener(
         'mouseup',
         () => {
-          dispatch(setPipelineColumnWidth({ vtdId, tableType, columnId: column.id, width }));
+          dispatch(setColumn({ vtdId, tableType, column: { ...column, width } }));
           window.removeEventListener('mousemove', onMouseMove);
         },
         {
@@ -43,17 +46,35 @@ const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column 
         },
       );
     },
-    [dispatch, vtdId, tableType, column.id],
+    [dispatch, vtdId, tableType, column],
+  );
+
+  const onMouseDownHideColumn = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.button) return;
+
+      dispatch(setColumn({ vtdId, tableType, column: { ...column, hidden: true } }));
+    },
+    [dispatch, vtdId, tableType, column],
   );
 
   useEffect(() => {
-    if (column.minWidth) tableCellRef.current!.style.minWidth = column.minWidth + 'px';
-  }, [column.minWidth]);
+    if (column.width) {
+      tableCellRef.current!.style.maxWidth = column.width + 'px';
+      tableCellRef.current!.style.minWidth = column.width + 'px';
+    }
+    tableCellRef.current!.style.display = column.hidden ? 'none' : 'table-cell';
+  }, [column]);
 
   return (
-    <TableCell ref={tableCellRef}>
+    <TableCell ref={tableCellRef} style={style}>
       <span>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
+      <div className="hideColumn" onMouseDown={onMouseDownHideColumn}>
+        <IconButton>
+          <VisibilityOffIcon />
+        </IconButton>
+      </div>
     </TableCell>
   );
 };
