@@ -1,65 +1,46 @@
 .vtdForm {
   user-select: none;
+  text-align: center;
 
   .virtualScroll {
-    height: calc(100vh - 100px - 86px);
     overflow: auto;
+    margin: 0 auto;
   }
 
-  .MuiPaper-root {
+  .virtualScrollContent {
     overflow: hidden;
+    background-color: white;
 
     table {
       position: relative;
       border-spacing: 0;
-      border-collapse: initial;
-      width: auto;
 
       svg {
         color: black;
       }
 
+      $cellBorder: 1px solid black;
+
       td,
       th {
         padding: 0;
         text-align: center;
-        border-bottom: 1px solid black;
-        border-right: 1px solid black;
+        border-bottom: $cellBorder;
+        border-right: $cellBorder;
         text-overflow: ellipsis;
         overflow: hidden;
+
+        &:first-of-type {
+          border-left: $cellBorder;
+        }
       }
 
       th {
-        overflow-wrap: break-word;
-
-        span {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
+        border-top: $cellBorder;
       }
 
       td {
         white-space: nowrap;
-      }
-
-      .MuiButton-root {
-        color: black;
-        font-weight: bold;
-      }
-
-      thead {
-        th {
-          position: relative;
-          font-weight: bold;
-          background-color: #d9d9d9;
-          z-index: 1;
-        }
-
-        .Mui-disabled svg {
-          color: grey;
-        }
       }
     }
   }

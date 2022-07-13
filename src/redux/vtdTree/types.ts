@@ -6,7 +6,8 @@ export type PipelineColumn = {
   id: string;
   value: ExcelValue;
   hidden: boolean;
-  width?: number;
+  width: number;
+  minWidth: number;
 };
 
 export type PipelineTable = {

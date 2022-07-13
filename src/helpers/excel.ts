@@ -3,6 +3,8 @@ import { read, utils } from 'xlsx';
 
 import { ExcelRows, PipelineTable } from '../redux/vtdTree/types';
 
+import { COLUMN_WIDTH } from './../components/app/content/vtdForm/constants';
+
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
   if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     throw Error('invalid file format');
@@ -34,6 +36,8 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
           id: v4(),
           value: excelRow,
           hidden: false,
+          width: COLUMN_WIDTH,
+          minWidth: COLUMN_WIDTH,
         })),
         rows: filledExcelRows.slice(1).map((row, i) => [i + 1, ...row]),
       };

@@ -1,4 +1,4 @@
-import { IconButton, TableCell } from '@mui/material';
+import { IconButton } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
@@ -17,20 +17,25 @@ type TableHeadCellProps = {
 
 const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column, style }) => {
   const dispatch = useAppDispatch();
-  const tableCellRef = useRef<HTMLTableCellElement>();
+  const tableCellRef = useRef<HTMLTableCellElement>(null);
 
   const onMouseDownChangeSizeTool = useCallback(
     (e: React.MouseEvent) => {
       if (e.button) return;
 
       const parentElem = (e.target as HTMLDivElement).parentElement;
+      let startPageX = e.pageX;
       let width: number;
 
       const onMouseMove = (event: MouseEvent) => {
         if (parentElem) {
-          width = event.pageX - parentElem.getBoundingClientRect().left;
+          width = parentElem.offsetWidth + event.pageX - startPageX;
+
+          if (width < column.minWidth) width = column.minWidth;
+
           parentElem.style.maxWidth = width + 'px';
           parentElem.style.minWidth = width + 'px';
+          startPageX = event.pageX;
         }
       };
 
@@ -59,15 +64,14 @@ const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column,
   );
 
   useEffect(() => {
-    if (column.width) {
-      tableCellRef.current!.style.maxWidth = column.width + 'px';
-      tableCellRef.current!.style.minWidth = column.width + 'px';
-    }
+    tableCellRef.current!.style.maxWidth = column.width + 'px';
+    tableCellRef.current!.style.minWidth = column.width + 'px';
+
     tableCellRef.current!.style.display = column.hidden ? 'none' : 'table-cell';
   }, [column]);
 
   return (
-    <TableCell ref={tableCellRef} style={style}>
+    <th ref={tableCellRef} style={style}>
       <span>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
       <div className="hideColumn" onMouseDown={onMouseDownHideColumn}>
@@ -75,7 +79,7 @@ const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column,
           <VisibilityOffIcon />
         </IconButton>
       </div>
-    </TableCell>
+    </th>
   );
 };
 
