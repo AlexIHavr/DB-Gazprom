@@ -1,9 +1,8 @@
 import { v4 } from 'uuid';
 import { read, utils } from 'xlsx';
 
+import { COLUMN_WIDTH } from '../components/commons/pipelineTable/constants';
 import { ExcelRows, PipelineTable } from '../redux/vtdTree/types';
-
-import { COLUMN_WIDTH } from './../components/app/content/vtdForm/constants';
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
   if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')

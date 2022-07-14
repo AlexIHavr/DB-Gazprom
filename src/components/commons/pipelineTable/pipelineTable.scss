@@ -1,0 +1,42 @@
+.virtualScroll {
+  overflow: auto;
+  margin: 0 auto;
+
+  .virtualScrollContent {
+    overflow: hidden;
+    background-color: white;
+
+    table {
+      position: relative;
+      border-spacing: 0;
+
+      svg {
+        color: black;
+      }
+
+      $cellBorder: 1px solid black;
+
+      td,
+      th {
+        padding: 0;
+        text-align: center;
+        border-bottom: $cellBorder;
+        border-right: $cellBorder;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        &:first-of-type {
+          border-left: $cellBorder;
+        }
+      }
+
+      th {
+        border-top: $cellBorder;
+      }
+
+      td {
+        white-space: nowrap;
+      }
+    }
+  }
+}

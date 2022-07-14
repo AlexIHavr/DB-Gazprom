@@ -2,20 +2,20 @@ import { IconButton } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
-import { useAppDispatch } from '../../../hooks/redux';
-import { PipelineColumn, PipelineDataTables } from '../../../redux/vtdTree/types';
-import { setColumn } from '../../../redux/vtdTree/reducer';
+import { useAppDispatch } from '../../../../hooks/redux';
+import { PipelineColumn, PipelineDataTables } from '../../../../redux/vtdTree/types';
+import { setColumn } from '../../../../redux/vtdTree/reducer';
 
-import './tableHeadCell.scss';
+import './tableHead.scss';
 
-type TableHeadCellProps = {
+type TableHeadProps = {
   vtdId: string;
   tableType: PipelineDataTables;
   column: PipelineColumn;
   style?: React.CSSProperties;
 };
 
-const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column, style }) => {
+const TableHead: React.FC<TableHeadProps> = ({ vtdId, tableType, column, style }) => {
   const dispatch = useAppDispatch();
   const tableCellRef = useRef<HTMLTableCellElement>(null);
 
@@ -83,4 +83,4 @@ const TableHeadCell: React.FC<TableHeadCellProps> = ({ vtdId, tableType, column,
   );
 };
 
-export default memo(TableHeadCell);
+export default memo(TableHead);
