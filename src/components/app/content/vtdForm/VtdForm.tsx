@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../../hooks/redux';
 import TableHeadCell from '../../../commons/tableHeadCell/TableHeadCell';
 import { PAGES } from '../../constants';
 
-import { COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_ROWS_COUNT } from './constants';
+import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_ROWS_COUNT } from './constants';
 
 import './vtdForm.scss';
 
@@ -57,12 +57,11 @@ const VtdForm: React.FC = () => {
 
   const tableStyle = useMemo(
     () => ({
-      top: rowIndex * ROW_HEIGHT,
       left: visibleColumns
         .slice(0, columnIndex)
         .reduce((sumWidth, { width }) => sumWidth + width, 0),
     }),
-    [rowIndex, columnIndex, visibleColumns],
+    [columnIndex, visibleColumns],
   );
 
   const rowStyle = useMemo(
@@ -93,6 +92,9 @@ const VtdForm: React.FC = () => {
       );
 
       if (columnIndex !== newColumnIndex) setColumnIndex(newColumnIndex);
+
+      const pipelineTable = e.currentTarget.firstChild!.firstChild as HTMLDivElement;
+      pipelineTable.style.top = e.currentTarget.scrollTop + 'px';
     },
     [rowIndex, columnIndex, visibleColumns],
   );
@@ -104,7 +106,7 @@ const VtdForm: React.FC = () => {
       const documentElement = document.documentElement;
       const virtualScrollHeight = documentElement.clientHeight - virtualScrollCurrent.offsetTop;
 
-      setRowsOnPageCount(Math.floor(virtualScrollHeight / ROW_HEIGHT) + VIRTUAL_ROWS_COUNT * 2);
+      setRowsOnPageCount(Math.floor((virtualScrollHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
       setColumnsOnPageCount(
         Math.floor((documentElement.clientWidth - virtualScrollCurrent.offsetLeft) / COLUMN_WIDTH) +
           VIRTUAL_ROWS_COUNT * 2,
@@ -127,7 +129,7 @@ const VtdForm: React.FC = () => {
         >
           <div style={virtualScrollContentStyle} className="virtualScrollContent">
             <table style={tableStyle}>
-              {/* <thead>
+              <thead>
                 <tr>
                   {columnsOnPage.map((column) => (
                     <TableHeadCell
@@ -138,12 +140,12 @@ const VtdForm: React.FC = () => {
                       style={{
                         minWidth: COLUMN_WIDTH,
                         maxWidth: COLUMN_WIDTH,
-                        height: 120,
+                        height: COLUMN_HEIGHT,
                       }}
                     />
                   ))}
                 </tr>
-              </thead> */}
+              </thead>
               <tbody>
                 {rowsOnPage.map((row) => (
                   <tr key={v4()}>
