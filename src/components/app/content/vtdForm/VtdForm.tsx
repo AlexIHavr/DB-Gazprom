@@ -20,6 +20,7 @@ const VtdForm: React.FC = () => {
   const [rowsOnPageCount, setRowsOnPageCount] = useState(0);
   const [columnsOnPageCount, setColumnsOnPageCount] = useState(0);
   const [virtualScrollStyle, setVirtualScrollStyle] = useState({});
+  const [scrollBarWidth, setScrollBarWidth] = useState(0);
 
   const pipeline = useMemo(() => vtdTree.find(({ id }) => id === vtdId), [vtdTree, vtdId]);
 
@@ -50,7 +51,7 @@ const VtdForm: React.FC = () => {
   const virtualScrollContentStyle = useMemo(
     () => ({
       width: visibleColumnsSum,
-      height: vtdForm.rows.length * ROW_HEIGHT,
+      height: vtdForm.rows.length * ROW_HEIGHT + COLUMN_HEIGHT,
     }),
     [vtdForm.rows.length, visibleColumnsSum],
   );
@@ -75,12 +76,11 @@ const VtdForm: React.FC = () => {
 
   const virtualOnScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
-      const newRowIndex = Math.max(
-        0,
-        Math.floor(e.currentTarget.scrollTop / ROW_HEIGHT) - VIRTUAL_ROWS_COUNT,
-      );
+      const newRowIndex = Math.max(0, Math.floor(e.currentTarget.scrollTop / ROW_HEIGHT));
+      const pipelineTable = e.currentTarget.firstChild!.firstChild as HTMLDivElement;
 
       if (rowIndex !== newRowIndex) setRowIndex(newRowIndex);
+      pipelineTable.style.top = e.currentTarget.scrollTop + 'px';
 
       let columnsWidth = 0;
       const newColumnIndex = Math.max(
@@ -92,9 +92,6 @@ const VtdForm: React.FC = () => {
       );
 
       if (columnIndex !== newColumnIndex) setColumnIndex(newColumnIndex);
-
-      const pipelineTable = e.currentTarget.firstChild!.firstChild as HTMLDivElement;
-      pipelineTable.style.top = e.currentTarget.scrollTop + 'px';
     },
     [rowIndex, columnIndex, visibleColumns],
   );
@@ -106,7 +103,9 @@ const VtdForm: React.FC = () => {
       const documentElement = document.documentElement;
       const virtualScrollHeight = documentElement.clientHeight - virtualScrollCurrent.offsetTop;
 
-      setRowsOnPageCount(Math.floor((virtualScrollHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
+      setRowsOnPageCount(
+        Math.floor((virtualScrollHeight - COLUMN_HEIGHT - scrollBarWidth) / ROW_HEIGHT),
+      );
       setColumnsOnPageCount(
         Math.floor((documentElement.clientWidth - virtualScrollCurrent.offsetLeft) / COLUMN_WIDTH) +
           VIRTUAL_ROWS_COUNT * 2,
@@ -115,7 +114,15 @@ const VtdForm: React.FC = () => {
         height: virtualScrollHeight,
       });
     }
-  }, []);
+  }, [scrollBarWidth]);
+
+  useEffect(() => {
+    if (virtualScrollRef.current) {
+      setScrollBarWidth(
+        virtualScrollRef.current.offsetWidth - virtualScrollRef.current.clientWidth,
+      );
+    }
+  }, [rowsOnPageCount]);
 
   return (
     <div className="vtdForm">
