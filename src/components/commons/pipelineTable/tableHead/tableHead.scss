@@ -17,7 +17,8 @@ th {
   }
 
   .changeSizeTool,
-  .hideColumn {
+  .hideColumn,
+  .filterColumn {
     position: absolute;
   }
 
@@ -29,14 +30,11 @@ th {
     cursor: col-resize;
   }
 
-  .hideColumn {
+  button.filterColumn,
+  button.hideColumn {
     top: 0;
-    right: 0;
     opacity: 0.2;
-
-    button {
-      padding: 2px;
-    }
+    padding: 2px;
 
     svg {
       width: 20px;
@@ -46,10 +44,19 @@ th {
     &:hover {
       opacity: 1;
     }
+
     transition: opacity 0.2s;
     -webkit-transition: opacity 0.2s;
     -moz-transition: opacity 0.2s;
     -ms-transition: opacity 0.2s;
     -o-transition: opacity 0.2s;
+  }
+
+  button.filterColumn {
+    right: 0;
+  }
+
+  button.hideColumn {
+    left: 0;
   }
 }

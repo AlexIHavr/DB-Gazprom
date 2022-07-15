@@ -1,0 +1,110 @@
+.tableManagePanel {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 50px;
+  width: 40%;
+  margin: 0 auto;
+  border: 2px solid black;
+  border-bottom: none;
+  background-color: white;
+
+  button {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    &:disabled svg {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    transition: 0.2s;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
+  }
+
+  .visiblyColumns {
+    display: flex;
+    transform-origin: top;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 5px);
+    width: 400px;
+    max-height: 300px;
+    color: black;
+    text-shadow: none;
+    box-shadow: 0 1px 5px black;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: white;
+    overflow-y: auto;
+    z-index: 2;
+
+    div {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+
+      &.showAllColumns,
+      &.notShowHiddenColumns {
+        justify-content: center;
+      }
+
+      &:hover:not(.notShowHiddenColumns) {
+        background-color: rgba(0, 0, 0, 0.15);
+      }
+
+      &:not(:first-of-type) {
+        border-top: 1px solid black;
+        box-shadow: 0 0 1px black;
+      }
+
+      svg {
+        margin-right: 10px;
+      }
+
+      span {
+        text-align: left;
+      }
+      transition: 0.1s;
+      -webkit-transition: 0.1s;
+      -moz-transition: 0.1s;
+      -ms-transition: 0.1s;
+      -o-transition: 0.1s;
+    }
+    border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
+    -moz-border-radius: 0 0 10px 10px;
+    -ms-border-radius: 0 0 10px 10px;
+    -o-border-radius: 0 0 10px 10px;
+    transition: transform 0.2s;
+    -webkit-transition: transform 0.2s;
+    -moz-transition: transform 0.2s;
+    -ms-transition: transform 0.2s;
+    -o-transition: transform 0.2s;
+    transform: scale(0);
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+  }
+
+  .showSetting {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+  }
+
+  border-radius: 10px 10px 0 0;
+  -webkit-border-radius: 10px 10px 0 0;
+  -moz-border-radius: 10px 10px 0 0;
+  -ms-border-radius: 10px 10px 0 0;
+  -o-border-radius: 10px 10px 0 0;
+}

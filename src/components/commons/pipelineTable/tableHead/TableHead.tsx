@@ -1,5 +1,6 @@
 import { IconButton } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { FilterAlt } from '@mui/icons-material';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
 import { useAppDispatch } from '../../../../hooks/redux';
@@ -74,11 +75,12 @@ const TableHead: React.FC<TableHeadProps> = ({ vtdId, tableType, column, style }
     <th ref={tableCellRef} style={style}>
       <span>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
-      <div className="hideColumn" onMouseDown={onMouseDownHideColumn}>
-        <IconButton>
-          <VisibilityOffIcon />
-        </IconButton>
-      </div>
+      <IconButton className="hideColumn" onClick={onMouseDownHideColumn}>
+        <VisibilityOffIcon />
+      </IconButton>
+      <IconButton className="filterColumn">
+        <FilterAlt />
+      </IconButton>
     </th>
   );
 };

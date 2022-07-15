@@ -9,6 +9,7 @@ import {
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from './constants';
 import './pipelineTable.scss';
 import TableHead from './tableHead/TableHead';
+import TableManagePanel from './tableManagePanel/TableManagePanel';
 
 type PipelineTableProps = {
   table: PipelineTableType;
@@ -42,11 +43,11 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   const virtualScrollStyle = useMemo(
     () => ({
       maxWidth:
-        table.columns.length < (virtualScrollRef.current?.clientWidth || 0)
+        visibleColumns.length < (virtualScrollRef.current?.clientWidth || 0)
           ? 'fit-content'
           : 'inherit',
     }),
-    [table.columns.length],
+    [visibleColumns.length],
   );
 
   const virtualScrollContentStyle = useMemo(
@@ -117,7 +118,8 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   }, []);
 
   return (
-    <div className="table">
+    <div className="pipelineTable">
+      <TableManagePanel table={table} vtdId={vtdId} tableType={tableType} />
       <div
         className="virtualScroll"
         onScroll={virtualOnScroll}

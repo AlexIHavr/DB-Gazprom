@@ -148,10 +148,23 @@ export const vtdTreeSlice = createSlice({
 
       pipelineTable.columns[columnIndex] = action.payload.column;
     },
+    setColumns: (
+      state,
+      action: PayloadAction<{
+        vtdId: string;
+        tableType: PipelineDataTables;
+        columns: PipelineColumn[];
+      }>,
+    ) => {
+      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!
+        .pipelineData[action.payload.tableType]!;
+
+      pipelineTable.columns = action.payload.columns;
+    },
   },
 });
 
-export const { setPipelinesData, setColumn } = vtdTreeSlice.actions;
+export const { setPipelinesData, setColumn, setColumns } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;
