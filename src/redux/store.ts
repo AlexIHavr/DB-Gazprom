@@ -8,6 +8,11 @@ export const store = configureStore({
     app: appReducer,
     vtdTree: vtdTreeReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
 });
 
 export type Dispatch = typeof store.dispatch;

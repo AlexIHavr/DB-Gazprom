@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { InitialState, PipelineColumn, PipelineData, PipelineDataTables } from './types';
+import { InitialState, PipelineColumn, PipelineData, PipelineDataTables, SortTypes } from './types';
 
 const initialState: InitialState = {
   vtdTree: [
@@ -129,9 +129,9 @@ export const vtdTreeSlice = createSlice({
   initialState,
   reducers: {
     setPipelinesData: (state, action: PayloadAction<{ vtdId: string; data: PipelineData }>) => {
-      state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData =
-        action.payload.data;
+      state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData = action.payload.data;
     },
+
     setColumn: (
       state,
       action: PayloadAction<{
@@ -140,14 +140,43 @@ export const vtdTreeSlice = createSlice({
         column: PipelineColumn;
       }>,
     ) => {
-      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!
-        .pipelineData[action.payload.tableType]!;
-      const columnIndex = pipelineTable.columns.findIndex(
-        ({ id }) => action.payload.column.id === id,
-      );
+      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+      const columnIndex = pipelineTable.columns.findIndex(({ id }) => action.payload.column.id === id);
 
       pipelineTable.columns[columnIndex] = action.payload.column;
     },
+
+    setSortedColumn: (
+      state,
+      action: PayloadAction<{
+        vtdId: string;
+        tableType: PipelineDataTables;
+        column: PipelineColumn;
+        columnIndex: number;
+        sortType: SortTypes;
+      }>,
+    ) => {
+      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+
+      pipelineTable.sortedColumn = {
+        ...action.payload.column,
+        sortType: action.payload.sortType,
+        columnIndex: action.payload.columnIndex,
+      };
+    },
+
+    removeSortedColumn: (
+      state,
+      action: PayloadAction<{
+        vtdId: string;
+        tableType: PipelineDataTables;
+      }>,
+    ) => {
+      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+
+      pipelineTable.sortedColumn = null;
+    },
+
     setColumns: (
       state,
       action: PayloadAction<{
@@ -156,15 +185,14 @@ export const vtdTreeSlice = createSlice({
         columns: PipelineColumn[];
       }>,
     ) => {
-      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!
-        .pipelineData[action.payload.tableType]!;
+      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
 
       pipelineTable.columns = action.payload.columns;
     },
   },
 });
 
-export const { setPipelinesData, setColumn, setColumns } = vtdTreeSlice.actions;
+export const { setPipelinesData, setColumn, setSortedColumn, removeSortedColumn, setColumns } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;

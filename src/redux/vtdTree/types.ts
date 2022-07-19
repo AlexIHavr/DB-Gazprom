@@ -1,4 +1,6 @@
-export type ExcelValue = string | number | null;
+import { SORT_TYPES } from './constants';
+
+export type ExcelValue = string | number | undefined;
 export type ExcelRow = ExcelValue[];
 export type ExcelRows = ExcelRow[];
 
@@ -10,7 +12,10 @@ export type PipelineColumn = {
   minWidth: number;
 };
 
+export type SortTypes = keyof typeof SORT_TYPES;
+
 export type PipelineTable = {
+  sortedColumn: (PipelineColumn & { sortType: SortTypes; columnIndex: number }) | null;
   columns: PipelineColumn[];
   rows: ExcelRows;
 };

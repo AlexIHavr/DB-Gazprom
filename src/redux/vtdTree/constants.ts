@@ -5,3 +5,8 @@ export enum VTD_TREE_LEVELS {
   section = 'section',
   year = 'year',
 }
+
+export enum SORT_TYPES {
+  asc = 'asc',
+  desc = 'desc',
+}

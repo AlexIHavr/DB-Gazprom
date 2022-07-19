@@ -1,4 +1,6 @@
 th {
+  $sortSvgSize: 20px;
+
   position: relative;
   font-weight: bold;
   background-color: #d9d9d9;
@@ -18,7 +20,8 @@ th {
 
   .changeSizeTool,
   .hideColumn,
-  .filterColumn {
+  .filterColumn,
+  .sortColumn {
     position: absolute;
   }
 
@@ -31,14 +34,15 @@ th {
   }
 
   button.filterColumn,
-  button.hideColumn {
+  button.hideColumn,
+  button.sortColumn {
     top: 0;
     opacity: 0.2;
     padding: 2px;
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: $sortSvgSize;
+      height: $sortSvgSize;
     }
 
     &:hover {
@@ -58,5 +62,30 @@ th {
 
   button.hideColumn {
     left: 0;
+  }
+
+  button.sortColumn {
+    padding: 2px 0;
+    left: calc(50% - #{$sortSvgSize} / 2);
+
+    &.upSortColumn {
+      transform: rotate(180deg);
+      -webkit-transform: rotate(180deg);
+      -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      -o-transform: rotate(180deg);
+    }
+    transition: 0.2s;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
+  }
+
+  button.isSortedColumn {
+    opacity: 1;
+    svg {
+      color: red;
+    }
   }
 }

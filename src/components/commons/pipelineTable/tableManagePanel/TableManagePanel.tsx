@@ -6,7 +6,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../hooks/redux';
-import { setColumn, setColumns } from '../../../../redux/vtdTree/reducer';
+import { removeSortedColumn, setColumn, setColumns } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
 
 import { MAX_COUNT_SHOW_HIDDEN_COLUMNS } from './constants';
@@ -23,10 +23,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
 
   const [showVisiblyColumns, setShowVisiblyColumns] = useState(false);
 
-  const hiddenColumns = useMemo(
-    () => table.columns.filter(({ hidden }) => hidden),
-    [table.columns],
-  );
+  const hiddenColumns = useMemo(() => table.columns.filter(({ hidden }) => hidden), [table.columns]);
 
   const showVisiblyColumnsOnClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -62,9 +59,14 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
       setColumns({
         vtdId,
         tableType,
-        columns: table.columns.map((column) => ({ ...column, width: COLUMN_WIDTH, hidden: false })),
+        columns: table.columns.map((column) => ({
+          ...column,
+          width: COLUMN_WIDTH,
+          hidden: false,
+        })),
       }),
     );
+    dispatch(removeSortedColumn({ vtdId, tableType }));
   }, [dispatch, table.columns, tableType, vtdId]);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
 
   return (
     <div className="tableManagePanel">
-      <IconButton onClick={showVisiblyColumnsOnClick} disabled={!hiddenColumns.length}>
+      <IconButton title="Показать колонки" onClick={showVisiblyColumnsOnClick} disabled={!hiddenColumns.length}>
         <VisibilityIcon />
         <div
           className={classNames('visiblyColumns', {
@@ -105,10 +107,10 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
           </div>
         </div>
       </IconButton>
-      <IconButton>
+      <IconButton title="Убрать все фильтры">
         <FilterAltOff />
       </IconButton>
-      <IconButton onClick={resetTable}>
+      <IconButton title="Сброс таблицы" onClick={resetTable}>
         <RestartAlt />
       </IconButton>
     </div>

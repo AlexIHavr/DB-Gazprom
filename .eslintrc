@@ -3,12 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime",
-    "standard",
-    "plugin:react-hooks/recommended"
-  ],
+  "extends": ["plugin:react/recommended", "plugin:react/jsx-runtime", "standard", "plugin:react-hooks/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -23,6 +18,7 @@
     "quotes": "off",
     "camelcase": "off",
     "curly": "off",
+    "indent": "off",
     "react/prop-types": "off",
     "spaced-comment": "off",
     "import/order": [
@@ -37,6 +33,7 @@
     "multiline-ternary": "off",
     "no-console": "warn",
     "comma-dangle": ["error", "always-multiline"],
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "no-debugger": "warn"
   }
 }
