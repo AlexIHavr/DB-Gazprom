@@ -34,11 +34,21 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
       return rowsCopy
         .filter((row) => row[columnIndex] !== undefined)
         .sort((nextRow, row) => {
+          let rowValue = row[columnIndex]!;
+          let nextRowValue = nextRow[columnIndex]!;
+
+          //sort number's string with number, e.g. tube number
+          if (typeof rowValue === 'number' && typeof nextRowValue === 'string') {
+            nextRowValue = isNaN(parseFloat(nextRowValue)) ? nextRowValue : parseFloat(nextRowValue);
+          } else if (typeof nextRowValue === 'number' && typeof rowValue === 'string') {
+            rowValue = isNaN(parseFloat(rowValue)) ? rowValue : parseFloat(rowValue);
+          }
+
           switch (filteredColumn.sortType) {
             case SORT_TYPES.desc:
-              return row[columnIndex]! > nextRow[columnIndex]! ? 1 : -1;
+              return rowValue > nextRowValue ? 1 : -1;
             case SORT_TYPES.asc:
-              return row[columnIndex]! < nextRow[columnIndex]! ? 1 : -1;
+              return rowValue < nextRowValue ? 1 : -1;
             default:
               return 0;
           }
