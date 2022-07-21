@@ -2,7 +2,7 @@ import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { v4 } from 'uuid';
 
 import { PipelineDataTables, PipelineTable as PipelineTableType } from '../../../redux/vtdTree/types';
-import { SORT_TYPES } from '../../../redux/vtdTree/constants';
+import { getSortedRows } from '../../../helpers/pipelineTable';
 
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from './constants';
 import TableHead from './tableHead/TableHead';
@@ -24,40 +24,7 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
 
   const virtualScrollRef = useRef<HTMLDivElement>(null);
 
-  const sortedRows = useMemo(() => {
-    const filteredColumn = table.sortedColumn;
-
-    if (filteredColumn) {
-      const rowsCopy = table.rows.map((row) => [...row]);
-      const columnIndex = filteredColumn.columnIndex;
-
-      return rowsCopy
-        .filter((row) => row[columnIndex] !== undefined)
-        .sort((nextRow, row) => {
-          let rowValue = row[columnIndex]!;
-          let nextRowValue = nextRow[columnIndex]!;
-
-          //sort number's string with number, e.g. tube number
-          if (typeof rowValue === 'number' && typeof nextRowValue === 'string') {
-            nextRowValue = isNaN(parseFloat(nextRowValue)) ? nextRowValue : parseFloat(nextRowValue);
-          } else if (typeof nextRowValue === 'number' && typeof rowValue === 'string') {
-            rowValue = isNaN(parseFloat(rowValue)) ? rowValue : parseFloat(rowValue);
-          }
-
-          switch (filteredColumn.sortType) {
-            case SORT_TYPES.desc:
-              return rowValue > nextRowValue ? 1 : -1;
-            case SORT_TYPES.asc:
-              return rowValue < nextRowValue ? 1 : -1;
-            default:
-              return 0;
-          }
-        })
-        .concat(rowsCopy.filter((row) => row[columnIndex] === undefined));
-    }
-
-    return table.rows;
-  }, [table.rows, table.sortedColumn]);
+  const sortedRows = useMemo(() => getSortedRows(table.sortedColumn, table.rows), [table.rows, table.sortedColumn]);
 
   const visibleColumns = useMemo(() => table.columns.filter(({ hidden }) => !hidden), [table.columns]);
 

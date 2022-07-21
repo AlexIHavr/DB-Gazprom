@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { InitialState, PipelineColumn, PipelineData, PipelineDataTables, SortTypes } from './types';
+import { SORT_TYPES } from './constants';
+import { InitialState, PipelineColumn, PipelineData, PipelineDataTables } from './types';
 
 const initialState: InitialState = {
   vtdTree: [
@@ -153,7 +154,7 @@ export const vtdTreeSlice = createSlice({
         tableType: PipelineDataTables;
         column: PipelineColumn;
         columnIndex: number;
-        sortType: SortTypes;
+        sortType: SORT_TYPES;
       }>,
     ) => {
       const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;

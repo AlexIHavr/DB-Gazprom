@@ -12,10 +12,10 @@ export type PipelineColumn = {
   minWidth: number;
 };
 
-export type SortTypes = keyof typeof SORT_TYPES;
+export type SortedColumn = (PipelineColumn & { sortType: SORT_TYPES; columnIndex: number }) | null;
 
 export type PipelineTable = {
-  sortedColumn: (PipelineColumn & { sortType: SortTypes; columnIndex: number }) | null;
+  sortedColumn: SortedColumn;
   columns: PipelineColumn[];
   rows: ExcelRows;
 };

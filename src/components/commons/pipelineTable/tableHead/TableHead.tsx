@@ -75,7 +75,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
         ? SORT_TYPES.desc
         : null;
 
-    if (!sortType) return dispatch(removeSortedColumn({ vtdId, tableType }));
+    if (sortType === null) return dispatch(removeSortedColumn({ vtdId, tableType }));
 
     dispatch(
       setSortedColumn({
