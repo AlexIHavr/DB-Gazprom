@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { SORT_TYPES } from './constants';
-import { InitialState, PipelineColumn, PipelineData, PipelineDataTables } from './types';
+import { ExcelRows, InitialState, PipelineColumn, PipelineData, PipelineDataTables } from './types';
 
 const initialState: InitialState = {
   vtdTree: [
@@ -142,40 +141,8 @@ export const vtdTreeSlice = createSlice({
       }>,
     ) => {
       const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
-      const columnIndex = pipelineTable.columns.findIndex(({ id }) => action.payload.column.id === id);
 
-      pipelineTable.columns[columnIndex] = action.payload.column;
-    },
-
-    setSortedColumn: (
-      state,
-      action: PayloadAction<{
-        vtdId: string;
-        tableType: PipelineDataTables;
-        column: PipelineColumn;
-        columnIndex: number;
-        sortType: SORT_TYPES;
-      }>,
-    ) => {
-      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
-
-      pipelineTable.sortedColumn = {
-        ...action.payload.column,
-        sortType: action.payload.sortType,
-        columnIndex: action.payload.columnIndex,
-      };
-    },
-
-    removeSortedColumn: (
-      state,
-      action: PayloadAction<{
-        vtdId: string;
-        tableType: PipelineDataTables;
-      }>,
-    ) => {
-      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
-
-      pipelineTable.sortedColumn = null;
+      pipelineTable.columns[action.payload.column.index] = action.payload.column;
     },
 
     setColumns: (
@@ -190,10 +157,23 @@ export const vtdTreeSlice = createSlice({
 
       pipelineTable.columns = action.payload.columns;
     },
+
+    setSortedRows: (
+      state,
+      action: PayloadAction<{
+        vtdId: string;
+        tableType: PipelineDataTables;
+        sortedRows: ExcelRows;
+      }>,
+    ) => {
+      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+
+      pipelineTable.sortedRows = action.payload.sortedRows;
+    },
   },
 });
 
-export const { setPipelinesData, setColumn, setSortedColumn, removeSortedColumn, setColumns } = vtdTreeSlice.actions;
+export const { setPipelinesData, setColumn, setColumns, setSortedRows } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;

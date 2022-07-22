@@ -1,13 +1,12 @@
 import { SORT_TYPES } from '../redux/vtdTree/constants';
-import { ExcelRows, SortedColumn } from '../redux/vtdTree/types';
+import { ExcelRows } from '../redux/vtdTree/types';
 
-export const getSortedRows = (sortedColumn: SortedColumn, rows: ExcelRows) => {
-  if (!sortedColumn) return rows;
+type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: ExcelRows };
 
-  const rowsCopy = rows.map((row) => [...row]);
-  const columnIndex = sortedColumn.columnIndex;
+export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsParams) => {
+  if (sortType === null) return rows;
 
-  return rowsCopy
+  return rows
     .filter((row) => row[columnIndex] !== undefined)
     .sort((nextRow, row) => {
       let rowValue = row[columnIndex]!;
@@ -23,14 +22,14 @@ export const getSortedRows = (sortedColumn: SortedColumn, rows: ExcelRows) => {
         rowValue = isNaN(parseFloat(rowValue)) ? rowValue : parseFloat(rowValue);
       }
 
-      switch (sortedColumn.sortType) {
+      switch (sortType) {
         case SORT_TYPES.desc:
-          return rowValue > nextRowValue ? 1 : -1;
+          return rowValue >= nextRowValue ? 1 : -1;
         case SORT_TYPES.asc:
-          return rowValue < nextRowValue ? 1 : -1;
+          return rowValue <= nextRowValue ? 1 : -1;
         default:
           return 0;
       }
     })
-    .concat(rowsCopy.filter((row) => row[columnIndex] === undefined));
+    .concat(rows.filter((row) => row[columnIndex] === undefined));
 };

@@ -6,18 +6,18 @@ export type ExcelRows = ExcelRow[];
 
 export type PipelineColumn = {
   id: string;
+  index: number;
   value: ExcelValue;
   hidden: boolean;
   width: number;
   minWidth: number;
+  sortType: SORT_TYPES | null;
 };
 
-export type SortedColumn = (PipelineColumn & { sortType: SORT_TYPES; columnIndex: number }) | null;
-
 export type PipelineTable = {
-  sortedColumn: SortedColumn;
   columns: PipelineColumn[];
   rows: ExcelRows;
+  sortedRows: ExcelRows;
 };
 
 export type PipelineData = {

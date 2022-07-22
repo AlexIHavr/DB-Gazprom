@@ -6,7 +6,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../hooks/redux';
-import { removeSortedColumn, setColumn, setColumns } from '../../../../redux/vtdTree/reducer';
+import { setColumn, setColumns, setSortedRows } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
 
 import { MAX_COUNT_SHOW_HIDDEN_COLUMNS } from './constants';
@@ -63,11 +63,20 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
           ...column,
           width: COLUMN_WIDTH,
           hidden: false,
+          sortType: null,
         })),
       }),
     );
-    dispatch(removeSortedColumn({ vtdId, tableType }));
-  }, [dispatch, table.columns, tableType, vtdId]);
+    dispatch(setSortedRows({ vtdId, tableType, sortedRows: table.rows }));
+  }, [dispatch, table.columns, table.rows, tableType, vtdId]);
+
+  const hiddenColumnsOnDisplay = useMemo(
+    () =>
+      hiddenColumns.length > MAX_COUNT_SHOW_HIDDEN_COLUMNS
+        ? hiddenColumns.slice(0, MAX_COUNT_SHOW_HIDDEN_COLUMNS)
+        : hiddenColumns,
+    [hiddenColumns],
+  );
 
   useEffect(() => {
     document.onclick = () => {
@@ -88,10 +97,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
             showSetting: showVisiblyColumns,
           })}
         >
-          {(hiddenColumns.length > MAX_COUNT_SHOW_HIDDEN_COLUMNS
-            ? hiddenColumns.slice(0, MAX_COUNT_SHOW_HIDDEN_COLUMNS)
-            : hiddenColumns
-          ).map((column) => (
+          {hiddenColumnsOnDisplay.map((column) => (
             <div key={column.id} onClick={(e) => showColumnOnClick(e, column)}>
               <VisibilityOutlined />
               <span>{column.value}</span>

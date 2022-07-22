@@ -19,9 +19,7 @@ th {
   }
 
   .changeSizeTool,
-  .hideColumn,
-  .filterColumn,
-  .sortColumn {
+  .manageColumnButtons button {
     position: absolute;
   }
 
@@ -33,9 +31,7 @@ th {
     cursor: col-resize;
   }
 
-  button.filterColumn,
-  button.hideColumn,
-  button.sortColumn {
+  .manageColumnButtons button {
     top: 0;
     opacity: 0.2;
     padding: 2px;
@@ -49,11 +45,11 @@ th {
       opacity: 1;
     }
 
-    transition: opacity 0.2s;
-    -webkit-transition: opacity 0.2s;
-    -moz-transition: opacity 0.2s;
-    -ms-transition: opacity 0.2s;
-    -o-transition: opacity 0.2s;
+    transition: 0.2s;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
   }
 
   button.filterColumn {
@@ -65,27 +61,6 @@ th {
   }
 
   button.sortColumn {
-    padding: 2px 0;
     left: calc(50% - #{$sortSvgSize} / 2);
-
-    &.upSortColumn {
-      transform: rotate(180deg);
-      -webkit-transform: rotate(180deg);
-      -moz-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      -o-transform: rotate(180deg);
-    }
-    transition: 0.2s;
-    -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -ms-transition: 0.2s;
-    -o-transition: 0.2s;
-  }
-
-  button.isSortedColumn {
-    opacity: 1;
-    svg {
-      color: red;
-    }
   }
 }

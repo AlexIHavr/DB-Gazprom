@@ -2,7 +2,6 @@ import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { v4 } from 'uuid';
 
 import { PipelineDataTables, PipelineTable as PipelineTableType } from '../../../redux/vtdTree/types';
-import { getSortedRows } from '../../../helpers/pipelineTable';
 
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from './constants';
 import TableHead from './tableHead/TableHead';
@@ -24,8 +23,6 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
 
   const virtualScrollRef = useRef<HTMLDivElement>(null);
 
-  const sortedRows = useMemo(() => getSortedRows(table.sortedColumn, table.rows), [table.rows, table.sortedColumn]);
-
   const visibleColumns = useMemo(() => table.columns.filter(({ hidden }) => !hidden), [table.columns]);
 
   const columnsOnPage = useMemo(
@@ -34,8 +31,8 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   );
 
   const rowsOnPage = useMemo(
-    () => sortedRows.slice(rowIndex, rowIndex + rowsOnPageCount),
-    [sortedRows, rowIndex, rowsOnPageCount],
+    () => table.sortedRows.slice(rowIndex, rowIndex + rowsOnPageCount),
+    [table.sortedRows, rowIndex, rowsOnPageCount],
   );
 
   const virtualScrollStyle = useMemo(

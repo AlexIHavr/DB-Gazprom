@@ -29,19 +29,20 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
           : excelRow,
       );
 
-      const data: PipelineTable = {
-        sortedColumn: null,
-        columns: ['Номер', ...filledExcelRows[0]].map((excelRow) => ({
-          id: v4(),
-          value: excelRow,
-          hidden: false,
-          width: COLUMN_WIDTH,
-          minWidth: COLUMN_WIDTH,
-          sortFilter: null,
-          expandedFilter: {},
-        })),
-        rows: filledExcelRows.slice(1).map((row, i) => [i + 1, ...row]),
-      };
+      const columns = ['Номер', ...filledExcelRows[0]].map((excelRow, index) => ({
+        id: v4(),
+        index,
+        value: excelRow,
+        hidden: false,
+        width: COLUMN_WIDTH,
+        minWidth: COLUMN_WIDTH,
+        sortType: null,
+        expandedFilter: {},
+      }));
+
+      const rows = filledExcelRows.slice(1).map((row, i) => [i + 1, ...row]);
+
+      const data: PipelineTable = { columns, rows, sortedRows: rows };
 
       resolve(data);
     };
