@@ -66,6 +66,15 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
     [],
   );
 
+  const columnStyle = useMemo(
+    () => ({
+      minWidth: COLUMN_WIDTH,
+      maxWidth: COLUMN_WIDTH,
+      height: COLUMN_HEIGHT,
+    }),
+    [],
+  );
+
   const virtualOnScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
       const newRowIndex = Math.floor(e.currentTarget.scrollTop / ROW_HEIGHT);
@@ -104,23 +113,20 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   return (
     <div className="pipelineTable">
       <TableManagePanel table={table} vtdId={vtdId} tableType={tableType} />
+
       <div className="virtualScroll" onScroll={virtualOnScroll} ref={virtualScrollRef} style={virtualScrollStyle}>
         <div style={virtualScrollContentStyle} className="virtualScrollContent">
           <table style={tableStyle}>
             <thead>
               <tr>
-                {columnsOnPage.map((column) => (
+                {columnsOnPage.map((column, i) => (
                   <TableHead
                     key={column.id}
                     table={table}
                     vtdId={vtdId}
                     tableType={tableType}
                     column={column}
-                    style={{
-                      minWidth: COLUMN_WIDTH,
-                      maxWidth: COLUMN_WIDTH,
-                      height: COLUMN_HEIGHT,
-                    }}
+                    style={{ ...columnStyle, zIndex: table.columns.length - i }}
                   />
                 ))}
               </tr>

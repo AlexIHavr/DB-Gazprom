@@ -7,7 +7,11 @@ th {
   z-index: 1;
   overflow-wrap: break-word;
 
-  span {
+  &.showExtendedFilter {
+    z-index: 2;
+  }
+
+  & > span {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -19,7 +23,7 @@ th {
   }
 
   .changeSizeTool,
-  .manageColumnButtons button {
+  .manageColumnButtons > button {
     position: absolute;
   }
 
@@ -31,7 +35,7 @@ th {
     cursor: col-resize;
   }
 
-  .manageColumnButtons button {
+  .manageColumnButtons > button {
     top: 0;
     opacity: 0.2;
     padding: 2px;
@@ -43,21 +47,16 @@ th {
 
     &:hover {
       opacity: 1;
+      background-color: rgba(0, 0, 0, 0.04);
     }
-
-    transition: 0.2s;
-    -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -ms-transition: 0.2s;
-    -o-transition: 0.2s;
   }
 
-  button.filterColumn {
-    right: 0;
+  button.extendedFilterColumn {
+    left: 0;
   }
 
   button.hideColumn {
-    left: 0;
+    right: 0;
   }
 
   button.sortColumn {

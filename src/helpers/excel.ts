@@ -2,7 +2,8 @@ import { v4 } from 'uuid';
 import { read, utils } from 'xlsx';
 
 import { COLUMN_WIDTH } from '../components/commons/pipelineTable/constants';
-import { ExcelRows, PipelineTable } from '../redux/vtdTree/types';
+import { SEARCH_TYPES } from '../redux/vtdTree/constants';
+import { ExcelRows, PipelineColumn, PipelineTable } from '../redux/vtdTree/types';
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
   if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') throw Error('invalid file format');
@@ -29,7 +30,7 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
           : excelRow,
       );
 
-      const columns = ['Номер', ...filledExcelRows[0]].map((excelRow, index) => ({
+      const columns: PipelineColumn[] = ['Номер', ...filledExcelRows[0]].map((excelRow, index) => ({
         id: v4(),
         index,
         value: excelRow,
@@ -37,7 +38,10 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
         width: COLUMN_WIDTH,
         minWidth: COLUMN_WIDTH,
         sortType: null,
-        expandedFilter: {},
+        extendedFilter: {
+          visible: false,
+          type: SEARCH_TYPES.search,
+        },
       }));
 
       const rows = filledExcelRows.slice(1).map((row, i) => [i + 1, ...row]);

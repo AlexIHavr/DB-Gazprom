@@ -58,21 +58,19 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
     [dispatch, vtdId, tableType, column],
   );
 
-  const hideColumnOnClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.button) return;
-
-      dispatch(setColumn({ vtdId, tableType, column: { ...column, hidden: true } }));
-    },
-    [dispatch, vtdId, tableType, column],
-  );
+  const hideColumnOnClick = useCallback(() => {
+    dispatch(setColumn({ vtdId, tableType, column: { ...column, hidden: true } }));
+  }, [dispatch, vtdId, tableType, column]);
 
   useEffect(() => {
-    tableCellRef.current!.style.maxWidth = column.width + 'px';
-    tableCellRef.current!.style.minWidth = column.width + 'px';
+    const tableCellRefCurrent = tableCellRef.current;
 
-    tableCellRef.current!.style.display = column.hidden ? 'none' : 'table-cell';
-  }, [column]);
+    if (tableCellRefCurrent) {
+      tableCellRefCurrent.style.maxWidth = column.width + 'px';
+      tableCellRefCurrent.style.minWidth = column.width + 'px';
+      tableCellRefCurrent.style.display = column.hidden ? 'none' : 'table-cell';
+    }
+  }, [column.hidden, column.width]);
 
   return (
     <th ref={tableCellRef} style={style}>
@@ -82,7 +80,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
         <IconButton title="Скрыть колонку" className="hideColumn" onClick={hideColumnOnClick}>
           <VisibilityOffIcon />
         </IconButton>
-        <ExtendedFilter />
+        <ExtendedFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
         <SortFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
       </div>
     </th>

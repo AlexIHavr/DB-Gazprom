@@ -79,18 +79,24 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
   );
 
   useEffect(() => {
-    document.onclick = () => {
-      if (showVisiblyColumns) setShowVisiblyColumns(false);
-    };
+    if (!showVisiblyColumns) return;
+
+    const hideVisibleColumns = () => setShowVisiblyColumns(false);
+    document.addEventListener('click', hideVisibleColumns);
 
     return () => {
-      document.onclick = null;
+      document.removeEventListener('click', hideVisibleColumns);
     };
   }, [showVisiblyColumns]);
 
   return (
     <div className="tableManagePanel">
-      <IconButton title="Показать колонки" onClick={showVisiblyColumnsOnClick} disabled={!hiddenColumns.length}>
+      <IconButton
+        title="Показать скрытие колонки"
+        className={classNames({ active: showVisiblyColumns })}
+        onClick={showVisiblyColumnsOnClick}
+        disabled={!hiddenColumns.length}
+      >
         <VisibilityIcon />
         <div
           className={classNames('visiblyColumns', {

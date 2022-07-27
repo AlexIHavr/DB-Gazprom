@@ -1,8 +1,10 @@
-import { SORT_TYPES } from './constants';
+import { SEARCH_TYPES, SORT_TYPES } from './constants';
 
 export type ExcelValue = string | number | undefined;
 export type ExcelRow = ExcelValue[];
 export type ExcelRows = ExcelRow[];
+
+export type ExtendedFilter = { visible: boolean; type: SEARCH_TYPES };
 
 export type PipelineColumn = {
   id: string;
@@ -12,6 +14,7 @@ export type PipelineColumn = {
   width: number;
   minWidth: number;
   sortType: SORT_TYPES | null;
+  extendedFilter: ExtendedFilter;
 };
 
 export type PipelineTable = {

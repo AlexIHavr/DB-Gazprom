@@ -1,0 +1,15 @@
+.extendedFilterColumn {
+  &.show {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &.active {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.04);
+
+    svg {
+      color: red;
+    }
+  }
+}

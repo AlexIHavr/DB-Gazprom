@@ -11,21 +11,6 @@
 
   button {
     position: relative;
-    background-color: rgba(0, 0, 0, 0.05);
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.15);
-    }
-
-    &:disabled svg {
-      color: rgba(0, 0, 0, 0.5);
-    }
-
-    transition: 0.2s;
-    -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -ms-transition: 0.2s;
-    -o-transition: 0.2s;
   }
 
   .visiblyColumns {
@@ -43,7 +28,7 @@
     font-weight: bold;
     background-color: white;
     overflow-y: auto;
-    z-index: 2;
+    z-index: 100000;
 
     div {
       display: flex;
@@ -66,6 +51,7 @@
 
       svg {
         margin-right: 10px;
+        color: black !important;
       }
 
       span {
