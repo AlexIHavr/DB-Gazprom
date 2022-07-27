@@ -132,30 +132,37 @@ export const vtdTreeSlice = createSlice({
       state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData = action.payload.data;
     },
 
-    setColumn: (
+    setColumnProperties: (
       state,
       action: PayloadAction<{
         vtdId: string;
         tableType: PipelineDataTables;
-        column: PipelineColumn;
+        columnIndex: number;
+        properties: Partial<PipelineColumn>;
       }>,
     ) => {
       const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
 
-      pipelineTable.columns[action.payload.column.index] = action.payload.column;
+      for (const [key, value] of Object.entries(action.payload.properties)) {
+        (pipelineTable.columns[action.payload.columnIndex][key as keyof PipelineColumn] as typeof value) = value;
+      }
     },
 
-    setColumns: (
+    setColumnsProperties: (
       state,
       action: PayloadAction<{
         vtdId: string;
         tableType: PipelineDataTables;
-        columns: PipelineColumn[];
+        properties: Partial<PipelineColumn>;
       }>,
     ) => {
       const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
 
-      pipelineTable.columns = action.payload.columns;
+      for (const [key, value] of Object.entries(action.payload.properties)) {
+        pipelineTable.columns.forEach(
+          ({ index }) => ((pipelineTable.columns[index][key as keyof PipelineColumn] as typeof value) = value),
+        );
+      }
     },
 
     setSortedRows: (
@@ -173,7 +180,7 @@ export const vtdTreeSlice = createSlice({
   },
 });
 
-export const { setPipelinesData, setColumn, setColumns, setSortedRows } = vtdTreeSlice.actions;
+export const { setPipelinesData, setColumnProperties, setColumnsProperties, setSortedRows } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;

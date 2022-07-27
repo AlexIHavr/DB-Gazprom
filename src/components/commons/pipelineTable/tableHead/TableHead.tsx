@@ -1,10 +1,9 @@
-import { IconButton } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
 import { useAppDispatch } from '../../../../hooks/redux';
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
-import { setColumn } from '../../../../redux/vtdTree/reducer';
+import { setColumnProperties } from '../../../../redux/vtdTree/reducer';
 
 import ExtendedFilter from './extendedFilter/ExtendedFilter';
 import SortFilter from './sortFilter/SortFilter';
@@ -47,7 +46,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
       window.addEventListener(
         'mouseup',
         () => {
-          dispatch(setColumn({ vtdId, tableType, column: { ...column, width } }));
+          dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { width } }));
           window.removeEventListener('mousemove', onMouseMove);
         },
         {
@@ -55,12 +54,12 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
         },
       );
     },
-    [dispatch, vtdId, tableType, column],
+    [column.minWidth, column.index, dispatch, vtdId, tableType],
   );
 
   const hideColumnOnClick = useCallback(() => {
-    dispatch(setColumn({ vtdId, tableType, column: { ...column, hidden: true } }));
-  }, [dispatch, vtdId, tableType, column]);
+    dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { hidden: true } }));
+  }, [dispatch, vtdId, tableType, column.index]);
 
   useEffect(() => {
     const tableCellRefCurrent = tableCellRef.current;
@@ -77,9 +76,9 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
       <span title={column.value ? String(column.value) : ''}>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
       <div className="manageColumnButtons">
-        <IconButton title="Скрыть колонку" className="hideColumn" onClick={hideColumnOnClick}>
+        <button title="Скрыть колонку" className="hideColumn" onClick={hideColumnOnClick}>
           <VisibilityOffIcon />
-        </IconButton>
+        </button>
         <ExtendedFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
         <SortFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
       </div>

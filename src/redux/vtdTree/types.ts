@@ -4,7 +4,7 @@ export type ExcelValue = string | number | undefined;
 export type ExcelRow = ExcelValue[];
 export type ExcelRows = ExcelRow[];
 
-export type ExtendedFilter = { visible: boolean; type: SEARCH_TYPES };
+export type ExtendedFilter = { visible: boolean; searchType: SEARCH_TYPES };
 
 export type PipelineColumn = {
   id: string;

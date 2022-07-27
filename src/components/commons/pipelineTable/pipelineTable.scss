@@ -44,14 +44,28 @@
   }
 
   button {
+    display: flex;
+    justify-content: center;
     background-color: rgba(0, 0, 0, 0.04);
+    border: none;
+    cursor: pointer;
+    padding: 7px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.15);
     }
 
-    &:disabled svg {
-      color: rgba(0, 0, 0, 0.5);
+    &:disabled {
+      cursor: initial;
+      background-color: rgba(0, 0, 0, 0);
+      svg {
+        color: rgba(0, 0, 0, 0.5);
+      }
     }
 
     &.active {

@@ -1,42 +1,56 @@
-import { IconButton } from '@mui/material';
 import classNames from 'classnames';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { BrowserNotSupported, Crop32Outlined, DataArray } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { useAppDispatch } from '../../../../../../../hooks/redux';
 import { SEARCH_TYPES } from '../../../../../../../redux/vtdTree/constants';
-import { setColumn } from '../../../../../../../redux/vtdTree/reducer';
+import { setColumnProperties } from '../../../../../../../redux/vtdTree/reducer';
 import { PipelineColumn, PipelineDataTables } from '../../../../../../../redux/vtdTree/types';
 
 type SearchTypeProps = {
-  title: string;
-  type: SEARCH_TYPES;
-  icon: React.ReactElement;
+  searchType: SEARCH_TYPES;
   vtdId: string;
   tableType: PipelineDataTables;
   column: PipelineColumn;
 };
 
-const SearchType: React.FC<SearchTypeProps> = ({ title, type, icon, vtdId, tableType, column }) => {
+const SearchType: React.FC<SearchTypeProps> = ({ searchType, vtdId, tableType, column }) => {
   const dispatch = useAppDispatch();
 
   const setSearchTypeOnClick = useCallback(() => {
     dispatch(
-      setColumn({
+      setColumnProperties({
         vtdId,
         tableType,
-        column: { ...column, extendedFilter: { ...column.extendedFilter, type } },
+        columnIndex: column.index,
+        properties: { extendedFilter: { ...column.extendedFilter, searchType } },
       }),
     );
-  }, [column, dispatch, tableType, type, vtdId]);
+  }, [column.extendedFilter, column.index, dispatch, tableType, searchType, vtdId]);
+
+  const searchTypeIcon = useMemo(() => {
+    switch (searchType) {
+      case SEARCH_TYPES.search:
+        return <SearchIcon />;
+      case SEARCH_TYPES.range:
+        return <DataArray />;
+      case SEARCH_TYPES.empty:
+        return <Crop32Outlined />;
+      case SEARCH_TYPES.notEmpty:
+      default:
+        return <BrowserNotSupported />;
+    }
+  }, [searchType]);
 
   return (
-    <IconButton
-      title={title}
-      className={classNames({ active: column.extendedFilter.type === type })}
+    <button
+      title={searchType}
+      className={classNames({ active: column.extendedFilter.searchType === searchType })}
       onClick={setSearchTypeOnClick}
     >
-      {icon}
-    </IconButton>
+      {searchTypeIcon}
+    </button>
   );
 };
 

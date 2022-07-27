@@ -1,11 +1,10 @@
 import classNames from 'classnames';
-import { IconButton } from '@mui/material';
 import { FilterAlt } from '@mui/icons-material';
 import { useCallback, useEffect } from 'react';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
-import { setColumn } from '../../../../../redux/vtdTree/reducer';
 import { useAppDispatch } from '../../../../../hooks/redux';
+import { setColumnProperties } from '../../../../../redux/vtdTree/reducer';
 
 import './extendedFilter.scss';
 import ExtendedFilterPanel from './extendedFilterPanel/ExtendedFilterPanel';
@@ -30,11 +29,11 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
 
       if (visibleExtendedFilterColumn) {
         dispatch(
-          setColumn({
+          setColumnProperties({
             vtdId,
             tableType,
-            column: {
-              ...visibleExtendedFilterColumn,
+            columnIndex: visibleExtendedFilterColumn.index,
+            properties: {
               extendedFilter: { ...visibleExtendedFilterColumn.extendedFilter, visible: false },
             },
           }),
@@ -42,17 +41,17 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
       }
 
       dispatch(
-        setColumn({
+        setColumnProperties({
           vtdId,
           tableType,
-          column: {
-            ...column,
+          columnIndex: column.index,
+          properties: {
             extendedFilter: { ...column.extendedFilter, visible: !column.extendedFilter.visible },
           },
         }),
       );
     },
-    [column, dispatch, table.columns, tableType, vtdId],
+    [column.extendedFilter, column.id, column.index, dispatch, table.columns, tableType, vtdId],
   );
 
   useEffect(() => {
@@ -60,7 +59,12 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
 
     const hideExtendedFilter = () => {
       dispatch(
-        setColumn({ vtdId, tableType, column: { ...column, extendedFilter: { ...column.extendedFilter, visible: false } } }),
+        setColumnProperties({
+          vtdId,
+          tableType,
+          columnIndex: column.index,
+          properties: { extendedFilter: { ...column.extendedFilter, visible: false } },
+        }),
       );
     };
 
@@ -69,17 +73,17 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
     return () => {
       document.removeEventListener('click', hideExtendedFilter);
     };
-  }, [column, dispatch, vtdId, tableType]);
+  }, [dispatch, vtdId, tableType, column.extendedFilter, column.index]);
 
   return (
     <>
-      <IconButton
+      <button
         title="Расширенный фильтр"
         className={classNames('extendedFilterColumn', { show: column.extendedFilter.visible })}
         onClick={showExtendedFilter}
       >
         <FilterAlt />
-      </IconButton>
+      </button>
       <ExtendedFilterPanel vtdId={vtdId} tableType={tableType} table={table} column={column} />
     </>
   );

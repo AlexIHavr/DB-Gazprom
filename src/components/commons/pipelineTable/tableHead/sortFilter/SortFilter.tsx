@@ -1,12 +1,11 @@
 import { ArrowDownward } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 
 import { getSortedRows } from '../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../hooks/redux';
 import { SORT_TYPES } from '../../../../../redux/vtdTree/constants';
-import { setColumn, setSortedRows } from '../../../../../redux/vtdTree/reducer';
+import { setColumnProperties, setSortedRows } from '../../../../../redux/vtdTree/reducer';
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
 
 import './sortFilter.scss';
@@ -24,11 +23,12 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
   const sortColumnOnClick = useCallback(() => {
     //remove sortedColumn
     const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
-    if (sortedColumn) dispatch(setColumn({ tableType, vtdId, column: { ...sortedColumn, sortType: null } }));
+    if (sortedColumn)
+      dispatch(setColumnProperties({ tableType, vtdId, columnIndex: sortedColumn.index, properties: { sortType: null } }));
 
     //sort by column
     const sortType = column.sortType === null ? SORT_TYPES.asc : column.sortType === SORT_TYPES.asc ? SORT_TYPES.desc : null;
-    dispatch(setColumn({ tableType, vtdId, column: { ...column, sortType } }));
+    dispatch(setColumnProperties({ tableType, vtdId, columnIndex: column.index, properties: { sortType } }));
 
     //set sortedRows
     dispatch(
@@ -39,10 +39,10 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
           sortType === null ? table.rows : getSortedRows({ sortType, columnIndex: column.index, rows: table.sortedRows }),
       }),
     );
-  }, [column, dispatch, table.columns, table.rows, table.sortedRows, tableType, vtdId]);
+  }, [column.index, column.sortType, dispatch, table.columns, table.rows, table.sortedRows, tableType, vtdId]);
 
   return (
-    <IconButton
+    <button
       title="Фильтр сортировки"
       className={classNames('sortColumn', {
         upSortColumn: column.sortType === SORT_TYPES.asc,
@@ -51,7 +51,7 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
       onClick={sortColumnOnClick}
     >
       <ArrowDownward />
-    </IconButton>
+    </button>
   );
 };
 

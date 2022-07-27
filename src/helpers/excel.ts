@@ -40,7 +40,7 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
         sortType: null,
         extendedFilter: {
           visible: false,
-          type: SEARCH_TYPES.search,
+          searchType: SEARCH_TYPES.search,
         },
       }));
 

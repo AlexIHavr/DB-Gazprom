@@ -1,20 +1,10 @@
 import classNames from 'classnames';
-import SearchIcon from '@mui/icons-material/Search';
-import {
-  BrowserNotSupported,
-  CheckBoxOutlineBlankOutlined,
-  CheckBoxOutlined,
-  Crop32Outlined,
-  DataArray,
-  Spellcheck,
-  TextFields,
-} from '@mui/icons-material';
-import { IconButton, TextField } from '@mui/material';
+import { CheckBoxOutlineBlankOutlined, CheckBoxOutlined, Spellcheck, TextFields } from '@mui/icons-material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faGreaterThanEqual, faLessThan, faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../../redux/vtdTree/types';
-import { SEARCH_TYPES } from '../../../../../../redux/vtdTree/constants';
+import { SEARCH_TYPES, SEARCH_TYPES_VALUES } from '../../../../../../redux/vtdTree/constants';
 
 import SearchType from './searchType/SearchType';
 
@@ -36,81 +26,57 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
       {column.extendedFilter.visible && (
         <>
           <div className="searchTypes">
-            <SearchType
-              title="Поиск"
-              type={SEARCH_TYPES.search}
-              icon={<SearchIcon />}
-              vtdId={vtdId}
-              tableType={tableType}
-              column={column}
-            />
-            <SearchType
-              title="Поиск в диапазоне"
-              type={SEARCH_TYPES.range}
-              icon={<DataArray />}
-              vtdId={vtdId}
-              tableType={tableType}
-              column={column}
-            />
-            <SearchType
-              title="Поиск всех не пустых значений"
-              type={SEARCH_TYPES.notEmpty}
-              icon={<BrowserNotSupported />}
-              vtdId={vtdId}
-              tableType={tableType}
-              column={column}
-            />
-            <SearchType
-              title="Поиск всех пустых значений"
-              type={SEARCH_TYPES.empty}
-              icon={<Crop32Outlined />}
-              vtdId={vtdId}
-              tableType={tableType}
-              column={column}
-            />
+            {SEARCH_TYPES_VALUES.map((searchType) => (
+              <SearchType key={searchType} searchType={searchType} vtdId={vtdId} tableType={tableType} column={column} />
+            ))}
           </div>
           <div className="filterInputs">
-            <div className="searchInput">
-              <TextField label="Поиск" size="small" type="search" />
-              <IconButton>
-                <TextFields />
-              </IconButton>
-              <IconButton>
-                <Spellcheck />
-              </IconButton>
-            </div>
-            <div className="rangeInputs">
-              <div className="fromInput">
-                <TextField label="От" size="small" type="search" />
-                <IconButton>
-                  <FontAwesomeIcon icon={faGreaterThan} />
-                </IconButton>
-                <IconButton>
-                  <FontAwesomeIcon icon={faGreaterThanEqual} />
-                </IconButton>
-                <IconButton>
-                  <FontAwesomeIcon icon={faLessThan} />
-                </IconButton>
-                <IconButton>
-                  <FontAwesomeIcon icon={faLessThanEqual} />
-                </IconButton>
+            {column.extendedFilter.searchType === SEARCH_TYPES.search ? (
+              <div className="searchInput">
+                <input placeholder="Поиск" type="search" />
+                <button>
+                  <TextFields />
+                </button>
+                <button>
+                  <Spellcheck />
+                </button>
               </div>
-              <div className="toInput">
-                <TextField label="До" size="small" type="search" />
-                <IconButton>
-                  <FontAwesomeIcon icon={faGreaterThan} />
-                </IconButton>
-                <IconButton>
-                  <FontAwesomeIcon icon={faGreaterThanEqual} />
-                </IconButton>
-                <IconButton>
-                  <FontAwesomeIcon icon={faLessThan} />
-                </IconButton>
-                <IconButton>
-                  <FontAwesomeIcon icon={faLessThanEqual} />
-                </IconButton>
-              </div>
-            </div>
+            ) : (
+              column.extendedFilter.searchType === SEARCH_TYPES.range && (
+                <div className="rangeInputs">
+                  <div className="fromInput">
+                    <input placeholder="От" type="search" />
+                    <button>
+                      <FontAwesomeIcon icon={faGreaterThan} />
+                    </button>
+                    <button>
+                      <FontAwesomeIcon icon={faGreaterThanEqual} />
+                    </button>
+                    <button>
+                      <FontAwesomeIcon icon={faLessThan} />
+                    </button>
+                    <button>
+                      <FontAwesomeIcon icon={faLessThanEqual} />
+                    </button>
+                  </div>
+                  <div className="toInput">
+                    <input placeholder="До" type="search" />
+                    <button>
+                      <FontAwesomeIcon icon={faGreaterThan} />
+                    </button>
+                    <button>
+                      <FontAwesomeIcon icon={faGreaterThanEqual} />
+                    </button>
+                    <button>
+                      <FontAwesomeIcon icon={faLessThan} />
+                    </button>
+                    <button>
+                      <FontAwesomeIcon icon={faLessThanEqual} />
+                    </button>
+                  </div>
+                </div>
+              )
+            )}
           </div>
           <div className="uniqueFilteredRows">
             <div>

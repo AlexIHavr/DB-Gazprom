@@ -1,12 +1,11 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import classNames from 'classnames';
-import { IconButton } from '@mui/material';
 import { FilterAltOff, RestartAlt, VisibilityOutlined } from '@mui/icons-material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../hooks/redux';
-import { setColumn, setColumns, setSortedRows } from '../../../../redux/vtdTree/reducer';
+import { setColumnProperties, setColumnsProperties, setSortedRows } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
 
 import { MAX_COUNT_SHOW_HIDDEN_COLUMNS } from './constants';
@@ -33,7 +32,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
   const showColumnOnClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>, column: PipelineColumn) => {
       e.stopPropagation();
-      dispatch(setColumn({ vtdId, tableType, column: { ...column, hidden: false } }));
+      dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { hidden: false } }));
       if (hiddenColumns.length === 1) setShowVisiblyColumns(false);
     },
     [dispatch, hiddenColumns.length, tableType, vtdId],
@@ -43,32 +42,31 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
     (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
       dispatch(
-        setColumns({
+        setColumnsProperties({
           vtdId,
           tableType,
-          columns: table.columns.map((column) => ({ ...column, hidden: false })),
+          properties: { hidden: false },
         }),
       );
       setShowVisiblyColumns(false);
     },
-    [dispatch, table.columns, tableType, vtdId],
+    [dispatch, tableType, vtdId],
   );
 
   const resetTable = useCallback(() => {
     dispatch(
-      setColumns({
+      setColumnsProperties({
         vtdId,
         tableType,
-        columns: table.columns.map((column) => ({
-          ...column,
+        properties: {
           width: COLUMN_WIDTH,
           hidden: false,
           sortType: null,
-        })),
+        },
       }),
     );
     dispatch(setSortedRows({ vtdId, tableType, sortedRows: table.rows }));
-  }, [dispatch, table.columns, table.rows, tableType, vtdId]);
+  }, [dispatch, table.rows, tableType, vtdId]);
 
   const hiddenColumnsOnDisplay = useMemo(
     () =>
@@ -91,7 +89,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
 
   return (
     <div className="tableManagePanel">
-      <IconButton
+      <button
         title="Показать скрытие колонки"
         className={classNames({ active: showVisiblyColumns })}
         onClick={showVisiblyColumnsOnClick}
@@ -118,13 +116,13 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
             <span>ПОКАЗАТЬ ВСЕ</span>
           </div>
         </div>
-      </IconButton>
-      <IconButton title="Убрать все фильтры">
+      </button>
+      <button title="Убрать все фильтры">
         <FilterAltOff />
-      </IconButton>
-      <IconButton title="Сброс таблицы" onClick={resetTable}>
+      </button>
+      <button title="Сброс таблицы" onClick={resetTable}>
         <RestartAlt />
-      </IconButton>
+      </button>
     </div>
   );
 };
