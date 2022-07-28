@@ -1,6 +1,6 @@
 import { ArrowDownward } from '@mui/icons-material';
 import classNames from 'classnames';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import { getSortedRows } from '../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../hooks/redux';
@@ -55,4 +55,4 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
   );
 };
 
-export default SortFilter;
+export default memo(SortFilter);

@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
+import { useState, useRef, useMemo, useCallback, useEffect, memo } from 'react';
 import { v4 } from 'uuid';
 
 import { PipelineDataTables, PipelineTable as PipelineTableType } from '../../../redux/vtdTree/types';
@@ -45,9 +45,9 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   const virtualScrollContentStyle = useMemo(
     () => ({
       width: visibleColumns.reduce((sumWidth, { width }) => sumWidth + width, 0),
-      height: (table.rows.length + 1) * ROW_HEIGHT + COLUMN_HEIGHT,
+      height: (table.sortedRows.length + 1) * ROW_HEIGHT + COLUMN_HEIGHT,
     }),
-    [visibleColumns, table.rows.length],
+    [visibleColumns, table.sortedRows.length],
   );
 
   const tableStyle = useMemo(
@@ -126,7 +126,7 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
                     vtdId={vtdId}
                     tableType={tableType}
                     column={column}
-                    style={{ ...columnStyle, zIndex: table.columns.length - i }}
+                    style={columnStyle}
                   />
                 ))}
               </tr>
@@ -152,4 +152,4 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   );
 };
 
-export default PipelineTable;
+export default memo(PipelineTable);

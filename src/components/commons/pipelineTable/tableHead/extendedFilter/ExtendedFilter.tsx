@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FilterAlt } from '@mui/icons-material';
-import { useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../../hooks/redux';
@@ -18,10 +18,23 @@ type ExtendedFilterProps = {
 
 const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType, column }) => {
   const dispatch = useAppDispatch();
+  const [rightDirection, setRightDirection] = useState(false);
+  const extendedFilterPanelWrapperRef = useRef<HTMLDivElement>(null);
 
   const showExtendedFilter = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
+
+      if (
+        extendedFilterPanelWrapperRef.current!.getBoundingClientRect().left +
+          extendedFilterPanelWrapperRef.current!.offsetWidth +
+          50 >
+        document.documentElement.clientWidth
+      ) {
+        setRightDirection(true);
+      } else {
+        setRightDirection(false);
+      }
 
       const visibleExtendedFilterColumn = table.columns.find(
         ({ extendedFilter: { visible }, id }) => id !== column.id && visible,
@@ -84,9 +97,20 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
       >
         <FilterAlt />
       </button>
-      <ExtendedFilterPanel vtdId={vtdId} tableType={tableType} table={table} column={column} />
+      <div
+        className={classNames('extendedFilterPanelWrapper', {
+          visibleExtendedFilterWrapper: column.extendedFilter.visible,
+          rightDirection,
+        })}
+        onClick={(e) => e.stopPropagation()}
+        ref={extendedFilterPanelWrapperRef}
+      >
+        {column.extendedFilter.visible && (
+          <ExtendedFilterPanel vtdId={vtdId} tableType={tableType} table={table} column={column} />
+        )}
+      </div>
     </>
   );
 };
 
-export default ExtendedFilter;
+export default memo(ExtendedFilter);

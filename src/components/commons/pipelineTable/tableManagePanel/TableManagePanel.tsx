@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import classNames from 'classnames';
 import { FilterAltOff, RestartAlt, VisibilityOutlined } from '@mui/icons-material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -8,7 +8,6 @@ import { useAppDispatch } from '../../../../hooks/redux';
 import { setColumnProperties, setColumnsProperties, setSortedRows } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
 
-import { MAX_COUNT_SHOW_HIDDEN_COLUMNS } from './constants';
 import './tableManagePanel.scss';
 
 type TableManagePanelProps = {
@@ -68,14 +67,6 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
     dispatch(setSortedRows({ vtdId, tableType, sortedRows: table.rows }));
   }, [dispatch, table.rows, tableType, vtdId]);
 
-  const hiddenColumnsOnDisplay = useMemo(
-    () =>
-      hiddenColumns.length > MAX_COUNT_SHOW_HIDDEN_COLUMNS
-        ? hiddenColumns.slice(0, MAX_COUNT_SHOW_HIDDEN_COLUMNS)
-        : hiddenColumns,
-    [hiddenColumns],
-  );
-
   useEffect(() => {
     if (!showVisiblyColumns) return;
 
@@ -101,20 +92,19 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
             showSetting: showVisiblyColumns,
           })}
         >
-          {hiddenColumnsOnDisplay.map((column) => (
-            <div key={column.id} onClick={(e) => showColumnOnClick(e, column)}>
-              <VisibilityOutlined />
-              <span>{column.value}</span>
-            </div>
-          ))}
-          {hiddenColumns.length > MAX_COUNT_SHOW_HIDDEN_COLUMNS && (
-            <div className="notShowHiddenColumns" onClick={(e) => e.stopPropagation()}>
-              Еще {hiddenColumns.length - MAX_COUNT_SHOW_HIDDEN_COLUMNS} шт...
-            </div>
+          {showVisiblyColumns && (
+            <>
+              {hiddenColumns.map((column) => (
+                <div key={column.id} onClick={(e) => showColumnOnClick(e, column)}>
+                  <VisibilityOutlined />
+                  <span>{column.value}</span>
+                </div>
+              ))}
+              <div className="showAllColumns" onClick={showAllColumnsOnClick}>
+                <span>ПОКАЗАТЬ ВСЕ</span>
+              </div>
+            </>
           )}
-          <div className="showAllColumns" onClick={showAllColumnsOnClick}>
-            <span>ПОКАЗАТЬ ВСЕ</span>
-          </div>
         </div>
       </button>
       <button title="Убрать все фильтры">
@@ -127,4 +117,4 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
   );
 };
 
-export default TableManagePanel;
+export default memo(TableManagePanel);

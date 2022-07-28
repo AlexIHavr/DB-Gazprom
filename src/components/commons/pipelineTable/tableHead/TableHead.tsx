@@ -1,5 +1,6 @@
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { memo, useCallback, useEffect, useRef } from 'react';
+import classNames from 'classnames';
 
 import { useAppDispatch } from '../../../../hooks/redux';
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
@@ -72,7 +73,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
   }, [column.hidden, column.width]);
 
   return (
-    <th ref={tableCellRef} style={style}>
+    <th ref={tableCellRef} style={style} className={classNames({ showExtendedFilter: column.extendedFilter.visible })}>
       <span title={column.value ? String(column.value) : ''}>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
       <div className="manageColumnButtons">

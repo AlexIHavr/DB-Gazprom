@@ -1,1 +1,0 @@
-export const MAX_COUNT_SHOW_HIDDEN_COLUMNS = 50;

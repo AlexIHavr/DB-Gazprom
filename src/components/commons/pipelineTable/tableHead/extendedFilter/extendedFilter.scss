@@ -13,3 +13,47 @@
     }
   }
 }
+
+.extendedFilterPanelWrapper {
+  $width: 400px;
+  $widthOffset: 10px;
+
+  position: absolute;
+  top: 25px;
+  left: $widthOffset;
+  width: $width;
+  padding: 5px 0;
+  box-shadow: 0 1px 5px black;
+  transform-origin: top left;
+  background-color: white;
+  z-index: 2;
+
+  &.visibleExtendedFilterWrapper {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transition: transform 0.2s;
+    -webkit-transition: transform 0.2s;
+    -moz-transition: transform 0.2s;
+    -ms-transition: transform 0.2s;
+    -o-transition: transform 0.2s;
+  }
+
+  &.rightDirection {
+    transform-origin: top right;
+    left: -$width + $widthOffset;
+  }
+
+  transform: scale(0);
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  border-radius: 0 0 10px 10px;
+  -webkit-border-radius: 0 0 10px 10px;
+  -moz-border-radius: 0 0 10px 10px;
+  -ms-border-radius: 0 0 10px 10px;
+  -o-border-radius: 0 0 10px 10px;
+}

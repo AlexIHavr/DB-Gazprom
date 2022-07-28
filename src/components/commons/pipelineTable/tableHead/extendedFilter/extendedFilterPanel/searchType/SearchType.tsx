@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { useCallback, useMemo } from 'react';
-import { BrowserNotSupported, Crop32Outlined, DataArray } from '@mui/icons-material';
+import { memo, useCallback, useMemo } from 'react';
+import { DataArray } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { useAppDispatch } from '../../../../../../../hooks/redux';
@@ -35,11 +35,6 @@ const SearchType: React.FC<SearchTypeProps> = ({ searchType, vtdId, tableType, c
         return <SearchIcon />;
       case SEARCH_TYPES.range:
         return <DataArray />;
-      case SEARCH_TYPES.empty:
-        return <Crop32Outlined />;
-      case SEARCH_TYPES.notEmpty:
-      default:
-        return <BrowserNotSupported />;
     }
   }, [searchType]);
 
@@ -54,4 +49,4 @@ const SearchType: React.FC<SearchTypeProps> = ({ searchType, vtdId, tableType, c
   );
 };
 
-export default SearchType;
+export default memo(SearchType);

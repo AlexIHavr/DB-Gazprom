@@ -1,5 +1,5 @@
 import { SORT_TYPES } from '../redux/vtdTree/constants';
-import { ExcelRows } from '../redux/vtdTree/types';
+import { ExcelRow, ExcelRows } from '../redux/vtdTree/types';
 
 type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: ExcelRows };
 
@@ -32,4 +32,20 @@ export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsPara
       }
     })
     .concat(rows.filter((row) => row[columnIndex] === undefined));
+};
+
+type getUniqueRowsParams = { rows: ExcelRows; columnIndex: number; maxCount?: number };
+
+export const getUniqueRows = ({ rows, columnIndex, maxCount }: getUniqueRowsParams) => {
+  const uniqueRows: ExcelRow = [];
+
+  for (const row of rows) {
+    if (maxCount && maxCount <= uniqueRows.length) break;
+
+    if (!uniqueRows.includes(row[columnIndex])) {
+      uniqueRows.push(row[columnIndex]);
+    }
+  }
+
+  return uniqueRows;
 };
