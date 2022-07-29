@@ -4,9 +4,10 @@ import { memo, useCallback } from 'react';
 
 import { getSortedRows } from '../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../hooks/redux';
-import { SORT_TYPES } from '../../../../../redux/vtdTree/constants';
 import { setColumnProperties, setSortedRows } from '../../../../../redux/vtdTree/reducer';
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
+
+import { SORT_TYPES } from './constants';
 
 import './sortFilter.scss';
 
@@ -48,7 +49,7 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
         upSortColumn: column.sortType === SORT_TYPES.asc,
         isSortedColumn: column.sortType !== null,
       })}
-      onClick={sortColumnOnClick}
+      onMouseDown={sortColumnOnClick}
     >
       <ArrowDownward />
     </button>

@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { read, utils } from 'xlsx';
 
 import { COLUMN_WIDTH } from '../components/commons/pipelineTable/constants';
-import { SEARCH_TYPES } from '../redux/vtdTree/constants';
+import { SEARCH_TYPES } from '../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
 import { ExcelRows, PipelineColumn, PipelineTable } from '../redux/vtdTree/types';
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {

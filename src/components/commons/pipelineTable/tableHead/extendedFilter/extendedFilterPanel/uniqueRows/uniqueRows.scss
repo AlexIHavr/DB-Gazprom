@@ -1,39 +1,36 @@
-.uniqueRowsWrapper {
-  .maxCountUniqueRows {
-    margin-top: 10px;
-    margin-bottom: -15px;
-    color: rgba(255, 0, 0, 0.9);
-  }
+.maxCountUniqueRows {
+  padding: 10px 0;
+  border-bottom: 1px solid black;
+  color: rgba(255, 0, 0, 0.9);
+}
 
-  .uniqueRows {
-    $divHeight: 30px;
+.uniqueRows {
+  $divHeight: 30px;
 
-    overflow: auto;
-    margin-top: 20px;
-    border-top: 1px solid black;
-    height: $divHeight * 10;
+  overflow: auto;
+  height: $divHeight * 10 - 12px;
 
-    .uniqueRowsContent {
-      overflow: hidden;
+  .uniqueRowsContent {
+    overflow: hidden;
+    width: fit-content;
 
-      .uniqueRowsOnDisplay {
-        position: relative;
-        div {
-          display: flex;
-          align-items: center;
-          justify-content: left;
-          margin: 0 10px;
-          height: $divHeight;
-          width: fit-content;
-          cursor: pointer;
+    .uniqueRowsOnDisplay {
+      position: relative;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        margin: 0 10px;
+        height: $divHeight;
+        width: fit-content;
+        cursor: pointer;
 
-          span {
-            margin-left: 10px;
-            white-space: nowrap;
+        span {
+          margin-left: 10px;
+          white-space: nowrap;
 
-            &:not(.selectAll) {
-              font-weight: normal;
-            }
+          &:not(.selectAll) {
+            font-weight: normal;
           }
         }
       }

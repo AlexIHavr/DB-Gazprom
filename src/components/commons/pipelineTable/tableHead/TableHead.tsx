@@ -77,7 +77,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
       <span title={column.value ? String(column.value) : ''}>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
       <div className="manageColumnButtons">
-        <button title="Скрыть колонку" className="hideColumn" onClick={hideColumnOnClick}>
+        <button title="Скрыть колонку" className="hideColumn" onMouseDown={hideColumnOnClick}>
           <VisibilityOffIcon />
         </button>
         <ExtendedFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />

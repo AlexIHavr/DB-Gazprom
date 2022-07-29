@@ -5,7 +5,11 @@
   }
 
   .searchTypes {
-    justify-content: space-around;
+    justify-content: center;
+
+    button:first-of-type {
+      margin-right: 10px;
+    }
   }
 
   .filterInputs {
@@ -30,6 +34,10 @@
       &:focus {
         outline: 1px solid black;
       }
+
+      &::-webkit-search-cancel-button {
+        cursor: pointer;
+      }
     }
 
     .searchInput,
@@ -44,16 +52,18 @@
     }
 
     .rangeInputs {
-      button {
-        padding: 7px 9px;
-      }
       .fromInput {
         margin-bottom: 10px;
       }
+    }
+  }
 
-      svg {
-        font-size: 0.9rem;
-      }
+  .uniqueRowsWrapper {
+    margin-top: 20px;
+    border-top: 1px solid black;
+
+    .noResults {
+      padding: 10px;
     }
   }
 }

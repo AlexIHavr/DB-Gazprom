@@ -1,4 +1,5 @@
-import { SEARCH_TYPES, SORT_TYPES } from './constants';
+import { SEARCH_TYPES } from '../../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
+import { SORT_TYPES } from '../../components/commons/pipelineTable/tableHead/sortFilter/constants';
 
 export type ExcelValue = string | number | undefined;
 export type ExcelRow = ExcelValue[];

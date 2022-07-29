@@ -1,9 +1,9 @@
-import { CheckBoxOutlineBlankOutlined } from '@mui/icons-material';
+import { CheckBoxOutlineBlankOutlined, CheckBoxOutlined } from '@mui/icons-material';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { getSortedRows, getUniqueRows } from '../../../../../../../helpers/pipelineTable';
-import { SORT_TYPES } from '../../../../../../../redux/vtdTree/constants';
 import { ExcelRows, PipelineColumn } from '../../../../../../../redux/vtdTree/types';
+import { SORT_TYPES } from '../../../sortFilter/constants';
 
 import { MAX_COUNT_UNIQUE_ROWS, UNIQUE_ROW_HEIGHT } from './constants';
 import './uniqueRows.scss';
@@ -64,7 +64,7 @@ const UniqueRows: React.FC<UniqueRowsProps> = ({ rows, column }) => {
 
   const uniqueRowsContentStyle = useMemo(
     () => ({
-      height: uniqueSortedRow.length * UNIQUE_ROW_HEIGHT,
+      height: (uniqueSortedRow.length + 1) * UNIQUE_ROW_HEIGHT,
     }),
     [uniqueSortedRow.length],
   );
@@ -75,25 +75,26 @@ const UniqueRows: React.FC<UniqueRowsProps> = ({ rows, column }) => {
   );
 
   useEffect(() => {
-    if (uniqueRowsRef.current) setVisibleCountUniqueRows(Math.floor(uniqueRowsRef.current.offsetHeight / UNIQUE_ROW_HEIGHT));
+    if (uniqueRowsRef.current) setVisibleCountUniqueRows(Math.ceil(uniqueRowsRef.current.offsetHeight / UNIQUE_ROW_HEIGHT) - 1);
   }, []);
 
   return (
-    <div className="uniqueRowsWrapper">
+    <>
       {showMaxCountUniqueRows && <div className="maxCountUniqueRows">Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов</div>}
       <div className="uniqueRows" onScroll={uniqueRowsOnScroll} ref={uniqueRowsRef}>
         <div className="uniqueRowsContent" style={uniqueRowsContentStyle}>
           <div className="uniqueRowsOnDisplay">
             {uniqueRowsOnDisplay.map((uniqueRow, i) => (
               <div key={i}>
-                <CheckBoxOutlineBlankOutlined />
+                {/* <CheckBoxOutlineBlankOutlined /> */}
+                <CheckBoxOutlined />
                 {!i && !uniqueRowsIndex ? <span className="selectAll">Выделить все</span> : <span>{uniqueRow}</span>}
               </div>
             ))}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

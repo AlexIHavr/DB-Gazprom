@@ -81,10 +81,10 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
       );
     };
 
-    document.addEventListener('click', hideExtendedFilter);
+    document.addEventListener('mousedown', hideExtendedFilter);
 
     return () => {
-      document.removeEventListener('click', hideExtendedFilter);
+      document.removeEventListener('mousedown', hideExtendedFilter);
     };
   }, [dispatch, vtdId, tableType, column.extendedFilter, column.index]);
 
@@ -93,7 +93,7 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
       <button
         title="Расширенный фильтр"
         className={classNames('extendedFilterColumn', { show: column.extendedFilter.visible })}
-        onClick={showExtendedFilter}
+        onMouseDown={showExtendedFilter}
       >
         <FilterAlt />
       </button>
@@ -102,7 +102,7 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
           visibleExtendedFilterWrapper: column.extendedFilter.visible,
           rightDirection,
         })}
-        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
         ref={extendedFilterPanelWrapperRef}
       >
         {column.extendedFilter.visible && (

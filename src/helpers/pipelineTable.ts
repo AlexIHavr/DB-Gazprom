@@ -1,4 +1,5 @@
-import { SORT_TYPES } from '../redux/vtdTree/constants';
+import { SEARCH_COMPARE_TYPES } from '../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
+import { SORT_TYPES } from '../components/commons/pipelineTable/tableHead/sortFilter/constants';
 import { ExcelRow, ExcelRows } from '../redux/vtdTree/types';
 
 type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: ExcelRows };
@@ -48,4 +49,51 @@ export const getUniqueRows = ({ rows, columnIndex, maxCount }: getUniqueRowsPara
   }
 
   return uniqueRows;
+};
+
+type getSearchCompareRowsParams = {
+  rows: ExcelRows;
+  columnIndex: number;
+  searchValue: string;
+  searchCompareTypes: SEARCH_COMPARE_TYPES[];
+};
+
+export const getSearchCompareRows = ({ rows, columnIndex, searchValue, searchCompareTypes }: getSearchCompareRowsParams) => {
+  return rows.filter((row) => {
+    if (row[columnIndex] === undefined) return false;
+
+    const rowValue = String(row[columnIndex]);
+    const isWithRegistry = searchCompareTypes.includes(SEARCH_COMPARE_TYPES.withRegistry);
+
+    if (searchCompareTypes.includes(SEARCH_COMPARE_TYPES.wholeWord)) {
+      if (isWithRegistry) return rowValue === searchValue;
+
+      return rowValue.toLowerCase() === searchValue.toLowerCase();
+    }
+
+    if (isWithRegistry) return rowValue.includes(searchValue);
+
+    return rowValue.toLowerCase().includes(searchValue.toLowerCase());
+  });
+};
+
+type getRangeCompareRowsParams = {
+  rows: ExcelRows;
+  columnIndex: number;
+  fromValue: string;
+  toValue: string;
+};
+
+export const getRangeCompareRows = ({ rows, columnIndex, fromValue, toValue }: getRangeCompareRowsParams) => {
+  return rows.filter((row) => {
+    const rowValue = row[columnIndex];
+
+    if (rowValue === undefined) return false;
+
+    if (fromValue && toValue) return rowValue >= fromValue && rowValue <= toValue;
+    if (fromValue) return rowValue >= fromValue;
+    if (toValue) return rowValue <= toValue;
+
+    return rowValue;
+  });
 };
