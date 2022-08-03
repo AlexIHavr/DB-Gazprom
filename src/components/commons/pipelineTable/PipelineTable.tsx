@@ -22,6 +22,7 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   const [columnsOnPageCount, setColumnsOnPageCount] = useState(0);
 
   const virtualScrollRef = useRef<HTMLDivElement>(null);
+  const virtualScrollContentRef = useRef<HTMLDivElement>(null);
 
   const visibleColumns = useMemo(() => table.columns.filter(({ hidden }) => !hidden), [table.columns]);
 
@@ -104,6 +105,7 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
       const documentElement = document.documentElement;
       virtualScrollCurrent.style.height = documentElement.clientHeight - virtualScrollCurrent.offsetTop + 'px';
       virtualScrollCurrent.style.width = documentElement.clientWidth - virtualScrollCurrent.offsetLeft + 'px';
+      virtualScrollContentRef.current!.style.minHeight = virtualScrollCurrent.style.height;
 
       setRowsOnPageCount(Math.floor((virtualScrollCurrent.clientHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
       setColumnsOnPageCount(Math.floor(virtualScrollCurrent.clientWidth / COLUMN_WIDTH) + VIRTUAL_COLUMNS_COUNT * 2);
@@ -114,8 +116,8 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
     <div className="pipelineTable">
       <TableManagePanel table={table} vtdId={vtdId} tableType={tableType} />
 
-      <div className="virtualScroll" onScroll={virtualOnScroll} ref={virtualScrollRef} style={virtualScrollStyle}>
-        <div style={virtualScrollContentStyle} className="virtualScrollContent">
+      <div className="virtualScroll" onScroll={virtualOnScroll} style={virtualScrollStyle} ref={virtualScrollRef}>
+        <div style={virtualScrollContentStyle} className="virtualScrollContent" ref={virtualScrollContentRef}>
           <table style={tableStyle}>
             <thead>
               <tr>

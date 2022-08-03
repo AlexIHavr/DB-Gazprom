@@ -35,20 +35,20 @@ export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsPara
     .concat(rows.filter((row) => row[columnIndex] === undefined));
 };
 
-type getUniqueRowsParams = { rows: ExcelRows; columnIndex: number; maxCount?: number };
+type getUniqueRowsValuesParams = { rows: ExcelRows; columnIndex: number; maxCount?: number };
 
-export const getUniqueRows = ({ rows, columnIndex, maxCount }: getUniqueRowsParams) => {
-  const uniqueRows: ExcelRow = [];
+export const getUniqueRowsValues = ({ rows, columnIndex, maxCount }: getUniqueRowsValuesParams) => {
+  const uniqueRowsValues: ExcelRow = [];
 
   for (const row of rows) {
-    if (maxCount && maxCount <= uniqueRows.length) break;
+    if (maxCount && maxCount <= uniqueRowsValues.length) break;
 
-    if (!uniqueRows.includes(row[columnIndex])) {
-      uniqueRows.push(row[columnIndex]);
+    if (!uniqueRowsValues.includes(row[columnIndex])) {
+      uniqueRowsValues.push(row[columnIndex]);
     }
   }
 
-  return uniqueRows;
+  return uniqueRowsValues;
 };
 
 type getSearchCompareRowsParams = {

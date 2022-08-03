@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ExcelRows, InitialState, PipelineColumn, PipelineData, PipelineDataTables } from './types';
+import { ExcelRows, InitialState, PipelineColumn, PipelineColumnProperties, PipelineData, PipelineDataTables } from './types';
 
 const initialState: InitialState = {
   vtdTree: [
@@ -138,7 +138,7 @@ export const vtdTreeSlice = createSlice({
         vtdId: string;
         tableType: PipelineDataTables;
         columnIndex: number;
-        properties: Partial<PipelineColumn>;
+        properties: PipelineColumnProperties;
       }>,
     ) => {
       const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
@@ -153,7 +153,7 @@ export const vtdTreeSlice = createSlice({
       action: PayloadAction<{
         vtdId: string;
         tableType: PipelineDataTables;
-        properties: Partial<PipelineColumn>;
+        properties: PipelineColumnProperties;
       }>,
     ) => {
       const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;

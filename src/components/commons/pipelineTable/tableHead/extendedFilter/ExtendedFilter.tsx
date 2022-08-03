@@ -23,6 +23,7 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
 
   const showExtendedFilter = useCallback(
     (e: React.MouseEvent) => {
+      if (e.button) return;
       e.stopPropagation();
 
       if (
@@ -92,7 +93,10 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
     <>
       <button
         title="Расширенный фильтр"
-        className={classNames('extendedFilterColumn', { show: column.extendedFilter.visible })}
+        className={classNames('extendedFilterColumn', {
+          show: column.extendedFilter.visible,
+          activated: column.extendedFilter.prevFilteredRows.length,
+        })}
         onMouseDown={showExtendedFilter}
       >
         <FilterAlt />

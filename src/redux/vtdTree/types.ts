@@ -1,11 +1,14 @@
-import { SEARCH_TYPES } from '../../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
 import { SORT_TYPES } from '../../components/commons/pipelineTable/tableHead/sortFilter/constants';
 
 export type ExcelValue = string | number | undefined;
 export type ExcelRow = ExcelValue[];
 export type ExcelRows = ExcelRow[];
 
-export type ExtendedFilter = { visible: boolean; searchType: SEARCH_TYPES };
+export type ExtendedFilter = {
+  visible: boolean;
+  prevFilteredRows: ExcelRows;
+  checkedUniqueRowsValues: ExcelRow;
+};
 
 export type PipelineColumn = {
   id: string;
@@ -17,6 +20,8 @@ export type PipelineColumn = {
   sortType: SORT_TYPES | null;
   extendedFilter: ExtendedFilter;
 };
+
+export type PipelineColumnProperties = Partial<PipelineColumn>;
 
 export type PipelineTable = {
   columns: PipelineColumn[];

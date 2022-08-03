@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { FilterAltOff, RestartAlt, VisibilityOutlined } from '@mui/icons-material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
+import { PipelineColumn, PipelineColumnProperties, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../hooks/redux';
 import { setColumnProperties, setColumnsProperties, setSortedRows } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
@@ -52,20 +52,27 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
     [dispatch, tableType, vtdId],
   );
 
-  const resetTable = useCallback(() => {
-    dispatch(
-      setColumnsProperties({
-        vtdId,
-        tableType,
-        properties: {
-          width: COLUMN_WIDTH,
-          hidden: false,
-          sortType: null,
-        },
-      }),
-    );
-    dispatch(setSortedRows({ vtdId, tableType, sortedRows: table.rows }));
-  }, [dispatch, table.rows, tableType, vtdId]);
+  const resetColumns = useCallback(
+    (properties: PipelineColumnProperties = {}) => {
+      dispatch(
+        setColumnsProperties({
+          vtdId,
+          tableType,
+          properties: {
+            ...properties,
+            sortType: null,
+            extendedFilter: {
+              visible: false,
+              prevFilteredRows: [],
+              checkedUniqueRowsValues: [],
+            },
+          },
+        }),
+      );
+      dispatch(setSortedRows({ vtdId, tableType, sortedRows: table.rows }));
+    },
+    [dispatch, table.rows, tableType, vtdId],
+  );
 
   useEffect(() => {
     if (!showVisiblyColumns) return;
@@ -107,10 +114,10 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
           )}
         </div>
       </button>
-      <button title="Убрать все фильтры">
+      <button title="Убрать все фильтры" onClick={() => resetColumns()}>
         <FilterAltOff />
       </button>
-      <button title="Сброс таблицы" onClick={resetTable}>
+      <button title="Сброс таблицы" onClick={() => resetColumns({ width: COLUMN_WIDTH, hidden: false })}>
         <RestartAlt />
       </button>
     </div>

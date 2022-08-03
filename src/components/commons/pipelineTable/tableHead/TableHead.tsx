@@ -58,9 +58,13 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
     [column.minWidth, column.index, dispatch, vtdId, tableType],
   );
 
-  const hideColumnOnClick = useCallback(() => {
-    dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { hidden: true } }));
-  }, [dispatch, vtdId, tableType, column.index]);
+  const hideColumnOnMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.button) return;
+      dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { hidden: true } }));
+    },
+    [dispatch, vtdId, tableType, column.index],
+  );
 
   useEffect(() => {
     const tableCellRefCurrent = tableCellRef.current;
@@ -77,7 +81,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
       <span title={column.value ? String(column.value) : ''}>{column.value}</span>
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
       <div className="manageColumnButtons">
-        <button title="Скрыть колонку" className="hideColumn" onMouseDown={hideColumnOnClick}>
+        <button title="Скрыть колонку" className="hideColumn" onMouseDown={hideColumnOnMouseDown}>
           <VisibilityOffIcon />
         </button>
         <ExtendedFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
