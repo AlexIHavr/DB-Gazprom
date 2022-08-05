@@ -1,10 +1,10 @@
 import { ArrowDownward } from '@mui/icons-material';
 import classNames from 'classnames';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import { getSortedRows } from '../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../hooks/redux';
-import { setColumnProperties, setSortedRows } from '../../../../../redux/vtdTree/reducer';
+import { setColumnProperties, setPipelineTableProperties } from '../../../../../redux/vtdTree/reducer';
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
 
 import { SORT_TYPES } from './constants';
@@ -21,35 +21,58 @@ type SortFilterProps = {
 const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column }) => {
   const dispatch = useAppDispatch();
 
-  const sortColumnOnClick = useCallback(() => {
-    //remove sortedColumn
-    const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
-    if (sortedColumn)
-      dispatch(setColumnProperties({ tableType, vtdId, columnIndex: sortedColumn.index, properties: { sortType: null } }));
+  const sortColumnOnMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.button) return;
 
-    //sort by column
-    const sortType = column.sortType === null ? SORT_TYPES.asc : column.sortType === SORT_TYPES.asc ? SORT_TYPES.desc : null;
-    dispatch(setColumnProperties({ tableType, vtdId, columnIndex: column.index, properties: { sortType } }));
+      //remove sortedColumn
+      const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
+      if (sortedColumn)
+        dispatch(setColumnProperties({ tableType, vtdId, columnIndex: sortedColumn.index, properties: { sortType: null } }));
 
-    //set sortedRows
-    dispatch(
-      setSortedRows({
-        tableType,
-        vtdId,
-        sortedRows:
-          sortType === null ? table.rows : getSortedRows({ sortType, columnIndex: column.index, rows: table.sortedRows }),
-      }),
-    );
-  }, [column.index, column.sortType, dispatch, table.columns, table.rows, table.sortedRows, tableType, vtdId]);
+      //sort by column
+      const sortType = column.sortType === null ? SORT_TYPES.asc : column.sortType === SORT_TYPES.asc ? SORT_TYPES.desc : null;
+      dispatch(setColumnProperties({ tableType, vtdId, columnIndex: column.index, properties: { sortType } }));
+
+      //set sortedRows
+      dispatch(
+        setPipelineTableProperties({
+          tableType,
+          vtdId,
+          properties: {
+            sortedRows:
+              sortType === null
+                ? []
+                : getSortedRows({
+                    sortType,
+                    columnIndex: column.index,
+                    rows: table.filteredRows.length ? table.filteredRows : table.rows,
+                  }),
+          },
+        }),
+      );
+    },
+    [dispatch, tableType, vtdId, column.index, column.sortType, table.columns, table.filteredRows, table.rows],
+  );
+
+  const sortFilterTitle = useMemo(
+    () =>
+      column.sortType === null
+        ? 'Сортировка по возрастанию'
+        : column.sortType === SORT_TYPES.asc
+        ? 'Сортировка по убыванию'
+        : 'Без сортировки',
+    [column.sortType],
+  );
 
   return (
     <button
-      title="Фильтр сортировки"
+      title={sortFilterTitle}
       className={classNames('sortColumn', {
         upSortColumn: column.sortType === SORT_TYPES.asc,
         isSortedColumn: column.sortType !== null,
       })}
-      onMouseDown={sortColumnOnClick}
+      onMouseDown={sortColumnOnMouseDown}
     >
       <ArrowDownward />
     </button>

@@ -79,5 +79,10 @@
   &:disabled {
     background-color: rgba(0, 0, 0, 0.1) !important;
     box-shadow: none;
+    transition: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
   }
 }

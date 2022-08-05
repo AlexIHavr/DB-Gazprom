@@ -5,7 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { PipelineColumn, PipelineColumnProperties, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../hooks/redux';
-import { setColumnProperties, setColumnsProperties, setSortedRows } from '../../../../redux/vtdTree/reducer';
+import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
 
 import './tableManagePanel.scss';
@@ -63,15 +63,14 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
             sortType: null,
             extendedFilter: {
               visible: false,
-              prevFilteredRows: [],
               checkedUniqueRowsValues: [],
             },
           },
         }),
       );
-      dispatch(setSortedRows({ vtdId, tableType, sortedRows: table.rows }));
+      dispatch(setPipelineTableProperties({ vtdId, tableType, properties: { sortedRows: [], filteredRows: [] } }));
     },
-    [dispatch, table.rows, tableType, vtdId],
+    [dispatch, tableType, vtdId],
   );
 
   useEffect(() => {
@@ -88,7 +87,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
   return (
     <div className="tableManagePanel">
       <button
-        title="Показать скрытие колонки"
+        title="Показать колонку"
         className={classNames({ active: showVisiblyColumns })}
         onClick={showVisiblyColumnsOnClick}
         disabled={!hiddenColumns.length}
@@ -108,7 +107,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
                 </div>
               ))}
               <div className="showAllColumns" onClick={showAllColumnsOnClick}>
-                <span>ПОКАЗАТЬ ВСЕ</span>
+                <span>Показать все</span>
               </div>
             </>
           )}

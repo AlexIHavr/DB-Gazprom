@@ -1,62 +1,64 @@
 import { CheckBoxOutlineBlankOutlined, CheckBoxOutlined } from '@mui/icons-material';
-import { Dispatch, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { getSortedRows, getUniqueRowsValues } from '../../../../../../../helpers/pipelineTable';
-import { ExcelRow, ExcelRows, ExcelValue, PipelineColumn } from '../../../../../../../redux/vtdTree/types';
+import { useAppDispatch } from '../../../../../../../hooks/redux';
+import { setColumnProperties, setPipelineTableProperties } from '../../../../../../../redux/vtdTree/reducer';
+import {
+  ExcelRow,
+  ExcelRows,
+  ExcelValue,
+  PipelineColumn,
+  PipelineDataTables,
+  PipelineTable,
+} from '../../../../../../../redux/vtdTree/types';
 import { SORT_TYPES } from '../../../sortFilter/constants';
 
 import { MAX_COUNT_UNIQUE_ROWS, UNIQUE_ROW_HEIGHT } from './constants';
 import './uniqueRowsValues.scss';
 
 type UniqueRowsProps = {
-  rows: ExcelRows;
+  vtdId: string;
+  tableType: PipelineDataTables;
+  table: PipelineTable;
+  filteredRows: ExcelRows;
   column: PipelineColumn;
-  checkedUniqueRowsValues: ExcelRow;
-  setCheckedUniqueRowsValues: Dispatch<React.SetStateAction<ExcelRow>>;
+  isInputValues: boolean;
 };
 
-const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ rows, column, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
+const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, filteredRows, column, isInputValues }) => {
+  const dispatch = useAppDispatch();
+
   const [uniqueRowValueIndex, setUniqueRowsValueIndex] = useState(0);
   const [visibleCountUniqueRowsValues, setVisibleCountUniqueRowsValues] = useState(0);
-  const [showMaxCountUniqueRowsValues, setShowMaxCountUniqueRowsValues] = useState(false);
+  const [checkedUniqueRowsValues, setCheckedUniqueRowsValues] = useState<ExcelRow>([]);
 
   const uniqueRowsValuesRef = useRef<HTMLDivElement>(null);
 
-  const uniqueRowsValues = useMemo(() => {
-    const sortedRows = getSortedRows({
-      rows,
-      columnIndex: column.index,
-      sortType: SORT_TYPES.asc,
-    });
+  const sortedFilteredRows = useMemo(
+    () =>
+      getSortedRows({
+        rows: filteredRows,
+        columnIndex: column.index,
+        sortType: SORT_TYPES.asc,
+      }),
+    [column.index, filteredRows],
+  );
 
+  const uniqueRowsValues = useMemo(() => {
     const uniqueRowsValues = getUniqueRowsValues({
-      rows: sortedRows,
+      rows: sortedFilteredRows,
       columnIndex: column.index,
       maxCount: MAX_COUNT_UNIQUE_ROWS,
     });
 
-    const lastSortedRowValue = sortedRows.at(-1)![column.index];
-    const lastUniqueRowsValue = uniqueRowsValues.at(-1);
-
-    if (lastSortedRowValue !== lastUniqueRowsValue) {
-      setShowMaxCountUniqueRowsValues(true);
-    } else {
-      setShowMaxCountUniqueRowsValues(false);
-    }
-
-    if (lastSortedRowValue === undefined) {
-      if (lastUniqueRowsValue === undefined) uniqueRowsValues.pop();
+    if (sortedFilteredRows.at(-1)![column.index] === undefined) {
+      if (uniqueRowsValues.at(-1) === undefined) uniqueRowsValues.pop();
       uniqueRowsValues.unshift(undefined);
     }
 
-    setCheckedUniqueRowsValues(
-      !column.extendedFilter.checkedUniqueRowsValues.length
-        ? uniqueRowsValues
-        : uniqueRowsValues.filter((value) => column.extendedFilter.checkedUniqueRowsValues.includes(value)),
-    );
-
     return uniqueRowsValues;
-  }, [column.extendedFilter.checkedUniqueRowsValues, column.index, rows, setCheckedUniqueRowsValues]);
+  }, [column.index, sortedFilteredRows]);
 
   const uniqueRowsValuesContentStyle = useMemo(
     () => ({
@@ -94,14 +96,67 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ rows, column, checkedUniq
     [setCheckedUniqueRowsValues, uniqueRowsValues],
   );
 
-  useEffect(() => {
+  const applyExtendedFilterOnClick = useCallback(() => {
+    const newFilteredRows = filteredRows.filter((row) => checkedUniqueRowsValues.includes(row[column.index]));
+    const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
+
+    dispatch(
+      setPipelineTableProperties({
+        vtdId,
+        tableType,
+        properties: {
+          filteredRows: newFilteredRows,
+          sortedRows: sortedColumn
+            ? getSortedRows({
+                sortType: sortedColumn.sortType!,
+                columnIndex: sortedColumn.index,
+                rows: newFilteredRows,
+              })
+            : [],
+        },
+      }),
+    );
+
+    dispatch(
+      setColumnProperties({
+        vtdId,
+        tableType,
+        columnIndex: column.index,
+        properties: {
+          extendedFilter: {
+            visible: false,
+            checkedUniqueRowsValues:
+              uniqueRowsValues.length === checkedUniqueRowsValues.length && !isInputValues ? [] : checkedUniqueRowsValues,
+          },
+        },
+      }),
+    );
+  }, [
+    checkedUniqueRowsValues,
+    column.index,
+    dispatch,
+    filteredRows,
+    isInputValues,
+    table.columns,
+    tableType,
+    uniqueRowsValues.length,
+    vtdId,
+  ]);
+
+  useLayoutEffect(() => {
     if (uniqueRowsValuesRef.current)
       setVisibleCountUniqueRowsValues(Math.ceil(uniqueRowsValuesRef.current.offsetHeight / UNIQUE_ROW_HEIGHT) - 1);
-  }, []);
+
+    setCheckedUniqueRowsValues(
+      !column.extendedFilter.checkedUniqueRowsValues.length
+        ? uniqueRowsValues
+        : uniqueRowsValues.filter((value) => column.extendedFilter.checkedUniqueRowsValues.includes(value)),
+    );
+  }, [column.extendedFilter.checkedUniqueRowsValues, uniqueRowsValues]);
 
   return (
     <>
-      {showMaxCountUniqueRowsValues && (
+      {uniqueRowsValues.length === MAX_COUNT_UNIQUE_ROWS && (
         <div className="maxCountUniqueRowsValues">Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов</div>
       )}
 
@@ -131,6 +186,10 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ rows, column, checkedUniq
           </div>
         </div>
       </div>
+
+      <button className="apply" onClick={applyExtendedFilterOnClick} disabled={!checkedUniqueRowsValues.length}>
+        ОК
+      </button>
     </>
   );
 };

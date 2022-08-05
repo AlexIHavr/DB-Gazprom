@@ -39,14 +39,13 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
         sortType: null,
         extendedFilter: {
           visible: false,
-          prevFilteredRows: [],
           checkedUniqueRowsValues: [],
         },
       }));
 
       const rows = filledExcelRows.slice(1).map((row, i) => [i + 1, ...row]);
 
-      const data: PipelineTable = { columns, rows, sortedRows: rows };
+      const data: PipelineTable = { columns, rows, sortedRows: [], filteredRows: [] };
 
       resolve(data);
     };

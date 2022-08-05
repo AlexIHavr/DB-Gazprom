@@ -25,6 +25,12 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   const virtualScrollContentRef = useRef<HTMLDivElement>(null);
 
   const visibleColumns = useMemo(() => table.columns.filter(({ hidden }) => !hidden), [table.columns]);
+  const visibleRows = useMemo(() => {
+    if (table.sortedRows.length) return table.sortedRows;
+    if (table.filteredRows.length) return table.filteredRows;
+
+    return table.rows;
+  }, [table.filteredRows, table.rows, table.sortedRows]);
 
   const columnsOnPage = useMemo(
     () => visibleColumns.slice(columnIndex, columnIndex + columnsOnPageCount),
@@ -32,8 +38,8 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   );
 
   const rowsOnPage = useMemo(
-    () => table.sortedRows.slice(rowIndex, rowIndex + rowsOnPageCount),
-    [table.sortedRows, rowIndex, rowsOnPageCount],
+    () => visibleRows.slice(rowIndex, rowIndex + rowsOnPageCount),
+    [visibleRows, rowIndex, rowsOnPageCount],
   );
 
   const virtualScrollStyle = useMemo(
@@ -46,9 +52,9 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   const virtualScrollContentStyle = useMemo(
     () => ({
       width: visibleColumns.reduce((sumWidth, { width }) => sumWidth + width, 0),
-      height: (table.sortedRows.length + 1) * ROW_HEIGHT + COLUMN_HEIGHT,
+      height: (visibleRows.length + 1) * ROW_HEIGHT + COLUMN_HEIGHT,
     }),
-    [visibleColumns, table.sortedRows.length],
+    [visibleColumns, visibleRows.length],
   );
 
   const tableStyle = useMemo(

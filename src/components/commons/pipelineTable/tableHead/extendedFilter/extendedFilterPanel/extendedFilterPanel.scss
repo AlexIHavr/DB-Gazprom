@@ -73,27 +73,4 @@
       padding: 10px;
     }
   }
-
-  .apply {
-    margin: 5px auto;
-    width: 20%;
-    box-shadow: 1px 1px 3px black;
-    text-shadow: none;
-    font-weight: bold;
-    border-radius: 5px !important;
-    -webkit-border-radius: 5px !important;
-    -moz-border-radius: 5px !important;
-    -ms-border-radius: 5px !important;
-    -o-border-radius: 5px !important;
-
-    &:disabled {
-      background-color: rgba(0, 0, 0, 0.1) !important;
-      box-shadow: none;
-      transition: none;
-      -webkit-transition: none;
-      -moz-transition: none;
-      -ms-transition: none;
-      -o-transition: none;
-    }
-  }
 }

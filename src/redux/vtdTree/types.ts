@@ -6,7 +6,6 @@ export type ExcelRows = ExcelRow[];
 
 export type ExtendedFilter = {
   visible: boolean;
-  prevFilteredRows: ExcelRows;
   checkedUniqueRowsValues: ExcelRow;
 };
 
@@ -27,7 +26,10 @@ export type PipelineTable = {
   columns: PipelineColumn[];
   rows: ExcelRows;
   sortedRows: ExcelRows;
+  filteredRows: ExcelRows;
 };
+
+export type PipelineTableProperties = Partial<PipelineTable>;
 
 export type PipelineData = {
   form?: PipelineTable;

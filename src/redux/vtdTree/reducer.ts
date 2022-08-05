@@ -1,6 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ExcelRows, InitialState, PipelineColumn, PipelineColumnProperties, PipelineData, PipelineDataTables } from './types';
+import {
+  InitialState,
+  PipelineColumn,
+  PipelineColumnProperties,
+  PipelineData,
+  PipelineDataTables,
+  PipelineTable,
+  PipelineTableProperties,
+} from './types';
 
 const initialState: InitialState = {
   vtdTree: [
@@ -165,22 +173,24 @@ export const vtdTreeSlice = createSlice({
       }
     },
 
-    setSortedRows: (
+    setPipelineTableProperties: (
       state,
       action: PayloadAction<{
         vtdId: string;
         tableType: PipelineDataTables;
-        sortedRows: ExcelRows;
+        properties: PipelineTableProperties;
       }>,
     ) => {
       const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
 
-      pipelineTable.sortedRows = action.payload.sortedRows;
+      for (const [key, value] of Object.entries(action.payload.properties)) {
+        (pipelineTable[key as keyof PipelineTable] as typeof value) = value;
+      }
     },
   },
 });
 
-export const { setPipelinesData, setColumnProperties, setColumnsProperties, setSortedRows } = vtdTreeSlice.actions;
+export const { setPipelinesData, setColumnProperties, setColumnsProperties, setPipelineTableProperties } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;

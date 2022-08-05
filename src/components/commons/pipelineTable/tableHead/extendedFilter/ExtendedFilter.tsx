@@ -95,7 +95,7 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
         title="Расширенный фильтр"
         className={classNames('extendedFilterColumn', {
           show: column.extendedFilter.visible,
-          activated: column.extendedFilter.prevFilteredRows.length,
+          activated: column.extendedFilter.checkedUniqueRowsValues.length,
         })}
         onMouseDown={showExtendedFilter}
       >
