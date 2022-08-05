@@ -4,16 +4,16 @@ import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import './navigation.scss';
 
 import gazpromLogoSrc from '../../../assets/images/gazpromLogo.png';
-import { NAV_LINKS } from '../constants';
+import { NAV_LINKS, PAGES } from '../constants';
 
 const Navigation: React.FC = () => {
   return (
     <AppBar position="static">
       <Toolbar className="navigation">
         <Box className="links">
-          {NAV_LINKS.map(({ path, name, param, logo }) =>
-            logo ? (
-              <NavLink key={path} to="/" className="gazpromLogoLink">
+          {NAV_LINKS.map(({ path, name, param }) =>
+            path === PAGES.main.path ? (
+              <NavLink key={path} to={path} className="gazpromLogoLink">
                 <Button className="gazpromLogoBtn">
                   <img className="gazpromLogo" src={gazpromLogoSrc} alt="Image is failed" />
                 </Button>

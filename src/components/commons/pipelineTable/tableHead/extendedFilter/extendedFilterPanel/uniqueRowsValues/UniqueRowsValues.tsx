@@ -32,6 +32,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
   const [uniqueRowValueIndex, setUniqueRowsValueIndex] = useState(0);
   const [visibleCountUniqueRowsValues, setVisibleCountUniqueRowsValues] = useState(0);
   const [checkedUniqueRowsValues, setCheckedUniqueRowsValues] = useState<ExcelRow>([]);
+  const [isAddToCheckedUniqueRowsValues, setIsAddToCheckedUniqueRowsValues] = useState(false);
 
   const uniqueRowsValuesRef = useRef<HTMLDivElement>(null);
 
@@ -96,8 +97,19 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
     [setCheckedUniqueRowsValues, uniqueRowsValues],
   );
 
+  const setIsAddToCheckedUniqueRowsValuesOnClick = useCallback(() => setIsAddToCheckedUniqueRowsValues((prev) => !prev), []);
+
   const applyExtendedFilterOnClick = useCallback(() => {
-    const newFilteredRows = filteredRows.filter((row) => checkedUniqueRowsValues.includes(row[column.index]));
+    let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
+
+    if (uniqueRowsValues.length === checkedUniqueRowsValues.length && !isInputValues) {
+      newCheckedUniqueRowsValues = [];
+    } else if (isAddToCheckedUniqueRowsValues) {
+      newCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues.concat(checkedUniqueRowsValues);
+    }
+
+    //Затратно, использую prev!!!
+    const newFilteredRows = table.rows.filter((row) => newCheckedUniqueRowsValues.includes(row[column.index]));
     const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
 
     dispatch(
@@ -123,24 +135,22 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
         tableType,
         columnIndex: column.index,
         properties: {
-          extendedFilter: {
-            visible: false,
-            checkedUniqueRowsValues:
-              uniqueRowsValues.length === checkedUniqueRowsValues.length && !isInputValues ? [] : checkedUniqueRowsValues,
-          },
+          extendedFilter: { visible: false, checkedUniqueRowsValues: newCheckedUniqueRowsValues },
         },
       }),
     );
   }, [
     checkedUniqueRowsValues,
-    column.index,
-    dispatch,
-    filteredRows,
-    isInputValues,
-    table.columns,
-    tableType,
     uniqueRowsValues.length,
+    isInputValues,
+    isAddToCheckedUniqueRowsValues,
+    table.rows,
+    table.columns,
+    dispatch,
     vtdId,
+    tableType,
+    column.index,
+    column.extendedFilter.checkedUniqueRowsValues,
   ]);
 
   useLayoutEffect(() => {
@@ -148,11 +158,11 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
       setVisibleCountUniqueRowsValues(Math.ceil(uniqueRowsValuesRef.current.offsetHeight / UNIQUE_ROW_HEIGHT) - 1);
 
     setCheckedUniqueRowsValues(
-      !column.extendedFilter.checkedUniqueRowsValues.length
+      !column.extendedFilter.checkedUniqueRowsValues.length || isInputValues
         ? uniqueRowsValues
         : uniqueRowsValues.filter((value) => column.extendedFilter.checkedUniqueRowsValues.includes(value)),
     );
-  }, [column.extendedFilter.checkedUniqueRowsValues, uniqueRowsValues]);
+  }, [column.extendedFilter.checkedUniqueRowsValues, isInputValues, uniqueRowsValues]);
 
   return (
     <>
@@ -165,7 +175,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
           <CheckBoxOutlined />
         ) : checkedUniqueRowsValues.length ? (
           <>
-            <div className="isSomeCheckedRows"></div>
+            <div className="isSomeCheckedRowsValues"></div>
             <CheckBoxOutlineBlankOutlined />
           </>
         ) : (
@@ -173,6 +183,13 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
         )}
         <span className="selectAll">Выделить все</span>
       </div>
+
+      {isInputValues && (
+        <div className="selectAddToCheckedUniqueRowsValues" onClick={setIsAddToCheckedUniqueRowsValuesOnClick}>
+          {isAddToCheckedUniqueRowsValues ? <CheckBoxOutlined /> : <CheckBoxOutlineBlankOutlined />}
+          <span>Добавить в фильтр</span>
+        </div>
+      )}
 
       <div className="uniqueRowsValues" onScroll={uniqueRowsValuesOnScroll} ref={uniqueRowsValuesRef}>
         <div className="uniqueRowsValuesContent" style={uniqueRowsValuesContentStyle}>

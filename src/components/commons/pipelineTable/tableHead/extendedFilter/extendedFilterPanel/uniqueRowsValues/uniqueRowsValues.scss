@@ -4,7 +4,8 @@
   color: rgba(255, 0, 0, 0.9);
 }
 
-.selectAllWrapper {
+.selectAllWrapper,
+.selectAddToCheckedUniqueRowsValues {
   position: relative;
   display: flex;
   align-items: center;
@@ -18,7 +19,7 @@
     white-space: nowrap;
   }
 
-  .isSomeCheckedRows {
+  .isSomeCheckedRowsValues {
     $isSomeCheckedRowsWidth: 12px;
 
     position: absolute;
@@ -27,6 +28,13 @@
     width: $isSomeCheckedRowsWidth;
     height: $isSomeCheckedRowsWidth;
     background-color: black;
+  }
+}
+
+.selectAddToCheckedUniqueRowsValues {
+  margin-top: 6px;
+  span {
+    font-weight: initial;
   }
 }
 
