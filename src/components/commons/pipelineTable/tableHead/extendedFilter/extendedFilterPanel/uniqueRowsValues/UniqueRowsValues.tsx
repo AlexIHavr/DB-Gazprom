@@ -23,10 +23,21 @@ type UniqueRowsProps = {
   table: PipelineTable;
   filteredRows: ExcelRows;
   column: PipelineColumn;
-  isInputValues: boolean;
+  searchValue: string;
+  fromValue: string;
+  toValue: string;
 };
 
-const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, filteredRows, column, isInputValues }) => {
+const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
+  vtdId,
+  tableType,
+  table,
+  filteredRows,
+  column,
+  searchValue,
+  fromValue,
+  toValue,
+}) => {
   const dispatch = useAppDispatch();
 
   const [uniqueRowValueIndex, setUniqueRowsValueIndex] = useState(0);
@@ -100,6 +111,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
   const setIsAddToCheckedUniqueRowsValuesOnClick = useCallback(() => setIsAddToCheckedUniqueRowsValues((prev) => !prev), []);
 
   const applyExtendedFilterOnClick = useCallback(() => {
+    const isInputValues = searchValue || fromValue || toValue;
     let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
 
     if (uniqueRowsValues.length === checkedUniqueRowsValues.length && !isInputValues) {
@@ -108,8 +120,9 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
       newCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues.concat(checkedUniqueRowsValues);
     }
 
-    //Затратно, использую prev!!!
-    const newFilteredRows = table.rows.filter((row) => newCheckedUniqueRowsValues.includes(row[column.index]));
+    const newFilteredRows = (isInputValues ? table.rows : filteredRows).filter((row) =>
+      newCheckedUniqueRowsValues.includes(row[column.index]),
+    );
     const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
 
     dispatch(
@@ -135,17 +148,20 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
         tableType,
         columnIndex: column.index,
         properties: {
-          extendedFilter: { visible: false, checkedUniqueRowsValues: newCheckedUniqueRowsValues },
+          extendedFilter: { visible: false, checkedUniqueRowsValues: newCheckedUniqueRowsValues, fromValue, toValue },
         },
       }),
     );
   }, [
+    searchValue,
+    fromValue,
+    toValue,
     checkedUniqueRowsValues,
     uniqueRowsValues.length,
-    isInputValues,
     isAddToCheckedUniqueRowsValues,
     table.rows,
     table.columns,
+    filteredRows,
     dispatch,
     vtdId,
     tableType,
@@ -158,11 +174,11 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
       setVisibleCountUniqueRowsValues(Math.ceil(uniqueRowsValuesRef.current.offsetHeight / UNIQUE_ROW_HEIGHT) - 1);
 
     setCheckedUniqueRowsValues(
-      !column.extendedFilter.checkedUniqueRowsValues.length || isInputValues
+      !column.extendedFilter.checkedUniqueRowsValues.length || searchValue || fromValue || toValue
         ? uniqueRowsValues
         : uniqueRowsValues.filter((value) => column.extendedFilter.checkedUniqueRowsValues.includes(value)),
     );
-  }, [column.extendedFilter.checkedUniqueRowsValues, isInputValues, uniqueRowsValues]);
+  }, [column.extendedFilter.checkedUniqueRowsValues, fromValue, searchValue, toValue, uniqueRowsValues]);
 
   return (
     <>
@@ -184,7 +200,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({ vtdId, tableType, table, 
         <span className="selectAll">Выделить все</span>
       </div>
 
-      {isInputValues && (
+      {(searchValue || fromValue || toValue) && (
         <div className="selectAddToCheckedUniqueRowsValues" onClick={setIsAddToCheckedUniqueRowsValuesOnClick}>
           {isAddToCheckedUniqueRowsValues ? <CheckBoxOutlined /> : <CheckBoxOutlineBlankOutlined />}
           <span>Добавить в фильтр</span>

@@ -7,6 +7,8 @@ export type ExcelRows = ExcelRow[];
 export type ExtendedFilter = {
   visible: boolean;
   checkedUniqueRowsValues: ExcelRow;
+  fromValue: string;
+  toValue: string;
 };
 
 export type PipelineColumn = {

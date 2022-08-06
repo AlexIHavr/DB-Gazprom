@@ -40,9 +40,10 @@
 
 .uniqueRowsValues {
   $divHeight: 30px;
+  $countUniqueRowsValues: 10;
 
   overflow: auto;
-  height: $divHeight * 10 - 12px;
+  height: $divHeight * $countUniqueRowsValues - 12px;
 
   .uniqueRowsValuesContent {
     overflow: hidden;

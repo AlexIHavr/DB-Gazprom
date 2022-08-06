@@ -64,6 +64,8 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
             extendedFilter: {
               visible: false,
               checkedUniqueRowsValues: [],
+              fromValue: '',
+              toValue: '',
             },
           },
         }),
