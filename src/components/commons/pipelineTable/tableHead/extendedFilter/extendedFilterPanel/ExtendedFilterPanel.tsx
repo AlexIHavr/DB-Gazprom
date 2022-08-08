@@ -24,9 +24,11 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
   const dispatch = useAppDispatch();
 
   const [searchValue, setSearchValue] = useState('');
-  const [fromValue, setFromValue] = useState(column.extendedFilter.fromValue);
-  const [toValue, setToValue] = useState(column.extendedFilter.toValue);
-  const [searchType, setSearchType] = useState(fromValue || toValue ? SEARCH_TYPES.range : SEARCH_TYPES.search);
+  const [fromValue, setFromValue] = useState('');
+  const [toValue, setToValue] = useState('');
+  const [searchType, setSearchType] = useState(
+    column.extendedFilter.fromValue || column.extendedFilter.toValue ? SEARCH_TYPES.range : SEARCH_TYPES.search,
+  );
   const [searchCompareTypes, setSearchCompareTypes] = useState<SEARCH_COMPARE_TYPES[]>([]);
 
   const filteredRows = useMemo(() => {
@@ -55,12 +57,12 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
     return filteredRows;
   }, [
     table.columns,
-    table.filteredRows,
     table.rows,
-    column.extendedFilter.checkedUniqueRowsValues.length,
-    column.index,
+    table.filteredRows,
     searchType,
     searchValue,
+    column.index,
+    column.extendedFilter.checkedUniqueRowsValues.length,
     searchCompareTypes,
     fromValue,
     toValue,
@@ -99,7 +101,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
         vtdId,
         tableType,
         columnIndex: column.index,
-        properties: { extendedFilter: { visible: false, checkedUniqueRowsValues: [], fromValue: '', toValue: '' } },
+        properties: { extendedFilter: { visible: false, checkedUniqueRowsValues: [] } },
       }),
     );
   }, [table.columns, table.rows, dispatch, vtdId, tableType, filteredRows, column.index]);
@@ -130,10 +132,9 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
         {searchType === SEARCH_TYPES.search ? (
           <div className="searchInput">
             <input
-              placeholder="Поиск"
+              placeholder={column.extendedFilter.searchValue || 'Поиск'}
               type="search"
               onChange={(e) => setSearchValue(e.target.value)}
-              defaultValue={searchValue}
             />
             {SEARCH_COMPARE_TYPES_VALUES.map((searchCompareType) => (
               <button
@@ -150,10 +151,18 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
           searchType === SEARCH_TYPES.range && (
             <div className="rangeInputs">
               <div className="fromInput">
-                <input placeholder="От" type="search" onChange={(e) => setFromValue(e.target.value)} defaultValue={fromValue} />
+                <input
+                  placeholder={column.extendedFilter.fromValue || 'От'}
+                  type="search"
+                  onChange={(e) => setFromValue(e.target.value)}
+                />
               </div>
               <div className="toInput">
-                <input placeholder="До" type="search" onChange={(e) => setToValue(e.target.value)} defaultValue={toValue} />
+                <input
+                  placeholder={column.extendedFilter.toValue || 'До'}
+                  type="search"
+                  onChange={(e) => setToValue(e.target.value)}
+                />
               </div>
             </div>
           )

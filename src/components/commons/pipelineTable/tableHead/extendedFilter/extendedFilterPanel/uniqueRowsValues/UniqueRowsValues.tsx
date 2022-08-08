@@ -114,7 +114,11 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
     const isInputValues = searchValue || fromValue || toValue;
     let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
 
-    if (uniqueRowsValues.length === checkedUniqueRowsValues.length && !isInputValues) {
+    if (
+      uniqueRowsValues.length === checkedUniqueRowsValues.length &&
+      !isInputValues &&
+      uniqueRowsValues.length !== MAX_COUNT_UNIQUE_ROWS
+    ) {
       newCheckedUniqueRowsValues = [];
     } else if (isAddToCheckedUniqueRowsValues) {
       newCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues.concat(checkedUniqueRowsValues);
@@ -148,7 +152,13 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
         tableType,
         columnIndex: column.index,
         properties: {
-          extendedFilter: { visible: false, checkedUniqueRowsValues: newCheckedUniqueRowsValues, fromValue, toValue },
+          extendedFilter: {
+            visible: false,
+            checkedUniqueRowsValues: newCheckedUniqueRowsValues,
+            searchValue,
+            fromValue,
+            toValue,
+          },
         },
       }),
     );

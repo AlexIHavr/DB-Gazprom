@@ -40,8 +40,6 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
         extendedFilter: {
           visible: false,
           checkedUniqueRowsValues: [],
-          fromValue: '',
-          toValue: '',
         },
       }));
 
