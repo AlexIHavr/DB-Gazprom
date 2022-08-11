@@ -43,9 +43,12 @@ export const getUniqueRowsValues = ({ rows, columnIndex, maxCount }: getUniqueRo
   for (const row of rows) {
     if (maxCount && maxCount <= uniqueRowsValues.length) break;
 
-    if (!uniqueRowsValues.includes(row[columnIndex])) {
-      uniqueRowsValues.push(row[columnIndex]);
-    }
+    if (!uniqueRowsValues.includes(row[columnIndex])) uniqueRowsValues.push(row[columnIndex]);
+  }
+
+  if (rows.at(-1)![columnIndex] === undefined) {
+    if (uniqueRowsValues.at(-1) === undefined) uniqueRowsValues.pop();
+    uniqueRowsValues.unshift(undefined);
   }
 
   return uniqueRowsValues;

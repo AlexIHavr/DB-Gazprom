@@ -31,42 +31,38 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
   );
   const [searchCompareTypes, setSearchCompareTypes] = useState<SEARCH_COMPARE_TYPES[]>([]);
 
-  const filteredRows = useMemo(() => {
+  const filteredRowsWithoutSearch = useMemo(() => {
     const columnsWithFilter = table.columns.filter(
       ({ index, extendedFilter }) => index !== column.index && extendedFilter.checkedUniqueRowsValues.length,
     );
 
-    let filteredRows = table.rows;
-
     if (columnsWithFilter.length) {
-      filteredRows = column.extendedFilter.checkedUniqueRowsValues.length
+      return column.extendedFilter.checkedUniqueRowsValues.length
         ? table.rows.filter((row) =>
-            columnsWithFilter.every(({ index, extendedFilter: { checkedUniqueRowsValues } }) => {
-              return checkedUniqueRowsValues.includes(row[index]);
-            }),
+            columnsWithFilter.every(({ index, extendedFilter: { checkedUniqueRowsValues } }) =>
+              checkedUniqueRowsValues.includes(row[index]),
+            ),
           )
         : table.filteredRows;
     }
 
+    return table.rows;
+  }, [column.extendedFilter.checkedUniqueRowsValues.length, column.index, table.columns, table.filteredRows, table.rows]);
+
+  const filteredRows = useMemo(() => {
     if (searchType === SEARCH_TYPES.search && searchValue)
-      return getSearchCompareRows({ rows: filteredRows, columnIndex: column.index, searchValue, searchCompareTypes });
+      return getSearchCompareRows({
+        rows: filteredRowsWithoutSearch,
+        columnIndex: column.index,
+        searchValue,
+        searchCompareTypes,
+      });
 
     if (searchType === SEARCH_TYPES.range && (fromValue || toValue))
-      return getRangeCompareRows({ rows: filteredRows, columnIndex: column.index, fromValue, toValue });
+      return getRangeCompareRows({ rows: filteredRowsWithoutSearch, columnIndex: column.index, fromValue, toValue });
 
-    return filteredRows;
-  }, [
-    table.columns,
-    table.rows,
-    table.filteredRows,
-    searchType,
-    searchValue,
-    column.index,
-    column.extendedFilter.checkedUniqueRowsValues.length,
-    searchCompareTypes,
-    fromValue,
-    toValue,
-  ]);
+    return filteredRowsWithoutSearch;
+  }, [searchType, searchValue, filteredRowsWithoutSearch, column.index, searchCompareTypes, fromValue, toValue]);
 
   const setCompareTypesOnClick = useCallback(
     (searchCompareType: SEARCH_COMPARE_TYPES) =>
@@ -84,7 +80,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
         vtdId,
         tableType,
         properties: {
-          filteredRows,
+          filteredRows: filteredRowsWithoutSearch,
           sortedRows: sortedColumn
             ? getSortedRows({
                 sortType: sortedColumn.sortType!,
@@ -104,7 +100,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
         properties: { extendedFilter: { visible: false, checkedUniqueRowsValues: [] } },
       }),
     );
-  }, [table.columns, table.rows, dispatch, vtdId, tableType, filteredRows, column.index]);
+  }, [table.columns, table.rows, dispatch, vtdId, tableType, filteredRowsWithoutSearch, column.index]);
 
   return (
     <div className="extendedFilterPanel">

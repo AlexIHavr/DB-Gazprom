@@ -47,30 +47,21 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
 
   const uniqueRowsValuesRef = useRef<HTMLDivElement>(null);
 
-  const sortedFilteredRows = useMemo(
-    () =>
-      getSortedRows({
-        rows: filteredRows,
-        columnIndex: column.index,
-        sortType: SORT_TYPES.asc,
-      }),
-    [column.index, filteredRows],
-  );
-
   const uniqueRowsValues = useMemo(() => {
+    const sortedFilteredRows = getSortedRows({
+      rows: filteredRows,
+      columnIndex: column.index,
+      sortType: SORT_TYPES.asc,
+    });
+
     const uniqueRowsValues = getUniqueRowsValues({
       rows: sortedFilteredRows,
       columnIndex: column.index,
       maxCount: MAX_COUNT_UNIQUE_ROWS,
     });
 
-    if (sortedFilteredRows.at(-1)![column.index] === undefined) {
-      if (uniqueRowsValues.at(-1) === undefined) uniqueRowsValues.pop();
-      uniqueRowsValues.unshift(undefined);
-    }
-
     return uniqueRowsValues;
-  }, [column.index, sortedFilteredRows]);
+  }, [column.index, filteredRows]);
 
   const uniqueRowsValuesContentStyle = useMemo(
     () => ({
@@ -117,15 +108,18 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
     if (
       uniqueRowsValues.length === checkedUniqueRowsValues.length &&
       !isInputValues &&
-      uniqueRowsValues.length !== MAX_COUNT_UNIQUE_ROWS
+      uniqueRowsValues.length < MAX_COUNT_UNIQUE_ROWS
     ) {
       newCheckedUniqueRowsValues = [];
     } else if (isAddToCheckedUniqueRowsValues) {
       newCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues.concat(checkedUniqueRowsValues);
     }
 
+    const checkedUniqueRowsValuesForFilteredRows = newCheckedUniqueRowsValues.length
+      ? newCheckedUniqueRowsValues
+      : checkedUniqueRowsValues;
     const newFilteredRows = (isInputValues ? table.rows : filteredRows).filter((row) =>
-      newCheckedUniqueRowsValues.includes(row[column.index]),
+      checkedUniqueRowsValuesForFilteredRows.includes(row[column.index]),
     );
     const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
 
@@ -192,7 +186,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
 
   return (
     <>
-      {uniqueRowsValues.length === MAX_COUNT_UNIQUE_ROWS && (
+      {uniqueRowsValues.length >= MAX_COUNT_UNIQUE_ROWS && (
         <div className="maxCountUniqueRowsValues">Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов</div>
       )}
 

@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import { ChangeEvent, useCallback } from 'react';
 
 import { excelRenderer } from '../../../../helpers/excel';
@@ -50,9 +49,7 @@ const LoadVtd: React.FC = () => {
           type="file"
           onChange={loadExcel}
         />
-        <Button variant="contained" component="span">
-          Загрузить ВТД
-        </Button>
+        <span className="btn">Загрузить ВТД</span>
       </label>
     </div>
   );

@@ -3,11 +3,13 @@ import { AdaptedVtdTree } from '../components/app/content/vtdTree/types';
 import { VtdTree } from '../redux/vtdTree/types';
 
 export const getUniqueFields = <T extends object>(fieldsArr: T[], uniqueField: keyof T) => {
-  return fieldsArr.reduce<T[keyof T][]>(
-    (uniqueArr, fields) =>
-      uniqueArr.includes(fields[uniqueField]) ? uniqueArr : [...uniqueArr, fields[uniqueField]],
-    [],
-  );
+  const uniqueArr: T[keyof T][] = [];
+
+  for (const fields of fieldsArr) {
+    if (!uniqueArr.includes(fields[uniqueField])) uniqueArr.push(fields[uniqueField]);
+  }
+
+  return uniqueArr;
 };
 
 export const getAdaptedVtdTree = (vtdTree: VtdTree): AdaptedVtdTree => {
@@ -21,16 +23,11 @@ export const getAdaptedVtdTree = (vtdTree: VtdTree): AdaptedVtdTree => {
     ).map((pipeline) => ({
       [VTD_TREE_LEVELS.pipeline]: pipeline,
       sections: getUniqueFields(
-        noDataVtdTree.filter(
-          (pipelinesVtd) => pipelinesVtd.type === type && pipelinesVtd.pipeline === pipeline,
-        ),
+        noDataVtdTree.filter((pipelinesVtd) => pipelinesVtd.type === type && pipelinesVtd.pipeline === pipeline),
         VTD_TREE_LEVELS.section,
       ).map((section) => {
         const sectionsFilter = noDataVtdTree.filter(
-          (sectionVtd) =>
-            sectionVtd.type === type &&
-            sectionVtd.pipeline === pipeline &&
-            sectionVtd.section === section,
+          (sectionVtd) => sectionVtd.type === type && sectionVtd.pipeline === pipeline && sectionVtd.section === section,
         );
 
         return {

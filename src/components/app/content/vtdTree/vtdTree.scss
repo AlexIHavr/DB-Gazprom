@@ -1,17 +1,39 @@
 .vtdTree {
   width: 80%;
   margin: 0 auto;
+  user-select: none;
 
   h1 {
     text-align: center;
   }
 
-  .MuiAccordion-root {
-    background-color: #1976d2;
-    margin-bottom: 0 !important;
+  svg {
+    margin-top: 5px;
 
-    .MuiAccordionSummary-content {
-      margin: 10px 0;
+    &.rotate {
+      transform: rotate(180deg);
+      -webkit-transform: rotate(180deg);
+      -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      -o-transform: rotate(180deg);
+    }
+    transition: 0.2s;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
+  }
+
+  .root {
+    background-color: #1976d2;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
     }
 
     h3,
@@ -19,25 +41,44 @@
       margin: 10px;
     }
 
+    &.typeAccordion {
+      margin: 10px 0;
+    }
+
     &:not(.typeAccordion) {
       border-top: 2px solid white;
       box-shadow: none;
-      border-radius: 0 !important;
-      -webkit-border-radius: 0 !important;
-      -moz-border-radius: 0 !important;
-      -ms-border-radius: 0 !important;
-      -o-border-radius: 0 !important;
+      border-radius: 0;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      -ms-border-radius: 0;
+      -o-border-radius: 0;
     }
 
-    .MuiAccordionDetails-root {
-      padding: 0 0 0 30px;
+    .details {
+      height: 0;
+      overflow: hidden;
+      padding: 0 0 0 20px;
 
       .VtdForms {
         display: flex;
         flex-direction: column;
-        padding-bottom: 20px;
-        padding-left: 26px;
+
+        a:last-of-type {
+          padding-bottom: 10px;
+        }
       }
+
+      transition: height 0.2s;
+      -webkit-transition: height 0.2s;
+      -moz-transition: height 0.2s;
+      -ms-transition: height 0.2s;
+      -o-transition: height 0.2s;
     }
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
   }
 }
