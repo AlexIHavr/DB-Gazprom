@@ -1,12 +1,14 @@
 import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import classNames from 'classnames';
-import { FilterAltOff, RestartAlt, VisibilityOutlined } from '@mui/icons-material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { PipelineColumn, PipelineColumnProperties, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../hooks/redux';
 import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
+import { ReactComponent as EyeSolid } from '../../../../assets/svg/eyeSolid.svg';
+import { ReactComponent as FilterOffSolid } from '../../../../assets/svg/filterOffSolid.svg';
+import { ReactComponent as RestartSolid } from '../../../../assets/svg/restartSolid.svg';
+import { ReactComponent as EyeRegular } from '../../../../assets/svg/eyeRegular.svg';
 
 import './tableManagePanel.scss';
 
@@ -92,7 +94,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
         onClick={showVisiblyColumnsOnClick}
         disabled={!hiddenColumns.length}
       >
-        <VisibilityIcon />
+        <EyeSolid />
         <div
           className={classNames('visiblyColumns', {
             showSetting: showVisiblyColumns,
@@ -102,7 +104,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
             <>
               {hiddenColumns.map((column) => (
                 <div key={column.id} onClick={(e) => showColumnOnClick(e, column)}>
-                  <VisibilityOutlined />
+                  <EyeRegular />
                   <span>{column.value}</span>
                 </div>
               ))}
@@ -114,10 +116,10 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
         </div>
       </button>
       <button title="Убрать все фильтры" onClick={() => resetColumns()}>
-        <FilterAltOff />
+        <FilterOffSolid />
       </button>
       <button title="Сброс таблицы" onClick={() => resetColumns({ width: COLUMN_WIDTH, hidden: false })}>
-        <RestartAlt />
+        <RestartSolid />
       </button>
     </div>
   );

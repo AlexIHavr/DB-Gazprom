@@ -1,10 +1,10 @@
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { memo, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { useAppDispatch } from '../../../../hooks/redux';
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
 import { setColumnProperties } from '../../../../redux/vtdTree/reducer';
+import { ReactComponent as EyeSlashSolid } from '../../../../assets/svg/eyeOffSolid.svg';
 
 import ExtendedFilter from './extendedFilter/ExtendedFilter';
 import SortFilter from './sortFilter/SortFilter';
@@ -82,7 +82,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
       <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
       <div className="manageColumnButtons">
         <button title="Скрыть колонку" className="hideColumn" onMouseDown={hideColumnOnMouseDown}>
-          <VisibilityOffIcon />
+          <EyeSlashSolid />
         </button>
         <ExtendedFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
         <SortFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />

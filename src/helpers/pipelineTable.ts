@@ -66,9 +66,9 @@ export const getSearchCompareRows = ({ rows, columnIndex, searchValue, searchCom
     if (row[columnIndex] === undefined) return false;
 
     const rowValue = String(row[columnIndex]);
-    const isWithRegistry = searchCompareTypes.includes(SEARCH_COMPARE_TYPES.withRegistry);
+    const isWithRegistry = searchCompareTypes.includes(SEARCH_COMPARE_TYPES.matchCase);
 
-    if (searchCompareTypes.includes(SEARCH_COMPARE_TYPES.wholeWord)) {
+    if (searchCompareTypes.includes(SEARCH_COMPARE_TYPES.matchWholeWord)) {
       if (isWithRegistry) return rowValue === searchValue;
 
       return rowValue.toLowerCase() === searchValue.toLowerCase();

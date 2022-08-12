@@ -7,8 +7,8 @@ export enum SEARCH_TYPES {
 export const SEARCH_TYPES_VALUES = Object.values(SEARCH_TYPES);
 
 export enum SEARCH_COMPARE_TYPES {
-  withRegistry = 'Учитывать регистр',
-  wholeWord = 'Полное совпадение',
+  matchCase = 'Учитывать регистр',
+  matchWholeWord = 'Совпадение полного слова',
 }
 
 export const SEARCH_COMPARE_TYPES_VALUES = Object.values(SEARCH_COMPARE_TYPES);

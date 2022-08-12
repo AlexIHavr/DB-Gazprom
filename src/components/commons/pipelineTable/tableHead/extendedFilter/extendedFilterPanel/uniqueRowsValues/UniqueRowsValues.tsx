@@ -1,4 +1,3 @@
-import { CheckBoxOutlineBlankOutlined, CheckBoxOutlined } from '@mui/icons-material';
 import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { getSortedRows, getUniqueRowsValues } from '../../../../../../../helpers/pipelineTable';
@@ -13,6 +12,8 @@ import {
   PipelineTable,
 } from '../../../../../../../redux/vtdTree/types';
 import { SORT_TYPES } from '../../../sortFilter/constants';
+import { ReactComponent as CheckBoxBlackRegular } from '../../../../../../../assets/svg/checkBoxBlankRegular.svg';
+import { ReactComponent as CheckBoxRegular } from '../../../../../../../assets/svg/checkBoxRegular.svg';
 
 import { MAX_COUNT_UNIQUE_ROWS, UNIQUE_ROW_HEIGHT } from './constants';
 import './uniqueRowsValues.scss';
@@ -192,21 +193,21 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
 
       <div className="selectAllWrapper" onClick={toggleAllCheckedUniqueRowValueOnClick}>
         {checkedUniqueRowsValues.length === uniqueRowsValues.length ? (
-          <CheckBoxOutlined />
+          <CheckBoxRegular />
         ) : checkedUniqueRowsValues.length ? (
           <>
             <div className="isSomeCheckedRowsValues"></div>
-            <CheckBoxOutlineBlankOutlined />
+            <CheckBoxBlackRegular />
           </>
         ) : (
-          <CheckBoxOutlineBlankOutlined />
+          <CheckBoxBlackRegular />
         )}
         <span className="selectAll">Выделить все</span>
       </div>
 
       {(searchValue || fromValue || toValue) && (
         <div className="selectAddToCheckedUniqueRowsValues" onClick={setIsAddToCheckedUniqueRowsValuesOnClick}>
-          {isAddToCheckedUniqueRowsValues ? <CheckBoxOutlined /> : <CheckBoxOutlineBlankOutlined />}
+          {isAddToCheckedUniqueRowsValues ? <CheckBoxRegular /> : <CheckBoxBlackRegular />}
           <span>Добавить в фильтр</span>
         </div>
       )}
@@ -216,7 +217,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
           <div className="uniqueRowsValuesOnDisplay">
             {uniqueRowsValuesOnDisplay.map((uniqueRowValue, i) => (
               <div key={i} onClick={() => toggleCheckedUniqueRowValueOnClick(uniqueRowValue)}>
-                {checkedUniqueRowsValues.includes(uniqueRowValue) ? <CheckBoxOutlined /> : <CheckBoxOutlineBlankOutlined />}
+                {checkedUniqueRowsValues.includes(uniqueRowValue) ? <CheckBoxRegular /> : <CheckBoxBlackRegular />}
                 <span>{uniqueRowValue === undefined ? '(Пустые)' : uniqueRowValue}</span>
               </div>
             ))}

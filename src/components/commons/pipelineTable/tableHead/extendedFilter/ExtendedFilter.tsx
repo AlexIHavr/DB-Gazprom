@@ -1,10 +1,10 @@
 import classNames from 'classnames';
-import { FilterAlt } from '@mui/icons-material';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../../hooks/redux';
 import { setColumnProperties } from '../../../../../redux/vtdTree/reducer';
+import { ReactComponent as FilterSolid } from '../../../../../assets/svg/filterSolid.svg';
 
 import './extendedFilter.scss';
 import ExtendedFilterPanel from './extendedFilterPanel/ExtendedFilterPanel';
@@ -99,7 +99,7 @@ const ExtendedFilter: React.FC<ExtendedFilterProps> = ({ table, vtdId, tableType
         })}
         onMouseDown={showExtendedFilter}
       >
-        <FilterAlt />
+        <FilterSolid />
       </button>
       <div
         className={classNames('extendedFilterPanelWrapper', {

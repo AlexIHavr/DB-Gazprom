@@ -1,12 +1,15 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-import { DataArray, FilterAltOffOutlined, Spellcheck, TextFields } from '@mui/icons-material';
-import SearchIcon from '@mui/icons-material/Search';
 import classNames from 'classnames';
 
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../../redux/vtdTree/types';
 import { getRangeCompareRows, getSearchCompareRows, getSortedRows } from '../../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../../hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from '../../../../../../redux/vtdTree/reducer';
+import { ReactComponent as FilterOffSolid } from '../../../../../../assets/svg/filterOffSolid.svg';
+import { ReactComponent as SearchSolid } from '../../../../../../assets/svg/searchSolid.svg';
+import { ReactComponent as ArraySolid } from '../../../../../../assets/svg/arraySolid.svg';
+import { ReactComponent as SpellCheckSolid } from '../../../../../../assets/svg/spellcheckSolid.svg';
+import { ReactComponent as MatchCaseSolid } from '../../../../../../assets/svg/matchCaseSolid.svg';
 
 import { SEARCH_COMPARE_TYPES, SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES, SEARCH_TYPES_VALUES } from './constants';
 import UniqueRowsValues from './uniqueRowsValues/UniqueRowsValues';
@@ -110,7 +113,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
         disabled={!column.extendedFilter.checkedUniqueRowsValues.length}
         onClick={offExtendedFilterOnClick}
       >
-        <FilterAltOffOutlined />
+        <FilterOffSolid />
       </button>
       <div className="searchTypes">
         {SEARCH_TYPES_VALUES.map((searchTypeValue) => (
@@ -120,7 +123,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
             className={classNames({ active: searchType === searchTypeValue })}
             onClick={() => setSearchType(searchTypeValue)}
           >
-            {searchTypeValue === SEARCH_TYPES.search ? <SearchIcon /> : <DataArray />}
+            {searchTypeValue === SEARCH_TYPES.search ? <SearchSolid /> : <ArraySolid />}
           </button>
         ))}
       </div>
@@ -139,7 +142,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
                 className={classNames({ active: searchCompareTypes.includes(searchCompareType) })}
                 onClick={() => setCompareTypesOnClick(searchCompareType)}
               >
-                {searchCompareType === SEARCH_COMPARE_TYPES.withRegistry ? <TextFields /> : <Spellcheck />}
+                {searchCompareType === SEARCH_COMPARE_TYPES.matchCase ? <MatchCaseSolid /> : <SpellCheckSolid />}
               </button>
             ))}
           </div>

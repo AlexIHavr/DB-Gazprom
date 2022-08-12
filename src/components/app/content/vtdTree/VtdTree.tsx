@@ -1,4 +1,3 @@
-import { ExpandMore } from '@mui/icons-material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
@@ -6,6 +5,7 @@ import classNames from 'classnames';
 import { PAGES } from '../../constants';
 import { useAppSelector } from '../../../../hooks/redux';
 import { getAdaptedVtdTree } from '../../../../helpers/vtdTree';
+import { ReactComponent as AngleDownSolid } from '../../../../assets/svg/angleDownSolid.svg';
 
 import { VTD_TREE_LEVELS } from './constants';
 import { VtdTreeLevels } from './types';
@@ -61,7 +61,7 @@ const VtdTree: React.FC = () => {
         <div className="root typeAccordion" key={type} onClick={(e) => setLevelExpandedOnClick(e, type, VTD_TREE_LEVELS.type)}>
           <div className="content">
             <h3>{type}</h3>
-            <ExpandMore className={classNames({ rotate: levelsExpanded.type === type })} />
+            <AngleDownSolid className={classNames({ rotate: levelsExpanded.type === type })} />
           </div>
 
           <div
@@ -77,7 +77,7 @@ const VtdTree: React.FC = () => {
               >
                 <div className="content">
                   <h4>{pipeline}</h4>
-                  <ExpandMore className={classNames({ rotate: levelsExpanded.pipeline === pipeline })} />
+                  <AngleDownSolid className={classNames({ rotate: levelsExpanded.pipeline === pipeline })} />
                 </div>
 
                 <div
@@ -95,7 +95,7 @@ const VtdTree: React.FC = () => {
                         <h4>
                           {section} ({umg})
                         </h4>
-                        <ExpandMore className={classNames({ rotate: levelsExpanded.section === section })} />
+                        <AngleDownSolid className={classNames({ rotate: levelsExpanded.section === section })} />
                       </div>
 
                       <div
@@ -111,7 +111,7 @@ const VtdTree: React.FC = () => {
                           >
                             <div className="content">
                               <h4>{year}</h4>
-                              <ExpandMore className={classNames({ rotate: levelsExpanded.year === year })} />
+                              <AngleDownSolid className={classNames({ rotate: levelsExpanded.year === year })} />
                             </div>
 
                             <div

@@ -16,6 +16,13 @@ body {
     text-shadow: 1px 1px 5px black;
   }
 
+  svg:not(.preloaderSvg) {
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    font-size: 1.5rem;
+  }
+
   button {
     text-shadow: 1px 1px 1px black;
   }

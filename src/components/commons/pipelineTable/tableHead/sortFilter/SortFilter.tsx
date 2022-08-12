@@ -1,4 +1,3 @@
-import { ArrowDownward } from '@mui/icons-material';
 import classNames from 'classnames';
 import { memo, useCallback, useMemo } from 'react';
 
@@ -6,6 +5,7 @@ import { getSortedRows } from '../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from '../../../../../redux/vtdTree/reducer';
 import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
+import { ReactComponent as ArrowDown } from '../../../../../assets/svg/arrowDownSolid.svg';
 
 import { SORT_TYPES } from './constants';
 
@@ -74,7 +74,7 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
       })}
       onMouseDown={sortColumnOnMouseDown}
     >
-      <ArrowDownward />
+      <ArrowDown />
     </button>
   );
 };
