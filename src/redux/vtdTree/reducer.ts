@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { setPipelinesData } from './thunks';
 import {
   InitialState,
   PipelineColumn,
   PipelineColumnProperties,
-  PipelineData,
   PipelineDataTables,
   PipelineTable,
   PipelineTableProperties,
+  SetPipelinesDataParams,
 } from './types';
 
 const initialState: InitialState = {
@@ -136,10 +137,6 @@ export const vtdTreeSlice = createSlice({
   name: 'vtdTree',
   initialState,
   reducers: {
-    setPipelinesData: (state, action: PayloadAction<{ vtdId: string; data: PipelineData }>) => {
-      state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData = action.payload.data;
-    },
-
     setColumnProperties: (
       state,
       action: PayloadAction<{
@@ -188,9 +185,14 @@ export const vtdTreeSlice = createSlice({
       }
     },
   },
+  extraReducers: {
+    [setPipelinesData.fulfilled.type]: (state, action: PayloadAction<SetPipelinesDataParams>) => {
+      state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData = action.payload.data;
+    },
+  },
 });
 
-export const { setPipelinesData, setColumnProperties, setColumnsProperties, setPipelineTableProperties } = vtdTreeSlice.actions;
+export const { setColumnProperties, setColumnsProperties, setPipelineTableProperties } = vtdTreeSlice.actions;
 
 const vtdTreeReducer = vtdTreeSlice.reducer;
 export default vtdTreeReducer;

@@ -1,20 +1,23 @@
 import { v4 } from 'uuid';
-import { read, utils } from 'xlsx';
+import { read, utils, WorkBook } from 'xlsx';
 
 import { COLUMN_WIDTH } from '../components/commons/pipelineTable/constants';
 import { ExcelRows, PipelineColumn, PipelineTable } from '../redux/vtdTree/types';
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
-  if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') throw Error('invalid file format');
+  if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') throw Error('Invalid file format');
 
-  return new Promise<PipelineTable>(function (resolve, reject) {
+  return new Promise<PipelineTable>((resolve, reject) => {
     const reader = new FileReader();
 
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
 
-    reader.onload = function (e) {
-      const bstr = e.target?.result;
-      const wb = read(bstr, { type: 'binary' });
+    reader.onload = async (e) => {
+      const wb: WorkBook = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(read(e.target?.result, { type: 'binary' }));
+        }, 100);
+      });
 
       const wsName = wb.SheetNames[listNumber];
       const ws = wb.Sheets[wsName];
@@ -23,11 +26,11 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
 
       // Fill empty cells
       const countCellInRow = excelRows[0].length;
-      const filledExcelRows: ExcelRows = excelRows.map((excelRow) =>
-        excelRow.length !== countCellInRow
+      const filledExcelRows: ExcelRows = excelRows.map((excelRow) => {
+        return excelRow.length !== countCellInRow
           ? [...excelRow, ...new Array(countCellInRow - excelRow.length).fill(undefined)]
-          : excelRow,
-      );
+          : excelRow;
+      });
 
       const columns: PipelineColumn[] = ['Номер', ...filledExcelRows[0]].map((excelRow, index) => ({
         id: v4(),
@@ -50,7 +53,7 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
       resolve(data);
     };
 
-    reader.onerror = function () {
+    reader.onerror = () => {
       reject(reader.error);
     };
   });

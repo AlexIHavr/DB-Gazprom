@@ -56,3 +56,8 @@ export type VtdTree = {
 export type InitialState = {
   vtdTree: VtdTree;
 };
+
+export type SetPipelinesDataParams = {
+  vtdId: string;
+  data: PipelineData;
+};
