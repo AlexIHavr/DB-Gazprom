@@ -3,7 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "standard"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:import/recommended"],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -20,12 +20,9 @@
         "newlines-between": "always"
       }
     ],
+    "import/no-unresolved": "off",
     "no-unused-vars": "warn",
     "no-debugger": "warn",
-    "@typescript-eslint/no-inferrable-types": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "space-before-function-paren": "off",
-    "comma-dangle": ["error", "always-multiline"],
-    "quotes": "off"
+    "comma-dangle": ["error", "always-multiline"]
   }
 }
