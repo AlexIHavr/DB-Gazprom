@@ -3,24 +3,16 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "plugin:react/jsx-runtime", "standard", "plugin:react-hooks/recommended"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "standard"],
+  "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "semi": "off",
-    "quotes": "off",
-    "camelcase": "off",
-    "curly": "off",
-    "indent": "off",
-    "react/prop-types": "off",
-    "spaced-comment": "off",
+    "semi": ["error", "always"],
     "import/order": [
       "error",
       {
@@ -28,12 +20,12 @@
         "newlines-between": "always"
       }
     ],
-    "no-undef": "off",
     "no-unused-vars": "warn",
-    "multiline-ternary": "off",
-    "no-console": "warn",
-    "comma-dangle": ["error", "always-multiline"],
+    "no-debugger": "warn",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "space-before-function-paren": "off",
-    "no-debugger": "warn"
+    "comma-dangle": ["error", "always-multiline"],
+    "quotes": "off"
   }
 }

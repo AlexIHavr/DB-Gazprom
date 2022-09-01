@@ -127,7 +127,7 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
           <table style={tableStyle}>
             <thead>
               <tr>
-                {columnsOnPage.map((column, i) => (
+                {columnsOnPage.map((column) => (
                   <TableHead
                     key={column.id}
                     table={table}
