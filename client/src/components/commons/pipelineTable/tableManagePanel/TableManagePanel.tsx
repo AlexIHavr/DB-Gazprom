@@ -1,9 +1,9 @@
 import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import classNames from 'classnames';
 
-import { PipelineColumn, PipelineColumnProperties, TableType, PipelineTable } from '../../../../redux/vtdTree/types';
+import { PipelineColumn, PipelineColumnProperties, TableType, PipelineTable } from '../../../../redux/vtds/types';
 import { useAppDispatch } from '../../../../hooks/redux';
-import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from '../../../../redux/vtdTree/reducer';
+import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from '../../../../redux/vtds/reducer';
 import { COLUMN_WIDTH } from '../constants';
 import { ReactComponent as EyeSolid } from '../../../../assets/svg/eyeSolid.svg';
 import { ReactComponent as FilterOffSolid } from '../../../../assets/svg/filterOffSolid.svg';

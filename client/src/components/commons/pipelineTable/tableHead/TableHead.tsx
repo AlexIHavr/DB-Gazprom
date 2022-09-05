@@ -2,8 +2,8 @@ import { memo, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { useAppDispatch } from '../../../../hooks/redux';
-import { PipelineColumn, TableType, PipelineTable } from '../../../../redux/vtdTree/types';
-import { setColumnProperties } from '../../../../redux/vtdTree/reducer';
+import { PipelineColumn, TableType, PipelineTable } from '../../../../redux/vtds/types';
+import { setColumnProperties } from '../../../../redux/vtds/reducer';
 import { ReactComponent as EyeSlashSolid } from '../../../../assets/svg/eyeOffSolid.svg';
 
 import ExtendedFilter from './extendedFilter/ExtendedFilter';

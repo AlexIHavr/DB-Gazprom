@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { getPipelineTable, getVtdTree, setPipelineTable } from './thunks';
+import { getPipelineTable, getVtds } from './thunks';
 import {
-  GetVtdTreeResponse,
+  GetVtdsResponse,
   InitialState,
   PipelineColumn,
   PipelineColumnProperties,
@@ -10,14 +10,16 @@ import {
   PipelineTable,
   PipelineTableProperties,
   GetPipelineTable,
+  VtdTree,
 } from './types';
 
 const initialState: InitialState = {
+  vtds: [],
   vtdTree: [],
 };
 
-export const vtdTreeSlice = createSlice({
-  name: 'vtdTree',
+export const vtdsSlice = createSlice({
+  name: 'vtds',
   initialState,
   reducers: {
     setColumnProperties: (
@@ -29,7 +31,7 @@ export const vtdTreeSlice = createSlice({
         properties: PipelineColumnProperties;
       }>,
     ) => {
-      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+      const pipelineTable = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
 
       for (const [key, value] of Object.entries(action.payload.properties)) {
         (pipelineTable.columns[action.payload.columnIndex][key as keyof PipelineColumn] as typeof value) = value;
@@ -44,7 +46,7 @@ export const vtdTreeSlice = createSlice({
         properties: PipelineColumnProperties;
       }>,
     ) => {
-      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+      const pipelineTable = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
 
       for (const [key, value] of Object.entries(action.payload.properties)) {
         pipelineTable.columns.forEach(
@@ -61,30 +63,31 @@ export const vtdTreeSlice = createSlice({
         properties: PipelineTableProperties;
       }>,
     ) => {
-      const pipelineTable = state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+      const pipelineTable = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
 
       for (const [key, value] of Object.entries(action.payload.properties)) {
         (pipelineTable[key as keyof PipelineTable] as typeof value) = value;
       }
     },
+
+    setVtdTree: (state, action: PayloadAction<VtdTree>) => {
+      state.vtdTree = action.payload;
+    },
   },
   extraReducers: {
-    [setPipelineTable.rejected.type]: (state, action: PayloadAction<{ message: string }>) => {
-      console.log(action.payload.message);
-    },
     [getPipelineTable.fulfilled.type]: (state, action: PayloadAction<GetPipelineTable>) => {
       if (action.payload.pipelineTable) {
-        state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType] =
+        state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType] =
           action.payload.pipelineTable;
       }
     },
-    [getVtdTree.fulfilled.type]: (state, action: PayloadAction<GetVtdTreeResponse>) => {
-      state.vtdTree = action.payload.map((vtd) => ({ ...vtd, pipelineData: {} }));
+    [getVtds.fulfilled.type]: (state, action: PayloadAction<GetVtdsResponse>) => {
+      state.vtds = action.payload.map((vtd) => ({ ...vtd, pipelineData: {} }));
     },
   },
 });
 
-export const { setColumnProperties, setColumnsProperties, setPipelineTableProperties } = vtdTreeSlice.actions;
+export const { setColumnProperties, setColumnsProperties, setPipelineTableProperties, setVtdTree } = vtdsSlice.actions;
 
-const vtdTreeReducer = vtdTreeSlice.reducer;
-export default vtdTreeReducer;
+const vtdsReducer = vtdsSlice.reducer;
+export default vtdsReducer;

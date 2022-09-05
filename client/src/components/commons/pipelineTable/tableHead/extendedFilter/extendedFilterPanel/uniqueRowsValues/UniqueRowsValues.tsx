@@ -2,15 +2,8 @@ import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'r
 
 import { getSortedRows, getUniqueRowsValues } from '../../../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../../../hooks/redux';
-import { setColumnProperties, setPipelineTableProperties } from '../../../../../../../redux/vtdTree/reducer';
-import {
-  ExcelRow,
-  ExcelRows,
-  ExcelValue,
-  PipelineColumn,
-  TableType,
-  PipelineTable,
-} from '../../../../../../../redux/vtdTree/types';
+import { setColumnProperties, setPipelineTableProperties } from '../../../../../../../redux/vtds/reducer';
+import { ExcelRow, ExcelRows, ExcelValue, PipelineColumn, TableType, PipelineTable } from '../../../../../../../redux/vtds/types';
 import { SORT_TYPES } from '../../../sortFilter/constants';
 import { ReactComponent as CheckBoxBlackRegular } from '../../../../../../../assets/svg/checkBoxBlankRegular.svg';
 import { ReactComponent as CheckBoxRegular } from '../../../../../../../assets/svg/checkBoxRegular.svg';

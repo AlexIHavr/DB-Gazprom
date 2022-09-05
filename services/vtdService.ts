@@ -3,8 +3,8 @@ import vtdModel from '../models/vtdModel';
 import { GetPipelineTableParams, SetPipelineTableRequest } from '../types/vtdTypes';
 
 class VtdService {
-  async getVtdTree() {
-    const vtdTree = await vtdModel.findAll({
+  async getVtds() {
+    const vtds = await vtdModel.findAll({
       attributes: { exclude: ['pipelineData'] },
       order: [
         ['type', 'DESC'],
@@ -13,7 +13,7 @@ class VtdService {
         ['year', 'DESC'],
       ],
     });
-    return vtdTree;
+    return vtds;
   }
 
   async getPipelineTable({ id, tableType }: GetPipelineTableParams) {

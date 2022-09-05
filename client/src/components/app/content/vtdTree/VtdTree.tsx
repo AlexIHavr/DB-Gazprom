@@ -1,21 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { PAGES } from '../../constants';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { getAdaptedVtdTree } from '../../../../helpers/vtdTree';
+import { useAppSelector } from '../../../../hooks/redux';
 import { ReactComponent as AngleDownSolid } from '../../../../assets/svg/angleDownSolid.svg';
-import { getVtdTree } from '../../../../redux/vtdTree/thunks';
-
-import { VTD_TREE_LEVELS } from './constants';
-import { VtdTreeLevels } from './types';
+import { VtdTreeLevels } from '../../../../redux/vtds/types';
+import { VTD_TREE_LEVELS } from '../../../../redux/vtds/constants';
 
 import './vtdTree.scss';
 
-const VtdTree: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const { vtdTree } = useAppSelector((state) => state.vtdTree);
+const Vtds: React.FC = () => {
+  const { vtdTree } = useAppSelector((state) => state.vtds);
   const [levelsExpanded, setLevelsExpanded] = useState(VTD_TREE_LEVELS);
   const [levelsHeight, setLevelsHeight] = useState(VTD_TREE_LEVELS);
 
@@ -40,8 +36,6 @@ const VtdTree: React.FC = () => {
     [],
   );
 
-  const adaptedVtdTree = useMemo(() => getAdaptedVtdTree(vtdTree), [vtdTree]);
-
   const hideAllLevels = useCallback(() => {
     for (const levelExpanded in levelsExpanded) {
       if (levelsExpanded[levelExpanded as VTD_TREE_LEVELS]) setLevelsExpanded((prev) => ({ ...prev, [levelExpanded]: null }));
@@ -56,14 +50,10 @@ const VtdTree: React.FC = () => {
     };
   }, [hideAllLevels]);
 
-  useEffect(() => {
-    if (!vtdTree.length) dispatch(getVtdTree());
-  }, [dispatch, vtdTree.length]);
-
   return (
-    <div className="vtdTree">
+    <div className="vtds">
       <h1>Дерево ВТД</h1>
-      {adaptedVtdTree.map(({ type, pipelines }) => (
+      {vtdTree.map(({ type, pipelines }) => (
         <div className="root typeAccordion" key={type} onClick={(e) => setLevelExpandedOnClick(e, type, VTD_TREE_LEVELS.type)}>
           <div className="content">
             <h3>{type}</h3>
@@ -121,10 +111,14 @@ const VtdTree: React.FC = () => {
                             </div>
 
                             <div
-                              className="details VtdForms"
+                              className="details links"
                               style={{ height: levelsExpanded.year === year ? levelsHeight.year : 0 }}
                             >
-                              <NavLink to={`${PAGES.vtdForm.path}/${id}`}>Форма</NavLink>
+                              <div className="link">
+                                <NavLink to={`${PAGES.vtdForm.path}/${id}`}>Форма</NavLink>
+                                <h4> - </h4>
+                                <NavLink to={`${PAGES.loadVtd.path}/${id}`}>Загрузить ВТД</NavLink>
+                              </div>
                               <NavLink to="/">Ремонты</NavLink>
                               <NavLink to="/">Обследования</NavLink>
                               <NavLink to="/">Статистика</NavLink>
@@ -144,4 +138,4 @@ const VtdTree: React.FC = () => {
   );
 };
 
-export default VtdTree;
+export default Vtds;

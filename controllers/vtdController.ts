@@ -4,10 +4,10 @@ import vtdService from '../services/vtdService';
 import { GetPipelineTableParams, SetPipelineTableRequest, VtdModel } from '../types/vtdTypes';
 
 class VtdController {
-  async getVtdTree(req: Request, res: Response<VtdModel[]>, next: NextFunction) {
+  async getVtds(req: Request, res: Response<VtdModel[]>, next: NextFunction) {
     try {
-      const vtdTree = await vtdService.getVtdTree();
-      res.json(vtdTree);
+      const vtds = await vtdService.getVtds();
+      res.json(vtds);
     } catch (err) {
       next(err);
     }

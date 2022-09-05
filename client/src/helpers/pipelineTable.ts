@@ -1,6 +1,6 @@
 import { SEARCH_COMPARE_TYPES } from '../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
 import { SORT_TYPES } from '../components/commons/pipelineTable/tableHead/sortFilter/constants';
-import { ExcelRow, ExcelRows } from '../redux/vtdTree/types';
+import { ExcelRow, ExcelRows } from '../redux/vtds/types';
 
 type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: ExcelRows };
 

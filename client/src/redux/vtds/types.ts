@@ -1,5 +1,7 @@
 import { SORT_TYPES } from '../../components/commons/pipelineTable/tableHead/sortFilter/constants';
 
+import { VTD_TREE_LEVELS } from './constants';
+
 export type ExcelValue = string | number | null;
 export type ExcelRow = ExcelValue[];
 export type ExcelRows = ExcelRow[];
@@ -55,11 +57,29 @@ export type VtdData = {
   updatedAt: Date;
 };
 
-export type VtdTree = VtdData[];
+export type Vtds = VtdData[];
 
-export type GetVtdTreeResponse = Omit<VtdData, 'pipelineData'>[];
+export type GetVtdsResponse = Omit<VtdData, 'pipelineData'>[];
+
+export type VtdTreeLevels = keyof typeof VTD_TREE_LEVELS;
+
+export type VtdTree = {
+  [VTD_TREE_LEVELS.type]: string;
+  pipelines: {
+    [VTD_TREE_LEVELS.pipeline]: string;
+    sections: {
+      [VTD_TREE_LEVELS.section]: string;
+      umg: string;
+      years: {
+        id: string;
+        [VTD_TREE_LEVELS.year]: string;
+      }[];
+    }[];
+  }[];
+}[];
 
 export type InitialState = {
+  vtds: Vtds;
   vtdTree: VtdTree;
 };
 

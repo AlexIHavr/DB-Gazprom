@@ -1,30 +1,31 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { excelRenderer } from '../../helpers/excel';
-import { setIsLoading } from '../app/reducer';
+import { addModalWindow, setIsLoading } from '../app/reducer';
+import { vtdApi } from '../../api/api';
 
-import { vtdApi } from './../../api/api';
-import { GetVtdTreeResponse, GetPipelineTable, TableType, PipelineTable } from './types';
+import { GetVtdsResponse, GetPipelineTable, TableType, PipelineTable } from './types';
 
 export const setPipelineTable = createAsyncThunk<
   void,
   { vtdId: string; file: File; tableType: TableType },
   { rejectValue: string }
->('setPipelineTable', async ({ vtdId, file, tableType }, { dispatch, rejectWithValue }) => {
+>('setPipelineTable', async ({ vtdId, file, tableType }, { dispatch }) => {
   dispatch(setIsLoading(true));
 
   try {
     const pipelineTable = await excelRenderer(file);
     await vtdApi.put('/setPipelineTable', { id: vtdId, pipelineTable, tableType });
+    dispatch(addModalWindow({ type: 'success', message: `Файл ${file.name} успешно загружен` }));
   } catch (err) {
-    return rejectWithValue((err as Error).message);
+    dispatch(addModalWindow({ type: 'error', message: (err as Error).message }));
   } finally {
     dispatch(setIsLoading(false));
   }
 });
 
-export const getVtdTree = createAsyncThunk<GetVtdTreeResponse>('getVtdTree', async () => {
-  const { data } = await vtdApi.get<GetVtdTreeResponse>('/getVtdTree');
+export const getVtds = createAsyncThunk<GetVtdsResponse>('getVtds', async () => {
+  const { data } = await vtdApi.get<GetVtdsResponse>('/getVtds');
   return data;
 });
 

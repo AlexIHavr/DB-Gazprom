@@ -1,4 +1,4 @@
-.vtdTree {
+.vtds {
   width: 80%;
   margin: 0 auto;
   user-select: none;
@@ -60,12 +60,17 @@
       overflow: hidden;
       padding: 0 0 0 20px;
 
-      .VtdForms {
+      &.links {
         display: flex;
         flex-direction: column;
 
         a:last-of-type {
           padding-bottom: 10px;
+        }
+
+        h4 {
+          display: inline;
+          margin: 0 5px;
         }
       }
 

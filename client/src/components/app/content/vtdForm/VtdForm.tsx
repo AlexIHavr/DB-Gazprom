@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { getPipelineTable } from '../../../../redux/vtdTree/thunks';
+import { getPipelineTable } from '../../../../redux/vtds/thunks';
 import PipelineTable from '../../../commons/pipelineTable/PipelineTable';
 import { PAGES } from '../../constants';
 
@@ -10,11 +10,11 @@ import './vtdForm.scss';
 
 const VtdForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { vtdTree } = useAppSelector((state) => state.vtdTree);
+  const { vtds } = useAppSelector((state) => state.vtds);
 
   const { [PAGES.vtdForm.param]: vtdId } = useParams();
 
-  const pipeline = useMemo(() => vtdTree.find(({ id }) => id === vtdId), [vtdTree, vtdId]);
+  const pipeline = useMemo(() => vtds.find(({ id }) => id === vtdId), [vtds, vtdId]);
 
   const vtdForm = pipeline?.pipelineData.form;
 

@@ -1,10 +1,10 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { PipelineColumn, TableType, PipelineTable } from '../../../../../../redux/vtdTree/types';
+import { PipelineColumn, TableType, PipelineTable } from '../../../../../../redux/vtds/types';
 import { getRangeCompareRows, getSearchCompareRows, getSortedRows } from '../../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../../hooks/redux';
-import { setColumnProperties, setPipelineTableProperties } from '../../../../../../redux/vtdTree/reducer';
+import { setColumnProperties, setPipelineTableProperties } from '../../../../../../redux/vtds/reducer';
 import { ReactComponent as FilterOffSolid } from '../../../../../../assets/svg/filterOffSolid.svg';
 import { ReactComponent as SearchSolid } from '../../../../../../assets/svg/searchSolid.svg';
 import { ReactComponent as ArraySolid } from '../../../../../../assets/svg/arraySolid.svg';

@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { read, utils, WorkBook } from 'xlsx';
 
 import { COLUMN_WIDTH } from '../components/commons/pipelineTable/constants';
-import { ExcelRows, PipelineColumn, PipelineTable } from '../redux/vtdTree/types';
+import { ExcelRows, PipelineColumn, PipelineTable } from '../redux/vtds/types';
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
   if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') throw Error('Invalid file format');
