@@ -1,7 +1,7 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../../redux/vtdTree/types';
+import { PipelineColumn, TableType, PipelineTable } from '../../../../../../redux/vtdTree/types';
 import { getRangeCompareRows, getSearchCompareRows, getSortedRows } from '../../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../../hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from '../../../../../../redux/vtdTree/reducer';
@@ -18,7 +18,7 @@ import './extendedFilterPanel.scss';
 
 type ExtendedFilterPanelProps = {
   vtdId: string;
-  tableType: PipelineDataTables;
+  tableType: TableType;
   table: PipelineTable;
   column: PipelineColumn;
 };
@@ -83,7 +83,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
         vtdId,
         tableType,
         properties: {
-          filteredRows: filteredRowsWithoutSearch,
+          filteredRows: filteredRows.length !== table.rows.length ? filteredRowsWithoutSearch : [],
           sortedRows: sortedColumn
             ? getSortedRows({
                 sortType: sortedColumn.sortType!,
@@ -103,7 +103,7 @@ const ExtendedFilterPanel: React.FC<ExtendedFilterPanelProps> = ({ vtdId, tableT
         properties: { extendedFilter: { visible: false, checkedUniqueRowsValues: [] } },
       }),
     );
-  }, [table.columns, table.rows, dispatch, vtdId, tableType, filteredRowsWithoutSearch, column.index]);
+  }, [table.columns, table.rows, dispatch, vtdId, tableType, filteredRows.length, filteredRowsWithoutSearch, column.index]);
 
   return (
     <div className="extendedFilterPanel">

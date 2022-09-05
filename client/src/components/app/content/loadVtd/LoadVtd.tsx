@@ -1,20 +1,22 @@
 import { ChangeEvent, useCallback } from 'react';
 
-import { useAppDispatch } from '../../../../hooks/redux';
-import { setPipelinesData } from '../../../../redux/vtdTree/thunks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
+import { setPipelineTable } from '../../../../redux/vtdTree/thunks';
 
 import './loadVtd.scss';
 
 const LoadVtd: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { vtdTree } = useAppSelector((state) => state.vtdTree);
 
   const loadExcel = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       if (event.target.files?.length) {
         dispatch(
-          setPipelinesData({
-            vtdId: '1',
+          setPipelineTable({
+            vtdId: 'bd853592-d18d-4e04-9494-085a7559014f',
             file: event.target.files[0],
+            tableType: 'form',
           }),
         );
       }
@@ -25,6 +27,13 @@ const LoadVtd: React.FC = () => {
   return (
     <div className="loadVtd">
       <label htmlFor="contained-button-file">
+        <div>
+          <label htmlFor="select">Тип</label>
+          <select id="select">
+            <option value="Магистральные">Магистральные</option>
+            <option value="Газопроводы-отводы">Газопроводы-отводы</option>
+          </select>
+        </div>
         <input
           id="contained-button-file"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

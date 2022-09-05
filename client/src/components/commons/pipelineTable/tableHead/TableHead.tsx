@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { useAppDispatch } from '../../../../hooks/redux';
-import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
+import { PipelineColumn, TableType, PipelineTable } from '../../../../redux/vtdTree/types';
 import { setColumnProperties } from '../../../../redux/vtdTree/reducer';
 import { ReactComponent as EyeSlashSolid } from '../../../../assets/svg/eyeOffSolid.svg';
 
@@ -14,7 +14,7 @@ import './tableHead.scss';
 type TableHeadProps = {
   vtdId: string;
   table: PipelineTable;
-  tableType: PipelineDataTables;
+  tableType: TableType;
   column: PipelineColumn;
   style?: React.CSSProperties;
 };

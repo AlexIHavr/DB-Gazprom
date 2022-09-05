@@ -3,9 +3,10 @@ import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { PAGES } from '../../constants';
-import { useAppSelector } from '../../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { getAdaptedVtdTree } from '../../../../helpers/vtdTree';
 import { ReactComponent as AngleDownSolid } from '../../../../assets/svg/angleDownSolid.svg';
+import { getVtdTree } from '../../../../redux/vtdTree/thunks';
 
 import { VTD_TREE_LEVELS } from './constants';
 import { VtdTreeLevels } from './types';
@@ -13,6 +14,7 @@ import { VtdTreeLevels } from './types';
 import './vtdTree.scss';
 
 const VtdTree: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { vtdTree } = useAppSelector((state) => state.vtdTree);
   const [levelsExpanded, setLevelsExpanded] = useState(VTD_TREE_LEVELS);
   const [levelsHeight, setLevelsHeight] = useState(VTD_TREE_LEVELS);
@@ -53,6 +55,10 @@ const VtdTree: React.FC = () => {
       document.removeEventListener('click', hideAllLevels);
     };
   }, [hideAllLevels]);
+
+  useEffect(() => {
+    if (!vtdTree.length) dispatch(getVtdTree());
+  }, [dispatch, vtdTree.length]);
 
   return (
     <div className="vtdTree">

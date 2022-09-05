@@ -13,7 +13,7 @@ export const getUniqueFields = <T extends object>(fieldsArr: T[], uniqueField: k
 };
 
 export const getAdaptedVtdTree = (vtdTree: VtdTree): AdaptedVtdTree => {
-  const noDataVtdTree = vtdTree.map((vtd) => ({ ...vtd, pipelineData: '' }));
+  const noDataVtdTree = vtdTree.map(({ id, type, pipeline, section, umg, year }) => ({ id, type, pipeline, section, umg, year }));
 
   return getUniqueFields(noDataVtdTree, VTD_TREE_LEVELS.type).map((type) => ({
     [VTD_TREE_LEVELS.type]: type,

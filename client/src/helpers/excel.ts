@@ -28,7 +28,7 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
       const countCellInRow = excelRows[0].length;
       const filledExcelRows: ExcelRows = excelRows.map((excelRow) => {
         return excelRow.length !== countCellInRow
-          ? [...excelRow, ...new Array(countCellInRow - excelRow.length).fill(undefined)]
+          ? [...excelRow, ...new Array(countCellInRow - excelRow.length).fill(null)]
           : excelRow;
       });
 

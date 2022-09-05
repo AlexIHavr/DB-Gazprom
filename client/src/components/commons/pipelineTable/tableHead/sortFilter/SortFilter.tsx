@@ -4,7 +4,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { getSortedRows } from '../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from '../../../../../redux/vtdTree/reducer';
-import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
+import { PipelineColumn, TableType, PipelineTable } from '../../../../../redux/vtdTree/types';
 import { ReactComponent as ArrowDown } from '../../../../../assets/svg/arrowDownSolid.svg';
 
 import { SORT_TYPES } from './constants';
@@ -14,7 +14,7 @@ import './sortFilter.scss';
 type SortFilterProps = {
   vtdId: string;
   table: PipelineTable;
-  tableType: PipelineDataTables;
+  tableType: TableType;
   column: PipelineColumn;
 };
 

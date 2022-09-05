@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo, useCallback, useEffect, memo } from 'react';
 import { v4 } from 'uuid';
 
-import { PipelineDataTables, PipelineTable as PipelineTableType } from '../../../redux/vtdTree/types';
+import { TableType, PipelineTable as PipelineTableType } from '../../../redux/vtdTree/types';
 
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from './constants';
 import TableHead from './tableHead/TableHead';
@@ -12,7 +12,7 @@ import './pipelineTable.scss';
 type PipelineTableProps = {
   table: PipelineTableType;
   vtdId: string;
-  tableType: PipelineDataTables;
+  tableType: TableType;
 };
 
 const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }) => {

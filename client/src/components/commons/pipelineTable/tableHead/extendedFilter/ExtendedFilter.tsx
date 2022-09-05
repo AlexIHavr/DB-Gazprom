@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 
-import { PipelineColumn, PipelineDataTables, PipelineTable } from '../../../../../redux/vtdTree/types';
+import { PipelineColumn, TableType, PipelineTable } from '../../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../../hooks/redux';
 import { setColumnProperties } from '../../../../../redux/vtdTree/reducer';
 import { ReactComponent as FilterSolid } from '../../../../../assets/svg/filterSolid.svg';
@@ -11,7 +11,7 @@ import ExtendedFilterPanel from './extendedFilterPanel/ExtendedFilterPanel';
 
 type ExtendedFilterProps = {
   vtdId: string;
-  tableType: PipelineDataTables;
+  tableType: TableType;
   table: PipelineTable;
   column: PipelineColumn;
 };

@@ -3,21 +3,35 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { excelRenderer } from '../../helpers/excel';
 import { setIsLoading } from '../app/reducer';
 
-import { SetPipelinesDataParams } from './types';
+import { vtdApi } from './../../api/api';
+import { GetVtdTreeResponse, GetPipelineTable, TableType, PipelineTable } from './types';
 
-export const setPipelinesData = createAsyncThunk<SetPipelinesDataParams, { vtdId: string; file: File }, { rejectValue: string }>(
-  'setPipelinesData',
-  async ({ vtdId, file }, { dispatch, rejectWithValue }) => {
-    dispatch(setIsLoading(true));
+export const setPipelineTable = createAsyncThunk<
+  void,
+  { vtdId: string; file: File; tableType: TableType },
+  { rejectValue: string }
+>('setPipelineTable', async ({ vtdId, file, tableType }, { dispatch, rejectWithValue }) => {
+  dispatch(setIsLoading(true));
 
-    try {
-      const data = await excelRenderer(file);
-      return { vtdId, data: { form: data } };
-    } catch (err) {
-      const thunkErr = err as Error;
-      return rejectWithValue(thunkErr.message);
-    } finally {
-      dispatch(setIsLoading(false));
-    }
+  try {
+    const pipelineTable = await excelRenderer(file);
+    await vtdApi.put('/setPipelineTable', { id: vtdId, pipelineTable, tableType });
+  } catch (err) {
+    return rejectWithValue((err as Error).message);
+  } finally {
+    dispatch(setIsLoading(false));
+  }
+});
+
+export const getVtdTree = createAsyncThunk<GetVtdTreeResponse>('getVtdTree', async () => {
+  const { data } = await vtdApi.get<GetVtdTreeResponse>('/getVtdTree');
+  return data;
+});
+
+export const getPipelineTable = createAsyncThunk<GetPipelineTable, { vtdId: string; tableType: TableType }>(
+  'getPipelineTable',
+  async ({ vtdId, tableType }) => {
+    const { data } = await vtdApi.get<PipelineTable>('/getPipelineTable', { params: { id: vtdId, tableType } });
+    return { vtdId, pipelineTable: data, tableType };
   },
 );

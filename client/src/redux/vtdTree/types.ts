@@ -1,6 +1,6 @@
 import { SORT_TYPES } from '../../components/commons/pipelineTable/tableHead/sortFilter/constants';
 
-export type ExcelValue = string | number | undefined;
+export type ExcelValue = string | number | null;
 export type ExcelRow = ExcelValue[];
 export type ExcelRows = ExcelRow[];
 
@@ -41,9 +41,9 @@ export type PipelineData = {
   statistics?: PipelineTable;
 };
 
-export type PipelineDataTables = keyof PipelineData;
+export type TableType = keyof PipelineData;
 
-export type VtdTree = {
+export type VtdData = {
   id: string;
   type: string;
   pipeline: string;
@@ -51,13 +51,20 @@ export type VtdTree = {
   umg: string;
   year: string;
   pipelineData: PipelineData;
-}[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type VtdTree = VtdData[];
+
+export type GetVtdTreeResponse = Omit<VtdData, 'pipelineData'>[];
 
 export type InitialState = {
   vtdTree: VtdTree;
 };
 
-export type SetPipelinesDataParams = {
+export type GetPipelineTable = {
   vtdId: string;
-  data: PipelineData;
+  pipelineTable: PipelineTable;
+  tableType: TableType;
 };

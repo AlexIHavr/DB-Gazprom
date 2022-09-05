@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import classNames from 'classnames';
 
-import { PipelineColumn, PipelineColumnProperties, PipelineDataTables, PipelineTable } from '../../../../redux/vtdTree/types';
+import { PipelineColumn, PipelineColumnProperties, TableType, PipelineTable } from '../../../../redux/vtdTree/types';
 import { useAppDispatch } from '../../../../hooks/redux';
 import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from '../../../../redux/vtdTree/reducer';
 import { COLUMN_WIDTH } from '../constants';
@@ -15,7 +15,7 @@ import './tableManagePanel.scss';
 type TableManagePanelProps = {
   table: PipelineTable;
   vtdId: string;
-  tableType: PipelineDataTables;
+  tableType: TableType;
 };
 
 const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, tableType }) => {

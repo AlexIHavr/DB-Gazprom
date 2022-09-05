@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 import App from './components/app/App';
 import { store } from './redux/store';
+import './api/interceptors';
 
 import './index.scss';
 

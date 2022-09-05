@@ -1,4 +1,4 @@
-import { Dialect } from 'sequelize/types';
+import { Dialect } from 'sequelize';
 
 declare global {
   namespace NodeJS {
@@ -9,6 +9,7 @@ declare global {
       HOST: string;
       DB_TYPE: Dialect;
       PORT: number;
+      CLIENT_URL: string;
     }
   }
 }

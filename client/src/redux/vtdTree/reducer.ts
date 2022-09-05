@@ -1,136 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { setPipelinesData } from './thunks';
+import { getPipelineTable, getVtdTree, setPipelineTable } from './thunks';
 import {
+  GetVtdTreeResponse,
   InitialState,
   PipelineColumn,
   PipelineColumnProperties,
-  PipelineDataTables,
+  TableType,
   PipelineTable,
   PipelineTableProperties,
-  SetPipelinesDataParams,
+  GetPipelineTable,
 } from './types';
 
 const initialState: InitialState = {
-  vtdTree: [
-    {
-      id: '1',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
-      section: '390-424',
-      umg: 'Оршанское',
-      year: '2018',
-      pipelineData: {},
-    },
-    {
-      id: '2',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
-      section: '390-424',
-      umg: 'Оршанское',
-      year: '2006',
-      pipelineData: {},
-    },
-    {
-      id: '3',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
-      section: '390-424',
-      umg: 'Оршанское',
-      year: '2003',
-      pipelineData: {},
-    },
-    {
-      id: '4',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
-      section: '425,9-529',
-      umg: 'Оршанское-Крупское',
-      year: '2020',
-      pipelineData: {},
-    },
-    {
-      id: '5',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
-      section: '425,9-529',
-      umg: 'Оршанское-Крупское',
-      year: '2015',
-      pipelineData: {},
-    },
-    {
-      id: '6',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи III',
-      section: '425,9-529',
-      umg: 'Оршанское-Крупское',
-      year: '2006',
-      pipelineData: {},
-    },
-    {
-      id: '7',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи II',
-      section: '390-424',
-      umg: 'Оршанское',
-      year: '2018',
-      pipelineData: {},
-    },
-    {
-      id: '8',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи II',
-      section: '390-424',
-      umg: 'Оршанское',
-      year: '2006',
-      pipelineData: {},
-    },
-    {
-      id: '9',
-      type: 'Магистральные газопроводы',
-      pipeline: 'МГ Торжок-Минск-Ивацевичи II',
-      section: '390-424',
-      umg: 'Оршанское',
-      year: '2003',
-      pipelineData: {},
-    },
-    {
-      id: '10',
-      type: 'Газопроводы-отводы',
-      pipeline: 'газопровод-отвод Минск-Гомель',
-      section: '1,5-65',
-      umg: 'Минское-Осиповичское',
-      year: '2006',
-      pipelineData: {},
-    },
-    {
-      id: '11',
-      type: 'Газопроводы-отводы',
-      pipeline: 'газопровод-отвод Минск-Гомель',
-      section: '1,5-65',
-      umg: 'Минское-Осиповичское',
-      year: '2002',
-      pipelineData: {},
-    },
-    {
-      id: '12',
-      type: 'Газопроводы-отводы',
-      pipeline: 'газопровод-отвод Минск-Гомель',
-      section: '65,01-190,24',
-      umg: 'Осиповичское',
-      year: '2006',
-      pipelineData: {},
-    },
-    {
-      id: '13',
-      type: 'Газопроводы-отводы',
-      pipeline: 'газопровод-отвод Минск-Гомель',
-      section: '65,01-190,24',
-      umg: 'Оршанское',
-      year: '2002',
-      pipelineData: {},
-    },
-  ],
+  vtdTree: [],
 };
 
 export const vtdTreeSlice = createSlice({
@@ -141,7 +24,7 @@ export const vtdTreeSlice = createSlice({
       state,
       action: PayloadAction<{
         vtdId: string;
-        tableType: PipelineDataTables;
+        tableType: TableType;
         columnIndex: number;
         properties: PipelineColumnProperties;
       }>,
@@ -157,7 +40,7 @@ export const vtdTreeSlice = createSlice({
       state,
       action: PayloadAction<{
         vtdId: string;
-        tableType: PipelineDataTables;
+        tableType: TableType;
         properties: PipelineColumnProperties;
       }>,
     ) => {
@@ -174,7 +57,7 @@ export const vtdTreeSlice = createSlice({
       state,
       action: PayloadAction<{
         vtdId: string;
-        tableType: PipelineDataTables;
+        tableType: TableType;
         properties: PipelineTableProperties;
       }>,
     ) => {
@@ -186,8 +69,17 @@ export const vtdTreeSlice = createSlice({
     },
   },
   extraReducers: {
-    [setPipelinesData.fulfilled.type]: (state, action: PayloadAction<SetPipelinesDataParams>) => {
-      state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData = action.payload.data;
+    [setPipelineTable.rejected.type]: (state, action: PayloadAction<{ message: string }>) => {
+      console.log(action.payload.message);
+    },
+    [getPipelineTable.fulfilled.type]: (state, action: PayloadAction<GetPipelineTable>) => {
+      if (action.payload.pipelineTable) {
+        state.vtdTree.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType] =
+          action.payload.pipelineTable;
+      }
+    },
+    [getVtdTree.fulfilled.type]: (state, action: PayloadAction<GetVtdTreeResponse>) => {
+      state.vtdTree = action.payload.map((vtd) => ({ ...vtd, pipelineData: {} }));
     },
   },
 });

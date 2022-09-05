@@ -8,7 +8,7 @@ import {
   ExcelRows,
   ExcelValue,
   PipelineColumn,
-  PipelineDataTables,
+  TableType,
   PipelineTable,
 } from '../../../../../../../redux/vtdTree/types';
 import { SORT_TYPES } from '../../../sortFilter/constants';
@@ -20,7 +20,7 @@ import './uniqueRowsValues.scss';
 
 type UniqueRowsProps = {
   vtdId: string;
-  tableType: PipelineDataTables;
+  tableType: TableType;
   table: PipelineTable;
   filteredRows: ExcelRows;
   column: PipelineColumn;
@@ -129,7 +129,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
         vtdId,
         tableType,
         properties: {
-          filteredRows: newFilteredRows,
+          filteredRows: newFilteredRows.length !== table.rows.length ? newFilteredRows : [],
           sortedRows: sortedColumn
             ? getSortedRows({
                 sortType: sortedColumn.sortType!,
@@ -218,7 +218,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
             {uniqueRowsValuesOnDisplay.map((uniqueRowValue, i) => (
               <div key={i} onClick={() => toggleCheckedUniqueRowValueOnClick(uniqueRowValue)}>
                 {checkedUniqueRowsValues.includes(uniqueRowValue) ? <CheckBoxRegular /> : <CheckBoxBlackRegular />}
-                <span>{uniqueRowValue === undefined ? '(Пустые)' : uniqueRowValue}</span>
+                <span>{uniqueRowValue === null ? '(Пустые)' : uniqueRowValue}</span>
               </div>
             ))}
           </div>

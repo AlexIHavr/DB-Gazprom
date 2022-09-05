@@ -1,5 +1,4 @@
-import { Sequelize } from 'sequelize';
-import { Dialect } from 'sequelize/types';
+import { Sequelize, Dialect } from 'sequelize';
 
 class SequelizeRepository {
   sequelize: Sequelize;

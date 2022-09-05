@@ -8,7 +8,7 @@ export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsPara
   if (sortType === null) return rows;
 
   return rows
-    .filter((row) => row[columnIndex] !== undefined)
+    .filter((row) => row[columnIndex] !== null)
     .sort((nextRow, row) => {
       let rowValue = row[columnIndex]!;
       let nextRowValue = nextRow[columnIndex]!;
@@ -32,7 +32,7 @@ export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsPara
           return 0;
       }
     })
-    .concat(rows.filter((row) => row[columnIndex] === undefined));
+    .concat(rows.filter((row) => row[columnIndex] === null));
 };
 
 type getUniqueRowsValuesParams = { rows: ExcelRows; columnIndex: number; maxCount?: number };
@@ -46,9 +46,9 @@ export const getUniqueRowsValues = ({ rows, columnIndex, maxCount }: getUniqueRo
     if (!uniqueRowsValues.includes(row[columnIndex])) uniqueRowsValues.push(row[columnIndex]);
   }
 
-  if (rows.at(-1)![columnIndex] === undefined) {
-    if (uniqueRowsValues.at(-1) === undefined) uniqueRowsValues.pop();
-    uniqueRowsValues.unshift(undefined);
+  if (rows.at(-1)![columnIndex] === null) {
+    if (uniqueRowsValues.at(-1) === null) uniqueRowsValues.pop();
+    uniqueRowsValues.unshift(null);
   }
 
   return uniqueRowsValues;
@@ -63,7 +63,7 @@ type getSearchCompareRowsParams = {
 
 export const getSearchCompareRows = ({ rows, columnIndex, searchValue, searchCompareTypes }: getSearchCompareRowsParams) => {
   return rows.filter((row) => {
-    if (row[columnIndex] === undefined) return false;
+    if (row[columnIndex] === null) return false;
 
     const rowValue = String(row[columnIndex]);
     const isWithRegistry = searchCompareTypes.includes(SEARCH_COMPARE_TYPES.matchCase);
@@ -91,7 +91,7 @@ export const getRangeCompareRows = ({ rows, columnIndex, fromValue, toValue }: g
   return rows.filter((row) => {
     const rowValue = row[columnIndex];
 
-    if (rowValue === undefined) return false;
+    if (rowValue === null) return false;
 
     if (fromValue && toValue) return rowValue >= fromValue && rowValue <= toValue;
     if (fromValue) return rowValue >= fromValue;
