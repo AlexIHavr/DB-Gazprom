@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import ApiError from '../errors/ApiError';
 
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 const errorMiddleware = (err: Error | ApiError, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
 

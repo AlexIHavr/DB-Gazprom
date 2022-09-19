@@ -1,4 +1,5 @@
 class ApiError extends Error {
+  // eslint-disable-next-line no-unused-vars
   constructor(public status: number, public message: string) {
     super(message);
   }

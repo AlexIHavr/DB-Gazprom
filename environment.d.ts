@@ -10,6 +10,7 @@ declare global {
       DB_TYPE: Dialect;
       PORT: number;
       CLIENT_URL: string;
+      MAX_REQUEST_SIZE: string;
     }
   }
 }

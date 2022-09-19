@@ -4,13 +4,15 @@ import { GetPipelineTableParams, SetPipelineTableRequest } from '../types/vtdTyp
 
 class VtdService {
   async getVtds() {
+    const { type, pipeline, section, year, pipelineData } = vtdModel.getAttributes();
+
     const vtds = await vtdModel.findAll({
-      attributes: { exclude: ['pipelineData'] },
+      attributes: { exclude: [pipelineData.field!] },
       order: [
-        ['type', 'DESC'],
-        ['pipeline', 'ASC'],
-        ['section', 'ASC'],
-        ['year', 'DESC'],
+        [type.field!, 'DESC'],
+        [pipeline.field!, 'ASC'],
+        [section.field!, 'ASC'],
+        [year.field!, 'DESC'],
       ],
     });
     return vtds;

@@ -9,7 +9,7 @@ import errorMiddleware from './middlewares/errorMiddleware';
 
 const app = express();
 
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: process.env.MAX_REQUEST_SIZE }));
 app.use(helmet());
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
