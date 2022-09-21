@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { getDefaultColumn } from '../../helpers/excel';
+import { getAddedColumnTable } from '../../helpers/reducers';
+
 import { getPipelineTable, getVtds } from './thunks';
 import {
   GetVtdsResponse,
@@ -11,6 +14,7 @@ import {
   PipelineTableProperties,
   GetPipelineTable,
   VtdTree,
+  ExcelRow,
 } from './types';
 
 const initialState: InitialState = {
@@ -73,7 +77,28 @@ export const vtdsSlice = createSlice({
     setVtdTree: (state, action: PayloadAction<VtdTree>) => {
       state.vtdTree = action.payload;
     },
+
+    addColumn: (
+      state,
+      action: PayloadAction<{
+        vtdId: string;
+        tableType: TableType;
+        name: string;
+        index: number;
+        values?: ExcelRow;
+      }>,
+    ) => {
+      const pipelineData = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData;
+
+      pipelineData[action.payload.tableType] = getAddedColumnTable({
+        pipelineTable: pipelineData[action.payload.tableType]!,
+        name: action.payload.name,
+        index: action.payload.index,
+        values: action.payload.values,
+      });
+    },
   },
+
   extraReducers: {
     [getPipelineTable.fulfilled.type]: (state, action: PayloadAction<GetPipelineTable>) => {
       if (action.payload.pipelineTable) {
@@ -87,7 +112,7 @@ export const vtdsSlice = createSlice({
   },
 });
 
-export const { setColumnProperties, setColumnsProperties, setPipelineTableProperties, setVtdTree } = vtdsSlice.actions;
+export const { setColumnProperties, setColumnsProperties, setPipelineTableProperties, setVtdTree, addColumn } = vtdsSlice.actions;
 
 const vtdsReducer = vtdsSlice.reducer;
 export default vtdsReducer;

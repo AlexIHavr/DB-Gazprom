@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { excelRenderer } from '../../helpers/excel';
+import { checkRequiredColumns, excelRenderer } from '../../helpers/excel';
 import { addModalWindow, setIsLoading } from '../app/reducer';
 import { vtdApi } from '../../api/api';
 
@@ -15,7 +15,10 @@ export const setPipelineTable = createAsyncThunk<
 
   try {
     const pipelineTable = await excelRenderer(file);
+    checkRequiredColumns(pipelineTable.columns, tableType);
+
     await vtdApi.put('/setPipelineTable', { id: vtdId, pipelineTable, tableType });
+
     dispatch(addModalWindow({ type: 'success', message: `Файл ${file.name} успешно загружен` }));
   } catch (err) {
     dispatch(addModalWindow({ type: 'error', message: (err as Error).message }));

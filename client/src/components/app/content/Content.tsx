@@ -7,8 +7,7 @@ import { setVtdTree } from '../../../redux/vtds/reducer';
 import { getVtds } from '../../../redux/vtds/thunks';
 import { PAGES } from '../constants';
 
-import LoadVtd from './loadVtd/LoadVtd';
-import VtdForm from './vtdForm/VtdForm';
+import VtdTable from './vtdTable/VtdTable';
 import Vtds from './vtdTree/VtdTree';
 
 const Content: React.FC = () => {
@@ -17,8 +16,7 @@ const Content: React.FC = () => {
 
   const routes = useRoutes([
     { path: PAGES.main.path, element: <Vtds /> },
-    { path: `${PAGES.loadVtd.path}/:${PAGES.loadVtd.param}`, element: <LoadVtd /> },
-    { path: `${PAGES.vtdForm.path}/:${PAGES.vtdForm.param}`, element: <VtdForm /> },
+    { path: `${PAGES.vtdTable.path}/:${PAGES.vtdTable.params.vtdId}/:${PAGES.vtdTable.params.tableType}`, element: <VtdTable /> },
   ]);
 
   useEffect(() => {
@@ -29,7 +27,7 @@ const Content: React.FC = () => {
     }
   }, [dispatch, vtdTree.length, vtds]);
 
-  return <div className="content">{routes}</div>;
+  return <div className="content">{vtdTree.length ? routes : ''}</div>;
 };
 
 export default Content;

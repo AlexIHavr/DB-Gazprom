@@ -1,5 +1,5 @@
 export type NavLinks = {
   path: string;
   name?: string;
-  param?: string;
+  params?: Record<string, string>;
 }[];

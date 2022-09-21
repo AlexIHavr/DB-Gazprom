@@ -6,9 +6,10 @@ import { PAGES } from '../../constants';
 import { useAppSelector } from '../../../../hooks/redux';
 import { ReactComponent as AngleDownSolid } from '../../../../assets/svg/angleDownSolid.svg';
 import { VtdTreeLevels } from '../../../../redux/vtds/types';
-import { VTD_TREE_LEVELS } from '../../../../redux/vtds/constants';
+import { TABLE_TYPES_KEYS, VTD_TREE_LEVELS } from '../../../../redux/vtds/constants';
 
 import './vtdTree.scss';
+import { TABLE_TYPES_NAMES } from './../../../../redux/vtds/constants';
 
 const Vtds: React.FC = () => {
   const { vtdTree } = useAppSelector((state) => state.vtds);
@@ -114,14 +115,11 @@ const Vtds: React.FC = () => {
                               className="details links"
                               style={{ height: levelsExpanded.year === year ? levelsHeight.year : 0 }}
                             >
-                              <div className="link">
-                                <NavLink to={`${PAGES.vtdForm.path}/${id}`}>Форма</NavLink>
-                                <h4> - </h4>
-                                <NavLink to={`${PAGES.loadVtd.path}/${id}`}>Загрузить ВТД</NavLink>
-                              </div>
-                              <NavLink to="/">Ремонты</NavLink>
-                              <NavLink to="/">Обследования</NavLink>
-                              <NavLink to="/">Статистика</NavLink>
+                              {TABLE_TYPES_KEYS.map((tableType) => (
+                                <NavLink key={tableType} to={`${PAGES.vtdTable.path}/${id}/${tableType}`}>
+                                  {TABLE_TYPES_NAMES[tableType]}
+                                </NavLink>
+                              ))}
                             </div>
                           </div>
                         ))}

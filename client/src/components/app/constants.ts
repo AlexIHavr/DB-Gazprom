@@ -2,9 +2,7 @@ import { NavLinks } from './types';
 
 export const PAGES = {
   main: { path: '/' },
-  vtdForm: { path: `/vtdForm`, param: 'vtdId' },
-  loadVtd: { path: '/loadVtd', param: 'vtdId' },
-  loadLoir: { path: '/loadLoir', param: 'vtdId' },
+  vtdTable: { path: `/vtdTable`, params: { vtdId: 'vtdId', tableType: 'tableType' } },
   guides: { path: '/guides', name: 'Справочники' },
 };
 

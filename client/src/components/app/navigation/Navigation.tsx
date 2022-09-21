@@ -10,7 +10,7 @@ const Navigation: React.FC = () => {
     <header>
       <div className="navigation">
         <div className="links">
-          {NAV_LINKS.map(({ path, name, param }) =>
+          {NAV_LINKS.map(({ path, name, params }) =>
             path === PAGES.main.path ? (
               <NavLink key={path} to={path} className="gazpromLogoLink">
                 <div className="gazpromLogoBtn">
@@ -18,7 +18,7 @@ const Navigation: React.FC = () => {
                 </div>
               </NavLink>
             ) : (
-              !param && (
+              !params && (
                 <NavLink key={path} to={path}>
                   <button className="btn navBtn">{name}</button>
                 </NavLink>

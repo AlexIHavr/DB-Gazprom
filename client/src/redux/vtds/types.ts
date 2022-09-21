@@ -1,6 +1,6 @@
 import { SORT_TYPES } from '../../components/commons/pipelineTable/tableHead/sortFilter/constants';
 
-import { VTD_TREE_LEVELS } from './constants';
+import { TABLE_TYPES, VTD_TREE_LEVELS } from './constants';
 
 export type ExcelValue = string | number | null;
 export type ExcelRow = ExcelValue[];
@@ -36,14 +36,9 @@ export type PipelineTable = {
 
 export type PipelineTableProperties = Partial<PipelineTable>;
 
-export type PipelineData = {
-  form?: PipelineTable;
-  repairs?: PipelineTable;
-  inspections?: PipelineTable;
-  statistics?: PipelineTable;
-};
+export type TableType = keyof typeof TABLE_TYPES;
 
-export type TableType = keyof PipelineData;
+export type PipelineData = Partial<Record<TableType, PipelineTable>>;
 
 export type VtdData = {
   id: string;
