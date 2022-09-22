@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { getDefaultColumn } from '../../helpers/excel';
 import { getAddedColumnTable } from '../../helpers/reducers';
 
 import { getPipelineTable, getVtds } from './thunks';
