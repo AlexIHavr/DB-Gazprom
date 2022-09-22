@@ -25,13 +25,13 @@ export const TABLE_TYPES_NAMES = {
 export const TABLE_TYPES_KEYS = Object.keys(TABLE_TYPES) as TableType[];
 
 export enum REQUIRED_COLUMNS_NAMES {
-  typeNumberVtd = 'Номер трубы',
-  typeNumberRepairs = '№ трубы ВТД',
+  tubeNumberVtd = 'Номер трубы',
+  tubeNumberRepairs = '№ трубы ВТД',
 }
 
 export const REQUIRED_COLUMNS = {
-  [TABLE_TYPES.form]: [REQUIRED_COLUMNS_NAMES.typeNumberVtd],
-  [TABLE_TYPES.repairs]: [REQUIRED_COLUMNS_NAMES.typeNumberRepairs],
+  [TABLE_TYPES.form]: [REQUIRED_COLUMNS_NAMES.tubeNumberVtd],
+  [TABLE_TYPES.repairs]: [REQUIRED_COLUMNS_NAMES.tubeNumberRepairs],
   [TABLE_TYPES.inspections]: [],
   [TABLE_TYPES.statistics]: [],
 };
