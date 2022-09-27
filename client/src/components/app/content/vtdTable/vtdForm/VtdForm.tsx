@@ -17,13 +17,13 @@ type VtdFormProps = {
 const VtdForm: React.FC<VtdFormProps> = ({ table, vtdId, tableType }) => {
   const dispatch = useAppDispatch();
 
-  // useLayoutEffect(() => {
-  //   if (!table.columns.find(({ value }) => value === REPAIR_COLUMN_NAME)) {
-  //     const tubeNumberIndex = table.columns.findIndex(({ value }) => value === REQUIRED_COLUMNS_NAMES.tubeNumberVtd) + 1;
+  useLayoutEffect(() => {
+    if (!table.columns.find(({ value }) => value === REPAIR_COLUMN_NAME)) {
+      const repairIndex = table.columns.findIndex(({ value }) => value === REQUIRED_COLUMNS_NAMES.tubeNumberVtd) + 1;
 
-  //     dispatch(addColumn({ vtdId, tableType, name: REPAIR_COLUMN_NAME, index: tubeNumberIndex }));
-  //   }
-  // }, [dispatch, table.columns, tableType, vtdId]);
+      dispatch(addColumn({ vtdId, tableType, name: REPAIR_COLUMN_NAME, index: repairIndex }));
+    }
+  }, [dispatch, table.columns, tableType, vtdId]);
 
   return (
     <div className="vtdForm">

@@ -1,44 +1,51 @@
-import { ExcelRow, ExcelValue, PipelineColumns, PipelineRows, PipelineTable } from '../redux/vtds/types';
+import { PipelineCells, PipelineTable } from '../redux/vtds/types';
 
-import { getDefaultColumn, getDefaultRow } from './excel';
-
-type GetAddedColumnCellsParams<T> = {
-  cells: T;
-  index: number;
-  value: ExcelRow | string;
-};
-
-const getAddedColumnCells = <T extends PipelineColumns | PipelineRows>({ cells, index, value }: GetAddedColumnCellsParams<T>) => {
-  const newCells = [];
-  let cellIndex = 0;
-
-  for (let i = 0; i < cells.length + 1; i++) {
-    if (index === i) {
-      newCells.push(typeof value === 'string' ? getDefaultColumn(value, i) : getDefaultRow(value));
-      continue;
-    }
-
-    index > i ? newCells.push(cells[cellIndex]) : newCells.push({ ...cells[cellIndex], index: i });
-    cellIndex++;
-  }
-
-  return newCells as T;
-};
+import { getDefaultCell, getDefaultColumn } from './excel';
 
 type getAddedColumnTableParams = {
   pipelineTable: PipelineTable;
   name: string;
   index: number;
-  values?: ExcelRow;
+  values?: PipelineCells;
 };
 
 export const getAddedColumnTable = ({ pipelineTable, name, index, values }: getAddedColumnTableParams): PipelineTable => {
+  const newColumns = [];
+  let columnIndex = 0;
+
+  for (let i = 0; i < pipelineTable.columns.length + 1; i++) {
+    if (index === i) {
+      newColumns.push(getDefaultColumn(name, i));
+      continue;
+    }
+
+    index > i
+      ? newColumns.push(pipelineTable.columns[columnIndex])
+      : newColumns.push({ ...pipelineTable.columns[columnIndex], index: i });
+
+    columnIndex++;
+  }
+
+  const newRows = pipelineTable.rows.map((row, rowIndex) => {
+    const newValues = [];
+    let valueIndex = 0;
+
+    for (let i = 0; i < row.values.length + 1; i++) {
+      if (index === i) {
+        newValues.push(values ? values[rowIndex] : getDefaultCell(null));
+        continue;
+      }
+
+      newValues.push(row.values[valueIndex]);
+
+      valueIndex++;
+    }
+
+    return { ...row, values: newValues };
+  });
+
   return {
-    columns: getAddedColumnCells({ cells: pipelineTable.columns, index, value: name }),
-    rows: getAddedColumnCells({
-      cells: pipelineTable.rows,
-      index,
-      value: values || new Array<ExcelValue>(pipelineTable.columns.length + 1).fill(null),
-    }),
+    columns: newColumns,
+    rows: newRows,
   };
 };

@@ -13,7 +13,7 @@ import {
   PipelineTableProperties,
   GetPipelineTable,
   VtdTree,
-  ExcelRow,
+  PipelineCells,
 } from './types';
 
 const initialState: InitialState = {
@@ -84,7 +84,7 @@ export const vtdsSlice = createSlice({
         tableType: TableType;
         name: string;
         index: number;
-        values?: ExcelRow;
+        values?: PipelineCells;
       }>,
     ) => {
       const pipelineData = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData;

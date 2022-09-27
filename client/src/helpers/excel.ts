@@ -6,6 +6,7 @@ import { REQUIRED_COLUMNS } from '../redux/vtds/constants';
 import {
   ExcelRow,
   ExcelValue,
+  PipelineCell,
   PipelineColumn,
   PipelineColumns,
   PipelineRow,
@@ -14,29 +15,29 @@ import {
   TableType,
 } from '../redux/vtds/types';
 
-export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColumn => {
-  return {
-    id: v4(),
-    index,
-    value,
-    hidden: false,
-    width: COLUMN_WIDTH,
-    minWidth: COLUMN_WIDTH,
-    sortType: null,
-    extendedFilter: {
-      visible: false,
-      checkedUniqueRowsValues: [],
-    },
-  };
-};
+export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColumn => ({
+  id: v4(),
+  index,
+  value,
+  hidden: false,
+  width: COLUMN_WIDTH,
+  minWidth: COLUMN_WIDTH,
+  sortType: null,
+  extendedFilter: {
+    visible: false,
+    checkedUniqueRowsValues: [],
+  },
+});
 
-export const getDefaultRow = (row: ExcelRow): PipelineRow => {
-  return {
-    id: v4(),
-    hidden: false,
-    values: row.map((value) => ({ value })),
-  };
-};
+export const getDefaultCell = (value: ExcelValue): PipelineCell => ({
+  value,
+});
+
+export const getDefaultRow = (row: ExcelRow): PipelineRow => ({
+  id: v4(),
+  hidden: false,
+  values: row.map((value) => getDefaultCell(value)),
+});
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
   if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') throw Error('Invalid file format');
