@@ -25,12 +25,7 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
   const virtualScrollContentRef = useRef<HTMLDivElement>(null);
 
   const visibleColumns = useMemo(() => table.columns.filter(({ hidden }) => !hidden), [table.columns]);
-  const visibleRows = useMemo(() => {
-    if (table.sortedRows.length) return table.sortedRows;
-    if (table.filteredRows.length) return table.filteredRows;
-
-    return table.rows;
-  }, [table.filteredRows, table.rows, table.sortedRows]);
+  const visibleRows = useMemo(() => table.rows.filter(({ hidden }) => !hidden), [table.rows]);
 
   const columnsOnPage = useMemo(
     () => visibleColumns.slice(columnIndex, columnIndex + columnsOnPageCount),
@@ -140,14 +135,14 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
               </tr>
             </thead>
             <tbody>
-              {rowsOnPage.map((row) => (
-                <tr key={v4()}>
-                  {row
+              {rowsOnPage.map(({ id, values }) => (
+                <tr key={id}>
+                  {values
                     .filter((_, i) => !table.columns[i].hidden)
                     .slice(columnIndex, columnIndex + columnsOnPageCount)
-                    .map((cell) => (
-                      <td key={v4()} style={rowStyle} title={cell ? String(cell) : ''}>
-                        {cell}
+                    .map(({ value }) => (
+                      <td key={v4()} style={rowStyle} title={value ? String(value) : ''}>
+                        {value}
                       </td>
                     ))}
                 </tr>

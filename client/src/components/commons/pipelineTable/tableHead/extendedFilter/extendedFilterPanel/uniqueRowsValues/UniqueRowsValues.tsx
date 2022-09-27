@@ -3,8 +3,9 @@ import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'r
 import { getSortedRows, getUniqueRowsValues } from '../../../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../../../hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from '../../../../../../../redux/vtds/reducer';
-import { ExcelRow, ExcelRows, ExcelValue, PipelineColumn, TableType, PipelineTable } from '../../../../../../../redux/vtds/types';
+import { ExcelRow, ExcelValue, PipelineColumn, TableType, PipelineRows } from '../../../../../../../redux/vtds/types';
 import { SORT_TYPES } from '../../../sortFilter/constants';
+import { SEARCH_TYPES } from '../constants';
 import { ReactComponent as CheckBoxBlackRegular } from '../../../../../../../assets/svg/checkBoxBlankRegular.svg';
 import { ReactComponent as CheckBoxRegular } from '../../../../../../../assets/svg/checkBoxRegular.svg';
 
@@ -14,23 +15,27 @@ import './uniqueRowsValues.scss';
 type UniqueRowsProps = {
   vtdId: string;
   tableType: TableType;
-  table: PipelineTable;
-  filteredRows: ExcelRows;
+  filteredRows: PipelineRows;
+  visibleRows: PipelineRows;
+  filteredRowsWithoutSearch: PipelineRows;
   column: PipelineColumn;
   searchValue: string;
   fromValue: string;
   toValue: string;
+  searchType: SEARCH_TYPES;
 };
 
 const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
   vtdId,
   tableType,
-  table,
   filteredRows,
+  visibleRows,
+  filteredRowsWithoutSearch,
   column,
   searchValue,
   fromValue,
   toValue,
+  searchType,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -43,7 +48,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
 
   const uniqueRowsValues = useMemo(() => {
     const sortedFilteredRows = getSortedRows({
-      rows: filteredRows,
+      rows: visibleRows,
       columnIndex: column.index,
       sortType: SORT_TYPES.asc,
     });
@@ -55,7 +60,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
     });
 
     return uniqueRowsValues;
-  }, [column.index, filteredRows]);
+  }, [column.index, visibleRows]);
 
   const uniqueRowsValuesContentStyle = useMemo(
     () => ({
@@ -96,43 +101,36 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
   const setIsAddToCheckedUniqueRowsValuesOnClick = useCallback(() => setIsAddToCheckedUniqueRowsValues((prev) => !prev), []);
 
   const applyExtendedFilterOnClick = useCallback(() => {
-    const isInputValues = searchValue || fromValue || toValue;
-    let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
-
-    if (
-      uniqueRowsValues.length === checkedUniqueRowsValues.length &&
-      !isInputValues &&
-      uniqueRowsValues.length < MAX_COUNT_UNIQUE_ROWS
-    ) {
-      newCheckedUniqueRowsValues = [];
-    } else if (isAddToCheckedUniqueRowsValues) {
-      newCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues.concat(checkedUniqueRowsValues);
-    }
-
-    const checkedUniqueRowsValuesForFilteredRows = newCheckedUniqueRowsValues.length
-      ? newCheckedUniqueRowsValues
+    //set newRows
+    let newCheckedUniqueRowsValues = isAddToCheckedUniqueRowsValues
+      ? column.extendedFilter.checkedUniqueRowsValues.concat(checkedUniqueRowsValues)
       : checkedUniqueRowsValues;
-    const newFilteredRows = (isInputValues ? table.rows : filteredRows).filter((row) =>
-      checkedUniqueRowsValuesForFilteredRows.includes(row[column.index]),
+
+    const newRows = (isAddToCheckedUniqueRowsValues ? filteredRowsWithoutSearch : filteredRows).map((row) =>
+      !row.hidden && !newCheckedUniqueRowsValues.includes(row.values[column.index].value) ? { ...row, hidden: true } : row,
     );
-    const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
 
     dispatch(
       setPipelineTableProperties({
         vtdId,
         tableType,
         properties: {
-          filteredRows: newFilteredRows.length !== table.rows.length ? newFilteredRows : [],
-          sortedRows: sortedColumn
-            ? getSortedRows({
-                sortType: sortedColumn.sortType!,
-                columnIndex: sortedColumn.index,
-                rows: newFilteredRows,
-              })
-            : [],
+          rows: newRows,
         },
       }),
     );
+
+    //reset checkedUniqueRowsValues for choosing all values
+    if (
+      uniqueRowsValues.length === checkedUniqueRowsValues.length &&
+      !(searchValue || fromValue || toValue) &&
+      uniqueRowsValues.length < MAX_COUNT_UNIQUE_ROWS
+    ) {
+      newCheckedUniqueRowsValues = [];
+    }
+
+    //set inputValues
+    const inputValues = searchType === SEARCH_TYPES.search ? { searchValue } : { fromValue, toValue };
 
     dispatch(
       setColumnProperties({
@@ -143,28 +141,27 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
           extendedFilter: {
             visible: false,
             checkedUniqueRowsValues: newCheckedUniqueRowsValues,
-            searchValue,
-            fromValue,
-            toValue,
+            searchType,
+            ...inputValues,
           },
         },
       }),
     );
   }, [
-    searchValue,
-    fromValue,
-    toValue,
-    checkedUniqueRowsValues,
-    uniqueRowsValues.length,
     isAddToCheckedUniqueRowsValues,
-    table.rows,
-    table.columns,
+    column.extendedFilter.checkedUniqueRowsValues,
+    column.index,
+    checkedUniqueRowsValues,
+    filteredRowsWithoutSearch,
     filteredRows,
     dispatch,
     vtdId,
     tableType,
-    column.index,
-    column.extendedFilter.checkedUniqueRowsValues,
+    uniqueRowsValues.length,
+    searchValue,
+    fromValue,
+    toValue,
+    searchType,
   ]);
 
   useLayoutEffect(() => {

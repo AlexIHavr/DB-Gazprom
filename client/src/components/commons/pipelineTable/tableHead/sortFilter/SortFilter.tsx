@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { memo, useCallback, useMemo } from 'react';
 
-import { getSortedRows } from '../../../../../helpers/pipelineTable';
+import { getDefaultSortedRows, getSortedRows } from '../../../../../helpers/pipelineTable';
 import { useAppDispatch } from '../../../../../hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from '../../../../../redux/vtds/reducer';
 import { PipelineColumn, TableType, PipelineTable } from '../../../../../redux/vtds/types';
@@ -40,19 +40,19 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
           tableType,
           vtdId,
           properties: {
-            sortedRows:
+            rows:
               sortType === null
-                ? []
+                ? getDefaultSortedRows(table.rows)
                 : getSortedRows({
                     sortType,
                     columnIndex: column.index,
-                    rows: table.filteredRows.length ? table.filteredRows : table.rows,
+                    rows: table.rows,
                   }),
           },
         }),
       );
     },
-    [dispatch, tableType, vtdId, column.index, column.sortType, table.columns, table.filteredRows, table.rows],
+    [dispatch, tableType, vtdId, column.index, column.sortType, table.columns, table.rows],
   );
 
   const sortFilterTitle = useMemo(

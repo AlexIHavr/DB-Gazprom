@@ -29,7 +29,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
 
       const parentElem = (e.target as HTMLDivElement).parentElement;
       let startPageX = e.pageX;
-      let width: number;
+      let width = column.width;
 
       const onMouseMove = (event: MouseEvent) => {
         if (parentElem) {
@@ -55,7 +55,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
         },
       );
     },
-    [column.minWidth, column.index, dispatch, vtdId, tableType],
+    [column.width, column.minWidth, column.index, dispatch, vtdId, tableType],
   );
 
   const hideColumnOnMouseDown = useCallback(

@@ -1,41 +1,47 @@
 import { SEARCH_COMPARE_TYPES } from '../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
 import { SORT_TYPES } from '../components/commons/pipelineTable/tableHead/sortFilter/constants';
-import { ExcelRow, ExcelRows } from '../redux/vtds/types';
+import { ExcelRow, ExcelValue, PipelineRows } from '../redux/vtds/types';
 
-type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: ExcelRows };
+export const getDefaultSortedRows = (rows: PipelineRows) => {
+  return [...rows].sort((nextRow, row) => {
+    return Number(nextRow.values[0].value) - Number(row.values[0].value);
+  });
+};
+
+type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: PipelineRows };
 
 export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsParams) => {
   if (sortType === null) return rows;
 
   return rows
-    .filter((row) => row[columnIndex] !== null)
+    .filter(({ values }) => values[columnIndex].value !== null)
     .sort((nextRow, row) => {
-      let rowValue = row[columnIndex]!;
-      let nextRowValue = nextRow[columnIndex]!;
+      let cellValue = row.values[columnIndex].value!;
+      let nextCellValue = nextRow.values[columnIndex].value!;
 
-      if (typeof rowValue === 'string') rowValue = rowValue.toLowerCase();
-      if (typeof nextRowValue === 'string') nextRowValue = nextRowValue.toLowerCase();
+      if (typeof cellValue === 'string') cellValue = cellValue.toLowerCase();
+      if (typeof nextCellValue === 'string') nextCellValue = nextCellValue.toLowerCase();
 
       //sort number's string with number, e.g. tube number
-      if (typeof rowValue === 'number' && typeof nextRowValue === 'string') {
-        nextRowValue = isNaN(parseFloat(nextRowValue)) ? nextRowValue : parseFloat(nextRowValue);
-      } else if (typeof nextRowValue === 'number' && typeof rowValue === 'string') {
-        rowValue = isNaN(parseFloat(rowValue)) ? rowValue : parseFloat(rowValue);
+      if (typeof cellValue === 'number' && typeof nextCellValue === 'string') {
+        nextCellValue = isNaN(parseFloat(nextCellValue)) ? nextCellValue : parseFloat(nextCellValue);
+      } else if (typeof nextCellValue === 'number' && typeof cellValue === 'string') {
+        cellValue = isNaN(parseFloat(cellValue)) ? cellValue : parseFloat(cellValue);
       }
 
       switch (sortType) {
         case SORT_TYPES.desc:
-          return rowValue >= nextRowValue ? 1 : -1;
+          return cellValue >= nextCellValue ? 1 : -1;
         case SORT_TYPES.asc:
-          return rowValue <= nextRowValue ? 1 : -1;
+          return cellValue <= nextCellValue ? 1 : -1;
         default:
           return 0;
       }
     })
-    .concat(rows.filter((row) => row[columnIndex] === null));
+    .concat(rows.filter(({ values }) => values[columnIndex].value === null));
 };
 
-type getUniqueRowsValuesParams = { rows: ExcelRows; columnIndex: number; maxCount?: number };
+type getUniqueRowsValuesParams = { rows: PipelineRows; columnIndex: number; maxCount?: number };
 
 export const getUniqueRowsValues = ({ rows, columnIndex, maxCount }: getUniqueRowsValuesParams) => {
   const uniqueRowsValues: ExcelRow = [];
@@ -43,10 +49,11 @@ export const getUniqueRowsValues = ({ rows, columnIndex, maxCount }: getUniqueRo
   for (const row of rows) {
     if (maxCount && maxCount <= uniqueRowsValues.length) break;
 
-    if (!uniqueRowsValues.includes(row[columnIndex])) uniqueRowsValues.push(row[columnIndex]);
+    const cellValue = row.values[columnIndex].value;
+    if (!uniqueRowsValues.includes(cellValue)) uniqueRowsValues.push(cellValue);
   }
 
-  if (rows.at(-1)![columnIndex] === null) {
+  if (rows.at(-1)?.values[columnIndex].value === null) {
     if (uniqueRowsValues.at(-1) === null) uniqueRowsValues.pop();
     uniqueRowsValues.unshift(null);
   }
@@ -54,49 +61,41 @@ export const getUniqueRowsValues = ({ rows, columnIndex, maxCount }: getUniqueRo
   return uniqueRowsValues;
 };
 
-type getSearchCompareRowsParams = {
-  rows: ExcelRows;
-  columnIndex: number;
+type isSearchComparedCellValueParams = {
+  cellValue: ExcelValue;
   searchValue: string;
   searchCompareTypes: SEARCH_COMPARE_TYPES[];
 };
 
-export const getSearchCompareRows = ({ rows, columnIndex, searchValue, searchCompareTypes }: getSearchCompareRowsParams) => {
-  return rows.filter((row) => {
-    if (row[columnIndex] === null) return false;
+export const isSearchComparedCellValue = ({ cellValue, searchValue, searchCompareTypes }: isSearchComparedCellValueParams) => {
+  if (cellValue === null) return false;
 
-    const rowValue = String(row[columnIndex]);
-    const isWithRegistry = searchCompareTypes.includes(SEARCH_COMPARE_TYPES.matchCase);
+  const stringValue = String(cellValue);
+  const isWithRegistry = searchCompareTypes.includes(SEARCH_COMPARE_TYPES.matchCase);
 
-    if (searchCompareTypes.includes(SEARCH_COMPARE_TYPES.matchWholeWord)) {
-      if (isWithRegistry) return rowValue === searchValue;
+  if (searchCompareTypes.includes(SEARCH_COMPARE_TYPES.matchWholeWord)) {
+    if (isWithRegistry) return stringValue === searchValue;
 
-      return rowValue.toLowerCase() === searchValue.toLowerCase();
-    }
+    return stringValue.toLowerCase() === searchValue.toLowerCase();
+  }
 
-    if (isWithRegistry) return rowValue.includes(searchValue);
+  if (isWithRegistry) return stringValue.includes(searchValue);
 
-    return rowValue.toLowerCase().includes(searchValue.toLowerCase());
-  });
+  return stringValue.toLowerCase().includes(searchValue.toLowerCase());
 };
 
-type getRangeCompareRowsParams = {
-  rows: ExcelRows;
-  columnIndex: number;
+type isRangeComparedCellValueParams = {
+  cellValue: ExcelValue;
   fromValue: string;
   toValue: string;
 };
 
-export const getRangeCompareRows = ({ rows, columnIndex, fromValue, toValue }: getRangeCompareRowsParams) => {
-  return rows.filter((row) => {
-    const rowValue = row[columnIndex];
+export const isRangeComparedCellValue = ({ cellValue, fromValue, toValue }: isRangeComparedCellValueParams) => {
+  if (cellValue === null) return false;
 
-    if (rowValue === null) return false;
+  if (fromValue && toValue) return cellValue >= fromValue && cellValue <= toValue;
+  if (fromValue) return cellValue >= fromValue;
+  if (toValue) return cellValue <= toValue;
 
-    if (fromValue && toValue) return rowValue >= fromValue && rowValue <= toValue;
-    if (fromValue) return rowValue >= fromValue;
-    if (toValue) return rowValue <= toValue;
-
-    return rowValue;
-  });
+  return cellValue;
 };

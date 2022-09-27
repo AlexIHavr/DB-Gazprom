@@ -1,3 +1,4 @@
+import { SEARCH_TYPES } from '../../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
 import { SORT_TYPES } from '../../components/commons/pipelineTable/tableHead/sortFilter/constants';
 
 import { TABLE_TYPES, VTD_TREE_LEVELS } from './constants';
@@ -12,6 +13,7 @@ export type ExtendedFilter = {
   searchValue?: string;
   fromValue?: string;
   toValue?: string;
+  searchType?: SEARCH_TYPES;
 };
 
 export type PipelineColumn = {
@@ -24,14 +26,26 @@ export type PipelineColumn = {
   sortType: SORT_TYPES | null;
   extendedFilter: ExtendedFilter;
 };
+export type PipelineColumns = PipelineColumn[];
 
 export type PipelineColumnProperties = Partial<PipelineColumn>;
 
+export type PipelineCell = {
+  value: ExcelValue;
+};
+
+export type PipelineCells = PipelineCell[];
+
+export type PipelineRow = {
+  id: string;
+  hidden: boolean;
+  values: PipelineCells;
+};
+export type PipelineRows = PipelineRow[];
+
 export type PipelineTable = {
-  columns: PipelineColumn[];
-  rows: ExcelRows;
-  sortedRows: ExcelRows;
-  filteredRows: ExcelRows;
+  columns: PipelineColumns;
+  rows: PipelineRows;
 };
 
 export type PipelineTableProperties = Partial<PipelineTable>;
@@ -56,6 +70,12 @@ export type Vtds = VtdData[];
 
 export type GetVtdsResponse = Omit<VtdData, 'pipelineData'>[];
 
+export type GetPipelineTable = {
+  vtdId: string;
+  pipelineTable: PipelineTable;
+  tableType: TableType;
+};
+
 export type VtdTreeLevels = keyof typeof VTD_TREE_LEVELS;
 
 export type VtdTree = {
@@ -76,10 +96,4 @@ export type VtdTree = {
 export type InitialState = {
   vtds: Vtds;
   vtdTree: VtdTree;
-};
-
-export type GetPipelineTable = {
-  vtdId: string;
-  pipelineTable: PipelineTable;
-  tableType: TableType;
 };

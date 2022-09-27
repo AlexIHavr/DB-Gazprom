@@ -9,6 +9,7 @@ import { ReactComponent as EyeSolid } from '../../../../assets/svg/eyeSolid.svg'
 import { ReactComponent as FilterOffSolid } from '../../../../assets/svg/filterOffSolid.svg';
 import { ReactComponent as RestartSolid } from '../../../../assets/svg/restartSolid.svg';
 import { ReactComponent as EyeRegular } from '../../../../assets/svg/eyeRegular.svg';
+import { getDefaultSortedRows } from '../../../../helpers/pipelineTable';
 
 import './tableManagePanel.scss';
 
@@ -70,9 +71,17 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
           },
         }),
       );
-      dispatch(setPipelineTableProperties({ vtdId, tableType, properties: { sortedRows: [], filteredRows: [] } }));
+      dispatch(
+        setPipelineTableProperties({
+          vtdId,
+          tableType,
+          properties: {
+            rows: getDefaultSortedRows(table.rows.map((row) => ({ ...row, hidden: false }))),
+          },
+        }),
+      );
     },
-    [dispatch, tableType, vtdId],
+    [dispatch, table.rows, tableType, vtdId],
   );
 
   useEffect(() => {
