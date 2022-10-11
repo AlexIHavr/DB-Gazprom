@@ -35,7 +35,7 @@ export const getVtds = createAsyncThunk<GetVtdsResponse>('getVtds', async () => 
 export const getPipelineTable = createAsyncThunk<GetPipelineTable, { vtdId: string; tableType: TableType }>(
   'getPipelineTable',
   async ({ vtdId, tableType }) => {
-    const { data } = await vtdApi.get<PipelineTable>('/getPipelineTable', { params: { id: vtdId, tableType } });
+    const { data } = await vtdApi.get<PipelineTable | undefined>('/getPipelineTable', { params: { id: vtdId, tableType } });
     return { vtdId, pipelineTable: data, tableType };
   },
 );

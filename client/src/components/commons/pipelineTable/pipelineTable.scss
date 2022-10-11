@@ -26,14 +26,30 @@
           }
         }
 
-        th {
-          border-top: $cellBorder;
-          padding: 10px;
-        }
-
         td {
           overflow: hidden;
           white-space: nowrap;
+
+          &.clickable {
+            cursor: pointer;
+
+            &:hover {
+              color: white;
+              text-shadow: 1px 1px 1px black;
+              background-color: #1976d2;
+            }
+
+            transition: 0.2s;
+            -webkit-transition: 0.2s;
+            -moz-transition: 0.2s;
+            -ms-transition: 0.2s;
+            -o-transition: 0.2s;
+          }
+        }
+
+        th {
+          border-top: $cellBorder;
+          padding: 10px;
         }
       }
     }
@@ -75,6 +91,8 @@
 
     &.active {
       background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      box-shadow: none;
 
       svg {
         color: white;

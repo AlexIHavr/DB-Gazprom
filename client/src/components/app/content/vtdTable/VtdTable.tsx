@@ -26,8 +26,8 @@ const VtdTable: React.FC = () => {
   const vtdTable = pipeline?.pipelineData[tableType];
 
   useEffect(() => {
-    if (vtdId && !pipeline?.pipelineData[tableType]) dispatch(getPipelineTable({ vtdId, tableType }));
-  }, [dispatch, pipeline?.pipelineData, tableType, vtdId]);
+    if (vtdId && vtdTable === undefined) dispatch(getPipelineTable({ vtdId, tableType }));
+  }, [dispatch, vtdTable, tableType, vtdId]);
 
   return (
     <div className="vtdTable">

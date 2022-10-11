@@ -52,7 +52,7 @@ export type PipelineTableProperties = Partial<PipelineTable>;
 
 export type TableType = keyof typeof TABLE_TYPES;
 
-export type PipelineData = Partial<Record<TableType, PipelineTable>>;
+export type PipelineData = Partial<Record<TableType, PipelineTable | null>>;
 
 export type VtdData = {
   id: string;
@@ -72,11 +72,20 @@ export type GetVtdsResponse = Omit<VtdData, 'pipelineData'>[];
 
 export type GetPipelineTable = {
   vtdId: string;
-  pipelineTable: PipelineTable;
+  pipelineTable?: PipelineTable;
   tableType: TableType;
 };
 
+export type InnerCellTables = Record<string, PipelineTable>;
+export type InnerRowsTables = Record<number, InnerCellTables>;
+export type InnerTables = Record<number, InnerRowsTables>;
+
 export type VtdTreeLevels = keyof typeof VTD_TREE_LEVELS;
+
+export type VtdYears = {
+  id: string;
+  [VTD_TREE_LEVELS.year]: string;
+}[];
 
 export type VtdTree = {
   [VTD_TREE_LEVELS.type]: string;
@@ -85,10 +94,7 @@ export type VtdTree = {
     sections: {
       [VTD_TREE_LEVELS.section]: string;
       umg: string;
-      years: {
-        id: string;
-        [VTD_TREE_LEVELS.year]: string;
-      }[];
+      years: VtdYears;
     }[];
   }[];
 }[];

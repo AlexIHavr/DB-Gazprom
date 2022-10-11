@@ -13,7 +13,7 @@ import {
   PipelineTableProperties,
   GetPipelineTable,
   VtdTree,
-  PipelineCells,
+  ExcelRow,
 } from './types';
 
 const initialState: InitialState = {
@@ -84,7 +84,7 @@ export const vtdsSlice = createSlice({
         tableType: TableType;
         name: string;
         index: number;
-        values?: PipelineCells;
+        values?: ExcelRow;
       }>,
     ) => {
       const pipelineData = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData;
@@ -100,10 +100,8 @@ export const vtdsSlice = createSlice({
 
   extraReducers: {
     [getPipelineTable.fulfilled.type]: (state, action: PayloadAction<GetPipelineTable>) => {
-      if (action.payload.pipelineTable) {
-        state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType] =
-          action.payload.pipelineTable;
-      }
+      state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType] =
+        action.payload.pipelineTable || null;
     },
     [getVtds.fulfilled.type]: (state, action: PayloadAction<GetVtdsResponse>) => {
       state.vtds = action.payload.map((vtd) => ({ ...vtd, pipelineData: {} }));

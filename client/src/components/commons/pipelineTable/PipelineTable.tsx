@@ -1,25 +1,36 @@
 import { useState, useRef, useMemo, useCallback, useEffect, memo } from 'react';
 import { v4 } from 'uuid';
+import classNames from 'classnames';
 
-import { TableType, PipelineTable as PipelineTableType } from '../../../redux/vtds/types';
+import {
+  TableType,
+  PipelineTable as PipelineTableType,
+  InnerTables as InnerTablesType,
+  InnerCellTables,
+} from '../../../redux/vtds/types';
 
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from './constants';
 import TableHead from './tableHead/TableHead';
 import TableManagePanel from './tableManagePanel/TableManagePanel';
+import InnerTables from './innerTables/InnerTables';
 
 import './pipelineTable.scss';
 
 type PipelineTableProps = {
   table: PipelineTableType;
-  vtdId: string;
-  tableType: TableType;
+  height?: number;
+  width?: number;
+  vtdId?: string;
+  tableType?: TableType;
+  innerTables?: InnerTablesType;
 };
 
-const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }) => {
+const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType, innerTables, height, width }) => {
   const [rowIndex, setRowIndex] = useState(0);
   const [columnIndex, setColumnIndex] = useState(0);
   const [rowsOnPageCount, setRowsOnPageCount] = useState(0);
   const [columnsOnPageCount, setColumnsOnPageCount] = useState(0);
+  const [innerCellTables, setInnerCellTables] = useState<InnerCellTables>();
 
   const virtualScrollRef = useRef<HTMLDivElement>(null);
   const virtualScrollContentRef = useRef<HTMLDivElement>(null);
@@ -99,23 +110,33 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
     [rowIndex, visibleColumns, columnIndex],
   );
 
+  const setInnerCellTablesOnClick = useCallback(
+    (e: React.MouseEvent<HTMLTableCellElement>, innerCellTables?: InnerCellTables) => {
+      e.preventDefault();
+      setInnerCellTables(innerCellTables);
+    },
+    [],
+  );
+
   useEffect(() => {
+    //table on full window
     const virtualScrollCurrent = virtualScrollRef.current;
 
     if (virtualScrollCurrent) {
       const documentElement = document.documentElement;
-      virtualScrollCurrent.style.height = documentElement.clientHeight - virtualScrollCurrent.offsetTop + 'px';
-      virtualScrollCurrent.style.width = documentElement.clientWidth - virtualScrollCurrent.offsetLeft + 'px';
+      virtualScrollCurrent.style.height = (height || documentElement.clientHeight - virtualScrollCurrent.offsetTop) + 'px';
+      virtualScrollCurrent.style.width = (width || documentElement.clientWidth - virtualScrollCurrent.offsetLeft) + 'px';
       virtualScrollContentRef.current!.style.minHeight = virtualScrollCurrent.style.height;
 
       setRowsOnPageCount(Math.floor((virtualScrollCurrent.clientHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
       setColumnsOnPageCount(Math.floor(virtualScrollCurrent.clientWidth / COLUMN_WIDTH) + VIRTUAL_COLUMNS_COUNT * 2);
     }
-  }, []);
+  }, [height, width]);
 
   return (
     <div className="pipelineTable">
-      <TableManagePanel table={table} vtdId={vtdId} tableType={tableType} />
+      {vtdId && tableType && <TableManagePanel table={table} vtdId={vtdId} tableType={tableType} />}
+      {innerCellTables && <InnerTables innerTablesData={innerCellTables} />}
 
       <div className="virtualScroll" onScroll={virtualOnScroll} style={virtualScrollStyle} ref={virtualScrollRef}>
         <div style={virtualScrollContentStyle} className="virtualScrollContent" ref={virtualScrollContentRef}>
@@ -135,16 +156,27 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType }
               </tr>
             </thead>
             <tbody>
-              {rowsOnPage.map(({ id, values }) => (
+              {rowsOnPage.map(({ id, values }, rowI) => (
                 <tr key={id}>
                   {values
                     .filter((_, i) => !table.columns[i].hidden)
                     .slice(columnIndex, columnIndex + columnsOnPageCount)
-                    .map(({ value }) => (
-                      <td key={v4()} style={rowStyle} title={value ? String(value) : ''}>
-                        {value}
-                      </td>
-                    ))}
+                    .map((cell, columnI) => {
+                      const innerCellTables =
+                        innerTables && innerTables[columnI + columnIndex] && innerTables[columnI + columnIndex][rowI + rowIndex];
+
+                      return (
+                        <td
+                          key={v4()}
+                          style={rowStyle}
+                          title={cell.value ? String(cell.value) : ''}
+                          className={classNames({ clickable: innerCellTables })}
+                          onClick={(e) => setInnerCellTablesOnClick(e, innerCellTables)}
+                        >
+                          {cell.value}
+                        </td>
+                      );
+                    })}
                 </tr>
               ))}
             </tbody>

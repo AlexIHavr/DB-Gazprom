@@ -12,10 +12,10 @@ import SortFilter from './sortFilter/SortFilter';
 import './tableHead.scss';
 
 type TableHeadProps = {
-  vtdId: string;
   table: PipelineTable;
-  tableType: TableType;
   column: PipelineColumn;
+  vtdId?: string;
+  tableType?: TableType;
   style?: React.CSSProperties;
 };
 
@@ -25,7 +25,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
 
   const onMouseDownChangeSizeTool = useCallback(
     (e: React.MouseEvent) => {
-      if (e.button) return;
+      if (e.button || !vtdId || !tableType) return;
 
       const parentElem = (e.target as HTMLDivElement).parentElement;
       let startPageX = e.pageX;
@@ -60,7 +60,7 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
 
   const hideColumnOnMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      if (e.button) return;
+      if (e.button || !vtdId || !tableType) return;
       dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { hidden: true } }));
     },
     [dispatch, vtdId, tableType, column.index],
@@ -79,14 +79,19 @@ const TableHead: React.FC<TableHeadProps> = ({ table, vtdId, tableType, column, 
   return (
     <th ref={tableCellRef} style={style} className={classNames({ showExtendedFilter: column.extendedFilter.visible })}>
       <span title={column.value ? String(column.value) : ''}>{column.value}</span>
-      <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
-      <div className="manageColumnButtons">
-        <button title="Скрыть колонку" className="hideColumn" onMouseDown={hideColumnOnMouseDown}>
-          <EyeSlashSolid />
-        </button>
-        <ExtendedFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
-        <SortFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
-      </div>
+
+      {vtdId && tableType && (
+        <>
+          <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>
+          <div className="manageColumnButtons">
+            <button title="Скрыть колонку" className="hideColumn" onMouseDown={hideColumnOnMouseDown}>
+              <EyeSlashSolid />
+            </button>
+            <ExtendedFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
+            <SortFilter table={table} vtdId={vtdId} tableType={tableType} column={column} />
+          </div>
+        </>
+      )}
     </th>
   );
 };

@@ -101,10 +101,16 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
   const setIsAddToCheckedUniqueRowsValuesOnClick = useCallback(() => setIsAddToCheckedUniqueRowsValues((prev) => !prev), []);
 
   const applyExtendedFilterOnClick = useCallback(() => {
-    //set newRows
-    let newCheckedUniqueRowsValues = isAddToCheckedUniqueRowsValues
-      ? column.extendedFilter.checkedUniqueRowsValues.concat(checkedUniqueRowsValues)
-      : checkedUniqueRowsValues;
+    let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
+
+    //filtering newCheckedUniqueRowsValues
+    if (isAddToCheckedUniqueRowsValues) {
+      const columnCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues;
+
+      newCheckedUniqueRowsValues = columnCheckedUniqueRowsValues
+        .filter((uniqueValue) => checkedUniqueRowsValues.includes(uniqueValue) || !uniqueRowsValues.includes(uniqueValue))
+        .concat(checkedUniqueRowsValues.filter((uniqueValue) => !columnCheckedUniqueRowsValues.includes(uniqueValue)));
+    }
 
     const newRows = (isAddToCheckedUniqueRowsValues ? filteredRowsWithoutSearch : filteredRows).map((row) =>
       !row.hidden && !newCheckedUniqueRowsValues.includes(row.values[column.index].value) ? { ...row, hidden: true } : row,
@@ -157,7 +163,7 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
     dispatch,
     vtdId,
     tableType,
-    uniqueRowsValues.length,
+    uniqueRowsValues,
     searchValue,
     fromValue,
     toValue,
@@ -215,7 +221,11 @@ const UniqueRowsValues: React.FC<UniqueRowsProps> = ({
         </div>
       </div>
 
-      <button className="apply" onClick={applyExtendedFilterOnClick} disabled={!checkedUniqueRowsValues.length}>
+      <button
+        className="apply"
+        onClick={applyExtendedFilterOnClick}
+        disabled={!checkedUniqueRowsValues.length && !isAddToCheckedUniqueRowsValues}
+      >
         ОК
       </button>
     </>
