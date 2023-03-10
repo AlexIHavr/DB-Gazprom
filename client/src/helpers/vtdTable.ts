@@ -1,6 +1,6 @@
-import { store } from '../redux/store';
-import { REQUIRED_COLUMNS_NAMES } from '../redux/vtds/constants';
-import { InnerCellTables, InnerRowsTables, PipelineRows, VtdYears } from '../redux/vtds/types';
+import { store } from 'redux/store';
+import { REQUIRED_COLUMNS_NAMES } from 'redux/vtds/constants';
+import { InnerCellTables, InnerRowsTables, PipelineRows, VtdYears } from 'redux/vtds/types';
 
 type GetRepairsInnerRowsTablesParams = {
   rows: PipelineRows;

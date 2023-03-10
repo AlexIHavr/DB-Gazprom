@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { memo, useMemo, useState } from 'react';
+import { InnerCellTables } from 'redux/vtds/types';
 
-import { InnerCellTables } from '../../../../redux/vtds/types';
 import PipelineTable from '../PipelineTable';
 import './innerTables.scss';
 

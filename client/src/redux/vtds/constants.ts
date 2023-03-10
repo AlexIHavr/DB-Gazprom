@@ -8,30 +8,49 @@ export enum VTD_TREE_LEVELS {
   year = 'year',
 }
 
-export enum TABLE_TYPES {
-  form = 'form',
-  repairs = 'repairs',
-  inspections = 'inspections',
-  statistics = 'statistics',
-}
-
-export const TABLE_TYPES_NAMES = {
-  [TABLE_TYPES.form]: 'Форма',
-  [TABLE_TYPES.repairs]: 'Ремонты',
-  [TABLE_TYPES.inspections]: 'Обследования',
-  [TABLE_TYPES.statistics]: 'Статистика',
-};
-
-export const TABLE_TYPES_KEYS = Object.keys(TABLE_TYPES) as TableType[];
-
 export enum REQUIRED_COLUMNS_NAMES {
   tubeNumberVtd = 'Номер трубы',
   tubeNumberRepairs = '№ трубы ВТД',
 }
 
-export const REQUIRED_COLUMNS = {
-  [TABLE_TYPES.form]: [REQUIRED_COLUMNS_NAMES.tubeNumberVtd],
-  [TABLE_TYPES.repairs]: [REQUIRED_COLUMNS_NAMES.tubeNumberRepairs],
-  [TABLE_TYPES.inspections]: [],
-  [TABLE_TYPES.statistics]: [],
+export enum SEARCH_TYPES {
+  search = 'Поиск',
+  range = 'Поиск в диапазоне',
+}
+
+export enum SEARCH_COMPARE_TYPES {
+  matchCase = 'Учитывать регистр',
+  matchWholeWord = 'Совпадение полного слова',
+}
+
+export enum SORT_TYPES {
+  asc,
+  desc,
+}
+
+export const TABLE_TYPES = {
+  form: {
+    type: 'form',
+    name: 'Форма',
+    requiredColumns: [REQUIRED_COLUMNS_NAMES.tubeNumberVtd],
+  },
+  repairs: {
+    type: 'repairs',
+    name: 'Ремонты',
+    requiredColumns: [REQUIRED_COLUMNS_NAMES.tubeNumberRepairs],
+  },
+  inspections: {
+    type: 'inspections',
+    name: 'Обследования',
+    requiredColumns: [],
+  },
+  statistics: {
+    type: 'statistics',
+    name: 'Статистика',
+    requiredColumns: [],
+  },
 };
+
+export const TABLE_TYPES_KEYS = Object.keys(TABLE_TYPES) as TableType[];
+export const SEARCH_TYPES_VALUES = Object.values(SEARCH_TYPES);
+export const SEARCH_COMPARE_TYPES_VALUES = Object.values(SEARCH_COMPARE_TYPES);

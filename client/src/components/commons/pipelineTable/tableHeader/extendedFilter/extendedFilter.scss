@@ -1,0 +1,42 @@
+.extendedFilterColumn {
+  &.show {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &.activated {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.04);
+
+    svg {
+      color: red;
+    }
+  }
+}
+
+.extendedFilterPanelWrapper {
+  --width: 400px;
+  --width-offset: 10px;
+
+  position: absolute;
+  top: 25px;
+  left: var(--width-offset);
+  width: var(--width);
+  padding: 5px 0;
+  box-shadow: 0 1px 5px black;
+  transform-origin: top left;
+  background-color: white;
+  z-index: 2;
+  transform: scale(0);
+  border-radius: 0 0 10px 10px;
+
+  &.visibleExtendedFilterWrapper {
+    transform: scale(1);
+    transition: transform 0.2s;
+  }
+
+  &.rightDirection {
+    transform-origin: top right;
+    left: var(--width-offset) - var(--width);
+  }
+}

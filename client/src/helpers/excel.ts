@@ -1,8 +1,7 @@
 import { v4 } from 'uuid';
 import { read, utils, WorkBook } from 'xlsx';
-
-import { COLUMN_WIDTH } from '../components/commons/pipelineTable/constants';
-import { REQUIRED_COLUMNS } from '../redux/vtds/constants';
+import { COLUMN_WIDTH } from 'components/commons/pipelineTable/constants';
+import { TABLE_TYPES } from 'redux/vtds/constants';
 import {
   ExcelRow,
   ExcelValue,
@@ -13,7 +12,8 @@ import {
   PipelineRows,
   PipelineTable,
   TableType,
-} from '../redux/vtds/types';
+} from 'redux/vtds/types';
+import config from 'config/config';
 
 export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColumn => ({
   id: v4(),
@@ -23,15 +23,10 @@ export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColu
   width: COLUMN_WIDTH,
   minWidth: COLUMN_WIDTH,
   sortType: null,
-  extendedFilter: {
-    visible: false,
-    checkedUniqueRowsValues: [],
-  },
+  extendedFilter: { visible: false, checkedUniqueRowsValues: [] },
 });
 
-export const getDefaultCell = (value: ExcelValue): PipelineCell => ({
-  value,
-});
+export const getDefaultCell = (value: ExcelValue): PipelineCell => ({ value });
 
 export const getDefaultRow = (row: ExcelRow): PipelineRow => ({
   id: v4(),
@@ -40,7 +35,7 @@ export const getDefaultRow = (row: ExcelRow): PipelineRow => ({
 });
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
-  if (file.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') throw Error('Invalid file format');
+  if (!config.supportFormats.some((format) => format === file.type)) throw Error('Invalid file format');
 
   return new Promise<PipelineTable>((resolve, reject) => {
     const reader = new FileReader();
@@ -49,9 +44,7 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
 
     reader.onload = async (e) => {
       const wb: WorkBook = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(read(e.target?.result, { type: 'binary' }));
-        }, 100);
+        setTimeout(() => resolve(read(e.target?.result, { type: 'binary' })), 100);
       });
 
       const wsName = wb.SheetNames[listNumber];
@@ -75,7 +68,7 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
 };
 
 export const checkRequiredColumns = (columns: PipelineColumns, tableType: TableType) => {
-  const requiredColumns = REQUIRED_COLUMNS[tableType];
+  const requiredColumns = TABLE_TYPES[tableType].requiredColumns;
   const isIncludesRequiredColumns = requiredColumns.every((requiredColumn) =>
     columns.some(({ value }) => value && requiredColumn.includes(String(value))),
   );

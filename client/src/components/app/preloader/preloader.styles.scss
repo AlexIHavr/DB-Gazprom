@@ -1,0 +1,26 @@
+.wrapper .preloader {
+  --preloader-size: 60px;
+
+  display: none;
+  width: var(--preloader-size);
+  height: var(--preloader-size);
+  position: fixed;
+  top: calc(100vh / 2 - var(--preloader-size) / 2);
+  left: calc(100vw / 2 - var(--preloader-size) / 2);
+  z-index: 100;
+  border: 5px solid var(--base-color);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: preloader-rotate 1.2s linear infinite;
+  border-radius: 50%;
+
+  &.active {
+    display: block;
+  }
+}
+
+@keyframes preloader-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,16 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-import { getAddedColumnTable } from '../../helpers/reducers';
+import { getAddedColumnTable } from 'helpers/reducers';
 
 import { getPipelineTable, getVtds } from './thunks';
 import {
   GetVtdsResponse,
   InitialState,
   PipelineColumn,
-  PipelineColumnProperties,
+  PipelineColumnPartial,
   TableType,
   PipelineTable,
-  PipelineTableProperties,
+  PipelineTablePartial,
   GetPipelineTable,
   VtdTree,
   ExcelRow,
@@ -31,13 +30,15 @@ export const vtdsSlice = createSlice({
         vtdId: string;
         tableType: TableType;
         columnIndex: number;
-        properties: PipelineColumnProperties;
+        properties: PipelineColumnPartial;
       }>,
     ) => {
-      const pipelineTable = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+      const { vtdId, tableType, properties, columnIndex } = action.payload;
 
-      for (const [key, value] of Object.entries(action.payload.properties)) {
-        (pipelineTable.columns[action.payload.columnIndex][key as keyof PipelineColumn] as typeof value) = value;
+      const pipelineTable = state.vtds.find(({ id }) => vtdId === id)!.pipelineData[tableType]!;
+
+      for (const [key, value] of Object.entries(properties)) {
+        (pipelineTable.columns[columnIndex][key as keyof PipelineColumn] as typeof value) = value;
       }
     },
 
@@ -46,12 +47,14 @@ export const vtdsSlice = createSlice({
       action: PayloadAction<{
         vtdId: string;
         tableType: TableType;
-        properties: PipelineColumnProperties;
+        properties: PipelineColumnPartial;
       }>,
     ) => {
-      const pipelineTable = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+      const { vtdId, tableType, properties } = action.payload;
 
-      for (const [key, value] of Object.entries(action.payload.properties)) {
+      const pipelineTable = state.vtds.find(({ id }) => vtdId === id)!.pipelineData[tableType]!;
+
+      for (const [key, value] of Object.entries(properties)) {
         pipelineTable.columns.forEach(
           ({ index }) => ((pipelineTable.columns[index][key as keyof PipelineColumn] as typeof value) = value),
         );
@@ -63,12 +66,14 @@ export const vtdsSlice = createSlice({
       action: PayloadAction<{
         vtdId: string;
         tableType: TableType;
-        properties: PipelineTableProperties;
+        properties: PipelineTablePartial;
       }>,
     ) => {
-      const pipelineTable = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType]!;
+      const { vtdId, tableType, properties } = action.payload;
 
-      for (const [key, value] of Object.entries(action.payload.properties)) {
+      const pipelineTable = state.vtds.find(({ id }) => vtdId === id)!.pipelineData[tableType]!;
+
+      for (const [key, value] of Object.entries(properties)) {
         (pipelineTable[key as keyof PipelineTable] as typeof value) = value;
       }
     },
@@ -87,22 +92,21 @@ export const vtdsSlice = createSlice({
         values?: ExcelRow;
       }>,
     ) => {
-      const pipelineData = state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData;
+      const { vtdId, tableType, name, index, values } = action.payload;
 
-      pipelineData[action.payload.tableType] = getAddedColumnTable({
-        pipelineTable: pipelineData[action.payload.tableType]!,
-        name: action.payload.name,
-        index: action.payload.index,
-        values: action.payload.values,
-      });
+      const pipelineData = state.vtds.find(({ id }) => vtdId === id)!.pipelineData;
+
+      pipelineData[tableType] = getAddedColumnTable({ pipelineTable: pipelineData[tableType]!, name, index, values });
     },
   },
 
   extraReducers: {
     [getPipelineTable.fulfilled.type]: (state, action: PayloadAction<GetPipelineTable>) => {
-      state.vtds.find(({ id }) => action.payload.vtdId === id)!.pipelineData[action.payload.tableType] =
-        action.payload.pipelineTable || null;
+      const { vtdId, tableType, pipelineTable } = action.payload;
+
+      state.vtds.find(({ id }) => vtdId === id)!.pipelineData[tableType] = pipelineTable || null;
     },
+
     [getVtds.fulfilled.type]: (state, action: PayloadAction<GetVtdsResponse>) => {
       state.vtds = action.payload.map((vtd) => ({ ...vtd, pipelineData: {} }));
     },

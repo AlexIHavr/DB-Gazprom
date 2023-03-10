@@ -1,16 +1,15 @@
 import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import classNames from 'classnames';
+import { PipelineColumn, PipelineColumnPartial, TableType, PipelineTable } from 'redux/vtds/types';
+import { useAppDispatch } from 'hooks/redux';
+import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
+import { ReactComponent as EyeSolid } from 'assets/svg/eyeSolid.svg';
+import { ReactComponent as FilterOffSolid } from 'assets/svg/filterOffSolid.svg';
+import { ReactComponent as RestartSolid } from 'assets/svg/restartSolid.svg';
+import { ReactComponent as EyeRegular } from 'assets/svg/eyeRegular.svg';
+import { getDefaultSortedRows } from 'helpers/pipelineTable';
 
-import { PipelineColumn, PipelineColumnProperties, TableType, PipelineTable } from '../../../../redux/vtds/types';
-import { useAppDispatch } from '../../../../hooks/redux';
-import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from '../../../../redux/vtds/reducer';
 import { COLUMN_WIDTH } from '../constants';
-import { ReactComponent as EyeSolid } from '../../../../assets/svg/eyeSolid.svg';
-import { ReactComponent as FilterOffSolid } from '../../../../assets/svg/filterOffSolid.svg';
-import { ReactComponent as RestartSolid } from '../../../../assets/svg/restartSolid.svg';
-import { ReactComponent as EyeRegular } from '../../../../assets/svg/eyeRegular.svg';
-import { getDefaultSortedRows } from '../../../../helpers/pipelineTable';
-
 import './tableManagePanel.scss';
 
 type TableManagePanelProps = {
@@ -56,7 +55,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
   );
 
   const resetColumns = useCallback(
-    (properties: PipelineColumnProperties = {}) => {
+    (properties: PipelineColumnPartial = {}) => {
       dispatch(
         setColumnsProperties({
           vtdId,

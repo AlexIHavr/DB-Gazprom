@@ -1,8 +1,9 @@
-import { VTD_TREE_LEVELS } from '../redux/vtds/constants';
-import { Vtds, VtdTree } from '../redux/vtds/types';
+import { ValueOf } from 'redux/app/types';
+import { VTD_TREE_LEVELS } from 'redux/vtds/constants';
+import { Vtds, VtdTree } from 'redux/vtds/types';
 
 export const getUniqueFields = <T extends object>(fieldsArr: T[], uniqueField: keyof T) => {
-  const uniqueArr: T[keyof T][] = [];
+  const uniqueArr: ValueOf<T>[] = [];
 
   for (const fields of fieldsArr) {
     if (!uniqueArr.includes(fields[uniqueField])) uniqueArr.push(fields[uniqueField]);

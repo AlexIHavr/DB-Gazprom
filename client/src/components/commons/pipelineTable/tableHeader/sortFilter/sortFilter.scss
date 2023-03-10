@@ -1,0 +1,14 @@
+button.sortColumn {
+  padding: 2px 0 !important;
+
+  &.upSortColumn {
+    transform: rotate(180deg);
+  }
+
+  &.isSortedColumn {
+    opacity: 1;
+    svg {
+      color: red;
+    }
+  }
+}

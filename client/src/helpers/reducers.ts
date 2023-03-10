@@ -1,4 +1,4 @@
-import { ExcelRow, PipelineTable } from '../redux/vtds/types';
+import { ExcelRow, PipelineTable } from 'redux/vtds/types';
 
 import { getDefaultCell, getDefaultColumn } from './excel';
 

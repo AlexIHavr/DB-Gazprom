@@ -1,11 +1,20 @@
-import { SEARCH_TYPES } from '../../components/commons/pipelineTable/tableHead/extendedFilter/extendedFilterPanel/constants';
-import { SORT_TYPES } from '../../components/commons/pipelineTable/tableHead/sortFilter/constants';
-
-import { TABLE_TYPES, VTD_TREE_LEVELS } from './constants';
+import { SEARCH_TYPES, SORT_TYPES, TABLE_TYPES, VTD_TREE_LEVELS } from './constants';
 
 export type ExcelValue = string | number | null;
 export type ExcelRow = ExcelValue[];
 export type ExcelRows = ExcelRow[];
+
+export type PipelineCell = {
+  value: ExcelValue;
+};
+export type PipelineCells = PipelineCell[];
+
+export type PipelineRow = {
+  id: string;
+  hidden: boolean;
+  values: PipelineCells;
+};
+export type PipelineRows = PipelineRow[];
 
 export type ExtendedFilter = {
   visible: boolean;
@@ -27,28 +36,13 @@ export type PipelineColumn = {
   extendedFilter: ExtendedFilter;
 };
 export type PipelineColumns = PipelineColumn[];
-
-export type PipelineColumnProperties = Partial<PipelineColumn>;
-
-export type PipelineCell = {
-  value: ExcelValue;
-};
-
-export type PipelineCells = PipelineCell[];
-
-export type PipelineRow = {
-  id: string;
-  hidden: boolean;
-  values: PipelineCells;
-};
-export type PipelineRows = PipelineRow[];
+export type PipelineColumnPartial = Partial<PipelineColumn>;
 
 export type PipelineTable = {
   columns: PipelineColumns;
   rows: PipelineRows;
 };
-
-export type PipelineTableProperties = Partial<PipelineTable>;
+export type PipelineTablePartial = Partial<PipelineTable>;
 
 export type TableType = keyof typeof TABLE_TYPES;
 

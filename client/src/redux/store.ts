@@ -8,6 +8,7 @@ export const store = configureStore({
     app: appReducer,
     vtds: vtdsReducer,
   },
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,

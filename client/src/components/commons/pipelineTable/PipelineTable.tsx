@@ -1,16 +1,10 @@
 import { useState, useRef, useMemo, useCallback, useEffect, memo } from 'react';
 import { v4 } from 'uuid';
 import classNames from 'classnames';
-
-import {
-  TableType,
-  PipelineTable as PipelineTableType,
-  InnerTables as InnerTablesType,
-  InnerCellTables,
-} from '../../../redux/vtds/types';
+import { TableType, PipelineTable as PipelineTableType, InnerTables as InnerTablesType, InnerCellTables } from 'redux/vtds/types';
 
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from './constants';
-import TableHead from './tableHead/TableHead';
+import TableHeader from './tableHeader/TableHeader';
 import TableManagePanel from './tableManagePanel/TableManagePanel';
 import InnerTables from './innerTables/InnerTables';
 
@@ -120,17 +114,15 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType, 
 
   useEffect(() => {
     //table on full window
-    const virtualScrollCurrent = virtualScrollRef.current;
+    const virtualScrollCurrent = virtualScrollRef.current!;
+    const documentElement = document.documentElement;
 
-    if (virtualScrollCurrent) {
-      const documentElement = document.documentElement;
-      virtualScrollCurrent.style.height = (height || documentElement.clientHeight - virtualScrollCurrent.offsetTop) + 'px';
-      virtualScrollCurrent.style.width = (width || documentElement.clientWidth - virtualScrollCurrent.offsetLeft) + 'px';
-      virtualScrollContentRef.current!.style.minHeight = virtualScrollCurrent.style.height;
+    virtualScrollCurrent.style.height = (height || documentElement.clientHeight - virtualScrollCurrent.offsetTop) + 'px';
+    virtualScrollCurrent.style.width = (width || documentElement.clientWidth - virtualScrollCurrent.offsetLeft) + 'px';
+    virtualScrollContentRef.current!.style.minHeight = virtualScrollCurrent.style.height;
 
-      setRowsOnPageCount(Math.floor((virtualScrollCurrent.clientHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
-      setColumnsOnPageCount(Math.floor(virtualScrollCurrent.clientWidth / COLUMN_WIDTH) + VIRTUAL_COLUMNS_COUNT * 2);
-    }
+    setRowsOnPageCount(Math.floor((virtualScrollCurrent.clientHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
+    setColumnsOnPageCount(Math.floor(virtualScrollCurrent.clientWidth / COLUMN_WIDTH) + VIRTUAL_COLUMNS_COUNT * 2);
   }, [height, width]);
 
   return (
@@ -144,7 +136,7 @@ const PipelineTable: React.FC<PipelineTableProps> = ({ table, vtdId, tableType, 
             <thead>
               <tr>
                 {columnsOnPage.map((column) => (
-                  <TableHead
+                  <TableHeader
                     key={column.id}
                     table={table}
                     vtdId={vtdId}

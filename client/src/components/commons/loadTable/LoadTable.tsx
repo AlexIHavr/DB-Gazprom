@@ -1,8 +1,7 @@
 import { ChangeEvent, memo, useCallback } from 'react';
-
-import { useAppDispatch } from '../../../hooks/redux';
-import { setPipelineTable } from '../../../redux/vtds/thunks';
-import { TableType } from '../../../redux/vtds/types';
+import { useAppDispatch } from 'hooks/redux';
+import { setPipelineTable } from 'redux/vtds/thunks';
+import { TableType } from 'redux/vtds/types';
 
 import './loadTable.scss';
 

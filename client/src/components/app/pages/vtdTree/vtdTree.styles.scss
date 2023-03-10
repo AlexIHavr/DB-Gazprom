@@ -1,0 +1,68 @@
+.vtds {
+  width: 80%;
+  margin: 0 auto;
+  user-select: none;
+
+  h1 {
+    text-align: center;
+  }
+
+  svg {
+    margin-top: 5px;
+    transition: 0.2s;
+
+    &.rotate {
+      transform: rotate(180deg);
+    }
+  }
+
+  .root {
+    background-color: var(--base-color);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    cursor: pointer;
+
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    h3,
+    h4 {
+      margin: 10px;
+    }
+
+    &.typeAccordion {
+      margin: 10px 0;
+    }
+
+    &:not(.typeAccordion) {
+      border-top: 2px solid white;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .details {
+      height: 0;
+      overflow: hidden;
+      padding: 0 0 0 20px;
+      transition: height 0.2s;
+
+      &.links {
+        display: flex;
+        flex-direction: column;
+
+        h4 {
+          display: inline;
+          margin: 0 5px;
+        }
+
+        a:last-of-type {
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+}

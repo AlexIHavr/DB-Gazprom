@@ -1,15 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
-import { checkRequiredColumns, excelRenderer } from '../../helpers/excel';
-import { addModalWindow, setIsLoading } from '../app/reducer';
-import { vtdApi } from '../../api/api';
+import { requestWithReject } from 'helpers/thunks';
+import { checkRequiredColumns, excelRenderer } from 'helpers/excel';
+import { vtdApi } from 'api/api';
+import { addModalWindow, setIsLoading } from 'redux/app/reducer';
+import { RejectValue } from 'redux/app/types';
+import { Dispatch } from 'redux/store';
 
 import { GetVtdsResponse, GetPipelineTable, TableType, PipelineTable } from './types';
 
 export const setPipelineTable = createAsyncThunk<
   void,
   { vtdId: string; file: File; tableType: TableType },
-  { rejectValue: string }
+  { rejectValue: string; dispatch: Dispatch }
 >('setPipelineTable', async ({ vtdId, file, tableType }, { dispatch }) => {
   dispatch(setIsLoading(true));
 
@@ -32,10 +34,13 @@ export const getVtds = createAsyncThunk<GetVtdsResponse>('getVtds', async () => 
   return data;
 });
 
-export const getPipelineTable = createAsyncThunk<GetPipelineTable, { vtdId: string; tableType: TableType }>(
-  'getPipelineTable',
-  async ({ vtdId, tableType }) => {
+export const getPipelineTable = createAsyncThunk<
+  GetPipelineTable,
+  { vtdId: string; tableType: TableType },
+  { rejectValue: RejectValue }
+>('getPipelineTable', async ({ vtdId, tableType }, { rejectWithValue }) => {
+  return await requestWithReject(async () => {
     const { data } = await vtdApi.get<PipelineTable | undefined>('/getPipelineTable', { params: { id: vtdId, tableType } });
     return { vtdId, pipelineTable: data, tableType };
-  },
-);
+  }, rejectWithValue);
+});
