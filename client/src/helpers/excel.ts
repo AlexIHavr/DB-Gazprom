@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import { read, utils, WorkBook } from 'xlsx';
 import { COLUMN_WIDTH } from 'components/commons/pipelineTable/constants';
-import { TABLE_TYPES } from 'redux/vtds/constants';
+import { SORT_TYPES, TABLE_TYPES } from 'redux/vtds/constants';
 import {
   ExcelRow,
   ExcelValue,
@@ -22,7 +22,7 @@ export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColu
   hidden: false,
   width: COLUMN_WIDTH,
   minWidth: COLUMN_WIDTH,
-  sortType: null,
+  sortType: SORT_TYPES.none,
   extendedFilter: { visible: false, checkedUniqueRowsValues: [] },
 });
 

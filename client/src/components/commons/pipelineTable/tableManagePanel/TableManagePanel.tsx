@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import classNames from 'classnames';
 import { PipelineColumn, PipelineColumnPartial, TableType, PipelineTable } from 'redux/vtds/types';
+import { SORT_TYPES } from 'redux/vtds/constants';
 import { useAppDispatch } from 'hooks/redux';
 import { setColumnProperties, setColumnsProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
 import { ReactComponent as EyeSolid } from 'assets/svg/eyeSolid.svg';
@@ -62,7 +63,7 @@ const TableManagePanel: React.FC<TableManagePanelProps> = ({ table, vtdId, table
           tableType,
           properties: {
             ...properties,
-            sortType: null,
+            sortType: SORT_TYPES.none,
             extendedFilter: {
               visible: false,
               checkedUniqueRowsValues: [],

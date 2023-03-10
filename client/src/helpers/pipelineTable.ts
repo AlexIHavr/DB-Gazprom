@@ -10,7 +10,7 @@ export const getDefaultSortedRows = (rows: PipelineRows) => {
 type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: PipelineRows };
 
 export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsParams) => {
-  if (sortType === null) return rows;
+  if (sortType === SORT_TYPES.none) return rows;
 
   return rows
     .filter(({ values }) => values[columnIndex].value !== null)

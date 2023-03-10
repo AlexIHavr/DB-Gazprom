@@ -24,12 +24,19 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
       if (e.button) return;
 
       //remove sortedColumn
-      const sortedColumn = table.columns.find(({ sortType }) => sortType !== null);
+      const sortedColumn = table.columns.find(({ sortType }) => sortType !== SORT_TYPES.none);
       if (sortedColumn)
-        dispatch(setColumnProperties({ tableType, vtdId, columnIndex: sortedColumn.index, properties: { sortType: null } }));
+        dispatch(
+          setColumnProperties({ tableType, vtdId, columnIndex: sortedColumn.index, properties: { sortType: SORT_TYPES.none } }),
+        );
 
       //sort by column
-      const sortType = column.sortType === null ? SORT_TYPES.asc : column.sortType === SORT_TYPES.asc ? SORT_TYPES.desc : null;
+      const sortType =
+        column.sortType === SORT_TYPES.none
+          ? SORT_TYPES.asc
+          : column.sortType === SORT_TYPES.asc
+          ? SORT_TYPES.desc
+          : SORT_TYPES.none;
       dispatch(setColumnProperties({ tableType, vtdId, columnIndex: column.index, properties: { sortType } }));
 
       //set sortedRows
@@ -39,7 +46,7 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
           vtdId,
           properties: {
             rows:
-              sortType === null
+              sortType === SORT_TYPES.none
                 ? getDefaultSortedRows(table.rows)
                 : getSortedRows({
                     sortType,
@@ -55,11 +62,11 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
 
   const sortFilterTitle = useMemo(
     () =>
-      column.sortType === null
-        ? 'Сортировка по возрастанию'
+      column.sortType === SORT_TYPES.none
+        ? SORT_TYPES.asc
         : column.sortType === SORT_TYPES.asc
-        ? 'Сортировка по убыванию'
-        : 'Без сортировки',
+        ? SORT_TYPES.desc
+        : SORT_TYPES.none,
     [column.sortType],
   );
 
@@ -68,7 +75,7 @@ const SortFilter: React.FC<SortFilterProps> = ({ table, vtdId, tableType, column
       title={sortFilterTitle}
       className={classNames('sortColumn', {
         upSortColumn: column.sortType === SORT_TYPES.asc,
-        isSortedColumn: column.sortType !== null,
+        isSortedColumn: column.sortType !== SORT_TYPES.none,
       })}
       onMouseDown={sortColumnOnMouseDown}
     >

@@ -20,12 +20,13 @@ export enum SEARCH_TYPES {
 
 export enum SEARCH_COMPARE_TYPES {
   matchCase = 'Учитывать регистр',
-  matchWholeWord = 'Совпадение полного слова',
+  matchWholeWord = 'Совпадение целого слова',
 }
 
 export enum SORT_TYPES {
-  asc,
-  desc,
+  asc = 'Сортировка по возрастанию',
+  desc = 'Сортировка по убыванию',
+  none = 'Без сортировки',
 }
 
 export const TABLE_TYPES = {

@@ -32,7 +32,7 @@ export type PipelineColumn = {
   hidden: boolean;
   width: number;
   minWidth: number;
-  sortType: SORT_TYPES | null;
+  sortType: SORT_TYPES;
   extendedFilter: ExtendedFilter;
 };
 export type PipelineColumns = PipelineColumn[];
