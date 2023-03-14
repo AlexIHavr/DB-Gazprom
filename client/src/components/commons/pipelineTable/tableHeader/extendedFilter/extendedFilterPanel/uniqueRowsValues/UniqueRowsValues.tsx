@@ -1,5 +1,5 @@
 import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { getSortedRows, getUniqueRowsValues } from 'helpers/pipelineTable';
+import { getSortedRows, getUniqueRowsValues } from 'shared/helpers/pipelineTable';
 import { useAppDispatch } from 'hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
 import { SEARCH_TYPES, SORT_TYPES } from 'redux/vtds/constants';

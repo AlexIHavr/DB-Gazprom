@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getAddedColumnTable } from 'helpers/reducers';
+import { getAddedColumnTable } from 'shared/helpers/reducers';
 
 import { getPipelineTable, getVtds } from './thunks';
 import {

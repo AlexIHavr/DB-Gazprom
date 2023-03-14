@@ -2,7 +2,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { PipelineColumn, TableType, PipelineTable } from 'redux/vtds/types';
 import { SEARCH_COMPARE_TYPES, SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES, SEARCH_TYPES_VALUES } from 'redux/vtds/constants';
-import { isRangeComparedCellValue, isSearchComparedCellValue } from 'helpers/pipelineTable';
+import { isRangeComparedCellValue, isSearchComparedCellValue } from 'shared/helpers/pipelineTable';
 import { setColumnProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
 import { ReactComponent as FilterOffSolid } from 'assets/svg/filterOffSolid.svg';
 import { ReactComponent as SearchSolid } from 'assets/svg/searchSolid.svg';

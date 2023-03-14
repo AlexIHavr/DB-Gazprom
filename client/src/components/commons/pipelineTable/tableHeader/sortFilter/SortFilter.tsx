@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { memo, useCallback, useMemo } from 'react';
-import { getDefaultSortedRows, getSortedRows } from 'helpers/pipelineTable';
+import { getDefaultSortedRows, getSortedRows } from 'shared/helpers/pipelineTable';
 import { useAppDispatch } from 'hooks/redux';
 import { setColumnProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
 import { PipelineColumn, TableType, PipelineTable } from 'redux/vtds/types';

@@ -8,7 +8,7 @@ import { ReactComponent as EyeSolid } from 'assets/svg/eyeSolid.svg';
 import { ReactComponent as FilterOffSolid } from 'assets/svg/filterOffSolid.svg';
 import { ReactComponent as RestartSolid } from 'assets/svg/restartSolid.svg';
 import { ReactComponent as EyeRegular } from 'assets/svg/eyeRegular.svg';
-import { getDefaultSortedRows } from 'helpers/pipelineTable';
+import { getDefaultSortedRows } from 'shared/helpers/pipelineTable';
 
 import { COLUMN_WIDTH } from '../constants';
 import './tableManagePanel.scss';
