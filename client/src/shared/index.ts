@@ -1,3 +1,4 @@
-import { PAGES } from './consts/navigation';
+import LoadTableButton from './components/loadTableButton/loadTableButton.component';
+import { PAGES } from './consts/pages';
 
-export { PAGES };
+export { PAGES, LoadTableButton };

@@ -13,7 +13,7 @@ import {
   PipelineTable,
   TableType,
 } from 'redux/vtds/types';
-import config from 'shared/config/config';
+import { SUPPORT_FORMATS } from 'shared/consts/excel';
 
 export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColumn => ({
   id: v4(),
@@ -35,7 +35,7 @@ export const getDefaultRow = (row: ExcelRow): PipelineRow => ({
 });
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
-  if (!config.supportFormats.some((format) => format === file.type)) throw Error('Invalid file format');
+  if (!SUPPORT_FORMATS.some((format) => format === file.type)) throw Error('Invalid file format');
 
   return new Promise<PipelineTable>((resolve, reject) => {
     const reader = new FileReader();

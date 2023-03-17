@@ -1,5 +1,5 @@
 import NavLinks from './components/navLinks/navLinks.component';
-import './index.scss';
+import './navigation.styles.scss';
 
 const Navigation: React.FC = () => {
   return (

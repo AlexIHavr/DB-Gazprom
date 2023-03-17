@@ -31,8 +31,7 @@ export const getVtdTree = (vtds: Vtds): VtdTree => {
         );
 
         return {
-          [VTD_TREE_LEVELS.section]: section,
-          umg: sectionsFilter[0].umg,
+          [VTD_TREE_LEVELS.section]: `${section} (${sectionsFilter[0].umg})`,
           years: getUniqueFields(sectionsFilter, VTD_TREE_LEVELS.year).map((year) => {
             const yearsFilter = noDataVtds.filter(
               (yearsVtd) =>

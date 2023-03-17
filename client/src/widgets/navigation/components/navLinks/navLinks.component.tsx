@@ -12,6 +12,7 @@ const NavLinks: React.FC = () => {
           <img className="gazpromLogo" src={gazpromLogo} alt="Image is failed" />
         </div>
       </NavLink>
+
       <NavLink to={PAGES.guides.path}>
         <button className="btn navBtn">Справочники</button>
       </NavLink>

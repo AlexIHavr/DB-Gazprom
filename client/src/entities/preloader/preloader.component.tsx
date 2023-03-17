@@ -1,6 +1,6 @@
 import { useAppSelector } from 'hooks/redux';
 
-import './index.scss';
+import './preloader.styles.scss';
 
 const Preloader: React.FC = () => {
   const { isLoading } = useAppSelector((store) => store.app);

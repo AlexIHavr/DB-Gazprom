@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from 'hooks/redux';
 import { removeModalWindow } from 'redux/app/reducer';
 
-import './index.scss';
+import './modalWindows.styles.scss';
 
 const ModalWindows: React.FC = () => {
   const dispatch = useAppDispatch();

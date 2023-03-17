@@ -1,0 +1,15 @@
+.details {
+  height: 0;
+  overflow: hidden;
+  padding: 0 0 0 20px;
+  transition: height 0.2s;
+
+  &:has(a > span) {
+    display: flex;
+    flex-direction: column;
+
+    a:last-of-type {
+      padding-bottom: 10px;
+    }
+  }
+}

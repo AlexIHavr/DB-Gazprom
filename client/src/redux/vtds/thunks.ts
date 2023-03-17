@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { requestWithReject } from 'shared/helpers/thunks';
 import { checkRequiredColumns, excelRenderer } from 'shared/helpers/excel';
-import { vtdApi } from 'api/api';
+import { vtdApi } from 'shared/api/api';
 import { addModalWindow, setIsLoading } from 'redux/app/reducer';
 import { RejectValue } from 'redux/app/types';
 import { Dispatch } from 'redux/store';

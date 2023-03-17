@@ -74,7 +74,8 @@ export type InnerCellTables = Record<string, PipelineTable>;
 export type InnerRowsTables = Record<number, InnerCellTables>;
 export type InnerTables = Record<number, InnerRowsTables>;
 
-export type VtdTreeLevels = keyof typeof VTD_TREE_LEVELS;
+export type VtdTreeLevel = keyof typeof VTD_TREE_LEVELS;
+export type VtdTreeLevels = typeof VTD_TREE_LEVELS;
 
 export type VtdYears = {
   id: string;
@@ -87,7 +88,6 @@ export type VtdTree = {
     [VTD_TREE_LEVELS.pipeline]: string;
     sections: {
       [VTD_TREE_LEVELS.section]: string;
-      umg: string;
       years: VtdYears;
     }[];
   }[];

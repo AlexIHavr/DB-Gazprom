@@ -1,4 +1,4 @@
-import { vtdApi } from 'api/api';
+import { vtdApi } from 'shared/api/api';
 
 import { setInterceptors } from '../helpers/setInterceptors';
 
