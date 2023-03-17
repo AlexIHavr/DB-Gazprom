@@ -1,7 +1,7 @@
 import { Navigation } from 'widgets';
-import { ModalWindows, Preloader } from 'templates';
 import Routing from 'pages';
 
+import { ModalWindows, Preloader } from '../entities';
 import './api/interceptors';
 import './index.scss';
 
