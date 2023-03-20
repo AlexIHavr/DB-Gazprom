@@ -1,4 +1,4 @@
-import { ExcelRow, PipelineTable } from 'redux/vtds/types';
+import { ExcelRow, PipelineTable, PipelineColumn, PipelineCell } from 'redux/vtds/types';
 
 import { getDefaultCell, getDefaultColumn } from './excel';
 
@@ -10,7 +10,7 @@ type getAddedColumnTableParams = {
 };
 
 export const getAddedColumnTable = ({ pipelineTable, name, index, values }: getAddedColumnTableParams): PipelineTable => {
-  const newColumns = [];
+  const newColumns: PipelineColumn[] = [];
   let columnIndex = 0;
 
   for (let i = 0; i < pipelineTable.columns.length + 1; i++) {
@@ -27,7 +27,7 @@ export const getAddedColumnTable = ({ pipelineTable, name, index, values }: getA
   }
 
   const newRows = pipelineTable.rows.map((row, rowIndex) => {
-    const newValues = [];
+    const newValues: PipelineCell[] = [];
     let valueIndex = 0;
 
     for (let i = 0; i < row.values.length + 1; i++) {

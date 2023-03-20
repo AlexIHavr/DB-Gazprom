@@ -70,10 +70,6 @@ export type GetPipelineTable = {
   tableType: TableType;
 };
 
-export type InnerCellTables = Record<string, PipelineTable>;
-export type InnerRowsTables = Record<number, InnerCellTables>;
-export type InnerTables = Record<number, InnerRowsTables>;
-
 export type VtdTreeLevel = keyof typeof VTD_TREE_LEVELS;
 export type VtdTreeLevels = typeof VTD_TREE_LEVELS;
 

@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { PAGES } from 'shared';
+import { LoadTableButton, PAGES } from 'shared';
 import { TABLE_TYPES, TABLE_TYPES_KEYS } from 'redux/vtds/constants';
 import { getPipelineTable } from 'redux/vtds/thunks';
 import { TableType } from 'redux/vtds/types';
+import PipelineTable from 'components/commons/pipelineTable/PipelineTable';
 
-import SelectVtdTable from './components/selectVtdTable/selectVtdTable.component';
 import './vtdTable.styles.scss';
 
 const VtdTable: React.FC = () => {
@@ -30,8 +30,14 @@ const VtdTable: React.FC = () => {
           <h1>
             {pipeline.pipeline} - {pipeline.section} - {pipeline.year}
           </h1>
+
           <h2>{TABLE_TYPES[tableType].name}</h2>
-          <SelectVtdTable table={vtdTable} vtdId={vtdId} tableType={tableType} />
+
+          {vtdTable && vtdId ? (
+            <PipelineTable table={vtdTable} vtdId={vtdId} tableType={tableType} />
+          ) : (
+            vtdTable === null && <LoadTableButton vtdId={vtdId!} tableType={tableType} />
+          )}
         </>
       )}
     </div>
