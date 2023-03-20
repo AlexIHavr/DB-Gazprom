@@ -77,20 +77,10 @@ export type InnerTables = Record<number, InnerRowsTables>;
 export type VtdTreeLevel = keyof typeof VTD_TREE_LEVELS;
 export type VtdTreeLevels = typeof VTD_TREE_LEVELS;
 
-export type VtdYears = {
-  id: string;
-  [VTD_TREE_LEVELS.year]: string;
-}[];
-
 export type VtdTree = {
-  [VTD_TREE_LEVELS.type]: string;
-  pipelines: {
-    [VTD_TREE_LEVELS.pipeline]: string;
-    sections: {
-      [VTD_TREE_LEVELS.section]: string;
-      years: VtdYears;
-    }[];
-  }[];
+  header: string;
+  children?: VtdTree;
+  id?: string;
 }[];
 
 export type InitialState = {

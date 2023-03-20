@@ -1,12 +1,11 @@
 import { useCallback, memo } from 'react';
-import { VTD_TREE_LEVELS } from 'redux/vtds/constants';
-import { VtdTreeLevels } from 'redux/vtds/types';
+import { VtdTreeLevel, VtdTreeLevels } from 'redux/vtds/types';
 import './vtdTreeDetails.styles.scss';
 
 type VtdTreeDetailsProps = {
   children?: React.ReactNode;
   header: string;
-  level: VTD_TREE_LEVELS;
+  level: VtdTreeLevel;
   levelsExpanded: VtdTreeLevels;
   levelsHeight: VtdTreeLevels;
   setLevelsHeight: React.Dispatch<React.SetStateAction<VtdTreeLevels>>;

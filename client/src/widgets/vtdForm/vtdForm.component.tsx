@@ -26,22 +26,21 @@ const VtdForm: React.FC<VtdFormProps> = ({ table, vtdId, tableType }) => {
 
   const pipelineYears = useMemo(() => {
     return vtdTree
-      .find(({ type }) => pipelineData.type === type)
-      ?.pipelines.find(({ pipeline }) => pipelineData.pipeline === pipeline)
-      ?.sections.find(({ section }) => pipelineData.section === section)?.years;
+      .find(({ header }) => pipelineData.type === header)
+      ?.children?.find(({ header }) => pipelineData.pipeline === header)
+      ?.children?.find(({ header }) => pipelineData.section === header)?.children;
   }, [pipelineData.pipeline, pipelineData.section, pipelineData.type, vtdTree]);
 
   useLayoutEffect(() => {
     //load all repairs for pipeline
-    if (!isLoadedRepairs) {
-      pipelineYears?.forEach(({ id }) => {
-        if (!vtds.find((vtd) => vtd.id === id)?.pipelineData.repairs) {
-          dispatch(getPipelineTable({ vtdId: id, tableType: 'repairs' }));
-        }
-      });
-      setIsLoadedRepairs(true);
-      return;
-    }
+    pipelineYears?.forEach(({ id }) => {
+      if (!vtds.find((vtd) => vtd.id === id)?.pipelineData.repairs) {
+        dispatch(getPipelineTable({ vtdId: id!, tableType: 'repairs' }));
+      }
+    });
+    setIsLoadedRepairs(true);
+
+    if (!isLoadedRepairs) return;
 
     if (
       pipelineYears?.every(({ id }) => vtds.find((vtd) => vtd.id === id)?.pipelineData.repairs !== undefined) &&

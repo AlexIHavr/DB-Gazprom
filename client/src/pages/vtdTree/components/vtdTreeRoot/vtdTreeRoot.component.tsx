@@ -1,5 +1,6 @@
 import { memo, useCallback, useState } from 'react';
 import { VTD_TREE_LEVELS } from 'redux/vtds/constants';
+import { VtdTreeLevel } from 'redux/vtds/types';
 
 import VtdTreeDetails from '../vtdTreeDetails/vtdTreeDetails.component';
 import VtdTreeHeader from '../vtdTreeHeader/vtdTreeHeader.component';
@@ -9,7 +10,7 @@ import './vtdTreeRoot.styles.scss';
 type VtdTreeRootProps = {
   children?: React.ReactNode;
   header: string;
-  level: VTD_TREE_LEVELS;
+  level: VtdTreeLevel;
   useH3?: boolean;
 };
 
@@ -30,7 +31,7 @@ const VtdTreeRoot: React.FC<VtdTreeRootProps> = ({ children, header, level, useH
       setLevelsHeight((prev) => ({ ...prev, [level]: detailsHeight }));
       setLevelsExpanded({ ...levelsExpanded, [level]: newLevel });
     },
-    [header, level, levelsExpanded, setLevelsExpanded, setLevelsHeight],
+    [header, level, levelsExpanded],
   );
 
   return (

@@ -1,10 +1,10 @@
 import { store } from 'redux/store';
 import { REQUIRED_COLUMNS_NAMES } from 'redux/vtds/constants';
-import { InnerCellTables, InnerRowsTables, PipelineRows, VtdYears } from 'redux/vtds/types';
+import { InnerCellTables, InnerRowsTables, PipelineRows, VtdTree } from 'redux/vtds/types';
 
 type GetRepairsInnerRowsTablesParams = {
   rows: PipelineRows;
-  pipelineYears: VtdYears;
+  pipelineYears: VtdTree;
   pipelineYear: string;
   columnIndex: number;
 };
@@ -18,7 +18,7 @@ export const getRepairsInnerRowsTables = ({
   const vtds = store.getState().vtds.vtds;
 
   return rows.reduce<InnerRowsTables>((innerTables, { values }, i) => {
-    const innerTable = pipelineYears.reduce<InnerCellTables>((innerTable, { id, year }) => {
+    const innerTable = pipelineYears.reduce<InnerCellTables>((innerTable, { id, header }) => {
       const repairTable = vtds.find((vtd) => vtd.id === id)?.pipelineData.repairs;
 
       if (repairTable) {
@@ -32,7 +32,7 @@ export const getRepairsInnerRowsTables = ({
           );
 
           if (innerTableRows.length) {
-            innerTable[year] = {
+            innerTable[header] = {
               columns: repairTable.columns,
               rows: innerTableRows,
             };

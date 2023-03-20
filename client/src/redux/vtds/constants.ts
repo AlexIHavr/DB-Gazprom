@@ -1,4 +1,4 @@
-import { TableType } from './types';
+import { TableType, VtdTreeLevel } from './types';
 
 /* eslint-disable no-unused-vars */
 export enum VTD_TREE_LEVELS {
@@ -52,6 +52,7 @@ export const TABLE_TYPES = {
   },
 };
 
+export const VTD_TREE_LEVELS_KEYS = Object.keys(VTD_TREE_LEVELS) as VtdTreeLevel[];
 export const TABLE_TYPES_KEYS = Object.keys(TABLE_TYPES) as TableType[];
 export const SEARCH_TYPES_VALUES = Object.values(SEARCH_TYPES);
 export const SEARCH_COMPARE_TYPES_VALUES = Object.values(SEARCH_COMPARE_TYPES);

@@ -16,13 +16,13 @@ export const getVtdTree = (vtds: Vtds): VtdTree => {
   const noDataVtds = vtds.map(({ id, type, pipeline, section, umg, year }) => ({ id, type, pipeline, section, umg, year }));
 
   return getUniqueFields(noDataVtds, VTD_TREE_LEVELS.type).map((type) => ({
-    [VTD_TREE_LEVELS.type]: type,
-    pipelines: getUniqueFields(
+    header: type,
+    children: getUniqueFields(
       noDataVtds.filter((typesVtd) => typesVtd.type === type),
       VTD_TREE_LEVELS.pipeline,
     ).map((pipeline) => ({
-      [VTD_TREE_LEVELS.pipeline]: pipeline,
-      sections: getUniqueFields(
+      header: pipeline,
+      children: getUniqueFields(
         noDataVtds.filter((pipelinesVtd) => pipelinesVtd.type === type && pipelinesVtd.pipeline === pipeline),
         VTD_TREE_LEVELS.section,
       ).map((section) => {
@@ -31,8 +31,8 @@ export const getVtdTree = (vtds: Vtds): VtdTree => {
         );
 
         return {
-          [VTD_TREE_LEVELS.section]: `${section} (${sectionsFilter[0].umg})`,
-          years: getUniqueFields(sectionsFilter, VTD_TREE_LEVELS.year).map((year) => {
+          header: `${section} (${sectionsFilter[0].umg})`,
+          children: getUniqueFields(sectionsFilter, VTD_TREE_LEVELS.year).map((year) => {
             const yearsFilter = noDataVtds.filter(
               (yearsVtd) =>
                 yearsVtd.type === type &&
@@ -43,7 +43,7 @@ export const getVtdTree = (vtds: Vtds): VtdTree => {
 
             return {
               id: yearsFilter[0].id,
-              year: yearsFilter[0].year,
+              header: yearsFilter[0].year,
             };
           }),
         };
