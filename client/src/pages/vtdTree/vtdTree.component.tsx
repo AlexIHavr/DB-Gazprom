@@ -1,9 +1,10 @@
+import { FC } from 'react';
 import { useAppSelector } from 'hooks/redux';
 
 import VtdTreeWrapper from './components/vtdTreeWrapper/vtdTreeWrapper.component';
 import './vtdTree.styles.scss';
 
-const VtdTree: React.FC = () => {
+const VtdTree: FC = () => {
   const { vtdTree } = useAppSelector((state) => state.vtds);
 
   return (

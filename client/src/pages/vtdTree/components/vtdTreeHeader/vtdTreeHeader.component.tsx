@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import classNames from 'classnames';
 import { VTD_TREE_LEVELS } from 'redux/vtds/constants';
 
@@ -11,7 +11,7 @@ type VtdTreeHeaderProps = {
   useH3?: boolean;
 };
 
-const VtdTreeHeader: React.FC<VtdTreeHeaderProps> = ({ header, levelExpanded, useH3 }) => {
+const VtdTreeHeader: FC<VtdTreeHeaderProps> = ({ header, levelExpanded, useH3 }) => {
   return (
     <div className="vtdTreeHeader">
       {useH3 ? <h3>{header}</h3> : <h4>{header}</h4>}

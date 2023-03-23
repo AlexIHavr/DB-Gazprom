@@ -1,0 +1,26 @@
+.extendedFilter {
+  .uniqueRowsValues {
+    --div-height: 30px;
+    --count-unique-rows-values: 10;
+
+    overflow: auto;
+    height: calc(-12px + var(--div-height) * var(--count-unique-rows-values));
+
+    .uniqueRowsValuesContent {
+      overflow: hidden;
+      width: fit-content;
+
+      .uniqueRowsValuesOnDisplay {
+        position: relative;
+        div {
+          margin: 0 10px;
+          height: var(--div-height);
+
+          span {
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+}

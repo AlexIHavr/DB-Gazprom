@@ -1,10 +1,11 @@
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { PAGES } from 'shared';
 
-import gazpromLogo from './assets/gazpromLogo.png';
+import gazpromLogo from '../../assets/gazpromLogo.png';
 import './navLinks.styles.scss';
 
-const NavLinks: React.FC = () => {
+const NavLinks: FC = () => {
   return (
     <div className="navLinks">
       <NavLink to={PAGES.main.path} className="gazpromLogoLink">

@@ -1,10 +1,10 @@
-import { useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from 'hooks/redux';
 import { removeModalWindow } from 'redux/app/reducer';
 
 import './modalWindows.styles.scss';
 
-const ModalWindows: React.FC = () => {
+const ModalWindows: FC = () => {
   const dispatch = useAppDispatch();
   const { modalWindows } = useAppSelector((state) => state.app);
 

@@ -1,4 +1,4 @@
-import { SEARCH_TYPES, SORT_TYPES, TABLE_TYPES, VTD_TREE_LEVELS } from './constants';
+import { SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES, SORT_TYPES, TABLE_TYPES, VTD_TREE_LEVELS } from './constants';
 
 export type ExcelValue = string | number | null;
 export type ExcelRow = ExcelValue[];
@@ -12,7 +12,7 @@ export type PipelineCells = PipelineCell[];
 export type PipelineRow = {
   id: string;
   hidden: boolean;
-  values: PipelineCells;
+  cells: PipelineCells;
 };
 export type PipelineRows = PipelineRow[];
 
@@ -66,12 +66,12 @@ export type GetVtdsResponse = Omit<VtdData, 'pipelineData'>[];
 
 export type GetPipelineTable = {
   vtdId: string;
-  pipelineTable?: PipelineTable;
   tableType: TableType;
+  pipelineTable?: PipelineTable;
 };
 
-export type VtdTreeLevel = keyof typeof VTD_TREE_LEVELS;
 export type VtdTreeLevels = typeof VTD_TREE_LEVELS;
+export type VtdTreeLevel = keyof VtdTreeLevels;
 
 export type VtdTree = {
   header: string;
@@ -82,4 +82,35 @@ export type VtdTree = {
 export type InitialState = {
   vtds: Vtds;
   vtdTree: VtdTree;
+};
+
+export type SearchCompareTypesValues = typeof SEARCH_COMPARE_TYPES_VALUES;
+
+export type PipelineTableProps = {
+  table: PipelineTable;
+  vtdId: string;
+  tableType: TableType;
+};
+
+export type PipelineTableColumnProps = PipelineTableProps & {
+  column: PipelineColumn;
+};
+
+export type PipelineTableTypeProps = Omit<PipelineTableProps, 'table'>;
+
+export type UniqueRowsValuesProps = {
+  uniqueRowsValues: ExcelRow;
+  checkedUniqueRowsValues: ExcelRow;
+  setCheckedUniqueRowsValues: React.Dispatch<React.SetStateAction<ExcelRow>>;
+};
+
+export type PipelineColumnProps = Omit<PipelineTableColumnProps, 'table'>;
+
+export type UniqueRowsProps = PipelineColumnProps & {
+  filteredRows: PipelineRows;
+  searchValue: string;
+  fromValue: string;
+  toValue: string;
+  searchType: SEARCH_TYPES;
+  searchCompareTypes: SearchCompareTypesValues;
 };

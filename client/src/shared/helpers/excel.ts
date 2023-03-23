@@ -1,6 +1,5 @@
 import { v4 } from 'uuid';
 import { read, utils, WorkBook } from 'xlsx';
-import { COLUMN_WIDTH } from 'components/commons/pipelineTable/constants';
 import { SORT_TYPES, TABLE_TYPES } from 'redux/vtds/constants';
 import {
   ExcelRow,
@@ -20,8 +19,8 @@ export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColu
   index,
   value,
   hidden: false,
-  width: COLUMN_WIDTH,
-  minWidth: COLUMN_WIDTH,
+  width: 150, //COLUMN_WIDTH
+  minWidth: 150, //COLUMN_WIDTH
   sortType: SORT_TYPES.none,
   extendedFilter: { visible: false, checkedUniqueRowsValues: [] },
 });
@@ -31,7 +30,7 @@ export const getDefaultCell = (value: ExcelValue): PipelineCell => ({ value });
 export const getDefaultRow = (row: ExcelRow): PipelineRow => ({
   id: v4(),
   hidden: false,
-  values: row.map((value) => getDefaultCell(value)),
+  cells: row.map((value) => getDefaultCell(value)),
 });
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {

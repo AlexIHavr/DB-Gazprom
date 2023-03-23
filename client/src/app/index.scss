@@ -1,3 +1,14 @@
-@import './styles/vars.scss';
-@import './styles/body.scss';
-@import './styles/ui.scss';
+@import './styles/vars';
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: #92c9ffc3;
+  min-width: 800px;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  @import './styles/ui';
+}

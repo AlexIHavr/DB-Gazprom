@@ -1,0 +1,12 @@
+.selectAllButton {
+  .isSomeCheckedRowsValues {
+    --width: 12px;
+
+    position: absolute;
+    top: calc(var(--width) / 2);
+    left: calc(var(--width) / 2);
+    width: var(--width);
+    height: var(--width);
+    background-color: black;
+  }
+}

@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { FC, memo, MouseEvent, ReactNode, useCallback, useState } from 'react';
 import { VTD_TREE_LEVELS } from 'redux/vtds/constants';
 import { VtdTreeLevel } from 'redux/vtds/types';
 
@@ -7,19 +7,19 @@ import VtdTreeHeader from '../vtdTreeHeader/vtdTreeHeader.component';
 
 import './vtdTreeRoot.styles.scss';
 
-type VtdTreeRootProps = {
-  children?: React.ReactNode;
+export type VtdTreeRootProps = {
+  children?: ReactNode;
   header: string;
   level: VtdTreeLevel;
   useH3?: boolean;
 };
 
-const VtdTreeRoot: React.FC<VtdTreeRootProps> = ({ children, header, level, useH3 }) => {
+const VtdTreeRoot: FC<VtdTreeRootProps> = ({ children, header, level, useH3 }) => {
   const [levelsExpanded, setLevelsExpanded] = useState(VTD_TREE_LEVELS);
   const [levelsHeight, setLevelsHeight] = useState(VTD_TREE_LEVELS);
 
   const setLevelExpandedOnClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
+    (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
 
       const detailsHeight = Array.from(e.currentTarget.lastElementChild?.children || []).reduce((sum, elem) => {

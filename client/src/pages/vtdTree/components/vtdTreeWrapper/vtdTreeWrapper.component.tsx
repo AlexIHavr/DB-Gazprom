@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import { VTD_TREE_LEVELS_KEYS } from 'redux/vtds/constants';
 import { VtdTree } from 'redux/vtds/types';
 
@@ -10,7 +10,7 @@ type VtdTreeWrapperProps = {
   levelIndex?: number;
 };
 
-const VtdTreeWrapper: React.FC<VtdTreeWrapperProps> = ({ treeChildren, levelIndex = 0 }) => {
+const VtdTreeWrapper: FC<VtdTreeWrapperProps> = ({ treeChildren, levelIndex = 0 }) => {
   return (
     <>
       {treeChildren.map(({ header, children, id }) => (

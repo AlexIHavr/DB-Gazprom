@@ -1,0 +1,43 @@
+th {
+  --sort-svg-size: 20px;
+
+  position: relative;
+  font-weight: bold;
+  background-color: #d9d9d9;
+  z-index: 1;
+  overflow-wrap: break-word;
+  border-top: var(--cell-border);
+  padding: 10px;
+
+  &.showExtendedFilter {
+    z-index: 2;
+  }
+
+  & > span {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .Mui-disabled svg {
+    color: grey;
+  }
+
+  .manageColumnButtons > button {
+    position: absolute;
+    top: 0;
+    opacity: 0.2;
+    padding: 2px;
+
+    svg {
+      width: var(--sort-svg-size);
+      height: var(--sort-svg-size);
+    }
+
+    &:hover {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+}

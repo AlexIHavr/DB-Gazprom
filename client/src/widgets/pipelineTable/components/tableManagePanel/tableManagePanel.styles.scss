@@ -1,0 +1,16 @@
+.tableManagePanel {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 50px;
+  width: 600px;
+  margin: 0 auto;
+  border: 2px solid black;
+  border-bottom: none;
+  background-color: white;
+  border-radius: 10px 10px 0 0;
+
+  button {
+    position: relative;
+  }
+}

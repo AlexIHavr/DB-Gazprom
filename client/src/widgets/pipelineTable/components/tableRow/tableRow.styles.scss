@@ -1,0 +1,17 @@
+.pipelineTable {
+  td {
+    overflow: hidden;
+    white-space: nowrap;
+
+    &.clickable {
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        color: white;
+        text-shadow: 1px 1px 1px black;
+        background-color: var(--base-color);
+      }
+    }
+  }
+}

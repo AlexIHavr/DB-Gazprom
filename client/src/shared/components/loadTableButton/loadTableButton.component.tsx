@@ -1,17 +1,12 @@
-import { ChangeEvent, memo, useCallback } from 'react';
+import { ChangeEvent, FC, memo, useCallback } from 'react';
 import { useAppDispatch } from 'hooks/redux';
 import { setPipelineTable } from 'redux/vtds/thunks';
-import { TableType } from 'redux/vtds/types';
+import { PipelineTableTypeProps } from 'redux/vtds/types';
 import { SUPPORT_FORMATS_ACCEPT } from 'shared/consts/excel';
 
 import './loadTableButton.style.scss';
 
-type LoadTableProps = {
-  vtdId: string;
-  tableType: TableType;
-};
-
-const LoadTableButton: React.FC<LoadTableProps> = ({ vtdId, tableType }) => {
+const LoadTableButton: FC<PipelineTableTypeProps> = ({ vtdId, tableType }) => {
   const dispatch = useAppDispatch();
 
   const loadExcel = useCallback(

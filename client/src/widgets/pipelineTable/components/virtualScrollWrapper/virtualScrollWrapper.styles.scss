@@ -1,0 +1,9 @@
+.virtualScroll {
+  overflow: auto;
+  margin: 0 auto;
+
+  .virtualScrollContent {
+    overflow: hidden;
+    background-color: white;
+  }
+}

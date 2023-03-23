@@ -1,0 +1,37 @@
+import { FC, memo, useMemo } from 'react';
+import { v4 } from 'uuid';
+import { PipelineCells, PipelineColumns } from 'redux/vtds/types';
+
+import { COLUMN_WIDTH, ROW_HEIGHT } from '../../consts/tableSettings';
+
+import './tableRow.styles.scss';
+
+type TableRowProps = {
+  cells: PipelineCells;
+  columnsOnPage: PipelineColumns;
+};
+
+const TableRow: FC<TableRowProps> = ({ cells, columnsOnPage }) => {
+  const rowStyle = useMemo(
+    () => ({
+      minWidth: COLUMN_WIDTH,
+      maxWidth: COLUMN_WIDTH,
+      height: ROW_HEIGHT,
+    }),
+    [],
+  );
+
+  return (
+    <tr>
+      {cells
+        .filter((_, i) => columnsOnPage.find(({ index }) => i === index))
+        .map((cell) => (
+          <td key={v4()} style={rowStyle} title={cell.value ? String(cell.value) : ''}>
+            {cell.value}
+          </td>
+        ))}
+    </tr>
+  );
+};
+
+export default memo(TableRow);
