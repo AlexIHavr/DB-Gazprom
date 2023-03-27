@@ -1,27 +1,25 @@
 import { ChangeEvent, FC, memo, useCallback } from 'react';
-import { useAppDispatch } from 'hooks/redux';
-import { setPipelineTable } from 'redux/vtds/thunks';
 import { PipelineTableTypeProps } from 'redux/vtds/types';
 import { SUPPORT_FORMATS_ACCEPT } from 'shared/consts/excel';
+
+import useVtdTableStore from './../../vtdTable.store';
 
 import './loadTableButton.style.scss';
 
 const LoadTableButton: FC<PipelineTableTypeProps> = ({ vtdId, tableType }) => {
-  const dispatch = useAppDispatch();
+  const loadPipelineTable = useVtdTableStore((state) => state.loadPipelineTable);
 
   const loadExcel = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files?.length) {
-        dispatch(
-          setPipelineTable({
-            vtdId,
-            file: e.target.files[0],
-            tableType,
-          }),
-        );
+        loadPipelineTable({
+          vtdId,
+          file: e.target.files[0],
+          tableType,
+        });
       }
     },
-    [dispatch, vtdId, tableType],
+    [loadPipelineTable, vtdId, tableType],
   );
 
   return (

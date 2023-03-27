@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { useAppSelector } from 'hooks/redux';
+
+import usePreloaderStore from './preloader.store';
 
 import './preloader.styles.scss';
 
 const Preloader: FC = () => {
-  const { isLoading } = useAppSelector((store) => store.app);
+  const isLoading = usePreloaderStore((state) => state.isLoading);
 
   return <>{isLoading && <span className="preloader"></span>}</>;
 };

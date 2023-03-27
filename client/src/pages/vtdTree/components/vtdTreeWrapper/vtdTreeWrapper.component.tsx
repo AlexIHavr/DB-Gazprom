@@ -1,9 +1,9 @@
 import { FC, memo } from 'react';
 import { VTD_TREE_LEVELS_KEYS } from 'redux/vtds/constants';
-import { VtdTree } from 'redux/vtds/types';
 
 import VtdTreeRoot from '../vtdTreeRoot/vtdTreeRoot.component';
 import VtdTreeTableTypes from '../vtdTreeTableTypes/vtdTreeTableTypes.component';
+import { VtdTree } from '../../vtdTree.types';
 
 type VtdTreeWrapperProps = {
   treeChildren: VtdTree;

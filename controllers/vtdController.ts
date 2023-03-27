@@ -22,9 +22,9 @@ class VtdController {
     }
   }
 
-  async setPipelineTable(req: Request<{}, {}, SetPipelineTableRequest>, res: Response<VtdModel>, next: NextFunction) {
+  async loadPipelineTable(req: Request<{}, {}, SetPipelineTableRequest>, res: Response<VtdModel>, next: NextFunction) {
     try {
-      const vtd = await vtdService.setPipelineTable(req.body);
+      const vtd = await vtdService.loadPipelineTable(req.body);
       res.json(vtd);
     } catch (err) {
       next(err);

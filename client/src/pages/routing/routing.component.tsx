@@ -1,26 +1,26 @@
 import { FC, lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { setVtdTree } from 'redux/vtds/reducer';
-import { getVtds } from 'redux/vtds/thunks';
 import { PAGES } from 'shared';
 
-import { getVtdTree } from './routing.consts';
+import useVtdTableStore from '../vtdTable/vtdTable.store';
+
+import useVtdTreeStore from './../vtdTree/vtdTree.store';
+import { getVtdTree } from './helpers/getVtdTree';
 
 const VtdTable = lazy(() => import('../vtdTable/vtdTable.component'));
 const VtdTree = lazy(() => import('../vtdTree/vtdTree.component'));
 
 const Routing: FC = () => {
-  const dispatch = useAppDispatch();
-  const { vtds, vtdTree } = useAppSelector((state) => state.vtds);
+  const [vtds, setVtds] = useVtdTableStore((state) => [state.vtds, state.setVtds]);
+  const [vtdTree, setVtdTree] = useVtdTreeStore((state) => [state.vtdTree, state.setVtdTree]);
 
   useEffect(() => {
     if (!vtds.length) {
-      dispatch(getVtds());
+      setVtds();
     } else if (!vtdTree.length) {
-      dispatch(setVtdTree(getVtdTree(vtds)));
+      setVtdTree(getVtdTree(vtds));
     }
-  }, [dispatch, vtdTree.length, vtds]);
+  }, [setVtds, setVtdTree, vtdTree.length, vtds]);
 
   return (
     <div className="content">

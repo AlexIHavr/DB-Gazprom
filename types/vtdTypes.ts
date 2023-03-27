@@ -18,7 +18,6 @@ export type VtdAttributes = {
   type: string;
   pipeline: string;
   section: string;
-  umg: string;
   year: string;
   pipelineData?: Record<TableType, {}>;
 };

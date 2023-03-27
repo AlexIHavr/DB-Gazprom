@@ -1,0 +1,18 @@
+import { VTD_TREE_LEVELS_KEYS } from 'redux/vtds/constants';
+import { Vtds } from 'redux/vtds/types';
+
+import { VtdTree } from '../../vtdTree/vtdTree.types';
+
+export const getVtdTree = (vtds: Vtds, levelIndex = 0): VtdTree => {
+  const level = VTD_TREE_LEVELS_KEYS[levelIndex];
+
+  return vtds
+    .reduce<string[]>((prev, vtd) => (!prev.includes(vtd[level]) ? [...prev, vtd[level]] : prev), [])
+    .map((header) => {
+      const filteredVtds = vtds.filter((vtd) => vtd[level] === header);
+
+      if (levelIndex === VTD_TREE_LEVELS_KEYS.length - 1) return { id: filteredVtds[0].id, header: filteredVtds[0][level] };
+
+      return { header, children: getVtdTree(filteredVtds, levelIndex + 1) };
+    });
+};

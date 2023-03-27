@@ -1,14 +1,12 @@
 import { FC, useCallback } from 'react';
-import { useAppSelector, useAppDispatch } from 'hooks/redux';
-import { removeModalWindow } from 'redux/app/reducer';
 
 import './modalWindows.styles.scss';
+import useModalWindowsStore from './modalWindows.store';
 
 const ModalWindows: FC = () => {
-  const dispatch = useAppDispatch();
-  const { modalWindows } = useAppSelector((state) => state.app);
+  const [modalWindows, removeModalWindow] = useModalWindowsStore((state) => [state.modalWindows, state.removeModalWindow]);
 
-  const hideModalWindowOnAnimationEnd = useCallback((id: string) => dispatch(removeModalWindow(id)), [dispatch]);
+  const hideModalWindowOnAnimationEnd = useCallback((id: string) => removeModalWindow(id), [removeModalWindow]);
 
   return (
     <div className="modalWindows">

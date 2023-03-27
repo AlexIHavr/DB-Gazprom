@@ -26,7 +26,7 @@ class VtdService {
     return vtd.pipelineData[tableType];
   }
 
-  async setPipelineTable({ id, pipelineTable, tableType }: SetPipelineTableRequest) {
+  async loadPipelineTable({ id, pipelineTable, tableType }: SetPipelineTableRequest) {
     const vtd = await vtdModel.findByPk(id);
 
     if (!vtd) throw ApiError.BadRequest('Vtd was not found.');

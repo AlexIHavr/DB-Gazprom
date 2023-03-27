@@ -53,7 +53,6 @@ export type VtdData = {
   type: string;
   pipeline: string;
   section: string;
-  umg: string;
   year: string;
   pipelineData: PipelineData;
   createdAt: Date;
@@ -73,15 +72,8 @@ export type GetPipelineTable = {
 export type VtdTreeLevels = typeof VTD_TREE_LEVELS;
 export type VtdTreeLevel = keyof VtdTreeLevels;
 
-export type VtdTree = {
-  header: string;
-  children?: VtdTree;
-  id?: string;
-}[];
-
 export type InitialState = {
   vtds: Vtds;
-  vtdTree: VtdTree;
 };
 
 export type SearchCompareTypesValues = typeof SEARCH_COMPARE_TYPES_VALUES;
@@ -113,4 +105,8 @@ export type UniqueRowsProps = PipelineColumnProps & {
   toValue: string;
   searchType: SEARCH_TYPES;
   searchCompareTypes: SearchCompareTypesValues;
+};
+
+export type ResponseErrorData = {
+  message: string;
 };

@@ -28,10 +28,6 @@ const vtdModel = sequelizeRepository.sequelize.define<VtdModel>('Vtd', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  umg: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   year: {
     type: DataTypes.STRING,
     allowNull: false,

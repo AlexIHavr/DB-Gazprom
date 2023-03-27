@@ -7,6 +7,6 @@ const vtdRouter = Router();
 vtdRouter.get('/getVtds', vtdController.getVtds);
 vtdRouter.get('/getPipelineTable', vtdController.getPipelineTable);
 
-vtdRouter.put('/setPipelineTable', vtdController.setPipelineTable);
+vtdRouter.put('/loadPipelineTable', vtdController.loadPipelineTable);
 
 export default vtdRouter;
