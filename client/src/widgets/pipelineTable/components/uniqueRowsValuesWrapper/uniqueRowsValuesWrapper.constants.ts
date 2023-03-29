@@ -1,1 +1,0 @@
-export const MAX_COUNT_UNIQUE_ROWS = 10000;

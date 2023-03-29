@@ -9,8 +9,8 @@ import UniqueRowsValues from '../uniqueRowsValues/uniqueRowsValues.component';
 import { getSortedRows } from '../../helpers/sortRows';
 import { isRangeComparedCellValue, isSearchComparedCellValue } from '../../helpers/searchRows';
 import { getUniqueRowsValues } from '../../helpers/getUniqueRowsValue';
+import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
 
-import { MAX_COUNT_UNIQUE_ROWS } from './uniqueRowsValuesWrapper.constants';
 import './uniqueRowsValuesWrapper.styles.scss';
 
 const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({

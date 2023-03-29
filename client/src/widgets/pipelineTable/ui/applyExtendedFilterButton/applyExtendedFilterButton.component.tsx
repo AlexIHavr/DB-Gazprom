@@ -4,7 +4,8 @@ import { SEARCH_TYPES } from 'redux/vtds/constants';
 import { setColumnProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
 import { UniqueRowsProps, UniqueRowsValuesProps } from 'redux/vtds/types';
 
-import { MAX_COUNT_UNIQUE_ROWS } from '../../components/uniqueRowsValuesWrapper/uniqueRowsValuesWrapper.constants';
+import { getUniqueRowsValues } from '../../helpers/getUniqueRowsValue';
+import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
 
 import './applyExtendedFilterButton.styles.scss';
 
@@ -35,7 +36,11 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
     if (isAddToFilter) {
       const columnCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues;
 
-      newCheckedUniqueRowsValues = columnCheckedUniqueRowsValues
+      newCheckedUniqueRowsValues = (
+        columnCheckedUniqueRowsValues.length
+          ? columnCheckedUniqueRowsValues
+          : getUniqueRowsValues({ rows: filteredRows, columnIndex: column.index, maxCount: MAX_COUNT_UNIQUE_ROWS })
+      )
         .filter((uniqueValue) => checkedUniqueRowsValues.includes(uniqueValue) || !uniqueRowsValues.includes(uniqueValue))
         .concat(checkedUniqueRowsValues.filter((uniqueValue) => !columnCheckedUniqueRowsValues.includes(uniqueValue)));
     }
