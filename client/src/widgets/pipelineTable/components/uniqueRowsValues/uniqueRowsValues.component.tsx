@@ -3,9 +3,8 @@ import { ExcelRow, UniqueRowsValuesProps as UniqueRowsValuesPropsType } from 're
 
 import UniqueRowValue from '../uniqueRowValue/uniqueRowValue.component';
 
-import { UNIQUE_ROW_HEIGHT } from './uniqueRowsValues.consts';
-
 import './uniqueRowsValues.styles.scss';
+import { UNIQUE_ROW_HEIGHT } from './../../consts/tableSettings';
 
 type UniqueRowsValuesProps = UniqueRowsValuesPropsType & {
   columnCheckedUniqueRowsValues: ExcelRow;

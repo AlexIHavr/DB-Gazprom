@@ -45,24 +45,16 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
         .concat(checkedUniqueRowsValues.filter((uniqueValue) => !columnCheckedUniqueRowsValues.includes(uniqueValue)));
     }
 
-    const newRows = filteredRows.map((row) =>
+    const newFilteredRows = filteredRows.map((row) =>
       !row.hidden && !newCheckedUniqueRowsValues.includes(row.cells[column.index].value) ? { ...row, hidden: true } : row,
     );
 
-    dispatch(
-      setPipelineTableProperties({
-        vtdId,
-        tableType,
-        properties: {
-          rows: newRows,
-        },
-      }),
-    );
+    dispatch(setPipelineTableProperties({ vtdId, tableType, properties: { rows: newFilteredRows } }));
 
-    //reset checkedUniqueRowsValues for choosing all values
+    //reset newCheckedUniqueRowsValues for choosing all values
     if (
       uniqueRowsValues.length === checkedUniqueRowsValues.length &&
-      !(searchValue || fromValue || toValue) &&
+      !isAddToFilter &&
       uniqueRowsValues.length < MAX_COUNT_UNIQUE_ROWS
     ) {
       newCheckedUniqueRowsValues = [];

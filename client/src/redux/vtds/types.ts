@@ -38,13 +38,13 @@ export type PipelineColumn = {
 export type PipelineColumns = PipelineColumn[];
 export type PipelineColumnPartial = Partial<PipelineColumn>;
 
+export type TableType = keyof typeof TABLE_TYPES;
+
 export type PipelineTable = {
   columns: PipelineColumns;
   rows: PipelineRows;
 };
 export type PipelineTablePartial = Partial<PipelineTable>;
-
-export type TableType = keyof typeof TABLE_TYPES;
 
 export type PipelineData = Partial<Record<TableType, PipelineTable | null>>;
 

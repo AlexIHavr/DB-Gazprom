@@ -7,7 +7,7 @@ import { checkRequiredColumns, excelRenderer } from 'shared/helpers/excel';
 
 import { useModalWindowsStore, usePreloaderStore } from '../../entities';
 
-import { UseVtdTableStore } from './vtdTable.types';
+import { UseVtdTableStore } from './types/store';
 
 const useVtdTableStore = create<UseVtdTableStore>()(
   immer(
@@ -23,7 +23,6 @@ const useVtdTableStore = create<UseVtdTableStore>()(
         const { data } = await vtdApi.get<PipelineTable | undefined>('/getPipelineTable', { params: { id: vtdId, tableType } });
         set((state) => {
           const vtd = state.vtds.find(({ id }) => vtdId === id);
-
           if (vtd) vtd.pipelineData[tableType] = data || null;
         });
       },

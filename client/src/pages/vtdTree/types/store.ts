@@ -1,8 +1,4 @@
-export type VtdTree = {
-  header: string;
-  children?: VtdTree;
-  id?: string;
-}[];
+import { VtdTree } from './vtdTree';
 
 export type UseVtdTreeStore = {
   vtdTree: VtdTree;

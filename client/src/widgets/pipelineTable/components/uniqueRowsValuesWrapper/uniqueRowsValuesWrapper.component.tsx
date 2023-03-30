@@ -65,7 +65,9 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
     [column.index, visibleRows],
   );
 
-  return visibleRows.length ? (
+  if (!visibleRows.length) return <div className="noResults">Результаты не найдены</div>;
+
+  return (
     <div className="uniqueRowsValuesWrapper">
       {uniqueRowsValues.length >= MAX_COUNT_UNIQUE_ROWS && (
         <div className="maxCountUniqueRowsValues">Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов</div>
@@ -97,8 +99,6 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
         searchType={searchType}
       />
     </div>
-  ) : (
-    <div className="noResults">Результаты не найдены</div>
   );
 };
 

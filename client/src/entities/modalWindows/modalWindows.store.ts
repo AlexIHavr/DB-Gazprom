@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import { UseModalWindowsStore } from './modalWindows.types';
+import { UseModalWindowsStore } from './types/store';
 
 const useModalWindowsStore = create<UseModalWindowsStore>()(
   immer((set) => ({
