@@ -1,15 +1,10 @@
 import { FC, memo } from 'react';
 import classNames from 'classnames';
-import { VTD_TREE_LEVELS } from 'redux/vtds/constants';
 
 import { ReactComponent as AngleDownSolid } from '../../assets/svg/angleDownSolid.svg';
-import './vtdTreeHeader.styles.scss';
+import { VtdTreeHeaderProps } from '../../types/props';
 
-type VtdTreeHeaderProps = {
-  header: string;
-  levelExpanded: VTD_TREE_LEVELS;
-  useH3?: boolean;
-};
+import './vtdTreeHeader.styles.scss';
 
 const VtdTreeHeader: FC<VtdTreeHeaderProps> = ({ header, levelExpanded, useH3 }) => {
   return (

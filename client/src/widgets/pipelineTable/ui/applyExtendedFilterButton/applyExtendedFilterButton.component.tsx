@@ -1,23 +1,18 @@
-import { useAppDispatch } from 'hooks/redux';
 import { FC, memo, useCallback } from 'react';
-import { SEARCH_TYPES } from 'redux/vtds/constants';
-import { setColumnProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
-import { UniqueRowsProps, UniqueRowsValuesProps } from 'redux/vtds/types';
 
 import { getUniqueRowsValues } from '../../helpers/getUniqueRowsValue';
 import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
+import usePipelineTableStore from '../../pipelineTable.store';
+import { ApplyExtendedFilterButtonProps } from '../../types/props';
+import { SEARCH_TYPES } from '../../consts/searchSettings';
 
 import './applyExtendedFilterButton.styles.scss';
 
-type ApplyExtendedFilterButtonProps = Omit<UniqueRowsProps, 'searchCompareTypes'> &
-  Omit<UniqueRowsValuesProps, 'setCheckedUniqueRowsValues'> & {
-    isAddToFilter: boolean;
-  };
-
 const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
   vtdId,
-  tableType,
-  column,
+  type,
+  columnCheckedUniqueRowsValues,
+  index,
   isAddToFilter,
   filteredRows,
   uniqueRowsValues,
@@ -27,34 +22,35 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
   searchValue,
   toValue,
 }) => {
-  const dispatch = useAppDispatch();
+  const [setColumnProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
+    state.setColumnProperties,
+    state.setPipelineTableRows,
+  ]);
 
   const applyExtendedFilterOnClick = useCallback(() => {
     let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
 
     //filtering newCheckedUniqueRowsValues
     if (isAddToFilter) {
-      const columnCheckedUniqueRowsValues = column.extendedFilter.checkedUniqueRowsValues;
-
       newCheckedUniqueRowsValues = (
         columnCheckedUniqueRowsValues.length
           ? columnCheckedUniqueRowsValues
-          : getUniqueRowsValues({ rows: filteredRows, columnIndex: column.index, maxCount: MAX_COUNT_UNIQUE_ROWS })
+          : getUniqueRowsValues({ rows: filteredRows, index, maxCount: MAX_COUNT_UNIQUE_ROWS })
       )
         .filter((uniqueValue) => checkedUniqueRowsValues.includes(uniqueValue) || !uniqueRowsValues.includes(uniqueValue))
         .concat(checkedUniqueRowsValues.filter((uniqueValue) => !columnCheckedUniqueRowsValues.includes(uniqueValue)));
     }
 
     const newFilteredRows = filteredRows.map((row) =>
-      !row.hidden && !newCheckedUniqueRowsValues.includes(row.cells[column.index].value) ? { ...row, hidden: true } : row,
+      !row.hidden && !newCheckedUniqueRowsValues.includes(row.cells[index].value) ? { ...row, hidden: true } : row,
     );
 
-    dispatch(setPipelineTableProperties({ vtdId, tableType, properties: { rows: newFilteredRows } }));
+    setPipelineTableRows({ vtdId, type, rows: newFilteredRows });
 
     //reset newCheckedUniqueRowsValues for choosing all values
     if (
       uniqueRowsValues.length === checkedUniqueRowsValues.length &&
-      !isAddToFilter &&
+      !(searchValue || fromValue || toValue) &&
       uniqueRowsValues.length < MAX_COUNT_UNIQUE_ROWS
     ) {
       newCheckedUniqueRowsValues = [];
@@ -63,35 +59,29 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
     //set inputValues
     const inputValues = searchType === SEARCH_TYPES.search ? { searchValue } : { fromValue, toValue };
 
-    dispatch(
-      setColumnProperties({
-        vtdId,
-        tableType,
-        columnIndex: column.index,
-        properties: {
-          extendedFilter: {
-            visible: false,
-            checkedUniqueRowsValues: newCheckedUniqueRowsValues,
-            searchType,
-            ...inputValues,
-          },
-        },
-      }),
-    );
+    setColumnProperties({
+      vtdId,
+      type,
+      index,
+      properties: {
+        extendedFilter: { visible: false, checkedUniqueRowsValues: newCheckedUniqueRowsValues, searchType, ...inputValues },
+      },
+    });
   }, [
     checkedUniqueRowsValues,
     isAddToFilter,
     filteredRows,
-    dispatch,
+    setPipelineTableRows,
     vtdId,
-    tableType,
+    type,
     uniqueRowsValues,
     searchType,
     searchValue,
     fromValue,
     toValue,
-    column.index,
-    column.extendedFilter.checkedUniqueRowsValues,
+    setColumnProperties,
+    index,
+    columnCheckedUniqueRowsValues,
   ]);
 
   return (

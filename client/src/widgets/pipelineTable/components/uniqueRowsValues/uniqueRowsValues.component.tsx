@@ -1,15 +1,10 @@
 import { FC, memo, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ExcelRow, UniqueRowsValuesProps as UniqueRowsValuesPropsType } from 'redux/vtds/types';
 
+import { UniqueRowsValuesProps } from '../../types/props';
 import UniqueRowValue from '../uniqueRowValue/uniqueRowValue.component';
 
 import './uniqueRowsValues.styles.scss';
 import { UNIQUE_ROW_HEIGHT } from './../../consts/tableSettings';
-
-type UniqueRowsValuesProps = UniqueRowsValuesPropsType & {
-  columnCheckedUniqueRowsValues: ExcelRow;
-  inputValue: string;
-};
 
 const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
   uniqueRowsValues,

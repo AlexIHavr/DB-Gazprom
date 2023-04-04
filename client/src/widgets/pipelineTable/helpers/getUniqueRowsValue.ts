@@ -1,18 +1,17 @@
-import { ExcelRow, PipelineRows } from 'redux/vtds/types';
+import { GetUniqueRowsValuesParams } from '../types/params';
+import { ExcelRow } from '../types/pipelineTable';
 
-type getUniqueRowsValuesParams = { rows: PipelineRows; columnIndex: number; maxCount?: number };
-
-export const getUniqueRowsValues = ({ rows, columnIndex, maxCount }: getUniqueRowsValuesParams) => {
+export const getUniqueRowsValues = ({ rows, index, maxCount }: GetUniqueRowsValuesParams) => {
   const uniqueRowsValues: ExcelRow = [];
 
   for (const row of rows) {
     if (maxCount && maxCount <= uniqueRowsValues.length) break;
 
-    const cellValue = row.cells[columnIndex].value;
+    const cellValue = row.cells[index].value;
     if (!uniqueRowsValues.includes(cellValue)) uniqueRowsValues.push(cellValue);
   }
 
-  if (rows.at(-1)?.cells[columnIndex].value === null) {
+  if (rows.at(-1)?.cells[index].value === null) {
     if (uniqueRowsValues.at(-1) === null) uniqueRowsValues.pop();
     uniqueRowsValues.unshift(null);
   }

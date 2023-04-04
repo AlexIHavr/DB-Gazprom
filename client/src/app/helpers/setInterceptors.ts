@@ -1,5 +1,5 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
-import { ResponseErrorData } from 'redux/vtds/types';
+import axios, { AxiosInstance } from 'axios';
+import { ServerError } from 'shared/types/errors';
 
 import { useModalWindowsStore, usePreloaderStore } from '../../entities';
 
@@ -16,9 +16,9 @@ export const setInterceptors = (api: AxiosInstance) => {
       if (usePreloaderStore.getState().isLoading) usePreloaderStore.setState({ isLoading: false });
       return config;
     },
-    (err: AxiosError | Error) => {
+    (err: ServerError) => {
       if (axios.isAxiosError(err) && err.response) {
-        addModalWindow({ type: 'error', message: (err.response.data as ResponseErrorData).message });
+        addModalWindow({ type: 'error', message: err.response.data.message });
       } else {
         addModalWindow({ type: 'error', message: err.message });
       }

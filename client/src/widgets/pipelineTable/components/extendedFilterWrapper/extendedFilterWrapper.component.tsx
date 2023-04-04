@@ -1,55 +1,53 @@
 import { FC, memo, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { PipelineTableColumnProps } from 'redux/vtds/types';
-import { useAppDispatch } from 'hooks/redux';
-import { setColumnProperties } from 'redux/vtds/reducer';
 
+import { ExtendedFilterProps } from '../../types/props';
+import usePipelineTableStore from '../../pipelineTable.store';
 import ExtendedFilter from '../extendedFilter/extendedFilter.component';
 import ExtendedFilterButton from '../../ui/extendedFilterButton/extendedFilterButton.component';
 
 import './extendedFilterWrapper.styles.scss';
 
-const ExtendedFilterWrapper: FC<PipelineTableColumnProps> = ({ table, vtdId, tableType, column }) => {
-  const dispatch = useAppDispatch();
+const ExtendedFilterWrapper: FC<ExtendedFilterProps> = ({ table, index, extendedFilter }) => {
+  const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
   const [rightDirection, setRightDirection] = useState(false);
 
   useEffect(() => {
-    if (!column.extendedFilter.visible) return;
+    if (!extendedFilter.visible) return;
 
     const hideExtendedFilter = () => {
-      dispatch(
-        setColumnProperties({
-          vtdId,
-          tableType,
-          columnIndex: column.index,
-          properties: { extendedFilter: { ...column.extendedFilter, visible: false } },
-        }),
-      );
+      setColumnProperties({
+        vtdId: table.vtdId,
+        type: table.type,
+        index,
+        properties: { extendedFilter: { ...extendedFilter, visible: false } },
+      });
     };
 
     document.addEventListener('mousedown', hideExtendedFilter);
     return () => {
       document.removeEventListener('mousedown', hideExtendedFilter);
     };
-  }, [dispatch, vtdId, tableType, column.extendedFilter, column.index]);
+  }, [extendedFilter, index, setColumnProperties, table.type, table.vtdId]);
 
   return (
     <>
       <ExtendedFilterButton
-        table={table}
-        vtdId={vtdId}
-        tableType={tableType}
-        column={column}
+        vtdId={table.vtdId}
+        type={table.type}
+        columns={table.columns}
+        index={index}
+        extendedFilter={extendedFilter}
         setRightDirection={setRightDirection}
       />
       <div
         className={classNames('extendedFilterWrapper', {
-          visibleExtendedFilterWrapper: column.extendedFilter.visible,
+          visibleExtendedFilterWrapper: extendedFilter.visible,
           rightDirection,
         })}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        {column.extendedFilter.visible && <ExtendedFilter vtdId={vtdId} tableType={tableType} table={table} column={column} />}
+        {extendedFilter.visible && <ExtendedFilter table={table} index={index} extendedFilter={extendedFilter} />}
       </div>
     </>
   );

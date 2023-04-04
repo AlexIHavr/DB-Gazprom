@@ -1,23 +1,15 @@
 import classNames from 'classnames';
-import { Dispatch, FC, memo, SetStateAction, useCallback } from 'react';
-import { SEARCH_COMPARE_TYPES, SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES } from 'redux/vtds/constants';
-import { PipelineColumn, SearchCompareTypesValues } from 'redux/vtds/types';
+import { FC, memo, useCallback } from 'react';
 
+import { SEARCH_COMPARE_TYPES, SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES } from '../../consts/searchSettings';
+import { SearchInputsProps } from '../../types/props';
 import { ReactComponent as SpellCheckSolid } from '../../assets/svg/spellcheckSolid.svg';
 import { ReactComponent as MatchCaseSolid } from '../../assets/svg/matchCaseSolid.svg';
 
 import './searchInputs.styles.scss';
 
-type SearchInputsProps = {
-  column: PipelineColumn;
-  searchValue: string;
-  searchCompareTypes: SearchCompareTypesValues;
-  setSearchValue: Dispatch<SetStateAction<string>>;
-  setSearchCompareTypes: Dispatch<SetStateAction<SearchCompareTypesValues>>;
-};
-
 const SearchInputs: FC<SearchInputsProps> = ({
-  column,
+  columnSearchValue,
   searchValue,
   searchCompareTypes,
   setSearchValue,
@@ -34,7 +26,7 @@ const SearchInputs: FC<SearchInputsProps> = ({
   return (
     <div className="searchInput">
       <input
-        placeholder={column.extendedFilter.searchValue || SEARCH_TYPES.search}
+        placeholder={columnSearchValue || SEARCH_TYPES.search}
         type="search"
         onChange={(e) => setSearchValue(e.target.value)}
         value={searchValue}

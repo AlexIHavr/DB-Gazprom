@@ -1,16 +1,16 @@
 import { FC, memo, useEffect, useMemo, useRef } from 'react';
 import classNames from 'classnames';
-import { PipelineTableColumnProps } from 'redux/vtds/types';
 
 import { COLUMN_WIDTH, COLUMN_HEIGHT } from '../../consts/tableSettings';
 import ExtendedFilterWrapper from '../extendedFilterWrapper/extendedFilterWrapper.component';
 import SortColumnButton from '../../ui/sortColumnButton/sortColumnButton.component.';
 import HideColumnButton from '../../ui/hideColumnButton/hideColumnButton.component';
 import ChangeSizeTool from '../../ui/changeSizeTool/changeSizeTool.component';
+import { TableHeaderProps } from '../../types/props';
 
 import './tableHeader.styles.scss';
 
-const TableHeader: FC<PipelineTableColumnProps> = ({ table, vtdId, tableType, column }) => {
+const TableHeader: FC<TableHeaderProps> = ({ table, column }) => {
   const tableCellRef = useRef<HTMLTableCellElement>(null);
 
   const columnStyle = useMemo(() => ({ minWidth: COLUMN_WIDTH, maxWidth: COLUMN_WIDTH, height: COLUMN_HEIGHT }), []);
@@ -27,17 +27,18 @@ const TableHeader: FC<PipelineTableColumnProps> = ({ table, vtdId, tableType, co
   return (
     <th ref={tableCellRef} style={columnStyle} className={classNames({ showExtendedFilter: column.extendedFilter.visible })}>
       <span title={headerTitle}>{column.value}</span>
-
-      {vtdId && tableType && (
-        <>
-          <ChangeSizeTool vtdId={vtdId} tableType={tableType} column={column} />
-          <div className="manageColumnButtons">
-            <HideColumnButton vtdId={vtdId} tableType={tableType} column={column} />
-            <ExtendedFilterWrapper table={table} vtdId={vtdId} tableType={tableType} column={column} />
-            <SortColumnButton table={table} vtdId={vtdId} tableType={tableType} column={column} />
-          </div>
-        </>
-      )}
+      <ChangeSizeTool
+        vtdId={table.vtdId}
+        type={table.type}
+        index={column.index}
+        minWidth={column.minWidth}
+        width={column.width}
+      />
+      <div className="manageColumnButtons">
+        <HideColumnButton vtdId={table.vtdId} type={table.type} index={column.index} />
+        <ExtendedFilterWrapper table={table} index={column.index} extendedFilter={column.extendedFilter} />
+        <SortColumnButton table={table} index={column.index} sortType={column.sortType} />
+      </div>
     </th>
   );
 };

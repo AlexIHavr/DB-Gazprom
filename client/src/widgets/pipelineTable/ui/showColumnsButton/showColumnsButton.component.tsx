@@ -1,14 +1,14 @@
 import { FC, memo, MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
-import { PipelineTableProps } from 'redux/vtds/types';
 
 import { ReactComponent as EyeSolid } from '../../assets/svg/eyeSolid.svg';
 import HiddenColumnsManager from '../hiddenColumnsManager/hiddenColumnsManager.component';
+import { ShowColumnsButtonProps } from '../../types/props';
 
-const ShowColumnsButton: FC<PipelineTableProps> = ({ table, tableType, vtdId }) => {
+const ShowColumnsButton: FC<ShowColumnsButtonProps> = ({ vtdId, type, columns }) => {
   const [showHiddenColumns, setShowVisiblyColumns] = useState(false);
 
-  const hiddenColumns = useMemo(() => table.columns.filter(({ hidden }) => hidden), [table.columns]);
+  const hiddenColumns = useMemo(() => columns.filter(({ hidden }) => hidden), [columns]);
 
   const showVisiblyColumnsOnClick = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -36,7 +36,7 @@ const ShowColumnsButton: FC<PipelineTableProps> = ({ table, tableType, vtdId }) 
       <EyeSolid />
       <HiddenColumnsManager
         vtdId={vtdId}
-        tableType={tableType}
+        type={type}
         hiddenColumns={hiddenColumns}
         showHiddenColumns={showHiddenColumns}
         setShowVisiblyColumns={setShowVisiblyColumns}

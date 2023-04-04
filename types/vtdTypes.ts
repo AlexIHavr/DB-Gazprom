@@ -1,16 +1,15 @@
 import { Model } from 'sequelize';
 
-export type TableType = 'form' | 'repairs' | 'inspections' | 'statistics';
-
 export type GetPipelineTableParams = {
-  id: string;
-  tableType: TableType;
+  vtdId: string;
+  type: string;
 };
 
-export type SetPipelineTableRequest = {
-  id: string;
-  pipelineTable: {};
-  tableType: TableType;
+export type PipelineTable = GetPipelineTableParams & { [key: string]: unknown };
+export type PipelineTables = PipelineTable[];
+
+export type LoadPipelineTableRequest = {
+  pipelineTable: PipelineTable;
 };
 
 export type VtdAttributes = {
@@ -19,7 +18,7 @@ export type VtdAttributes = {
   pipeline: string;
   section: string;
   year: string;
-  pipelineData?: Record<TableType, {}>;
+  pipelineTables?: PipelineTables;
 };
 
 export type VtdModel = Model<Required<VtdAttributes>, VtdAttributes> & Required<VtdAttributes>;

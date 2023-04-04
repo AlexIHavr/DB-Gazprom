@@ -1,45 +1,42 @@
 import { FC, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { PipelineTable } from 'widgets';
-import { PAGES } from 'shared';
-import { TABLE_TYPES, TABLE_TYPES_KEYS } from 'redux/vtds/constants';
-import { TableType } from 'redux/vtds/types';
+import { PipelineTable, usePipelineTableStore } from 'widgets';
+import { PAGES } from 'shared/consts/pages';
 
 import useVtdTableStore from './vtdTable.store';
 import LoadTableButton from './components/loadTableButton/loadTableButton.component';
+import { TABLE_TYPES, TABLE_TYPES_KEYS } from './consts/tableTypes';
+import { TableType } from './types/pipelineTable';
 
 import './vtdTable.styles.scss';
 
 const VtdTable: FC = () => {
-  const [vtds, setPipelineTable] = useVtdTableStore((state) => [state.vtds, state.setPipelineTable]);
+  const vtds = useVtdTableStore((state) => state.vtds);
+  const [pipelineTables, addPipelineTable] = usePipelineTableStore((state) => [state.pipelineTables, state.addPipelineTable]);
 
-  const { vtdId, tableType: tableTypeParam } = useParams<typeof PAGES.vtdTable.params>();
+  const { vtdId, tableType } = useParams<typeof PAGES.vtdTable.params>();
 
-  const pipeline = useMemo(() => vtds.find(({ id }) => id === vtdId), [vtds, vtdId]);
-  const tableType = tableTypeParam as TableType;
-  const vtdTable = pipeline?.pipelineData[tableType];
+  const vtd = useMemo(() => vtds.find(({ id }) => id === vtdId), [vtds, vtdId]);
+  const type = tableType as TableType;
+  const vtdTable = pipelineTables.find((pipelineTable) => pipelineTable.vtdId === vtdId && pipelineTable.type === type);
 
-  const isValidTableType = useMemo(() => TABLE_TYPES_KEYS.includes(tableType), [tableType]);
+  const isValidTableType = useMemo(() => TABLE_TYPES_KEYS.includes(type), [type]);
 
   useEffect(() => {
-    if (vtdId && isValidTableType && vtdTable === undefined) setPipelineTable({ vtdId, tableType });
-  }, [setPipelineTable, vtdTable, tableType, vtdId, isValidTableType]);
+    if (vtdId && isValidTableType && !vtdTable) addPipelineTable({ vtdId, type });
+  }, [addPipelineTable, vtdTable, vtdId, isValidTableType, type]);
 
   return (
     <div className="vtdTable">
-      {pipeline && isValidTableType && (
+      {vtd && isValidTableType && vtdId && (
         <>
           <h1>
-            {pipeline.pipeline} - {pipeline.section} - {pipeline.year}
+            {vtd.pipeline} - {vtd.section} - {vtd.year}
           </h1>
 
-          <h2>{TABLE_TYPES[tableType].name}</h2>
+          <h2>{TABLE_TYPES[type].name}</h2>
 
-          {vtdTable && vtdId ? (
-            <PipelineTable table={vtdTable} vtdId={vtdId} tableType={tableType} />
-          ) : (
-            vtdTable === null && <LoadTableButton vtdId={vtdId!} tableType={tableType} />
-          )}
+          {vtdTable ? <PipelineTable table={vtdTable} /> : <LoadTableButton vtdId={vtdId} type={type} />}
         </>
       )}
     </div>

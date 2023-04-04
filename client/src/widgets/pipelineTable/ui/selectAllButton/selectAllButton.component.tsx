@@ -1,16 +1,12 @@
 import { FC, memo, useCallback } from 'react';
-import { UniqueRowsValuesProps } from 'redux/vtds/types';
 
+import { SelectAllButtonProps } from '../../types/props';
 import { ReactComponent as CheckBoxBlackRegular } from '../../assets/svg/checkBoxBlankRegular.svg';
 import { ReactComponent as CheckBoxRegular } from '../../assets/svg/checkBoxRegular.svg';
 
 import './selectAllButton.styles.scss';
 
-const SelectAllButton: FC<UniqueRowsValuesProps> = ({
-  uniqueRowsValues,
-  checkedUniqueRowsValues,
-  setCheckedUniqueRowsValues,
-}) => {
+const SelectAllButton: FC<SelectAllButtonProps> = ({ uniqueRowsValues, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
   const toggleSelectAllOnClick = useCallback(
     () => setCheckedUniqueRowsValues((prev) => (prev.length === uniqueRowsValues.length ? [] : uniqueRowsValues)),
     [setCheckedUniqueRowsValues, uniqueRowsValues],

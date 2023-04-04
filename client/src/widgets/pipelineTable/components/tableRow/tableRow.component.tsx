@@ -1,15 +1,10 @@
 import { FC, memo, useMemo } from 'react';
 import { v4 } from 'uuid';
-import { PipelineCells, PipelineColumns } from 'redux/vtds/types';
 
+import { TableRowProps } from '../../types/props';
 import { COLUMN_WIDTH, ROW_HEIGHT } from '../../consts/tableSettings';
 
 import './tableRow.styles.scss';
-
-type TableRowProps = {
-  cells: PipelineCells;
-  columnsOnPage: PipelineColumns;
-};
 
 const TableRow: FC<TableRowProps> = ({ cells, columnsOnPage }) => {
   const rowStyle = useMemo(

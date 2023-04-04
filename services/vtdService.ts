@@ -1,13 +1,13 @@
 import ApiError from '../errors/ApiError';
 import vtdModel from '../models/vtdModel';
-import { GetPipelineTableParams, SetPipelineTableRequest } from '../types/vtdTypes';
+import { GetPipelineTableParams, LoadPipelineTableRequest } from '../types/vtdTypes';
 
 class VtdService {
   async getVtds() {
-    const { type, pipeline, section, year, pipelineData } = vtdModel.getAttributes();
+    const { type, pipeline, section, year, pipelineTables } = vtdModel.getAttributes();
 
     const vtds = await vtdModel.findAll({
-      attributes: { exclude: [pipelineData.field!] },
+      attributes: { exclude: [pipelineTables.field!] },
       order: [
         [type.field!, 'DESC'],
         [pipeline.field!, 'ASC'],
@@ -18,22 +18,26 @@ class VtdService {
     return vtds;
   }
 
-  async getPipelineTable({ id, tableType }: GetPipelineTableParams) {
-    const vtd = await vtdModel.findByPk(id);
+  async getPipelineTable({ vtdId, type }: GetPipelineTableParams) {
+    const vtd = await vtdModel.findByPk(vtdId);
 
     if (!vtd) throw ApiError.BadRequest('Vtd was not found.');
 
-    return vtd.pipelineData[tableType];
+    return vtd.pipelineTables.find((pipelineTable) => pipelineTable.type === type);
   }
 
-  async loadPipelineTable({ id, pipelineTable, tableType }: SetPipelineTableRequest) {
-    const vtd = await vtdModel.findByPk(id);
+  async loadPipelineTable({ pipelineTable }: LoadPipelineTableRequest) {
+    const vtd = await vtdModel.findByPk(pipelineTable.vtdId);
 
     if (!vtd) throw ApiError.BadRequest('Vtd was not found.');
 
-    await vtd.update({ pipelineData: { ...vtd.pipelineData, [tableType]: pipelineTable } });
+    const currentPipelineTable = vtd.pipelineTables.find(({ type }) => pipelineTable.type === type);
 
-    return vtd;
+    if (currentPipelineTable) throw ApiError.BadRequest('Vtd table already exists.');
+
+    await vtd.update({ pipelineTables: [...vtd.pipelineTables, pipelineTable] });
+
+    return vtd.pipelineTables;
   }
 }
 

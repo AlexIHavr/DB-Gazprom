@@ -1,14 +1,10 @@
-import { Dispatch, FC, memo, SetStateAction } from 'react';
+import { FC, memo } from 'react';
 
+import { AddToFilterButtonProps } from '../../types/props';
 import { ReactComponent as CheckBoxBlackRegular } from '../../assets/svg/checkBoxBlankRegular.svg';
 import { ReactComponent as CheckBoxRegular } from '../../assets/svg/checkBoxRegular.svg';
 
 import './addToFilterButton.styles.scss';
-
-type AddToFilterButtonProps = {
-  isAddToFilter: boolean;
-  setIsAddToFilter: Dispatch<SetStateAction<boolean>>;
-};
 
 const AddToFilterButton: FC<AddToFilterButtonProps> = ({ isAddToFilter, setIsAddToFilter }) => {
   return (

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { PAGES } from 'shared';
+import { PAGES } from 'shared/consts/pages';
 
 import gazpromLogo from '../../assets/gazpromLogo.png';
 import './navLinks.styles.scss';

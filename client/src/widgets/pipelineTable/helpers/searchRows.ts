@@ -1,13 +1,7 @@
-import { SEARCH_COMPARE_TYPES } from 'redux/vtds/constants';
-import { ExcelValue, SearchCompareTypesValues } from 'redux/vtds/types';
+import { SEARCH_COMPARE_TYPES } from '../consts/searchSettings';
+import { IsRangeComparedCellValueParams, IsSearchComparedCellValueParams } from '../types/params';
 
-type isSearchComparedCellValueParams = {
-  cellValue: ExcelValue;
-  searchValue: string;
-  searchCompareTypes: SearchCompareTypesValues;
-};
-
-export const isSearchComparedCellValue = ({ cellValue, searchValue, searchCompareTypes }: isSearchComparedCellValueParams) => {
+export const isSearchComparedCellValue = ({ cellValue, searchValue, searchCompareTypes }: IsSearchComparedCellValueParams) => {
   if (cellValue === null) return false;
 
   const stringValue = String(cellValue);
@@ -24,13 +18,7 @@ export const isSearchComparedCellValue = ({ cellValue, searchValue, searchCompar
   return stringValue.toLowerCase().includes(searchValue.toLowerCase());
 };
 
-type isRangeComparedCellValueParams = {
-  cellValue: ExcelValue;
-  fromValue: string;
-  toValue: string;
-};
-
-export const isRangeComparedCellValue = ({ cellValue, fromValue, toValue }: isRangeComparedCellValueParams) => {
+export const isRangeComparedCellValue = ({ cellValue, fromValue, toValue }: IsRangeComparedCellValueParams) => {
   if (cellValue === null) return false;
 
   if (fromValue && toValue) return cellValue >= fromValue && cellValue <= toValue;

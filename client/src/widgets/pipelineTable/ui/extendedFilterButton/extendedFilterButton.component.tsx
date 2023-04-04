@@ -1,19 +1,21 @@
 import classNames from 'classnames';
-import { Dispatch, FC, memo, MouseEvent, SetStateAction, useCallback, useRef } from 'react';
-import { useAppDispatch } from 'hooks/redux';
-import { PipelineTableColumnProps } from 'redux/vtds/types';
-import { setColumnProperties } from 'redux/vtds/reducer';
+import { FC, memo, MouseEvent, useCallback, useRef } from 'react';
 
+import { ExtendedFilterButtonProps } from '../../types/props';
+import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as FilterSolid } from '../../assets/svg/filterSolid.svg';
 
 import './extendedFilterButton.styles.scss';
 
-type ExtendedFilterButtonProps = PipelineTableColumnProps & {
-  setRightDirection: Dispatch<SetStateAction<boolean>>;
-};
-
-const ExtendedFilterButton: FC<ExtendedFilterButtonProps> = ({ table, vtdId, tableType, column, setRightDirection }) => {
-  const dispatch = useAppDispatch();
+const ExtendedFilterButton: FC<ExtendedFilterButtonProps> = ({
+  vtdId,
+  type,
+  columns,
+  index,
+  extendedFilter,
+  setRightDirection,
+}) => {
+  const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
   const extendedFilterButtonRef = useRef<HTMLButtonElement>(null);
 
   const showExtendedFilter = useCallback(
@@ -27,43 +29,37 @@ const ExtendedFilterButton: FC<ExtendedFilterButtonProps> = ({ table, vtdId, tab
 
       setRightDirection(leftOffset > document.documentElement.clientWidth);
 
-      const visibleExtendedFilter = table.columns.find(({ extendedFilter: { visible }, id }) => id !== column.id && visible);
+      const visibleExtendedFilter = columns.find((column) => column.index !== index && column.extendedFilter.visible);
 
       //hide visible extendedFilter
       if (visibleExtendedFilter) {
-        dispatch(
-          setColumnProperties({
-            vtdId,
-            tableType,
-            columnIndex: visibleExtendedFilter.index,
-            properties: {
-              extendedFilter: { ...visibleExtendedFilter.extendedFilter, visible: false },
-            },
-          }),
-        );
+        setColumnProperties({
+          vtdId,
+          type,
+          index: visibleExtendedFilter.index,
+          properties: { extendedFilter: { ...visibleExtendedFilter.extendedFilter, visible: false } },
+        });
       }
 
       //toggle current extendedFilter
-      dispatch(
-        setColumnProperties({
-          vtdId,
-          tableType,
-          columnIndex: column.index,
-          properties: {
-            extendedFilter: { ...column.extendedFilter, visible: !column.extendedFilter.visible },
-          },
-        }),
-      );
+      setColumnProperties({
+        vtdId,
+        type,
+        index,
+        properties: {
+          extendedFilter: { ...extendedFilter, visible: !extendedFilter.visible },
+        },
+      });
     },
-    [column.extendedFilter, column.id, column.index, table.columns, tableType, vtdId, dispatch, setRightDirection],
+    [setRightDirection, columns, setColumnProperties, vtdId, type, index, extendedFilter],
   );
 
   return (
     <button
       title="Расширенный фильтр"
       className={classNames('extendedFilterButton', {
-        show: column.extendedFilter.visible,
-        activated: column.extendedFilter.checkedUniqueRowsValues.length,
+        show: extendedFilter.visible,
+        activated: extendedFilter.checkedUniqueRowsValues.length,
       })}
       onMouseDown={showExtendedFilter}
       ref={extendedFilterButtonRef}

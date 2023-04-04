@@ -1,6 +1,6 @@
+import { PAGES } from 'shared/consts/pages';
 import { FC, lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { PAGES } from 'shared';
 
 import { getVtdTree } from '../vtdTree/helpers/getVtdTree';
 import useVtdTableStore from '../vtdTable/vtdTable.store';

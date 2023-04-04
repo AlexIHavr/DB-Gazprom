@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import vtdService from '../services/vtdService';
-import { GetPipelineTableParams, SetPipelineTableRequest, VtdModel } from '../types/vtdTypes';
+import { GetPipelineTableParams, LoadPipelineTableRequest, PipelineTables, VtdModel } from '../types/vtdTypes';
 
 class VtdController {
   async getVtds(req: Request, res: Response<VtdModel[]>, next: NextFunction) {
@@ -22,10 +22,10 @@ class VtdController {
     }
   }
 
-  async loadPipelineTable(req: Request<{}, {}, SetPipelineTableRequest>, res: Response<VtdModel>, next: NextFunction) {
+  async loadPipelineTable(req: Request<{}, {}, LoadPipelineTableRequest>, res: Response<PipelineTables>, next: NextFunction) {
     try {
-      const vtd = await vtdService.loadPipelineTable(req.body);
-      res.json(vtd);
+      const pipelineTables = await vtdService.loadPipelineTable(req.body);
+      res.json(pipelineTables);
     } catch (err) {
       next(err);
     }

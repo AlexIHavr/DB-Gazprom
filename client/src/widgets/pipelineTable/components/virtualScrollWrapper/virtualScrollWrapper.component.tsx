@@ -1,17 +1,12 @@
 import { FC, memo, UIEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { PipelineTableProps } from 'redux/vtds/types';
 
+import { PipelineTableProps } from '../../types/props';
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from '../../consts/tableSettings';
 import TableWrapper from '../tableWrapper/tableWrapper.component';
 
 import './virtualScrollWrapper.styles.scss';
 
-type VirtualScrollWrapperProps = PipelineTableProps & {
-  height?: number;
-  width?: number;
-};
-
-const VirtualScrollWrapper: FC<VirtualScrollWrapperProps> = ({ table, vtdId, tableType, width, height }) => {
+const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) => {
   const [rowIndex, setRowIndex] = useState(0);
   const [columnIndex, setColumnIndex] = useState(0);
   const [rowsOnPageCount, setRowsOnPageCount] = useState(0);
@@ -92,14 +87,7 @@ const VirtualScrollWrapper: FC<VirtualScrollWrapperProps> = ({ table, vtdId, tab
   return (
     <div className="virtualScroll" onScroll={virtualOnScroll} style={virtualScrollStyle} ref={virtualScrollRef}>
       <div style={virtualScrollContentStyle} className="virtualScrollContent" ref={virtualScrollContentRef}>
-        <TableWrapper
-          table={table}
-          vtdId={vtdId}
-          tableType={tableType}
-          columnsOnPage={columnsOnPage}
-          rowsOnPage={rowsOnPage}
-          style={tableStyle}
-        />
+        <TableWrapper table={table} columnsOnPage={columnsOnPage} rowsOnPage={rowsOnPage} style={tableStyle} />
       </div>
     </div>
   );

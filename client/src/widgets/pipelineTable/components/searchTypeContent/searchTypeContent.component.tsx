@@ -1,12 +1,9 @@
-import { FC, memo, ReactNode } from 'react';
-import { SEARCH_TYPES, SEARCH_TYPES_VALUES } from 'redux/vtds/constants';
+import { FC, memo } from 'react';
+
+import { SEARCH_TYPES_VALUES } from '../../consts/searchSettings';
+import { SearchTypeContentProps } from '../../types/props';
 
 import './searchTypeContent.styles.scss';
-
-type SearchTypeContentProps = {
-  children?: ReactNode[];
-  searchType: SEARCH_TYPES;
-};
 
 const SearchTypeContent: FC<SearchTypeContentProps> = ({ children, searchType }) => {
   return (

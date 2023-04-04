@@ -1,11 +1,9 @@
 import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { TABLE_TYPES, TABLE_TYPES_KEYS } from 'redux/vtds/constants';
-import { PAGES } from 'shared';
+import { PAGES } from 'shared/consts/pages';
 
-type VtdTreeTableTypesProps = {
-  id: string;
-};
+import { TABLE_TYPES, TABLE_TYPES_KEYS } from '../../../vtdTable/consts/tableTypes';
+import { VtdTreeTableTypesProps } from '../../types/props';
 
 const VtdTreeTableTypes: FC<VtdTreeTableTypesProps> = ({ id }) => {
   return (

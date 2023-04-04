@@ -1,21 +1,20 @@
 import { FC, memo, MouseEvent, useCallback } from 'react';
-import { useAppDispatch } from 'hooks/redux';
-import { setColumnProperties } from 'redux/vtds/reducer';
-import { PipelineColumnProps } from 'redux/vtds/types';
 
+import { HideColumnButtonProps } from '../../types/props';
+import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as EyeSlashSolid } from '../../assets/svg/eyeOffSolid.svg';
 
 import './hideColumnButton.styles.scss';
 
-const HideColumnButton: FC<PipelineColumnProps> = ({ vtdId, tableType, column }) => {
-  const dispatch = useAppDispatch();
+const HideColumnButton: FC<HideColumnButtonProps> = ({ vtdId, type, index }) => {
+  const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
 
   const hideColumnOnMouseDown = useCallback(
     (e: MouseEvent) => {
-      if (e.button || !vtdId || !tableType) return;
-      dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { hidden: true } }));
+      if (e.button) return;
+      setColumnProperties({ vtdId, type, index, properties: { hidden: true } });
     },
-    [dispatch, vtdId, tableType, column.index],
+    [index, setColumnProperties, type, vtdId],
   );
 
   return (

@@ -1,26 +1,23 @@
 import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-import { useAppDispatch } from 'hooks/redux';
-import { setColumnProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
-import { PipelineTableColumnProps } from 'redux/vtds/types';
-import { SORT_TYPES } from 'redux/vtds/constants';
 
+import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as ArrowDown } from '../../assets/svg/arrowDownSolid.svg';
 import { getDefaultSortedRows, getSortedRows } from '../../helpers/sortRows';
+import { SortColumnButtonProps } from '../../types/props';
+import { SORT_TYPES } from '../../consts/searchSettings';
 
 import './sortColumnButton.styles.scss';
 
-const SortColumnButton: FC<PipelineTableColumnProps> = ({ table, vtdId, tableType, column }) => {
-  const dispatch = useAppDispatch();
+const SortColumnButton: FC<SortColumnButtonProps> = ({ table, index, sortType }) => {
+  const [setColumnProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
+    state.setColumnProperties,
+    state.setPipelineTableRows,
+  ]);
 
-  const sortType = useMemo(
-    () =>
-      column.sortType === SORT_TYPES.none
-        ? SORT_TYPES.asc
-        : column.sortType === SORT_TYPES.asc
-        ? SORT_TYPES.desc
-        : SORT_TYPES.none,
-    [column.sortType],
+  const columnSortType = useMemo(
+    () => (sortType === SORT_TYPES.none ? SORT_TYPES.asc : sortType === SORT_TYPES.asc ? SORT_TYPES.desc : SORT_TYPES.none),
+    [sortType],
   );
 
   const sortColumnOnMouseDown = useCallback(
@@ -29,41 +26,37 @@ const SortColumnButton: FC<PipelineTableColumnProps> = ({ table, vtdId, tableTyp
 
       //remove sortedColumn
       const sortedColumn = table.columns.find(({ sortType }) => sortType !== SORT_TYPES.none);
-      if (sortedColumn)
-        dispatch(
-          setColumnProperties({ tableType, vtdId, columnIndex: sortedColumn.index, properties: { sortType: SORT_TYPES.none } }),
-        );
+      if (sortedColumn) {
+        setColumnProperties({
+          vtdId: table.vtdId,
+          type: table.type,
+          index: sortedColumn.index,
+          properties: { sortType: SORT_TYPES.none },
+        });
+      }
 
       //change sortedColumn
-      dispatch(setColumnProperties({ tableType, vtdId, columnIndex: column.index, properties: { sortType } }));
+      setColumnProperties({ vtdId: table.vtdId, type: table.type, index, properties: { sortType: columnSortType } });
 
       //set sortedRows
-      dispatch(
-        setPipelineTableProperties({
-          tableType,
-          vtdId,
-          properties: {
-            rows:
-              sortType === SORT_TYPES.none
-                ? getDefaultSortedRows(table.rows)
-                : getSortedRows({
-                    sortType,
-                    columnIndex: column.index,
-                    rows: table.rows,
-                  }),
-          },
-        }),
-      );
+      setPipelineTableRows({
+        vtdId: table.vtdId,
+        type: table.type,
+        rows:
+          columnSortType === SORT_TYPES.none
+            ? getDefaultSortedRows(table.rows)
+            : getSortedRows({ sortType: columnSortType, index, rows: table.rows }),
+      });
     },
-    [table.columns, table.rows, dispatch, tableType, vtdId, column.index, sortType],
+    [table.columns, table.vtdId, table.type, table.rows, setColumnProperties, index, columnSortType, setPipelineTableRows],
   );
 
   return (
     <button
       title={sortType}
       className={classNames('sortColumnButton', {
-        upSortColumn: column.sortType === SORT_TYPES.asc,
-        isSortedColumn: column.sortType !== SORT_TYPES.none,
+        upSortColumn: sortType === SORT_TYPES.asc,
+        isSortedColumn: sortType !== SORT_TYPES.none,
       })}
       onMouseDown={sortColumnOnMouseDown}
     >

@@ -1,29 +1,29 @@
-import { useAppDispatch } from 'hooks/redux';
 import { FC, memo, useCallback } from 'react';
-import { setColumnProperties } from 'redux/vtds/reducer';
-import { PipelineColumnProps } from 'redux/vtds/types';
 
+import { ChangeSizeToolProps } from '../../types/props';
+
+import usePipelineTableStore from './../../pipelineTable.store';
 import './changeSizeTool.styles.scss';
 
-const ChangeSizeTool: FC<PipelineColumnProps> = ({ vtdId, tableType, column }) => {
-  const dispatch = useAppDispatch();
+const ChangeSizeTool: FC<ChangeSizeToolProps> = ({ vtdId, type, index, minWidth, width }) => {
+  const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
 
   const onMouseDownChangeSizeTool = useCallback(
     (e: React.MouseEvent) => {
-      if (e.button || !vtdId || !tableType) return;
+      if (e.button) return;
 
       const parentElem = (e.target as HTMLDivElement).parentElement;
       let startPageX = e.pageX;
-      let width = column.width;
+      let columnWidth = width;
 
       const onMouseMove = (event: MouseEvent) => {
         if (parentElem) {
-          width = parentElem.offsetWidth + event.pageX - startPageX;
+          columnWidth = parentElem.offsetWidth + event.pageX - startPageX;
 
-          if (width < column.minWidth) width = column.minWidth;
+          if (columnWidth < minWidth) columnWidth = minWidth;
 
-          parentElem.style.maxWidth = width + 'px';
-          parentElem.style.minWidth = width + 'px';
+          parentElem.style.maxWidth = columnWidth + 'px';
+          parentElem.style.minWidth = columnWidth + 'px';
           startPageX = event.pageX;
         }
       };
@@ -32,13 +32,13 @@ const ChangeSizeTool: FC<PipelineColumnProps> = ({ vtdId, tableType, column }) =
       window.addEventListener(
         'mouseup',
         () => {
-          dispatch(setColumnProperties({ vtdId, tableType, columnIndex: column.index, properties: { width } }));
+          setColumnProperties({ vtdId, type, index, properties: { width: columnWidth } });
           window.removeEventListener('mousemove', onMouseMove);
         },
         { once: true },
       );
     },
-    [column.width, column.minWidth, column.index, dispatch, vtdId, tableType],
+    [index, minWidth, setColumnProperties, type, vtdId, width],
   );
 
   return <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>;

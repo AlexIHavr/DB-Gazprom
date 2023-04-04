@@ -1,10 +1,9 @@
-import { Vtds, PipelineTableTypeProps, TableType } from 'redux/vtds/types';
-
-type LoadPipelineTableParams = { vtdId: string; file: File; tableType: TableType };
+import { LoadPipelineTableParams } from './params';
+import { PipelineTable } from './pipelineTable';
+import { Vtds } from './vtds';
 
 export type UseVtdTableStore = {
   vtds: Vtds;
-  setVtds: () => void;
-  setPipelineTable: ({ tableType, vtdId }: PipelineTableTypeProps) => void;
-  loadPipelineTable: ({ vtdId, file, tableType }: LoadPipelineTableParams) => void;
+  setVtds: () => Promise<void>;
+  loadPipelineTable: ({ vtdId, file, type }: LoadPipelineTableParams) => Promise<PipelineTable | undefined>;
 };

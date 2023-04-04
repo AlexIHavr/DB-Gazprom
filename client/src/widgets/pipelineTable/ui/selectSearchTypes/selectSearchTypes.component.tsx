@@ -1,16 +1,12 @@
-import { Dispatch, FC, memo, SetStateAction } from 'react';
+import { FC, memo } from 'react';
 import classNames from 'classnames';
-import { SEARCH_TYPES, SEARCH_TYPES_VALUES } from 'redux/vtds/constants';
 
+import { SelectSearchTypesProps } from '../../types/props';
 import { ReactComponent as SearchSolid } from '../../assets/svg/searchSolid.svg';
 import { ReactComponent as ArraySolid } from '../../assets/svg/arraySolid.svg';
+import { SEARCH_TYPES, SEARCH_TYPES_VALUES } from '../../consts/searchSettings';
 
 import './selectSearchTypes.styles.scss';
-
-type SelectSearchTypesProps = {
-  searchType: SEARCH_TYPES;
-  setSearchType: Dispatch<SetStateAction<SEARCH_TYPES>>;
-};
 
 const SelectSearchTypes: FC<SelectSearchTypesProps> = ({ searchType, setSearchType }) => {
   return (

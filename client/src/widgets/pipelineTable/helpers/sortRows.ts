@@ -1,5 +1,6 @@
-import { SORT_TYPES } from 'redux/vtds/constants';
-import { PipelineRows } from 'redux/vtds/types';
+import { SORT_TYPES } from '../consts/searchSettings';
+import { GetSortedRowsParams } from '../types/params';
+import { PipelineRows } from '../types/pipelineTable';
 
 export const getDefaultSortedRows = (rows: PipelineRows) => {
   return [...rows].sort((nextRow, row) => {
@@ -7,16 +8,14 @@ export const getDefaultSortedRows = (rows: PipelineRows) => {
   });
 };
 
-type GetSortedRowsParams = { sortType: SORT_TYPES; columnIndex: number; rows: PipelineRows };
-
-export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsParams) => {
+export const getSortedRows = ({ sortType, index, rows }: GetSortedRowsParams) => {
   if (sortType === SORT_TYPES.none) return rows;
 
   return rows
-    .filter(({ cells }) => cells[columnIndex].value !== null)
+    .filter(({ cells }) => cells[index].value !== null)
     .sort((nextRow, row) => {
-      let cellValue = row.cells[columnIndex].value!;
-      let nextCellValue = nextRow.cells[columnIndex].value!;
+      let cellValue = row.cells[index].value!;
+      let nextCellValue = nextRow.cells[index].value!;
 
       if (typeof cellValue === 'string') cellValue = cellValue.toLowerCase();
       if (typeof nextCellValue === 'string') nextCellValue = nextCellValue.toLowerCase();
@@ -37,5 +36,5 @@ export const getSortedRows = ({ sortType, columnIndex, rows }: GetSortedRowsPara
           return 0;
       }
     })
-    .concat(rows.filter(({ cells }) => cells[columnIndex].value === null));
+    .concat(rows.filter(({ cells }) => cells[index].value === null));
 };

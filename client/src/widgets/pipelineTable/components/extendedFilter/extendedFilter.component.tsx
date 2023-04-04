@@ -1,6 +1,4 @@
 import { FC, memo, useMemo, useState } from 'react';
-import { SearchCompareTypesValues, PipelineTableColumnProps } from 'redux/vtds/types';
-import { SEARCH_TYPES } from 'redux/vtds/constants';
 
 import UniqueRowsValuesWrapper from '../uniqueRowsValuesWrapper/uniqueRowsValuesWrapper.component';
 import SearchTypeContent from '../searchTypeContent/searchTypeContent.component';
@@ -8,19 +6,22 @@ import OffExtendedFilterButton from '../../ui/offExtendedFilterButton/offExtende
 import SelectSearchTypes from '../../ui/selectSearchTypes/selectSearchTypes.component';
 import SearchInputs from '../../ui/searchInputs/searchInputs.component';
 import RangeInputs from '../../ui/rangeInputs/rangeInputs.component';
+import { ExtendedFilterProps } from '../../types/props';
+import { SEARCH_TYPES } from '../../consts/searchSettings';
+import { SearchCompareTypesValues } from '../../types/pipelineTable';
 
 import './extendedFilter.styles.scss';
 
-const ExtendedFilter: FC<PipelineTableColumnProps> = ({ vtdId, tableType, table, column }) => {
+const ExtendedFilter: FC<ExtendedFilterProps> = ({ table, index, extendedFilter }) => {
   const [searchValue, setSearchValue] = useState('');
   const [fromValue, setFromValue] = useState('');
   const [toValue, setToValue] = useState('');
-  const [searchType, setSearchType] = useState(column.extendedFilter.searchType || SEARCH_TYPES.search);
+  const [searchType, setSearchType] = useState(extendedFilter.searchType || SEARCH_TYPES.search);
   const [searchCompareTypes, setSearchCompareTypes] = useState<SearchCompareTypesValues>([]);
 
   const filteredRows = useMemo(() => {
     const columnsWithFilter = table.columns.filter(
-      ({ index, extendedFilter }) => index !== column.index && extendedFilter.checkedUniqueRowsValues.length,
+      (column) => index !== column.index && column.extendedFilter.checkedUniqueRowsValues.length,
     );
 
     return table.rows.map((row) => ({
@@ -31,22 +32,29 @@ const ExtendedFilter: FC<PipelineTableColumnProps> = ({ vtdId, tableType, table,
           checkedUniqueRowsValues.includes(row.cells[index].value),
         ),
     }));
-  }, [column.index, table.columns, table.rows]);
+  }, [index, table.columns, table.rows]);
 
   return (
     <div className="extendedFilter">
-      <OffExtendedFilterButton vtdId={vtdId} tableType={tableType} column={column} filteredRows={filteredRows} />
+      <OffExtendedFilterButton
+        vtdId={table.vtdId}
+        type={table.type}
+        index={index}
+        disabled={!extendedFilter.checkedUniqueRowsValues.length}
+        filteredRows={filteredRows}
+      />
       <SelectSearchTypes searchType={searchType} setSearchType={setSearchType} />
       <SearchTypeContent searchType={searchType}>
         <SearchInputs
-          column={column}
+          columnSearchValue={extendedFilter.searchValue}
           searchValue={searchValue}
           searchCompareTypes={searchCompareTypes}
           setSearchValue={setSearchValue}
           setSearchCompareTypes={setSearchCompareTypes}
         />
         <RangeInputs
-          column={column}
+          columnFromValue={extendedFilter.fromValue}
+          columnToValue={extendedFilter.toValue}
           fromValue={fromValue}
           toValue={toValue}
           setFromValue={setFromValue}
@@ -54,10 +62,11 @@ const ExtendedFilter: FC<PipelineTableColumnProps> = ({ vtdId, tableType, table,
         />
       </SearchTypeContent>
       <UniqueRowsValuesWrapper
-        vtdId={vtdId}
-        tableType={tableType}
+        vtdId={table.vtdId}
+        type={table.type}
+        index={index}
+        columnCheckedUniqueRowsValues={extendedFilter.checkedUniqueRowsValues}
         filteredRows={filteredRows}
-        column={column}
         searchValue={searchValue}
         fromValue={fromValue}
         toValue={toValue}

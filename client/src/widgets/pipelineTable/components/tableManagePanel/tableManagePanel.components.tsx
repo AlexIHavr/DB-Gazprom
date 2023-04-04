@@ -1,50 +1,40 @@
 import { useCallback, memo, FC } from 'react';
-import { PipelineColumnPartial, PipelineTableProps } from 'redux/vtds/types';
-import { SORT_TYPES } from 'redux/vtds/constants';
-import { useAppDispatch } from 'hooks/redux';
-import { setColumnsProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
 
+import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as FilterOffSolid } from '../../assets/svg/filterOffSolid.svg';
 import { ReactComponent as RestartSolid } from '../../assets/svg/restartSolid.svg';
 import ShowColumnsButton from '../../ui/showColumnsButton/showColumnsButton.component';
 import { COLUMN_WIDTH } from '../../consts/tableSettings';
 import { getDefaultSortedRows } from '../../helpers/sortRows';
+import { TableManagePanelProps } from '../../types/props';
+import { SORT_TYPES } from '../../consts/searchSettings';
+import { getDefaultExtendedFilter } from '../../helpers/getDefaults';
+import { PipelineColumnProperties } from '../../types/pipelineTable';
 
 import './tableManagePanel.styles.scss';
 
-const TableManagePanel: FC<PipelineTableProps> = ({ table, vtdId, tableType }) => {
-  const dispatch = useAppDispatch();
+const TableManagePanel: FC<TableManagePanelProps> = ({ table: { vtdId, type, columns, rows } }) => {
+  const [setColumnsProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
+    state.setColumnsProperties,
+    state.setPipelineTableRows,
+  ]);
 
   const resetColumns = useCallback(
-    (properties: PipelineColumnPartial = {}) => {
-      dispatch(
-        setColumnsProperties({
-          vtdId,
-          tableType,
-          properties: {
-            ...properties,
-            sortType: SORT_TYPES.none,
-            extendedFilter: { visible: false, checkedUniqueRowsValues: [] },
-          },
-        }),
-      );
+    (properties: PipelineColumnProperties = {}) => {
+      setColumnsProperties({
+        vtdId,
+        type,
+        properties: { ...properties, sortType: SORT_TYPES.none, extendedFilter: getDefaultExtendedFilter() },
+      });
 
-      dispatch(
-        setPipelineTableProperties({
-          vtdId,
-          tableType,
-          properties: {
-            rows: getDefaultSortedRows(table.rows.map((row) => ({ ...row, hidden: false }))),
-          },
-        }),
-      );
+      setPipelineTableRows({ vtdId, type, rows: getDefaultSortedRows(rows.map((row) => ({ ...row, hidden: false }))) });
     },
-    [dispatch, table.rows, tableType, vtdId],
+    [setColumnsProperties, setPipelineTableRows, rows, type, vtdId],
   );
 
   return (
     <div className="tableManagePanel">
-      <ShowColumnsButton table={table} tableType={tableType} vtdId={vtdId} />
+      <ShowColumnsButton vtdId={vtdId} type={type} columns={columns} />
       <button title="Убрать все фильтры" onClick={() => resetColumns()}>
         <FilterOffSolid />
       </button>

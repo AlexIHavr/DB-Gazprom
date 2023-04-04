@@ -1,18 +1,11 @@
-import { FC, memo, MouseEvent, ReactNode, useCallback, useState } from 'react';
-import { VTD_TREE_LEVELS } from 'redux/vtds/constants';
-import { VtdTreeLevel } from 'redux/vtds/types';
+import { FC, memo, MouseEvent, useCallback, useState } from 'react';
 
+import { VTD_TREE_LEVELS } from '../../consts/vtdTreeLevels';
 import VtdTreeDetails from '../vtdTreeDetails/vtdTreeDetails.component';
 import VtdTreeHeader from '../vtdTreeHeader/vtdTreeHeader.component';
+import { VtdTreeRootProps } from '../../types/props';
 
 import './vtdTreeRoot.styles.scss';
-
-export type VtdTreeRootProps = {
-  children?: ReactNode;
-  header: string;
-  level: VtdTreeLevel;
-  useH3?: boolean;
-};
 
 const VtdTreeRoot: FC<VtdTreeRootProps> = ({ children, header, level, useH3 }) => {
   const [levelsExpanded, setLevelsExpanded] = useState(VTD_TREE_LEVELS);

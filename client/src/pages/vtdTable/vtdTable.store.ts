@@ -1,53 +1,45 @@
 import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-import { devtools } from 'zustand/middleware';
-import { GetVtdsResponse, PipelineTable } from 'redux/vtds/types';
 import { vtdApi } from 'shared/api/api';
-import { checkRequiredColumns, excelRenderer } from 'shared/helpers/excel';
 
 import { useModalWindowsStore, usePreloaderStore } from '../../entities';
 
 import { UseVtdTableStore } from './types/store';
+import { checkRequiredColumns } from './helpers/requiredColumns';
+import { Vtds } from './types/vtds';
+import { excelRenderer } from './helpers/excelRenderer';
+import { PipelineTable } from './types/pipelineTable';
 
-const useVtdTableStore = create<UseVtdTableStore>()(
-  immer(
-    devtools((set) => ({
-      vtds: [],
+const useVtdTableStore = create<UseVtdTableStore>()((set) => ({
+  vtds: [],
 
-      setVtds: async () => {
-        const { data } = await vtdApi.get<GetVtdsResponse>('/getVtds');
-        set({ vtds: data.map((vtd) => ({ ...vtd, pipelineData: {} })) });
-      },
+  setVtds: async () => {
+    const { data } = await vtdApi.get<Vtds>('/getVtds');
+    set({ vtds: data });
+  },
 
-      setPipelineTable: async ({ vtdId, tableType }) => {
-        const { data } = await vtdApi.get<PipelineTable | undefined>('/getPipelineTable', { params: { id: vtdId, tableType } });
-        set((state) => {
-          const vtd = state.vtds.find(({ id }) => vtdId === id);
-          if (vtd) vtd.pipelineData[tableType] = data || null;
-        });
-      },
+  loadPipelineTable: async ({ vtdId, file, type }) => {
+    const setIsLoading = usePreloaderStore.getState().setIsLoading;
+    const addModalWindow = useModalWindowsStore.getState().addModalWindow;
 
-      loadPipelineTable: async ({ vtdId, file, tableType }) => {
-        const setIsLoading = usePreloaderStore.getState().setIsLoading;
-        const addModalWindow = useModalWindowsStore.getState().addModalWindow;
+    setIsLoading(true);
 
-        setIsLoading(true);
+    try {
+      const pipelineData = await excelRenderer(file);
+      const pipelineTable: PipelineTable = { vtdId, type, ...pipelineData };
 
-        try {
-          const pipelineTable = await excelRenderer(file);
-          checkRequiredColumns(pipelineTable.columns, tableType);
+      checkRequiredColumns(pipelineData.columns, type);
 
-          await vtdApi.put('/loadPipelineTable', { id: vtdId, pipelineTable, tableType });
+      await vtdApi.put('/loadPipelineTable', { pipelineTable });
 
-          addModalWindow({ type: 'success', message: `Файл ${file.name} успешно загружен` });
-        } catch (err) {
-          addModalWindow({ type: 'error', message: (err as Error).message });
-        } finally {
-          setIsLoading(false);
-        }
-      },
-    })),
-  ),
-);
+      addModalWindow({ type: 'success', message: `Файл ${file.name} успешно загружен` });
+
+      return pipelineTable;
+    } catch (err) {
+      addModalWindow({ type: 'error', message: (err as Error).message });
+    } finally {
+      setIsLoading(false);
+    }
+  },
+}));
 
 export default useVtdTableStore;

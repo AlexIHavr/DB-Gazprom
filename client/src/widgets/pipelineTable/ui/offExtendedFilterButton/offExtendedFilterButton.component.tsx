@@ -1,39 +1,30 @@
 import { FC, memo, useCallback } from 'react';
-import { useAppDispatch } from 'hooks/redux';
-import { setColumnProperties, setPipelineTableProperties } from 'redux/vtds/reducer';
-import { PipelineColumnProps, PipelineRows } from 'redux/vtds/types';
 
+import { OffExtendedFilterButtonProps } from '../../types/props';
+import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as FilterOffSolid } from '../../assets/svg/filterOffSolid.svg';
 
 import './offExtendedFilterButton.styles.scss';
 
-type OffExtendedFilterButtonProps = PipelineColumnProps & {
-  filteredRows: PipelineRows;
-};
-
-const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({ vtdId, tableType, column, filteredRows }) => {
-  const dispatch = useAppDispatch();
+const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({ vtdId, type, index, disabled, filteredRows }) => {
+  const [setColumnProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
+    state.setColumnProperties,
+    state.setPipelineTableRows,
+  ]);
 
   const offExtendedFilterOnClick = useCallback(() => {
-    dispatch(setPipelineTableProperties({ vtdId, tableType, properties: { rows: filteredRows } }));
+    setPipelineTableRows({ vtdId, type, rows: filteredRows });
 
-    dispatch(
-      setColumnProperties({
-        vtdId,
-        tableType,
-        columnIndex: column.index,
-        properties: { extendedFilter: { visible: false, checkedUniqueRowsValues: [] } },
-      }),
-    );
-  }, [dispatch, vtdId, tableType, filteredRows, column.index]);
+    setColumnProperties({
+      vtdId,
+      type,
+      index,
+      properties: { extendedFilter: { visible: false, checkedUniqueRowsValues: [] } },
+    });
+  }, [filteredRows, index, setColumnProperties, setPipelineTableRows, type, vtdId]);
 
   return (
-    <button
-      title="Снять фильтр"
-      className="offExtendedFilterButton"
-      disabled={!column.extendedFilter.checkedUniqueRowsValues.length}
-      onClick={offExtendedFilterOnClick}
-    >
+    <button title="Снять фильтр" className="offExtendedFilterButton" disabled={disabled} onClick={offExtendedFilterOnClick}>
       <FilterOffSolid />
     </button>
   );

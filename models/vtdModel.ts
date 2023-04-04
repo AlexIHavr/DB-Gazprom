@@ -32,10 +32,10 @@ const vtdModel = sequelizeRepository.sequelize.define<VtdModel>('Vtd', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  pipelineData: {
+  pipelineTables: {
     type: DataTypes.JSON,
     allowNull: false,
-    defaultValue: {},
+    defaultValue: [],
   },
 });
 

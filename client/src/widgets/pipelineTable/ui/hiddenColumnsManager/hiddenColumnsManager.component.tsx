@@ -1,44 +1,41 @@
 import classNames from 'classnames';
-import { useAppDispatch } from 'hooks/redux';
-import { Dispatch, FC, memo, MouseEvent, SetStateAction, useCallback } from 'react';
-import { setColumnProperties, setColumnsProperties } from 'redux/vtds/reducer';
-import { PipelineColumns, PipelineTableTypeProps } from 'redux/vtds/types';
+import { FC, memo, MouseEvent, useCallback } from 'react';
 
+import { HiddenColumnsManagerProps } from '../../types/props';
 import { ReactComponent as EyeRegular } from '../../assets/svg/eyeRegular.svg';
+
+import usePipelineTableStore from './../../pipelineTable.store';
 
 import './hiddenColumnsManager.styles.scss';
 
-type HiddenColumnsManagerProps = PipelineTableTypeProps & {
-  hiddenColumns: PipelineColumns;
-  showHiddenColumns: boolean;
-  setShowVisiblyColumns: Dispatch<SetStateAction<boolean>>;
-};
-
 const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({
   vtdId,
-  tableType,
+  type,
   hiddenColumns,
   showHiddenColumns,
   setShowVisiblyColumns,
 }) => {
-  const dispatch = useAppDispatch();
+  const [setColumnProperties, setColumnsProperties] = usePipelineTableStore((state) => [
+    state.setColumnProperties,
+    state.setColumnsProperties,
+  ]);
 
   const showColumnOnClick = useCallback(
-    (e: MouseEvent<HTMLDivElement>, columnIndex: number) => {
+    (e: MouseEvent<HTMLDivElement>, index: number) => {
       e.stopPropagation();
-      dispatch(setColumnProperties({ vtdId, tableType, columnIndex, properties: { hidden: false } }));
+      setColumnProperties({ vtdId, type, index, properties: { hidden: false } });
       if (hiddenColumns.length === 1) setShowVisiblyColumns(false);
     },
-    [dispatch, hiddenColumns.length, setShowVisiblyColumns, tableType, vtdId],
+    [hiddenColumns.length, setColumnProperties, setShowVisiblyColumns, type, vtdId],
   );
 
   const showAllColumnsOnClick = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
-      dispatch(setColumnsProperties({ vtdId, tableType, properties: { hidden: false } }));
+      setColumnsProperties({ vtdId, type, properties: { hidden: false } });
       setShowVisiblyColumns(false);
     },
-    [dispatch, setShowVisiblyColumns, tableType, vtdId],
+    [setColumnsProperties, setShowVisiblyColumns, type, vtdId],
   );
 
   return (

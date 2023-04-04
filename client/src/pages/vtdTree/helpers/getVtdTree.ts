@@ -1,6 +1,5 @@
-import { VTD_TREE_LEVELS_KEYS } from 'redux/vtds/constants';
-import { Vtds } from 'redux/vtds/types';
-
+import { Vtds } from '../../vtdTable/types/vtds';
+import { VTD_TREE_LEVELS_KEYS } from '../consts/vtdTreeLevels';
 import { VtdTree } from '../types/vtdTree';
 
 export const getVtdTree = (vtds: Vtds, levelIndex = 0): VtdTree => {
