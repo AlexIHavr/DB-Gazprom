@@ -1,10 +1,11 @@
 import { read, utils, WorkBook } from 'xlsx';
 import { ExcelRow, getDefaultPipelineData, PipelineData } from 'widgets';
+import ClientError from 'shared/errors/ClientError';
 
 import { SUPPORT_FORMATS } from '../consts/supportFormats';
 
 export const excelRenderer = async (file: File, listNumber: number = 0) => {
-  if (!SUPPORT_FORMATS.some((format) => format === file.type)) throw Error('Invalid file format');
+  if (!SUPPORT_FORMATS.some((format) => format === file.type)) throw ClientError.InvalidFormat();
 
   return new Promise<PipelineData>((resolve, reject) => {
     const reader = new FileReader();

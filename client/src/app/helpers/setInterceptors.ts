@@ -17,7 +17,7 @@ export const setInterceptors = (api: AxiosInstance) => {
       return config;
     },
     (err: ServerError) => {
-      if (axios.isAxiosError(err) && err.response) {
+      if (axios.isAxiosError(err) && err.response?.data) {
         addModalWindow({ type: 'error', message: err.response.data.message });
       } else {
         addModalWindow({ type: 'error', message: err.message });

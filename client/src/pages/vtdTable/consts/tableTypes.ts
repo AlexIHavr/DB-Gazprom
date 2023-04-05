@@ -14,12 +14,12 @@ export const TABLE_TYPES = {
   inspections: {
     type: 'inspections',
     name: 'Обследования',
-    requiredColumns: [],
+    requiredColumns: [''],
   },
   statistics: {
     type: 'statistics',
     name: 'Статистика',
-    requiredColumns: [],
+    requiredColumns: [''],
   },
 };
 

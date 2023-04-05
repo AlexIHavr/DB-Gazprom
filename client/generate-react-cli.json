@@ -8,13 +8,15 @@
     "default": {
       "customTemplates": {
         "component": "src/templates/default/TemplateName.component.tsx",
-        "style": "src/templates/default/TemplateName.styles.scss"
+        "style": "src/templates/default/TemplateName.styles.scss",
+        "store": "src/templates/default/TemplateName.store.ts"
       },
       "path": "src",
       "withStyle": true,
       "withTest": false,
-      "withStory": false,
-      "withLazy": false
+      "withStore": true,
+      "withLazy": false,
+      "withStory": false
     }
   }
 }

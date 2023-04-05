@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { vtdApi } from 'shared/api/api';
 
-import { useModalWindowsStore, usePreloaderStore } from '../../entities';
+import { checkErrorsWrapper } from '../../entities';
 
 import { UseVtdTableStore } from './types/store';
 import { checkRequiredColumns } from './helpers/requiredColumns';
@@ -18,27 +18,21 @@ const useVtdTableStore = create<UseVtdTableStore>()((set) => ({
   },
 
   loadPipelineTable: async ({ vtdId, file, type }) => {
-    const setIsLoading = usePreloaderStore.getState().setIsLoading;
-    const addModalWindow = useModalWindowsStore.getState().addModalWindow;
+    const pipelineTable = await checkErrorsWrapper(
+      `Файл ${file.name} успешно загружен`,
+      async () => {
+        const pipelineData = await excelRenderer(file);
+        const pipelineTable: PipelineTable = { vtdId, type, ...pipelineData };
 
-    setIsLoading(true);
+        checkRequiredColumns(pipelineData.columns, type);
+        await vtdApi.put('/loadPipelineTable', { pipelineTable });
 
-    try {
-      const pipelineData = await excelRenderer(file);
-      const pipelineTable: PipelineTable = { vtdId, type, ...pipelineData };
+        return pipelineTable;
+      },
+      { loading: true },
+    );
 
-      checkRequiredColumns(pipelineData.columns, type);
-
-      await vtdApi.put('/loadPipelineTable', { pipelineTable });
-
-      addModalWindow({ type: 'success', message: `Файл ${file.name} успешно загружен` });
-
-      return pipelineTable;
-    } catch (err) {
-      addModalWindow({ type: 'error', message: (err as Error).message });
-    } finally {
-      setIsLoading(false);
-    }
+    return pipelineTable;
   },
 }));
 

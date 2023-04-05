@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
 import usePreloaderStore from './preloader.store';
-
 import './preloader.styles.scss';
 
 const Preloader: FC = () => {
