@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
+import { useModalWindowsStore, usePreloaderStore } from 'features';
 import { ServerError } from 'shared/types/errors';
-
-import { useModalWindowsStore, usePreloaderStore } from '../../entities';
 
 export const setInterceptors = (api: AxiosInstance) => {
   const addModalWindow = useModalWindowsStore.getState().addModalWindow;

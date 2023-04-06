@@ -1,20 +1,12 @@
 import { FC } from 'react';
-import { Navigation } from 'widgets';
-import { Routing } from 'pages';
+import { RouterProvider } from 'react-router-dom';
+import router from 'pages';
 
-import { ModalWindows, Preloader } from '../entities';
 import './api/interceptors';
 import './index.scss';
 
 const App: FC = () => {
-  return (
-    <div>
-      <ModalWindows />
-      <Preloader />
-      <Navigation />
-      <Routing />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

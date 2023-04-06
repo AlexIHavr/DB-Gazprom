@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { vtdApi } from 'shared/api/api';
-
-import { checkErrorsWrapper } from '../../entities';
+import { checkErrorsWrapper } from 'features';
 
 import { UseVtdTableStore } from './types/store';
 import { checkRequiredColumns } from './helpers/requiredColumns';

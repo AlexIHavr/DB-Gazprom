@@ -1,7 +1,6 @@
 import { FC, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { PipelineTable, usePipelineTableStore } from 'widgets';
-import { PAGES } from 'shared/consts/pages';
+import { PipelineTable, usePipelineTableStore, PAGES } from 'widgets';
 
 import useVtdTableStore from './vtdTable.store';
 import LoadTableButton from './components/loadTableButton/loadTableButton.component';

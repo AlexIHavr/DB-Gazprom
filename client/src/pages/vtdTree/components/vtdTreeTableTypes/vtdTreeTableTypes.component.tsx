@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { PAGES } from 'shared/consts/pages';
+import { PAGES } from 'widgets';
 
 import { TABLE_TYPES, TABLE_TYPES_KEYS } from '../../../vtdTable/consts/tableTypes';
 import { VtdTreeTableTypesProps } from '../../types/props';

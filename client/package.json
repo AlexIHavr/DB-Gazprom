@@ -17,6 +17,7 @@
   "scripts": {
     "start": "react-scripts start",
     "cc": "generate-react component",
+    "ccp": "generate-react component --type=pure",
     "lint": "eslint -c .eslintrc --ext .ts,.tsx .",
     "lint:fix": "npm run lint -- --fix"
   },

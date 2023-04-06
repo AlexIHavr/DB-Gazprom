@@ -19,6 +19,17 @@
       "withStore": true,
       "withLazy": false,
       "withStory": false
+    },
+    "pure": {
+      "customTemplates": {
+        "component": "src/templates/pure/TemplateName.component.tsx",
+        "style": "src/templates/pure/TemplateName.module.scss"
+      },
+      "path": "src",
+      "withStyle": true,
+      "withTest": false,
+      "withLazy": false,
+      "withStory": false
     }
   }
 }
