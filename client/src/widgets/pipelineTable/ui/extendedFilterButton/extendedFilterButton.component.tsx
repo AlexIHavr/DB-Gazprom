@@ -5,7 +5,7 @@ import { ExtendedFilterButtonProps } from '../../types/props';
 import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as FilterSolid } from '../../assets/svg/filterSolid.svg';
 
-import './extendedFilterButton.styles.scss';
+import styles from './extendedFilterButton.module.scss';
 
 const ExtendedFilterButton: FC<ExtendedFilterButtonProps> = ({
   vtdId,
@@ -57,9 +57,9 @@ const ExtendedFilterButton: FC<ExtendedFilterButtonProps> = ({
   return (
     <button
       title="Расширенный фильтр"
-      className={classNames('extendedFilterButton', {
-        show: extendedFilter.visible,
-        activated: extendedFilter.checkedUniqueRowsValues.length,
+      className={classNames(styles.extendedFilterButton, {
+        [styles.show]: extendedFilter.visible,
+        [styles.activated]: extendedFilter.checkedUniqueRowsValues.length,
       })}
       onMouseDown={showExtendedFilter}
       ref={extendedFilterButtonRef}

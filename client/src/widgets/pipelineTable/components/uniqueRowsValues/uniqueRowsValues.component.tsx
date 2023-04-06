@@ -3,8 +3,8 @@ import { FC, memo, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useSt
 import { UniqueRowsValuesProps } from '../../types/props';
 import UniqueRowValue from '../uniqueRowValue/uniqueRowValue.component';
 
-import './uniqueRowsValues.styles.scss';
 import { UNIQUE_ROW_HEIGHT } from './../../consts/tableSettings';
+import styles from './uniqueRowsValues.module.scss';
 
 const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
   uniqueRowsValues,
@@ -52,9 +52,9 @@ const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
   }, [columnCheckedUniqueRowsValues, inputValue, setCheckedUniqueRowsValues, uniqueRowsValues]);
 
   return (
-    <div className="uniqueRowsValues" onScroll={uniqueRowsValuesOnScroll} ref={uniqueRowsValuesRef}>
-      <div className="uniqueRowsValuesContent" style={uniqueRowsValuesContentStyle}>
-        <div className="uniqueRowsValuesOnDisplay">
+    <div className={styles.uniqueRowsValues} onScroll={uniqueRowsValuesOnScroll} ref={uniqueRowsValuesRef}>
+      <div className={styles.uniqueRowsValuesContent} style={uniqueRowsValuesContentStyle}>
+        <div className={styles.uniqueRowsValuesOnDisplay}>
           {uniqueRowsValuesOnDisplay.map((uniqueRowValue, i) => (
             <UniqueRowValue
               key={i}

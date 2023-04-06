@@ -12,7 +12,7 @@ import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
 import { SEARCH_TYPES, SORT_TYPES } from '../../consts/searchSettings';
 import { ExcelRow } from '../../types/pipelineTable';
 
-import './uniqueRowsValuesWrapper.styles.scss';
+import styles from './uniqueRowsValuesWrapper.module.scss';
 
 const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
   vtdId,
@@ -63,12 +63,12 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
     [index, visibleRows],
   );
 
-  if (!visibleRows.length) return <div className="noResults">Результаты не найдены</div>;
+  if (!visibleRows.length) return <div className={styles.noResults}>Результаты не найдены</div>;
 
   return (
-    <div className="uniqueRowsValuesWrapper">
+    <div className={styles.uniqueRowsValuesWrapper}>
       {uniqueRowsValues.length >= MAX_COUNT_UNIQUE_ROWS && (
-        <div className="maxCountUniqueRowsValues">Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов</div>
+        <div className={styles.maxCountUniqueRowsValues}>Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов</div>
       )}
       <SelectAllButton
         uniqueRowsValues={uniqueRowsValues}

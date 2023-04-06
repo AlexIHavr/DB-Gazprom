@@ -1,4 +1,4 @@
-th {
+th.tableHeader {
   --sort-svg-size: 20px;
 
   position: relative;
@@ -19,25 +19,21 @@ th {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+}
 
-  .Mui-disabled svg {
-    color: grey;
+.manageColumnButtons > button {
+  position: absolute;
+  top: 0;
+  opacity: 0.2;
+  padding: 2px;
+
+  svg {
+    width: var(--sort-svg-size);
+    height: var(--sort-svg-size);
   }
 
-  .manageColumnButtons > button {
-    position: absolute;
-    top: 0;
-    opacity: 0.2;
-    padding: 2px;
-
-    svg {
-      width: var(--sort-svg-size);
-      height: var(--sort-svg-size);
-    }
-
-    &:hover {
-      opacity: 1;
-      background-color: rgba(0, 0, 0, 0.04);
-    }
+  &:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.04);
   }
 }

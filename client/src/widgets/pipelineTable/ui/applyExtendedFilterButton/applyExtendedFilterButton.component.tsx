@@ -6,7 +6,7 @@ import usePipelineTableStore from '../../pipelineTable.store';
 import { ApplyExtendedFilterButtonProps } from '../../types/props';
 import { SEARCH_TYPES } from '../../consts/searchSettings';
 
-import './applyExtendedFilterButton.styles.scss';
+import styles from './applyExtendedFilterButton.module.scss';
 
 const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
   vtdId,
@@ -86,7 +86,7 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
 
   return (
     <button
-      className="applyExtendedFilter"
+      className={styles.applyExtendedFilter}
       onClick={applyExtendedFilterOnClick}
       disabled={!checkedUniqueRowsValues.length && !isAddToFilter}
     >

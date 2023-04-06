@@ -7,7 +7,7 @@ import { getDefaultSortedRows, getSortedRows } from '../../helpers/sortRows';
 import { SortColumnButtonProps } from '../../types/props';
 import { SORT_TYPES } from '../../consts/searchSettings';
 
-import './sortColumnButton.styles.scss';
+import styles from './sortColumnButton.module.scss';
 
 const SortColumnButton: FC<SortColumnButtonProps> = ({ table, index, sortType }) => {
   const [setColumnProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
@@ -54,9 +54,9 @@ const SortColumnButton: FC<SortColumnButtonProps> = ({ table, index, sortType })
   return (
     <button
       title={sortType}
-      className={classNames('sortColumnButton', {
-        upSortColumn: sortType === SORT_TYPES.asc,
-        isSortedColumn: sortType !== SORT_TYPES.none,
+      className={classNames(styles.sortColumnButton, {
+        [styles.upSortColumn]: sortType === SORT_TYPES.asc,
+        [styles.isSortedColumn]: sortType !== SORT_TYPES.none,
       })}
       onMouseDown={sortColumnOnMouseDown}
     >

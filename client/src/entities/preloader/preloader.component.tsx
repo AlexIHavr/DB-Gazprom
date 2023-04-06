@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
 import usePreloaderStore from './preloader.store';
-import './preloader.styles.scss';
+import styles from './preloader.module.scss';
 
 const Preloader: FC = () => {
   const isLoading = usePreloaderStore((state) => state.isLoading);
 
-  return <>{isLoading && <span className="preloader"></span>}</>;
+  return <>{isLoading && <span className={styles.preloader}></span>}</>;
 };
 
 export default Preloader;

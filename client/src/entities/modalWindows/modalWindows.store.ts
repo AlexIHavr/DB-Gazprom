@@ -10,7 +10,7 @@ const useModalWindowsStore = create<UseModalWindowsStore>()(
 
     addModalWindow: (modalWindow) => {
       set((state) => {
-        state.modalWindows.push({ ...modalWindow, id: v4() });
+        state.modalWindows.push({ id: v4(), ...modalWindow });
       });
     },
 

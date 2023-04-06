@@ -5,7 +5,7 @@ import { ReactComponent as CheckBoxBlackRegular } from '../../assets/svg/checkBo
 import { ReactComponent as CheckBoxRegular } from '../../assets/svg/checkBoxRegular.svg';
 import { ExcelValue } from '../../types/pipelineTable';
 
-import './uniqueRowValue.styles.scss';
+import styles from './uniqueRowValue.module.scss';
 
 const UniqueRowValue: FC<UniqueRowValueProps> = ({ uniqueRowValue, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
   const toggleCheckedUniqueRowValueOnClick = useCallback(
@@ -17,7 +17,7 @@ const UniqueRowValue: FC<UniqueRowValueProps> = ({ uniqueRowValue, checkedUnique
   );
 
   return (
-    <div className="uniqueRowValue" onClick={() => toggleCheckedUniqueRowValueOnClick(uniqueRowValue)}>
+    <div className={styles.uniqueRowValue} onClick={() => toggleCheckedUniqueRowValueOnClick(uniqueRowValue)}>
       {checkedUniqueRowsValues.includes(uniqueRowValue) ? <CheckBoxRegular /> : <CheckBoxBlackRegular />}
       <span>{uniqueRowValue === null ? '(Пустые)' : uniqueRowValue}</span>
     </div>

@@ -4,7 +4,7 @@ import { HideColumnButtonProps } from '../../types/props';
 import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as EyeSlashSolid } from '../../assets/svg/eyeOffSolid.svg';
 
-import './hideColumnButton.styles.scss';
+import styles from './hideColumnButton.module.scss';
 
 const HideColumnButton: FC<HideColumnButtonProps> = ({ vtdId, type, index }) => {
   const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
@@ -18,7 +18,7 @@ const HideColumnButton: FC<HideColumnButtonProps> = ({ vtdId, type, index }) => 
   );
 
   return (
-    <button title="Скрыть колонку" className="hideColumnButton" onMouseDown={hideColumnOnMouseDown}>
+    <button title="Скрыть колонку" className={styles.hideColumnButton} onMouseDown={hideColumnOnMouseDown}>
       <EyeSlashSolid />
     </button>
   );

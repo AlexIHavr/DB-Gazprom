@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { ReactComponent as EyeSolid } from '../../assets/svg/eyeSolid.svg';
 import HiddenColumnsManager from '../hiddenColumnsManager/hiddenColumnsManager.component';
 import { ShowColumnsButtonProps } from '../../types/props';
+import pipelineTableStyles from '../../pipelineTable.module.scss';
 
 const ShowColumnsButton: FC<ShowColumnsButtonProps> = ({ vtdId, type, columns }) => {
   const [showHiddenColumns, setShowVisiblyColumns] = useState(false);
@@ -19,6 +20,7 @@ const ShowColumnsButton: FC<ShowColumnsButtonProps> = ({ vtdId, type, columns })
     if (!showHiddenColumns) return;
 
     const hideVisibleColumns = () => setShowVisiblyColumns(false);
+
     document.addEventListener('click', hideVisibleColumns);
 
     return () => {
@@ -29,7 +31,7 @@ const ShowColumnsButton: FC<ShowColumnsButtonProps> = ({ vtdId, type, columns })
   return (
     <button
       title="Показать колонку"
-      className={classNames({ active: showHiddenColumns })}
+      className={classNames({ [pipelineTableStyles.active]: showHiddenColumns })}
       onClick={showVisiblyColumnsOnClick}
       disabled={!hiddenColumns.length}
     >

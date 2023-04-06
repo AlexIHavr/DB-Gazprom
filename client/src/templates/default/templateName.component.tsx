@@ -1,11 +1,10 @@
 import { FC, memo } from 'react';
 
-import './templateName.styles.scss';
-
-type TemplateNameProps = {};
+import { TemplateNameProps } from './store';
+import styles from './templateName.module.scss';
 
 const TemplateName: FC<TemplateNameProps> = () => {
-  return <div></div>;
+  return <div className={styles.templateName}></div>;
 };
 
 export default memo(TemplateName);

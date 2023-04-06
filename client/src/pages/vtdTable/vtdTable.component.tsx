@@ -7,8 +7,7 @@ import useVtdTableStore from './vtdTable.store';
 import LoadTableButton from './components/loadTableButton/loadTableButton.component';
 import { TABLE_TYPES, TABLE_TYPES_KEYS } from './consts/tableTypes';
 import { TableType } from './types/pipelineTable';
-
-import './vtdTable.styles.scss';
+import styles from './vtdTable.module.scss';
 
 const VtdTable: FC = () => {
   const vtds = useVtdTableStore((state) => state.vtds);
@@ -27,7 +26,7 @@ const VtdTable: FC = () => {
   }, [addPipelineTable, vtdTable, vtdId, isValidTableType, type]);
 
   return (
-    <div className="vtdTable">
+    <div className={styles.vtdTable}>
       {vtd && isValidTableType && vtdId && (
         <>
           <h1>

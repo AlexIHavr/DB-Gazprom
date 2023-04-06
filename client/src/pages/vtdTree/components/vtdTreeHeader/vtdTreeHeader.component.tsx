@@ -4,13 +4,13 @@ import classNames from 'classnames';
 import { ReactComponent as AngleDownSolid } from '../../assets/svg/angleDownSolid.svg';
 import { VtdTreeHeaderProps } from '../../types/props';
 
-import './vtdTreeHeader.styles.scss';
+import styles from './vtdTreeHeader.module.scss';
 
 const VtdTreeHeader: FC<VtdTreeHeaderProps> = ({ header, levelExpanded, useH3 }) => {
   return (
-    <div className="vtdTreeHeader">
+    <div className={styles.vtdTreeHeader}>
       {useH3 ? <h3>{header}</h3> : <h4>{header}</h4>}
-      <AngleDownSolid className={classNames({ rotate: levelExpanded === header })} />
+      <AngleDownSolid className={classNames({ [styles.rotate]: levelExpanded === header })} />
     </div>
   );
 };

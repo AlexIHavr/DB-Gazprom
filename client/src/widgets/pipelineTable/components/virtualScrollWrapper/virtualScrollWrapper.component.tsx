@@ -4,7 +4,7 @@ import { PipelineTableProps } from '../../types/props';
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from '../../consts/tableSettings';
 import TableWrapper from '../tableWrapper/tableWrapper.component';
 
-import './virtualScrollWrapper.styles.scss';
+import styles from './virtualScrollWrapper.module.scss';
 
 const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) => {
   const [rowIndex, setRowIndex] = useState(0);
@@ -85,8 +85,8 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
   }, [height, width]);
 
   return (
-    <div className="virtualScroll" onScroll={virtualOnScroll} style={virtualScrollStyle} ref={virtualScrollRef}>
-      <div style={virtualScrollContentStyle} className="virtualScrollContent" ref={virtualScrollContentRef}>
+    <div className={styles.virtualScroll} onScroll={virtualOnScroll} style={virtualScrollStyle} ref={virtualScrollRef}>
+      <div style={virtualScrollContentStyle} className={styles.virtualScrollContent} ref={virtualScrollContentRef}>
         <TableWrapper table={table} columnsOnPage={columnsOnPage} rowsOnPage={rowsOnPage} style={tableStyle} />
       </div>
     </div>

@@ -1,9 +1,9 @@
-.extendedFilter .searchInput {
+.rangeInputs > div {
   display: flex;
   align-items: center;
   justify-content: center;
+}
 
-  svg {
-    font-size: 1.2rem;
-  }
+.fromInput {
+  margin-bottom: 10px;
 }

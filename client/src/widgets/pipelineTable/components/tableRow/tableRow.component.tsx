@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 import { TableRowProps } from '../../types/props';
 import { COLUMN_WIDTH, ROW_HEIGHT } from '../../consts/tableSettings';
 
-import './tableRow.styles.scss';
+import styles from './tableRow.module.scss';
 
 const TableRow: FC<TableRowProps> = ({ cells, columnsOnPage }) => {
   const rowStyle = useMemo(
@@ -21,7 +21,7 @@ const TableRow: FC<TableRowProps> = ({ cells, columnsOnPage }) => {
       {cells
         .filter((_, i) => columnsOnPage.find(({ index }) => i === index))
         .map((cell) => (
-          <td key={v4()} style={rowStyle} title={cell.value ? String(cell.value) : ''}>
+          <td key={v4()} className={styles.tableCell} style={rowStyle} title={cell.value ? String(cell.value) : ''}>
             {cell.value}
           </td>
         ))}

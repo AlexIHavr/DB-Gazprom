@@ -1,14 +1,14 @@
-.vtds > .root {
+.vtdTreeRootMain {
   margin: 10px 0;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
 }
 
-.root {
+.vtdTreeRoot {
   background-color: var(--base-color);
   cursor: pointer;
 
-  .root {
+  .vtdTreeRoot {
     box-shadow: none;
     border-radius: 0;
     border-top: 2px solid white;

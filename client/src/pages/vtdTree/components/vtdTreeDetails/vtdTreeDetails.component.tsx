@@ -1,7 +1,8 @@
 import { useCallback, memo, FC } from 'react';
 
 import { VtdTreeDetailsProps } from '../../types/props';
-import './vtdTreeDetails.styles.scss';
+
+import styles from './vtdTreeDetails.module.scss';
 
 const VtdTreeDetails: FC<VtdTreeDetailsProps> = ({ children, header, level, levelsExpanded, levelsHeight, setLevelsHeight }) => {
   const setLevelHeightOnTransitionEnd = useCallback(
@@ -11,7 +12,7 @@ const VtdTreeDetails: FC<VtdTreeDetailsProps> = ({ children, header, level, leve
 
   return (
     <div
-      className="details"
+      className={styles.vtdTreeDetails}
       style={{ height: levelsExpanded[level] === header ? levelsHeight[level] : 0 }}
       onTransitionEnd={setLevelHeightOnTransitionEnd}
     >

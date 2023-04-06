@@ -6,7 +6,7 @@ import usePipelineTableStore from '../../pipelineTable.store';
 import ExtendedFilter from '../extendedFilter/extendedFilter.component';
 import ExtendedFilterButton from '../../ui/extendedFilterButton/extendedFilterButton.component';
 
-import './extendedFilterWrapper.styles.scss';
+import styles from './extendedFilterWrapper.module.scss';
 
 const ExtendedFilterWrapper: FC<ExtendedFilterProps> = ({ table, index, extendedFilter }) => {
   const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
@@ -15,7 +15,9 @@ const ExtendedFilterWrapper: FC<ExtendedFilterProps> = ({ table, index, extended
   useEffect(() => {
     if (!extendedFilter.visible) return;
 
-    const hideExtendedFilter = () => {
+    const hideExtendedFilter = (e: MouseEvent) => {
+      if (e.button) return;
+
       setColumnProperties({
         vtdId: table.vtdId,
         type: table.type,
@@ -41,9 +43,9 @@ const ExtendedFilterWrapper: FC<ExtendedFilterProps> = ({ table, index, extended
         setRightDirection={setRightDirection}
       />
       <div
-        className={classNames('extendedFilterWrapper', {
-          visibleExtendedFilterWrapper: extendedFilter.visible,
-          rightDirection,
+        className={classNames(styles.extendedFilterWrapper, {
+          [styles.visibleExtendedFilterWrapper]: extendedFilter.visible,
+          [styles.rightDirection]: rightDirection,
         })}
         onMouseDown={(e) => e.stopPropagation()}
       >

@@ -1,12 +1,12 @@
 import { ChangeEvent, FC, memo, useCallback } from 'react';
 import { usePipelineTableStore } from 'widgets';
+import globalStyles from 'shared/styles/global.module.scss';
 
 import { LoadTableButtonProps } from '../../types/props';
 import { SUPPORT_FORMATS_ACCEPT } from '../../consts/supportFormats';
 
 import useVtdTableStore from './../../vtdTable.store';
-
-import './loadTableButton.style.scss';
+import styles from './loadTableButton.module.scss';
 
 const LoadTableButton: FC<LoadTableButtonProps> = ({ vtdId, type }) => {
   const loadPipelineTable = useVtdTableStore((state) => state.loadPipelineTable);
@@ -28,10 +28,10 @@ const LoadTableButton: FC<LoadTableButtonProps> = ({ vtdId, type }) => {
   );
 
   return (
-    <div className="loadTableButton">
+    <div className={styles.loadTableButton}>
       <label htmlFor="contained-button-file">
         <input id="contained-button-file" accept={SUPPORT_FORMATS_ACCEPT} type="file" name="excelFile" onChange={loadExcel} />
-        <span className="btn">Загрузить таблицу</span>
+        <span className={globalStyles.btn}>Загрузить таблицу</span>
       </label>
     </div>
   );

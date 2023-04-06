@@ -10,7 +10,7 @@ import { ExtendedFilterProps } from '../../types/props';
 import { SEARCH_TYPES } from '../../consts/searchSettings';
 import { SearchCompareTypesValues } from '../../types/pipelineTable';
 
-import './extendedFilter.styles.scss';
+import styles from './extendedFilter.module.scss';
 
 const ExtendedFilter: FC<ExtendedFilterProps> = ({ table, index, extendedFilter }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -35,7 +35,7 @@ const ExtendedFilter: FC<ExtendedFilterProps> = ({ table, index, extendedFilter 
   }, [index, table.columns, table.rows]);
 
   return (
-    <div className="extendedFilter">
+    <div className={styles.extendedFilter}>
       <OffExtendedFilterButton
         vtdId={table.vtdId}
         type={table.type}

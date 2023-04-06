@@ -3,8 +3,9 @@ import { FC, memo, useCallback } from 'react';
 import { SelectAllButtonProps } from '../../types/props';
 import { ReactComponent as CheckBoxBlackRegular } from '../../assets/svg/checkBoxBlankRegular.svg';
 import { ReactComponent as CheckBoxRegular } from '../../assets/svg/checkBoxRegular.svg';
+import uniqueRowValueStyles from '../../components/uniqueRowValue/uniqueRowValue.module.scss';
 
-import './selectAllButton.styles.scss';
+import styles from './selectAllButton.module.scss';
 
 const SelectAllButton: FC<SelectAllButtonProps> = ({ uniqueRowsValues, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
   const toggleSelectAllOnClick = useCallback(
@@ -13,18 +14,18 @@ const SelectAllButton: FC<SelectAllButtonProps> = ({ uniqueRowsValues, checkedUn
   );
 
   return (
-    <div className="uniqueRowValue selectAllButton" onClick={toggleSelectAllOnClick}>
+    <div className={uniqueRowValueStyles.uniqueRowValue} onClick={toggleSelectAllOnClick}>
       {checkedUniqueRowsValues.length === uniqueRowsValues.length ? (
         <CheckBoxRegular />
       ) : checkedUniqueRowsValues.length ? (
         <>
-          <div className="isSomeCheckedRowsValues"></div>
+          <div className={styles.isSomeCheckedRowsValues}></div>
           <CheckBoxBlackRegular />
         </>
       ) : (
         <CheckBoxBlackRegular />
       )}
-      <span className="selectAll">Выделить все</span>
+      <span>Выделить все</span>
     </div>
   );
 };

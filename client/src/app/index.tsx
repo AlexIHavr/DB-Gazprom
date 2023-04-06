@@ -8,7 +8,7 @@ import './index.scss';
 
 const App: FC = () => {
   return (
-    <div className="wrapper">
+    <div>
       <ModalWindows />
       <Preloader />
       <Navigation />

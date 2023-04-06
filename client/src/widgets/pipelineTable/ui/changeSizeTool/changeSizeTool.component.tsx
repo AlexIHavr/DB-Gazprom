@@ -3,7 +3,7 @@ import { FC, memo, useCallback } from 'react';
 import { ChangeSizeToolProps } from '../../types/props';
 
 import usePipelineTableStore from './../../pipelineTable.store';
-import './changeSizeTool.styles.scss';
+import styles from './changeSizeTool.module.scss';
 
 const ChangeSizeTool: FC<ChangeSizeToolProps> = ({ vtdId, type, index, minWidth, width }) => {
   const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
@@ -41,7 +41,7 @@ const ChangeSizeTool: FC<ChangeSizeToolProps> = ({ vtdId, type, index, minWidth,
     [index, minWidth, setColumnProperties, type, vtdId, width],
   );
 
-  return <div className="changeSizeTool" onMouseDown={onMouseDownChangeSizeTool}></div>;
+  return <div className={styles.changeSizeTool} onMouseDown={onMouseDownChangeSizeTool}></div>;
 };
 
 export default memo(ChangeSizeTool);

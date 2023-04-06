@@ -8,7 +8,7 @@ import HideColumnButton from '../../ui/hideColumnButton/hideColumnButton.compone
 import ChangeSizeTool from '../../ui/changeSizeTool/changeSizeTool.component';
 import { TableHeaderProps } from '../../types/props';
 
-import './tableHeader.styles.scss';
+import styles from './tableHeader.module.scss';
 
 const TableHeader: FC<TableHeaderProps> = ({ table, column }) => {
   const tableCellRef = useRef<HTMLTableCellElement>(null);
@@ -25,7 +25,11 @@ const TableHeader: FC<TableHeaderProps> = ({ table, column }) => {
   }, [column.hidden, column.width]);
 
   return (
-    <th ref={tableCellRef} style={columnStyle} className={classNames({ showExtendedFilter: column.extendedFilter.visible })}>
+    <th
+      ref={tableCellRef}
+      style={columnStyle}
+      className={classNames(styles.tableHeader, { [styles.showExtendedFilter]: column.extendedFilter.visible })}
+    >
       <span title={headerTitle}>{column.value}</span>
       <ChangeSizeTool
         vtdId={table.vtdId}
@@ -34,7 +38,7 @@ const TableHeader: FC<TableHeaderProps> = ({ table, column }) => {
         minWidth={column.minWidth}
         width={column.width}
       />
-      <div className="manageColumnButtons">
+      <div className={styles.manageColumnButtons}>
         <HideColumnButton vtdId={table.vtdId} type={table.type} index={column.index} />
         <ExtendedFilterWrapper table={table} index={column.index} extendedFilter={column.extendedFilter} />
         <SortColumnButton table={table} index={column.index} sortType={column.sortType} />

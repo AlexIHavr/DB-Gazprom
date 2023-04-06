@@ -5,8 +5,9 @@ import { SEARCH_COMPARE_TYPES, SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES } from 
 import { SearchInputsProps } from '../../types/props';
 import { ReactComponent as SpellCheckSolid } from '../../assets/svg/spellcheckSolid.svg';
 import { ReactComponent as MatchCaseSolid } from '../../assets/svg/matchCaseSolid.svg';
+import pipelineTableStyles from '../../pipelineTable.module.scss';
 
-import './searchInputs.styles.scss';
+import styles from './searchInputs.module.scss';
 
 const SearchInputs: FC<SearchInputsProps> = ({
   columnSearchValue,
@@ -24,7 +25,7 @@ const SearchInputs: FC<SearchInputsProps> = ({
   );
 
   return (
-    <div className="searchInput">
+    <div className={styles.searchInput}>
       <input
         placeholder={columnSearchValue || SEARCH_TYPES.search}
         type="search"
@@ -36,7 +37,7 @@ const SearchInputs: FC<SearchInputsProps> = ({
         <button
           key={searchCompareType}
           title={searchCompareType}
-          className={classNames({ active: searchCompareTypes.includes(searchCompareType) })}
+          className={classNames({ [pipelineTableStyles.active]: searchCompareTypes.includes(searchCompareType) })}
           onClick={() => setCompareTypesOnClick(searchCompareType)}
         >
           {searchCompareType === SEARCH_COMPARE_TYPES.matchCase ? <MatchCaseSolid /> : <SpellCheckSolid />}

@@ -31,7 +31,6 @@
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "concurrently": "^7.3.0",
-    "eslint": "^8.23.0",
-    "eslint-plugin-fsd-stable": "^0.0.15"
+    "eslint": "^8.23.0"
   }
 }

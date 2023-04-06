@@ -5,8 +5,7 @@ import { HiddenColumnsManagerProps } from '../../types/props';
 import { ReactComponent as EyeRegular } from '../../assets/svg/eyeRegular.svg';
 
 import usePipelineTableStore from './../../pipelineTable.store';
-
-import './hiddenColumnsManager.styles.scss';
+import styles from './hiddenColumnsManager.module.scss';
 
 const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({
   vtdId,
@@ -39,7 +38,7 @@ const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({
   );
 
   return (
-    <div className={classNames('hiddenColumnsManager', { showHiddenColumnsManager: showHiddenColumns })}>
+    <div className={classNames(styles.hiddenColumnsManager, { [styles.showHiddenColumnsManager]: showHiddenColumns })}>
       {showHiddenColumns && (
         <>
           {hiddenColumns.map(({ id, value, index }) => (
@@ -48,7 +47,7 @@ const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({
               <span>{value}</span>
             </div>
           ))}
-          <div className="showAllColumns" onClick={showAllColumnsOnClick}>
+          <div className={styles.showAllColumns} onClick={showAllColumnsOnClick}>
             <span>Показать все</span>
           </div>
         </>

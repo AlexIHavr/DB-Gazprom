@@ -11,7 +11,7 @@ import { SORT_TYPES } from '../../consts/searchSettings';
 import { getDefaultExtendedFilter } from '../../helpers/getDefaults';
 import { PipelineColumnProperties } from '../../types/pipelineTable';
 
-import './tableManagePanel.styles.scss';
+import styles from './tableManagePanel.module.scss';
 
 const TableManagePanel: FC<TableManagePanelProps> = ({ table: { vtdId, type, columns, rows } }) => {
   const [setColumnsProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
@@ -33,7 +33,7 @@ const TableManagePanel: FC<TableManagePanelProps> = ({ table: { vtdId, type, col
   );
 
   return (
-    <div className="tableManagePanel">
+    <div className={styles.tableManagePanel}>
       <ShowColumnsButton vtdId={vtdId} type={type} columns={columns} />
       <button title="Убрать все фильтры" onClick={() => resetColumns()}>
         <FilterOffSolid />

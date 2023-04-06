@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
 import NavLinks from './components/navLinks/navLinks.component';
-import './navigation.styles.scss';
+import styles from './navigation.module.scss';
 
 const Navigation: FC = () => {
   return (
     <header>
-      <div className="navigation">
+      <div className={styles.navigation}>
         <NavLinks />
       </div>
     </header>

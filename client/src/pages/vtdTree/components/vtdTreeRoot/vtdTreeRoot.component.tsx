@@ -1,11 +1,12 @@
 import { FC, memo, MouseEvent, useCallback, useState } from 'react';
+import classNames from 'classnames';
 
 import { VTD_TREE_LEVELS } from '../../consts/vtdTreeLevels';
 import VtdTreeDetails from '../vtdTreeDetails/vtdTreeDetails.component';
 import VtdTreeHeader from '../vtdTreeHeader/vtdTreeHeader.component';
 import { VtdTreeRootProps } from '../../types/props';
 
-import './vtdTreeRoot.styles.scss';
+import styles from './vtdTreeRoot.module.scss';
 
 const VtdTreeRoot: FC<VtdTreeRootProps> = ({ children, header, level, useH3 }) => {
   const [levelsExpanded, setLevelsExpanded] = useState(VTD_TREE_LEVELS);
@@ -28,7 +29,7 @@ const VtdTreeRoot: FC<VtdTreeRootProps> = ({ children, header, level, useH3 }) =
   );
 
   return (
-    <div className="root" onClick={setLevelExpandedOnClick}>
+    <div className={classNames(styles.vtdTreeRoot, { [styles.vtdTreeRootMain]: useH3 })} onClick={setLevelExpandedOnClick}>
       <VtdTreeHeader header={header} levelExpanded={levelsExpanded[level]} useH3={useH3} />
       <VtdTreeDetails
         header={header}

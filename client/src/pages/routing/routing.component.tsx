@@ -23,7 +23,7 @@ const Routing: FC = () => {
   }, [setVtds, setVtdTree, vtdTree.length, vtds]);
 
   return (
-    <div className="content">
+    <div>
       {!!vtdTree.length && (
         <Routes>
           <Route path={PAGES.main.path} element={<VtdTree />} />

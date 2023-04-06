@@ -4,7 +4,7 @@ import { OffExtendedFilterButtonProps } from '../../types/props';
 import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as FilterOffSolid } from '../../assets/svg/filterOffSolid.svg';
 
-import './offExtendedFilterButton.styles.scss';
+import styles from './offExtendedFilterButton.module.scss';
 
 const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({ vtdId, type, index, disabled, filteredRows }) => {
   const [setColumnProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
@@ -24,7 +24,12 @@ const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({ vtdId, type
   }, [filteredRows, index, setColumnProperties, setPipelineTableRows, type, vtdId]);
 
   return (
-    <button title="Снять фильтр" className="offExtendedFilterButton" disabled={disabled} onClick={offExtendedFilterOnClick}>
+    <button
+      title="Снять фильтр"
+      className={styles.offExtendedFilterButton}
+      disabled={disabled}
+      onClick={offExtendedFilterOnClick}
+    >
       <FilterOffSolid />
     </button>
   );
