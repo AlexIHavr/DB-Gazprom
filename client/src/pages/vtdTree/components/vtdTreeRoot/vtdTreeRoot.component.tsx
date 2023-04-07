@@ -32,10 +32,9 @@ const VtdTreeRoot: FC<VtdTreeRootProps> = ({ children, header, level, useH3 }) =
     <div className={classNames(styles.vtdTreeRoot, { [styles.vtdTreeRootMain]: useH3 })} onClick={setLevelExpandedOnClick}>
       <VtdTreeHeader header={header} levelExpanded={levelsExpanded[level]} useH3={useH3} />
       <VtdTreeDetails
-        header={header}
         level={level}
-        levelsExpanded={levelsExpanded}
-        levelsHeight={levelsHeight}
+        levelExpanded={levelsExpanded[level]}
+        levelHeight={levelsHeight[level]}
         setLevelsHeight={setLevelsHeight}
       >
         {children}

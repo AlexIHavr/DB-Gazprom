@@ -17,9 +17,9 @@ export type VtdTreeHeaderProps = {
   useH3?: boolean;
 };
 
-export type VtdTreeDetailsProps = Omit<VtdTreeRootProps, 'useH3'> & {
-  levelsExpanded: VtdTreeLevels;
-  levelsHeight: VtdTreeLevels;
+export type VtdTreeDetailsProps = Omit<VtdTreeRootProps, 'useH3' | 'header'> & {
+  levelExpanded: VTD_TREE_LEVELS;
+  levelHeight: VTD_TREE_LEVELS;
   setLevelsHeight: Dispatch<SetStateAction<VtdTreeLevels>>;
 };
 
