@@ -8,16 +8,12 @@ import styles from './vtdTree.module.scss';
 import { getVtdTree } from './helpers/getVtdTree';
 
 const VtdTree: FC = () => {
-  const [vtds, setVtds] = useVtdTableStore((state) => [state.vtds, state.setVtds]);
+  const vtds = useVtdTableStore((state) => state.vtds);
   const [vtdTree, setVtdTree] = useVtdTreeStore((state) => [state.vtdTree, state.setVtdTree]);
 
   useEffect(() => {
-    if (!vtds.length) {
-      setVtds();
-    } else if (!vtdTree.length) {
-      setVtdTree(getVtdTree(vtds));
-    }
-  }, [setVtds, setVtdTree, vtdTree.length, vtds]);
+    if (vtds.length) setVtdTree(getVtdTree(vtds));
+  }, [vtds, setVtdTree]);
 
   return (
     <div className={styles.vtdTree}>

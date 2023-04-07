@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         Component: VtdTree,
       },
       {
-        path: `${PAGES.vtdTable.path}/:${PAGES.vtdTable.params.vtdId}/:${PAGES.vtdTable.params.tableType}`,
+        path: `${PAGES.vtdTable.path}/:${PAGES.vtdTable.params.vtdId}/:${PAGES.vtdTable.params.type}`,
         Component: VtdTable,
       },
     ],

@@ -15,11 +15,7 @@ const LoadTableButton: FC<LoadTableButtonProps> = ({ vtdId, type }) => {
   const loadExcel = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files?.length) {
-        const pipelineTable = await loadPipelineTable({
-          vtdId,
-          file: e.target.files[0],
-          type,
-        });
+        const pipelineTable = await loadPipelineTable({ vtdId, type, file: e.target.files[0] });
 
         if (pipelineTable) addPipelineTable({ vtdId: pipelineTable.vtdId, type: pipelineTable.type });
       }
@@ -29,8 +25,8 @@ const LoadTableButton: FC<LoadTableButtonProps> = ({ vtdId, type }) => {
 
   return (
     <div className={styles.loadTableButton}>
-      <label htmlFor="contained-button-file">
-        <input id="contained-button-file" accept={SUPPORT_FORMATS_ACCEPT} type="file" name="excelFile" onChange={loadExcel} />
+      <label htmlFor="load-file">
+        <input id="load-file" accept={SUPPORT_FORMATS_ACCEPT} type="file" onChange={loadExcel} />
         <span className={globalStyles.btn}>Загрузить таблицу</span>
       </label>
     </div>

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import globalStyles from 'shared/styles/global.module.scss';
 
-import { PAGES } from '../../consts/pages';
+import { PAGES, NAV_LINKS } from '../../consts/pages';
 import gazpromLogo from '../../assets/gazpromLogo.png';
 
 import styles from './navLinks.module.scss';
@@ -17,9 +17,14 @@ const NavLinks: FC = () => {
         </div>
       </NavLink>
 
-      <NavLink to={PAGES.guides.path} className={({ isActive }) => classNames({ [styles.active]: isActive })}>
-        <button className={classNames(globalStyles.btn, styles.navBtn)}>Справочники</button>
-      </NavLink>
+      {NAV_LINKS.map(
+        ({ path, name }) =>
+          name && (
+            <NavLink key={path} to={path} className={({ isActive }) => classNames({ [styles.active]: isActive })}>
+              <button className={classNames(globalStyles.btn, styles.navBtn)}>{name}</button>
+            </NavLink>
+          ),
+      )}
     </div>
   );
 };

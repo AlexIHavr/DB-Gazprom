@@ -8,9 +8,9 @@ import { VtdTreeTableTypesProps } from '../../types/props';
 const VtdTreeTableTypes: FC<VtdTreeTableTypesProps> = ({ id }) => {
   return (
     <>
-      {TABLE_TYPES_KEYS.map((tableType) => (
-        <NavLink key={tableType} to={`${PAGES.vtdTable.path}/${id}/${tableType}`}>
-          <span>{TABLE_TYPES[tableType].name}</span>
+      {TABLE_TYPES_KEYS.map((type) => (
+        <NavLink key={type} to={`${PAGES.vtdTable.path}/${id}/${type}`}>
+          <span>{TABLE_TYPES[type].name}</span>
         </NavLink>
       ))}
     </>

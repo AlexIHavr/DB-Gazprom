@@ -1,12 +1,11 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
-import { vtdApi } from 'shared/api/api';
 
 import { UsePipelineTableStore } from './types/store';
 import { getPipelineTable } from './helpers/getPipelineTable';
-import { GetPipelineTableResponse } from './types/requests';
 import { getAddedColumnTable } from './helpers/changePipelineTable';
+import PipelineTableService from './services/pipelineTable.service';
 
 const usePipelineTableStore = create<UsePipelineTableStore>()(
   devtools(
@@ -14,13 +13,12 @@ const usePipelineTableStore = create<UsePipelineTableStore>()(
       pipelineTables: [],
 
       addPipelineTable: async ({ vtdId, type }) => {
-        const { data } = await vtdApi.get<GetPipelineTableResponse>('/getPipelineTable', { params: { vtdId, type } });
+        const pipelineTableFromDB = await PipelineTableService.getPipelineTable(vtdId, type);
+        if (!pipelineTableFromDB) return;
 
         set((state) => {
-          if (!data) return;
-
           const pipelineTable = getPipelineTable({ pipelineTables: state.pipelineTables, vtdId, type });
-          if (!pipelineTable) state.pipelineTables.push(data);
+          if (!pipelineTable) state.pipelineTables.push(pipelineTableFromDB);
         });
       },
 

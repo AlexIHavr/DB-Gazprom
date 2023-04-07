@@ -1,30 +1,28 @@
 import { create } from 'zustand';
-import { vtdApi } from 'shared/api/api';
-import { checkErrorsWrapper } from 'features';
+import { modalWindowWrapper } from 'features';
 
 import { UseVtdTableStore } from './types/store';
 import { checkRequiredColumns } from './helpers/requiredColumns';
-import { Vtds } from './types/vtds';
 import { excelRenderer } from './helpers/excelRenderer';
-import { PipelineTable } from './types/pipelineTable';
+import VtdTableService from './services/vtdTable.service';
 
 const useVtdTableStore = create<UseVtdTableStore>()((set) => ({
   vtds: [],
 
   setVtds: async () => {
-    const { data } = await vtdApi.get<Vtds>('/getVtds');
-    set({ vtds: data });
+    const vtds = await VtdTableService.getVtds();
+    set({ vtds });
   },
 
-  loadPipelineTable: async ({ vtdId, file, type }) => {
-    const pipelineTable = await checkErrorsWrapper(
+  loadPipelineTable: async ({ vtdId, type, file }) => {
+    const pipelineTable = await modalWindowWrapper(
       `Файл ${file.name} успешно загружен`,
       async () => {
         const pipelineData = await excelRenderer(file);
-        const pipelineTable: PipelineTable = { vtdId, type, ...pipelineData };
+        const pipelineTable = { vtdId, type, ...pipelineData };
 
         checkRequiredColumns(pipelineData.columns, type);
-        await vtdApi.put('/loadPipelineTable', { pipelineTable });
+        await VtdTableService.loadPipelineTable(pipelineTable);
 
         return pipelineTable;
       },

@@ -4,11 +4,11 @@ class ClientError extends Error {
   }
 
   static InvalidFormat() {
-    return new Error('Неверный формат файла.');
+    return new Error('Неверный формат файла');
   }
 
   static InvalidColumns(columns: string[]) {
-    return new Error(`Отсутствуют обязательные колонки: '${columns.join('; ')}'.`);
+    return new Error(`Отсутствуют обязательные колонки: '${columns.join('; ')}'`);
   }
 }
 

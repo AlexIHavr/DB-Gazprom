@@ -9,7 +9,7 @@ const ModalWindows: FC = () => {
   return (
     <div className={styles.modalWindows}>
       {modalWindows.map(({ id, message, type }) => (
-        <div key={id} className={type} onAnimationEnd={() => removeModalWindow(id)}>
+        <div key={id} className={styles[type]} onAnimationEnd={() => removeModalWindow(id)}>
           {message}
         </div>
       ))}
