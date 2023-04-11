@@ -1,4 +1,4 @@
-import { read, utils } from 'xlsx';
+import { read, utils, WorkBook } from 'xlsx';
 import { ExcelRow, getDefaultPipelineData, PipelineData } from 'widgets';
 import ClientError from 'shared/errors/ClientError';
 
@@ -13,7 +13,9 @@ export const excelRenderer = async (file: File, listNumber: number = 0) => {
     reader.readAsArrayBuffer(file);
 
     reader.onload = async (e) => {
-      const workBook = read(e.target?.result, { type: 'binary' });
+      const workBook: WorkBook = await new Promise((resolve) =>
+        setTimeout(() => resolve(read(e.target?.result, { type: 'binary' }))),
+      );
 
       const workSheetName = workBook.SheetNames[listNumber];
       const workSheet = workBook.Sheets[workSheetName];

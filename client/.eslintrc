@@ -29,12 +29,12 @@
       }
     ],
     "no-undef": "off",
-    "no-unused-vars": "warn",
     "multiline-ternary": "off",
     "no-console": "warn",
     "comma-dangle": ["error", "always-multiline"],
     "space-before-function-paren": "off",
     "no-debugger": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "fsd-stable/fsd-paths-checker": "error",
