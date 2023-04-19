@@ -10,7 +10,7 @@ const useVtdTableStore = create<UseVtdTableStore>()((set) => ({
   vtds: [],
 
   setVtds: async () => {
-    const vtds = await VtdTableService.getVtds();
+    const vtds = await VtdTableService.getAll();
     set({ vtds });
   },
 

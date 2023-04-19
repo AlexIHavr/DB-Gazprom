@@ -1,16 +1,9 @@
 import { DataType, Column, Model, Table } from 'sequelize-typescript';
-import { vtdModelCreationAttributes } from '../types/creationAttributes';
-import { PipelineTables } from '../types/pipelineTables';
+import { ID_OPTIONS } from 'src/common/consts/modelColumnOptions';
 
-@Table({ tableName: 'Vtds' })
-export class Vtd extends Model<Vtd, vtdModelCreationAttributes> {
-  @Column({
-    type: DataType.UUID,
-    defaultValue: DataType.UUIDV4,
-    primaryKey: true,
-    allowNull: false,
-    validate: { isUUID: { args: 4, msg: 'Id must be UUID type.' } },
-  })
+@Table
+export class Vtd extends Model<Vtd> {
+  @Column(ID_OPTIONS)
   id: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
@@ -22,9 +15,6 @@ export class Vtd extends Model<Vtd, vtdModelCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   section: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.CHAR(4), allowNull: false })
   year: string;
-
-  @Column({ type: DataType.JSON, defaultValue: [], allowNull: false })
-  pipelineTables: PipelineTables;
 }

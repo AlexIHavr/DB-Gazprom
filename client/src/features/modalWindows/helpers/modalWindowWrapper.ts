@@ -1,7 +1,11 @@
 import usePreloaderStore from '../../preloader/preloader.store';
 import useModalWindowsStore from '../modalWindows.store';
 
-export const modalWindowWrapper = async <T>(successMessage: string, func: () => T, settings?: { loading: boolean }) => {
+export const modalWindowWrapper = async <ReturnType>(
+  successMessage: string,
+  func: () => ReturnType,
+  settings?: { loading: boolean },
+) => {
   const setIsLoading = usePreloaderStore.getState().setIsLoading;
   const addModalWindow = useModalWindowsStore.getState().addModalWindow;
 

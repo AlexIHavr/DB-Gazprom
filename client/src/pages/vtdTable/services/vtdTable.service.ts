@@ -4,8 +4,8 @@ import { PipelineTable } from '../types/pipelineTable';
 import { Vtds } from '../types/vtds';
 
 class VtdTableService {
-  async getVtds() {
-    const { data } = await vtdApi.get<Vtds>('/getVtds');
+  async getAll() {
+    const { data } = await vtdApi.get<Vtds>('/getAll');
     return data;
   }
 
