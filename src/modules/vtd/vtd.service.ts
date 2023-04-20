@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Vtd } from './models/vtd.model';
-import { CreateAllDto } from './types/dto';
 
 @Injectable()
 export class VtdService {
@@ -18,12 +17,5 @@ export class VtdService {
         [year.field!, 'DESC'],
       ],
     });
-  }
-
-  //on deleting
-  async createAll({ vtds }: CreateAllDto) {
-    for (const vtd of vtds) {
-      await this.vtdModel.create(vtd);
-    }
   }
 }

@@ -1,10 +1,9 @@
 import { CSSProperties, Dispatch, ReactNode, SetStateAction } from 'react';
+import { ExcelRow, ExcelValue } from 'shared/types/excel';
 
 import { SEARCH_TYPES, SORT_TYPES } from '../consts/searchSettings';
 
 import {
-  ExcelRow,
-  ExcelValue,
   ExtendedFilter,
   PipelineCells,
   PipelineColumn,

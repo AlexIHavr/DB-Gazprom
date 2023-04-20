@@ -1,11 +1,8 @@
+import { ExcelRow, ExcelValue } from 'shared/types/excel';
+
 import { SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES, SORT_TYPES } from '../consts/searchSettings';
 
 export type SearchCompareTypesValues = typeof SEARCH_COMPARE_TYPES_VALUES;
-
-export type ExcelValue = string | number | null;
-
-export type ExcelRow = ExcelValue[];
-export type ExcelRows = ExcelRow[];
 
 export type PipelineCell = { value: ExcelValue };
 export type PipelineCells = PipelineCell[];

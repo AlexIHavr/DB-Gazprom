@@ -10,7 +10,7 @@ const VtdTreeTableTypes: FC<VtdTreeTableTypesProps> = ({ id }) => {
     <>
       {TABLE_TYPES_KEYS.map((type) => (
         <NavLink key={type} to={`${PAGES.vtdTable.path}/${id}/${type}`}>
-          <span>{TABLE_TYPES[type].name}</span>
+          <span>{TABLE_TYPES[type]}</span>
         </NavLink>
       ))}
     </>

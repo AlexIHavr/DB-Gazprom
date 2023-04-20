@@ -10,6 +10,10 @@ export class ServerError extends HttpException {
   }
 
   static NotFoundColumn(columnName: string) {
-    return new ServerError(`${columnName} was not found`, HttpStatus.NOT_FOUND);
+    return new ServerError(`'${columnName}' was not found`, HttpStatus.NOT_FOUND);
+  }
+
+  static ExistsVtdTable(vtdTableName: string) {
+    return new ServerError(`Vtd table '${vtdTableName}' already exists`, HttpStatus.BAD_REQUEST);
   }
 }

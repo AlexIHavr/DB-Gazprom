@@ -1,9 +1,9 @@
 import { FC, memo, useCallback } from 'react';
+import { ExcelValue } from 'shared/types/excel';
 
 import { UniqueRowValueProps } from '../../types/props';
 import { ReactComponent as CheckBoxBlackRegular } from '../../assets/svg/checkBoxBlankRegular.svg';
 import { ReactComponent as CheckBoxRegular } from '../../assets/svg/checkBoxRegular.svg';
-import { ExcelValue } from '../../types/pipelineTable';
 
 import styles from './uniqueRowValue.module.scss';
 

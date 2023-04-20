@@ -6,5 +6,5 @@ export class CreateAllDto {
   @IsUUID(4)
   readonly vtdId: string;
 
-  readonly anomalies: CreationAttributes<Anomaly>[];
+  readonly vtdTable: CreationAttributes<Anomaly>[];
 }

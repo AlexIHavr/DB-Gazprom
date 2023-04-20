@@ -1,9 +1,10 @@
-import { LoadPipelineTableParams } from './params';
-import { PipelineTable } from './pipelineTable';
+import { GetVtdTableParams, LoadPipelineTableParams } from './params';
 import { Vtds } from './vtds';
+import { VtdTableResponse } from './vtdTable';
 
 export type UseVtdTableStore = {
   vtds: Vtds;
   setVtds: () => Promise<void>;
-  loadPipelineTable: ({ vtdId, type, file }: LoadPipelineTableParams) => Promise<PipelineTable | undefined>;
+  createVtdTable: ({ vtdId, type, file }: LoadPipelineTableParams) => Promise<void>;
+  getVtdTable: ({ vtdId, type }: GetVtdTableParams) => Promise<VtdTableResponse>;
 };

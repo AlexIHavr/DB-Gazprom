@@ -1,4 +1,5 @@
 import { FC, memo, useMemo, useState } from 'react';
+import { ExcelRow } from 'shared/types/excel';
 
 import { UniqueRowsProps } from '../../types/props';
 import SelectAllButton from '../../ui/selectAllButton/selectAllButton.component';
@@ -10,7 +11,6 @@ import { isRangeComparedCellValue, isSearchComparedCellValue } from '../../helpe
 import { getUniqueRowsValues } from '../../helpers/getUniqueRowsValue';
 import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
 import { SEARCH_TYPES, SORT_TYPES } from '../../consts/searchSettings';
-import { ExcelRow } from '../../types/pipelineTable';
 
 import styles from './uniqueRowsValuesWrapper.module.scss';
 

@@ -19,6 +19,7 @@ export const modalWindowWrapper = async <ReturnType>(
     return result;
   } catch (err) {
     addModalWindow({ type: 'error', message: (err as Error).message });
+    throw err;
   } finally {
     if (settings?.loading) setIsLoading(false);
   }

@@ -1,3 +1,5 @@
-import { LoadTableButtonProps } from './props';
+import { TableType, VtdTable } from './vtdTable';
 
-export type LoadPipelineTableParams = LoadTableButtonProps & { file: File };
+export type GetVtdTableParams = { vtdId: string; type: TableType };
+export type LoadPipelineTableParams = GetVtdTableParams & { file: File };
+export type CreateVtdTableParams = GetVtdTableParams & { vtdTable: VtdTable };

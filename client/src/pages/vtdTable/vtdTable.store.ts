@@ -2,8 +2,7 @@ import { create } from 'zustand';
 import { modalWindowWrapper } from 'features';
 
 import { UseVtdTableStore } from './types/store';
-import { checkRequiredColumns } from './helpers/requiredColumns';
-import { excelRenderer } from './helpers/excelRenderer';
+import { excelParse } from './helpers/excelParser';
 import VtdTableService from './services/vtdTable.service';
 
 const useVtdTableStore = create<UseVtdTableStore>()((set) => ({
@@ -14,22 +13,20 @@ const useVtdTableStore = create<UseVtdTableStore>()((set) => ({
     set({ vtds });
   },
 
-  loadPipelineTable: async ({ vtdId, type, file }) => {
-    const pipelineTable = await modalWindowWrapper(
+  createVtdTable: async ({ vtdId, type, file }) => {
+    await modalWindowWrapper(
       `Файл ${file.name} успешно загружен`,
       async () => {
-        const pipelineData = await excelRenderer(file);
-        const pipelineTable = { vtdId, type, ...pipelineData };
+        const vtdTable = await excelParse(file);
 
-        checkRequiredColumns(pipelineData.columns, type);
-        await VtdTableService.loadPipelineTable(pipelineTable);
-
-        return pipelineTable;
+        await VtdTableService.createAll({ vtdId, type, vtdTable });
       },
       { loading: true },
     );
+  },
 
-    return pipelineTable;
+  getVtdTable: async ({ vtdId, type }) => {
+    return await VtdTableService.getAllByVtdId(vtdId, type);
   },
 }));
 

@@ -1,14 +1,16 @@
+import { ExcelRow } from 'shared/types/excel';
+
 class ClientError extends Error {
   constructor(public message: string) {
     super(message);
   }
 
-  static InvalidFormat() {
+  static InvalidFileFormat() {
     return new ClientError('Неверный формат файла');
   }
 
-  static InvalidColumns(columns: string[]) {
-    return new ClientError(`Отсутствуют обязательные колонки: '${columns.join('; ')}'`);
+  static DuplicatedHeaders(headers: ExcelRow) {
+    return new ClientError(`Есть повторяющиеся заголовки: ${headers.join('; ')}`);
   }
 }
 

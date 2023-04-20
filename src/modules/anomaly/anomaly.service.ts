@@ -16,7 +16,6 @@ export class AnomalyService {
 
   async getAllByVtdId({ vtdId }: GetAllByVtdIdDto) {
     const vtd = await this.vtdModel.findByPk(vtdId);
-
     if (!vtd) throw ServerError.NotFoundVtd();
 
     const anomalies = await this.anomalyModel.findAll({ where: { vtdId } });
@@ -24,20 +23,30 @@ export class AnomalyService {
     return anomalies;
   }
 
-  async createAll({ vtdId, anomalies }: CreateAllDto) {
+  async createAll({ vtdId, vtdTable }: CreateAllDto) {
     const vtd = await this.vtdModel.findByPk(vtdId);
-
     if (!vtd) throw ServerError.NotFoundVtd();
+
+    const firstAnomaly = await this.anomalyModel.findOne({ where: { vtdId } });
+    if (firstAnomaly) throw ServerError.ExistsVtdTable(this.anomalyModel.tableName);
 
     const createdAnomalies: Anomalies = [];
     const modelAttributes = this.anomalyModel.getAttributes();
 
-    for (const anomaly of anomalies) {
+    for (const anomaly of vtdTable) {
       for (const attribute in anomaly) {
         if (modelAttributes[attribute] === undefined) throw ServerError.NotFoundColumn(attribute);
       }
 
-      const createdAnomaly = await this.anomalyModel.create({ ...anomaly, vtdId });
+      let createdAnomaly: Anomaly;
+
+      try {
+        createdAnomaly = await this.anomalyModel.create({ ...anomaly, vtdId });
+      } catch (error) {
+        this.anomalyModel.destroy({ where: { vtdId } });
+        throw error;
+      }
+
       createdAnomalies.push(createdAnomaly);
     }
 

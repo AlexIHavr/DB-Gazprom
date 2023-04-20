@@ -61,10 +61,10 @@ export class Base<TModelAttributes extends object> extends Model<TModelAttribute
   Тип: string;
 
   @Column({ ...HOUR_OPTIONS, field: 'inputLongWeld' })
-  'Входящий ПШ, ч': string | null;
+  'Входящий ПШ, ч:мин': string | null;
 
   @Column({ ...HOUR_OPTIONS, field: 'outputLongWeld' })
-  'Выходящий ПШ, ч': string | null;
+  'Выходящий ПШ, ч:мин': string | null;
 
   @Column({ type: DataType.STRING, field: 'fromRefPoint' })
   'От репера, м': string | null;
@@ -94,7 +94,10 @@ export class Base<TModelAttributes extends object> extends Model<TModelAttribute
   'Класс размера аббр.': string | null;
 
   @Column({ ...HOUR_OPTIONS, field: 'maxOrientation' })
-  'Ориентация точки максимума, ч': string | null;
+  'Ориентация точки максимума, ч:мин': string | null;
+
+  @Column({ ...HOUR_OPTIONS, allowNull: false, field: 'centerOrientation' })
+  'Ориентация центра, ч:мин': string;
 
   @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false, field: 'thickness' })
   'Толщина, мм': number;

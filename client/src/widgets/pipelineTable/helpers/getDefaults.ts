@@ -1,16 +1,8 @@
+import { ExcelRow, ExcelRows, ExcelValue } from 'shared/types/excel';
 import { v4 } from 'uuid';
 
 import { SORT_TYPES } from '../consts/searchSettings';
-import {
-  ExcelValue,
-  PipelineCell,
-  PipelineColumn,
-  PipelineRow,
-  ExcelRow,
-  ExtendedFilter,
-  PipelineData,
-  ExcelRows,
-} from '../types/pipelineTable';
+import { PipelineCell, PipelineColumn, PipelineRow, ExtendedFilter, PipelineData } from '../types/pipelineTable';
 
 import { COLUMN_WIDTH, FIRST_COLUMN_NAME } from './../consts/tableSettings';
 

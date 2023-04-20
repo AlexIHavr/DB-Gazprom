@@ -1,3 +1,3 @@
 import { AxiosError } from 'axios';
 
-export type ServerError = AxiosError<{ error: string; statusCode: number; message: string }>;
+export type ServerError = AxiosError<{ name: string; message: string; status: number; path: string; timestamp: string }>;

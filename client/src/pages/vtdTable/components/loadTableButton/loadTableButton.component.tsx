@@ -1,26 +1,22 @@
 import { ChangeEvent, FC, memo, useCallback } from 'react';
-import { usePipelineTableStore } from 'widgets';
 import globalStyles from 'shared/styles/global.module.scss';
 
-import { LoadTableButtonProps } from '../../types/props';
+import { GetVtdTableParams } from '../../types/params';
 import { SUPPORT_FORMATS_ACCEPT } from '../../consts/supportFormats';
 
 import useVtdTableStore from './../../vtdTable.store';
 import styles from './loadTableButton.module.scss';
 
-const LoadTableButton: FC<LoadTableButtonProps> = ({ vtdId, type }) => {
-  const loadPipelineTable = useVtdTableStore((state) => state.loadPipelineTable);
-  const addPipelineTable = usePipelineTableStore((state) => state.addPipelineTable);
+const LoadTableButton: FC<GetVtdTableParams> = ({ vtdId, type }) => {
+  const createVtdTable = useVtdTableStore((state) => state.createVtdTable);
 
   const loadExcel = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files?.length) {
-        const pipelineTable = await loadPipelineTable({ vtdId, type, file: e.target.files[0] });
-
-        if (pipelineTable) addPipelineTable({ vtdId: pipelineTable.vtdId, type: pipelineTable.type });
+        await createVtdTable({ vtdId, type, file: e.target.files[0] });
       }
     },
-    [loadPipelineTable, addPipelineTable, type, vtdId],
+    [createVtdTable, type, vtdId],
   );
 
   return (

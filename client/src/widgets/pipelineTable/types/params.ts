@@ -1,8 +1,8 @@
+import { ExcelRow, ExcelRows, ExcelValue } from 'shared/types/excel';
+
 import { SORT_TYPES } from '../consts/searchSettings';
 
 import {
-  ExcelRow,
-  ExcelValue,
   PipelineColumnProperties,
   PipelineProperties,
   PipelineRows,
@@ -31,6 +31,7 @@ export type GetAddedColumnTableParams = {
 };
 
 //store
+export type AddPipelineTableParams = PipelineProperties & { excelRows: ExcelRows };
 export type SetColumnsPropertiesParams = PipelineProperties & { properties: PipelineColumnProperties };
 export type SetColumnPropertiesParams = SetColumnsPropertiesParams & { index: number };
 export type SetPipelineTableRowsParams = PipelineProperties & { rows: PipelineRows };

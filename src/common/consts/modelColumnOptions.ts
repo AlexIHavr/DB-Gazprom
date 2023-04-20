@@ -1,6 +1,5 @@
 import { ModelAttributeColumnOptions } from 'sequelize';
 import { DataType } from 'sequelize-typescript';
-import { hourValidation } from '../helpers/customValidations.';
 
 export const VTD_ID_OPTIONS: ModelAttributeColumnOptions = {
   type: DataType.UUID,
@@ -16,7 +15,7 @@ export const ID_OPTIONS: ModelAttributeColumnOptions = {
 
 export const HOUR_OPTIONS: ModelAttributeColumnOptions = {
   type: DataType.STRING,
-  validate: { hourValidation },
+  validate: { is: /^(0[0-9]|1[0-1]):([0-5][0-9]|60)$/ },
 };
 
 export const NEGATIVE_FLOAT_OPTIONS: ModelAttributeColumnOptions = {

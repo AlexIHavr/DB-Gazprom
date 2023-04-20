@@ -8,10 +8,7 @@ export class Anomaly extends Base<Anomaly> {
   'От продольного шва до точки начала дефекта, мм': number | null;
 
   @Column({ ...HOUR_OPTIONS, allowNull: false, field: 'startOrientation' })
-  'Ориентация точки начала дефекта, ч': string;
-
-  @Column({ ...HOUR_OPTIONS, allowNull: false, field: 'centerOrientation' })
-  'Ориентация центра, ч': string;
+  'Ориентация точки начала дефекта, ч:мин': string;
 
   @Column({ type: DataType.TEXT, field: 'tubeComment' })
   'Комментарий к трубе': string | null;
