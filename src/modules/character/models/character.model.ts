@@ -1,8 +1,8 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
-import { Base } from 'src/common/models/base.model';
+import { VtdTable } from 'src/common/models/vtdTable.model';
 
 @Table
-export class Character extends Base<Character> {
+export class Character extends VtdTable<Character> {
   @Column({ type: DataType.STRING, field: 'weldType' })
   'Тип сварного шва': string | null;
 }

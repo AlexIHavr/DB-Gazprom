@@ -1,4 +1,5 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model } from 'sequelize-typescript';
+import { Vtd } from 'src/modules/vtd/models/vtd.model';
 import {
   HOUR_OPTIONS,
   ID_OPTIONS,
@@ -7,10 +8,9 @@ import {
   UNSIGNED_INTEGER_OPTIONS,
   UNSIGNED_SMALLINT_OPTIONS,
   VTD_ID_OPTIONS,
-} from 'src/common/consts/modelColumnOptions';
-import { Vtd } from 'src/modules/vtd/models/vtd.model';
+} from '../consts/modelColumnOptions';
 
-export class Base<TModelAttributes extends object> extends Model<TModelAttributes> {
+export class VtdTable<TModelAttributes extends object = object> extends Model<TModelAttributes> {
   @Column(ID_OPTIONS)
   id: string;
 

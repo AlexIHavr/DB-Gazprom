@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC, memo, useCallback } from 'react';
+import { FC, memo } from 'react';
 
 import { SEARCH_COMPARE_TYPES, SEARCH_COMPARE_TYPES_VALUES, SEARCH_TYPES } from '../../consts/searchSettings';
 import { SearchInputsProps } from '../../types/props';
@@ -16,13 +16,11 @@ const SearchInputs: FC<SearchInputsProps> = ({
   setSearchValue,
   setSearchCompareTypes,
 }) => {
-  const setCompareTypesOnClick = useCallback(
-    (searchCompareType: SEARCH_COMPARE_TYPES) =>
-      setSearchCompareTypes((prev) =>
-        !prev.includes(searchCompareType) ? [...prev, searchCompareType] : prev.filter((value) => value !== searchCompareType),
-      ),
-    [setSearchCompareTypes],
-  );
+  const setCompareTypesOnClick = (searchCompareType: SEARCH_COMPARE_TYPES) => {
+    setSearchCompareTypes((prev) =>
+      !prev.includes(searchCompareType) ? [...prev, searchCompareType] : prev.filter((value) => value !== searchCompareType),
+    );
+  };
 
   return (
     <div className={styles.searchInput}>

@@ -1,13 +1,13 @@
-import { useCallback, memo, FC, useEffect } from 'react';
+import { memo, FC, useEffect } from 'react';
 
 import { VtdTreeDetailsProps } from '../../types/props';
 
 import styles from './vtdTreeDetails.module.scss';
 
 const VtdTreeDetails: FC<VtdTreeDetailsProps> = ({ children, level, levelExpanded, levelHeight, setLevelsHeight }) => {
-  const setLevelHeightOnTransitionEnd = useCallback(() => {
+  const setLevelHeightOnTransitionEnd = () => {
     if (levelHeight) setLevelsHeight((prev) => ({ ...prev, [level]: 'auto' }));
-  }, [level, levelHeight, setLevelsHeight]);
+  };
 
   useEffect(() => {
     if (levelExpanded === null && levelHeight) setLevelsHeight((prev) => ({ ...prev, [level]: 0 }));

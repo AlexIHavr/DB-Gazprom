@@ -1,4 +1,4 @@
-import { useCallback, memo, FC } from 'react';
+import { memo, FC } from 'react';
 
 import usePipelineTableStore from '../../pipelineTable.store';
 import { ReactComponent as FilterOffSolid } from '../../assets/svg/filterOffSolid.svg';
@@ -19,18 +19,15 @@ const TableManagePanel: FC<TableManagePanelProps> = ({ table: { vtdId, type, col
     state.setPipelineTableRows,
   ]);
 
-  const resetColumns = useCallback(
-    (properties: PipelineColumnProperties = {}) => {
-      setColumnsProperties({
-        vtdId,
-        type,
-        properties: { ...properties, sortType: SORT_TYPES.none, extendedFilter: getDefaultExtendedFilter() },
-      });
+  const resetColumns = (properties: PipelineColumnProperties = {}) => {
+    setColumnsProperties({
+      vtdId,
+      type,
+      properties: { ...properties, sortType: SORT_TYPES.none, extendedFilter: getDefaultExtendedFilter() },
+    });
 
-      setPipelineTableRows({ vtdId, type, rows: getDefaultSortedRows(rows.map((row) => ({ ...row, hidden: false }))) });
-    },
-    [setColumnsProperties, setPipelineTableRows, rows, type, vtdId],
-  );
+    setPipelineTableRows({ vtdId, type, rows: getDefaultSortedRows(rows.map((row) => ({ ...row, hidden: false }))) });
+  };
 
   return (
     <div className={styles.tableManagePanel}>

@@ -1,4 +1,4 @@
-import { FC, memo, useCallback } from 'react';
+import { FC, memo } from 'react';
 
 import { SelectAllButtonProps } from '../../types/props';
 import { ReactComponent as CheckBoxBlackRegular } from '../../assets/svg/checkBoxBlankRegular.svg';
@@ -8,10 +8,9 @@ import uniqueRowValueStyles from '../../components/uniqueRowValue/uniqueRowValue
 import styles from './selectAllButton.module.scss';
 
 const SelectAllButton: FC<SelectAllButtonProps> = ({ uniqueRowsValues, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
-  const toggleSelectAllOnClick = useCallback(
-    () => setCheckedUniqueRowsValues((prev) => (prev.length === uniqueRowsValues.length ? [] : uniqueRowsValues)),
-    [setCheckedUniqueRowsValues, uniqueRowsValues],
-  );
+  const toggleSelectAllOnClick = () => {
+    setCheckedUniqueRowsValues((prev) => (prev.length === uniqueRowsValues.length ? [] : uniqueRowsValues));
+  };
 
   return (
     <div className={uniqueRowValueStyles.uniqueRowValue} onClick={toggleSelectAllOnClick}>

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC, memo, MouseEvent, useCallback } from 'react';
+import { FC, memo, MouseEvent } from 'react';
 
 import { HiddenColumnsManagerProps } from '../../types/props';
 import { ReactComponent as EyeRegular } from '../../assets/svg/eyeRegular.svg';
@@ -19,23 +19,19 @@ const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({
     state.setColumnsProperties,
   ]);
 
-  const showColumnOnClick = useCallback(
-    (e: MouseEvent<HTMLDivElement>, index: number) => {
-      e.stopPropagation();
-      setColumnProperties({ vtdId, type, index, properties: { hidden: false } });
-      if (hiddenColumns.length === 1) setShowVisiblyColumns(false);
-    },
-    [hiddenColumns.length, setColumnProperties, setShowVisiblyColumns, type, vtdId],
-  );
+  const showColumnOnClick = (e: MouseEvent<HTMLDivElement>, index: number) => {
+    e.stopPropagation();
 
-  const showAllColumnsOnClick = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
-      setColumnsProperties({ vtdId, type, properties: { hidden: false } });
-      setShowVisiblyColumns(false);
-    },
-    [setColumnsProperties, setShowVisiblyColumns, type, vtdId],
-  );
+    setColumnProperties({ vtdId, type, index, properties: { hidden: false } });
+    if (hiddenColumns.length === 1) setShowVisiblyColumns(false);
+  };
+
+  const showAllColumnsOnClick = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+
+    setColumnsProperties({ vtdId, type, properties: { hidden: false } });
+    setShowVisiblyColumns(false);
+  };
 
   return (
     <div className={classNames(styles.hiddenColumnsManager, { [styles.showHiddenColumnsManager]: showHiddenColumns })}>

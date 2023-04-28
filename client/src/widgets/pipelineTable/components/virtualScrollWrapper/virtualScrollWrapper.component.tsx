@@ -1,4 +1,4 @@
-import { FC, memo, UIEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, memo, UIEvent, useEffect, useMemo, useRef, useState } from 'react';
 
 import { PipelineTableProps } from '../../types/props';
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from '../../consts/tableSettings';
@@ -50,27 +50,24 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
     [columnIndex, visibleColumns],
   );
 
-  const virtualOnScroll = useCallback(
-    (e: UIEvent<HTMLDivElement>) => {
-      const newRowIndex = Math.floor(e.currentTarget.scrollTop / ROW_HEIGHT);
-      const pipelineTable = e.currentTarget.firstChild!.firstChild as HTMLTableElement;
+  const virtualOnScroll = (e: UIEvent<HTMLDivElement>) => {
+    const newRowIndex = Math.floor(e.currentTarget.scrollTop / ROW_HEIGHT);
+    const pipelineTable = e.currentTarget.firstChild!.firstChild as HTMLTableElement;
 
-      if (rowIndex !== newRowIndex) setRowIndex(newRowIndex);
-      pipelineTable.style.top = e.currentTarget.scrollTop + 'px';
+    if (rowIndex !== newRowIndex) setRowIndex(newRowIndex);
+    pipelineTable.style.top = e.currentTarget.scrollTop + 'px';
 
-      let columnsWidth = 0;
-      const newColumnIndex = Math.max(
-        0,
-        visibleColumns.findIndex(({ width }) => {
-          columnsWidth += width;
-          return e.currentTarget.scrollLeft <= columnsWidth;
-        }) - VIRTUAL_COLUMNS_COUNT,
-      );
+    let columnsWidth = 0;
+    const newColumnIndex = Math.max(
+      0,
+      visibleColumns.findIndex(({ width }) => {
+        columnsWidth += width;
+        return e.currentTarget.scrollLeft <= columnsWidth;
+      }) - VIRTUAL_COLUMNS_COUNT,
+    );
 
-      if (columnIndex !== newColumnIndex) setColumnIndex(newColumnIndex);
-    },
-    [rowIndex, visibleColumns, columnIndex],
-  );
+    if (columnIndex !== newColumnIndex) setColumnIndex(newColumnIndex);
+  };
 
   useEffect(() => {
     const virtualScrollCurrent = virtualScrollRef.current!;

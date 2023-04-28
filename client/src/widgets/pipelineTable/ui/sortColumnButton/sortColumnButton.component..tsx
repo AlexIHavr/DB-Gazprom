@@ -1,4 +1,4 @@
-import { FC, memo, MouseEvent, useCallback, useMemo } from 'react';
+import { FC, memo, MouseEvent, useMemo } from 'react';
 import classNames from 'classnames';
 
 import usePipelineTableStore from '../../pipelineTable.store';
@@ -20,36 +20,33 @@ const SortColumnButton: FC<SortColumnButtonProps> = ({ table, index, sortType })
     [sortType],
   );
 
-  const sortColumnOnMouseDown = useCallback(
-    (e: MouseEvent) => {
-      if (e.button) return;
+  const sortColumnOnMouseDown = (e: MouseEvent) => {
+    if (e.button) return;
 
-      //remove sortedColumn
-      const sortedColumn = table.columns.find(({ sortType }) => sortType !== SORT_TYPES.none);
-      if (sortedColumn) {
-        setColumnProperties({
-          vtdId: table.vtdId,
-          type: table.type,
-          index: sortedColumn.index,
-          properties: { sortType: SORT_TYPES.none },
-        });
-      }
-
-      //change sortedColumn
-      setColumnProperties({ vtdId: table.vtdId, type: table.type, index, properties: { sortType: columnSortType } });
-
-      //set sortedRows
-      setPipelineTableRows({
+    //remove sortedColumn
+    const sortedColumn = table.columns.find(({ sortType }) => sortType !== SORT_TYPES.none);
+    if (sortedColumn) {
+      setColumnProperties({
         vtdId: table.vtdId,
         type: table.type,
-        rows:
-          columnSortType === SORT_TYPES.none
-            ? getDefaultSortedRows(table.rows)
-            : getSortedRows({ sortType: columnSortType, index, rows: table.rows }),
+        index: sortedColumn.index,
+        properties: { sortType: SORT_TYPES.none },
       });
-    },
-    [table.columns, table.vtdId, table.type, table.rows, setColumnProperties, index, columnSortType, setPipelineTableRows],
-  );
+    }
+
+    //change sortedColumn
+    setColumnProperties({ vtdId: table.vtdId, type: table.type, index, properties: { sortType: columnSortType } });
+
+    //set sortedRows
+    setPipelineTableRows({
+      vtdId: table.vtdId,
+      type: table.type,
+      rows:
+        columnSortType === SORT_TYPES.none
+          ? getDefaultSortedRows(table.rows)
+          : getSortedRows({ sortType: columnSortType, index, rows: table.rows }),
+    });
+  };
 
   return (
     <button

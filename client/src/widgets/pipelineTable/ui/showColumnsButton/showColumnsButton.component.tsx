@@ -1,4 +1,4 @@
-import { FC, memo, MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, memo, MouseEvent, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { ReactComponent as EyeSolid } from '../../assets/svg/eyeSolid.svg';
@@ -11,10 +11,10 @@ const ShowColumnsButton: FC<ShowColumnsButtonProps> = ({ vtdId, type, columns })
 
   const hiddenColumns = useMemo(() => columns.filter(({ hidden }) => hidden), [columns]);
 
-  const showVisiblyColumnsOnClick = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+  const showVisiblyColumnsOnClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setShowVisiblyColumns((prev) => !prev);
-  }, []);
+  };
 
   useEffect(() => {
     if (!showHiddenColumns) return;

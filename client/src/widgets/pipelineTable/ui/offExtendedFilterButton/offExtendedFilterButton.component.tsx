@@ -1,4 +1,4 @@
-import { FC, memo, useCallback } from 'react';
+import { FC, memo } from 'react';
 
 import { OffExtendedFilterButtonProps } from '../../types/props';
 import usePipelineTableStore from '../../pipelineTable.store';
@@ -12,7 +12,7 @@ const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({ vtdId, type
     state.setPipelineTableRows,
   ]);
 
-  const offExtendedFilterOnClick = useCallback(() => {
+  const offExtendedFilterOnClick = () => {
     setPipelineTableRows({ vtdId, type, rows: filteredRows });
 
     setColumnProperties({
@@ -21,7 +21,7 @@ const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({ vtdId, type
       index,
       properties: { extendedFilter: { visible: false, checkedUniqueRowsValues: [] } },
     });
-  }, [filteredRows, index, setColumnProperties, setPipelineTableRows, type, vtdId]);
+  };
 
   return (
     <button

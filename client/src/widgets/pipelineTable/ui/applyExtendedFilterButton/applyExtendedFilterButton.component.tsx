@@ -1,4 +1,4 @@
-import { FC, memo, useCallback } from 'react';
+import { FC, memo } from 'react';
 
 import { getUniqueRowsValues } from '../../helpers/getUniqueRowsValue';
 import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
@@ -27,7 +27,7 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
     state.setPipelineTableRows,
   ]);
 
-  const applyExtendedFilterOnClick = useCallback(() => {
+  const applyExtendedFilterOnClick = () => {
     let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
 
     //filtering newCheckedUniqueRowsValues
@@ -67,22 +67,7 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
         extendedFilter: { visible: false, checkedUniqueRowsValues: newCheckedUniqueRowsValues, searchType, ...inputValues },
       },
     });
-  }, [
-    checkedUniqueRowsValues,
-    isAddToFilter,
-    filteredRows,
-    setPipelineTableRows,
-    vtdId,
-    type,
-    uniqueRowsValues,
-    searchType,
-    searchValue,
-    fromValue,
-    toValue,
-    setColumnProperties,
-    index,
-    columnCheckedUniqueRowsValues,
-  ]);
+  };
 
   return (
     <button

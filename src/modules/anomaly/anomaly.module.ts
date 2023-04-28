@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Vtd } from '../vtd/models/vtd.model';
+
 import { AnomalyController } from './anomaly.controller';
 import { AnomalyService } from './anomaly.service';
 import { Anomaly } from './models/anomaly.model';

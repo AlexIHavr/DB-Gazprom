@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
+
 import { VtdModule } from './modules/vtd/vtd.module';
 import { Vtd } from './modules/vtd/models/vtd.model';
 import { AnomalyModule } from './modules/anomaly/anomaly.module';
 import { Anomaly } from './modules/anomaly/models/anomaly.model';
-import { CharacterController } from './modules/character/character.controller';
 import { CharacterModule } from './modules/character/character.module';
 
 @Module({
@@ -24,7 +24,7 @@ import { CharacterModule } from './modules/character/character.module';
     AnomalyModule,
     CharacterModule,
   ],
-  controllers: [CharacterController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

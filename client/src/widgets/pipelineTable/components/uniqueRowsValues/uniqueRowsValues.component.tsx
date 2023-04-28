@@ -1,4 +1,4 @@
-import { FC, memo, UIEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { FC, memo, UIEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { UniqueRowsValuesProps } from '../../types/props';
 import UniqueRowValue from '../uniqueRowValue/uniqueRowValue.component';
@@ -30,16 +30,13 @@ const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
     [uniqueRowValueIndex, uniqueRowsValues, visibleCountUniqueRowsValues],
   );
 
-  const uniqueRowsValuesOnScroll = useCallback(
-    (e: UIEvent<HTMLDivElement>) => {
-      const newUniqueRowValueIndex = Math.floor(e.currentTarget.scrollTop / UNIQUE_ROW_HEIGHT);
-      if (uniqueRowValueIndex !== newUniqueRowValueIndex) setUniqueRowsValueIndex(newUniqueRowValueIndex);
+  const uniqueRowsValuesOnScroll = (e: UIEvent<HTMLDivElement>) => {
+    const newUniqueRowValueIndex = Math.floor(e.currentTarget.scrollTop / UNIQUE_ROW_HEIGHT);
+    if (uniqueRowValueIndex !== newUniqueRowValueIndex) setUniqueRowsValueIndex(newUniqueRowValueIndex);
 
-      const uniqueRowsValuesOnDisplay = e.currentTarget.firstChild!.firstChild as HTMLDivElement;
-      uniqueRowsValuesOnDisplay.style.top = e.currentTarget.scrollTop + 'px';
-    },
-    [uniqueRowValueIndex],
-  );
+    const uniqueRowsValuesOnDisplay = e.currentTarget.firstChild!.firstChild as HTMLDivElement;
+    uniqueRowsValuesOnDisplay.style.top = e.currentTarget.scrollTop + 'px';
+  };
 
   useLayoutEffect(() => {
     setVisibleCountUniqueRowsValues(Math.ceil(uniqueRowsValuesRef.current!.offsetHeight / UNIQUE_ROW_HEIGHT) - 1);

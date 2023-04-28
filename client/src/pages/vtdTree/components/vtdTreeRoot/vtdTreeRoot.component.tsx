@@ -1,4 +1,4 @@
-import { FC, memo, MouseEvent, useCallback, useState } from 'react';
+import { FC, memo, MouseEvent, useState } from 'react';
 import classNames from 'classnames';
 
 import { VTD_TREE_LEVELS } from '../../consts/vtdTreeLevels';
@@ -12,21 +12,18 @@ const VtdTreeRoot: FC<VtdTreeRootProps> = ({ children, header, level, useH3 }) =
   const [levelsExpanded, setLevelsExpanded] = useState(VTD_TREE_LEVELS);
   const [levelsHeight, setLevelsHeight] = useState(VTD_TREE_LEVELS);
 
-  const setLevelExpandedOnClick = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
+  const setLevelExpandedOnClick = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
 
-      const detailsHeight = Array.from(e.currentTarget.lastElementChild?.children || []).reduce((sum, elem) => {
-        sum += (elem as HTMLDivElement).offsetHeight;
-        return sum;
-      }, 0);
-      const newLevel = levelsExpanded[level] !== header ? header : null;
+    const detailsHeight = Array.from(e.currentTarget.lastElementChild?.children || []).reduce((sum, elem) => {
+      sum += (elem as HTMLDivElement).offsetHeight;
+      return sum;
+    }, 0);
+    const newLevel = levelsExpanded[level] !== header ? header : null;
 
-      setLevelsHeight((prev) => ({ ...prev, [level]: detailsHeight }));
-      setLevelsExpanded({ ...levelsExpanded, [level]: newLevel });
-    },
-    [header, level, levelsExpanded],
-  );
+    setLevelsHeight((prev) => ({ ...prev, [level]: detailsHeight }));
+    setLevelsExpanded({ ...levelsExpanded, [level]: newLevel });
+  };
 
   return (
     <div className={classNames(styles.vtdTreeRoot, { [styles.vtdTreeRootMain]: useH3 })} onClick={setLevelExpandedOnClick}>

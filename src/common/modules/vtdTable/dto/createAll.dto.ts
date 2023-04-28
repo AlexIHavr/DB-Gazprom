@@ -1,10 +1,10 @@
 import { IsUUID } from 'class-validator';
+import { VtdTable } from 'src/common/models/vtdTable.model';
 import { CreationAttributes } from 'src/common/types/utility';
-import { Anomaly } from '../models/anomaly.model';
 
 export class CreateAllDto {
   @IsUUID(4)
   readonly vtdId: string;
 
-  readonly vtdTable: CreationAttributes<Anomaly>[];
+  readonly vtdTable: CreationAttributes<VtdTable>[];
 }
