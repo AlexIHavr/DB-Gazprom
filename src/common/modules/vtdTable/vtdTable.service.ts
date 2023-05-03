@@ -6,6 +6,7 @@ import { ServerError } from 'src/common/errors/serverError.error';
 import { GetAllByVtdIdDto } from './dto/getAllByVtdId.dto';
 import { CreateAllDto } from './dto/createAll.dto';
 import { VtdTableModel, VtdTableRows } from './types/vtdTable';
+import COLUMN_ALIASES from 'src/common/consts/modelColumnAliases';
 
 export class VtdTableService {
   @InjectModel(Vtd)
@@ -21,10 +22,17 @@ export class VtdTableService {
     if (!vtd) throw ServerError.NotFoundVtd();
 
     const rows = await this.vtdTableModel.findAll({ where: { vtdId } });
+    const aliasRows = rows.map((row) => {
+      const aliasRow = {};
 
-    console.log(rows.length);
+      for (const header in row.dataValues) {
+        if (COLUMN_ALIASES[header]) aliasRow[COLUMN_ALIASES[header].alias] = row[header];
+      }
 
-    return rows;
+      return aliasRow;
+    }) as VtdTableRows;
+
+    return aliasRows;
   }
 
   async createAll({ vtdId, vtdTable }: CreateAllDto) {

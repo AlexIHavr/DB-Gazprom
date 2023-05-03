@@ -2,11 +2,11 @@ import { Column, DataType, Table } from 'sequelize-typescript';
 import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 'src/common/consts/modelColumnOptions';
 import {
   AnomaliesCountColumn,
-  anomaliesCountColumn,
+  ANOMALIES_COUNT_COLUMN,
   DangerCountColumn,
-  dangerCountColumn,
+  DANGER_COUNT_COLUMN,
   TypeColumn,
-  typeColumn,
+  TYPE_COLUMN,
 } from 'src/common/consts/modelColumns';
 import { VtdTable } from 'src/common/models/VtdTable.model';
 
@@ -30,15 +30,15 @@ export class Branch extends VtdTable<Branch> {
   @Column({ type: DataType.STRING, field: 'angleInProjection' })
   'Угол в проекции, Град.': string | null;
 
-  @Column(typeColumn.options)
-  [typeColumn.name]: TypeColumn;
+  @Column(TYPE_COLUMN.options)
+  [TYPE_COLUMN.name]: TypeColumn;
 
   @Column({ type: DataType.STRING, allowNull: false, field: 'angleInProjection' })
   'Направление': string;
 
-  @Column(anomaliesCountColumn.options)
-  [anomaliesCountColumn.name]: AnomaliesCountColumn;
+  @Column(ANOMALIES_COUNT_COLUMN.options)
+  [ANOMALIES_COUNT_COLUMN.name]: AnomaliesCountColumn;
 
-  @Column(dangerCountColumn.options)
-  [dangerCountColumn.name]: DangerCountColumn;
+  @Column(DANGER_COUNT_COLUMN.options)
+  [DANGER_COUNT_COLUMN.name]: DangerCountColumn;
 }

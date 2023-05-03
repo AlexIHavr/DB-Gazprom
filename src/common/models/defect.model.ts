@@ -6,7 +6,7 @@ import {
   UNSIGNED_FLOAT_OPTIONS,
   UNSIGNED_SMALLINT_OPTIONS,
 } from '../consts/modelColumnOptions';
-import { DangerCountColumn, dangerCountColumn } from '../consts/modelColumns';
+import { DangerCountColumn, DANGER_COUNT_COLUMN } from '../consts/modelColumns';
 
 import { Tube } from './tube.model';
 
@@ -98,6 +98,6 @@ export class Defect<TModelAttributes extends object> extends Tube<TModelAttribut
   @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'Pf' })
   'Pf, МПа': number | null;
 
-  @Column(dangerCountColumn.options)
-  [dangerCountColumn.name]: DangerCountColumn;
+  @Column(DANGER_COUNT_COLUMN.options)
+  [DANGER_COUNT_COLUMN.name]: DangerCountColumn;
 }

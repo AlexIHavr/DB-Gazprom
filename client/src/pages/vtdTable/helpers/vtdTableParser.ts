@@ -14,13 +14,10 @@ export const vtdTableParse = (vtdTable: VtdTableResponse): ExcelRows => {
     if (!i) {
       emptyHeaders = Object.keys(vtdRow);
       previous.push(emptyHeaders);
-    } else {
-      const excelRow = Object.values(vtdRow);
-
-      previous.push(excelRow);
-
-      emptyHeaders = emptyHeaders.filter((header) => vtdRow[header] === null);
     }
+
+    previous.push(Object.values(vtdRow));
+    emptyHeaders = emptyHeaders.filter((header) => vtdRow[header] === null);
 
     return previous;
   }, []);

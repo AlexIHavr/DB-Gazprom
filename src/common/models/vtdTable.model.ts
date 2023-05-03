@@ -1,5 +1,6 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model } from 'sequelize-typescript';
 import { Vtd } from 'src/modules/vtd/models/vtd.model';
+import COLUMN_ALIASES from '../consts/modelColumnAliases';
 
 import { ID_OPTIONS, UNSIGNED_FLOAT_OPTIONS, UNSIGNED_INTEGER_OPTIONS, VTD_ID_OPTIONS } from '../consts/modelColumnOptions';
 
@@ -17,8 +18,8 @@ export class VtdTable<TModelAttributes extends object = object> extends Model<TM
   @Column({ ...UNSIGNED_INTEGER_OPTIONS, unique: true })
   SSID: number | null;
 
-  @Column({ type: DataType.STRING, allowNull: false, field: 'tubeNumber' })
-  'Номер трубы': string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  [COLUMN_ALIASES.tubeNumber.name]: string;
 
   @Column({ type: DataType.TEXT, field: 'comment' })
   Комментарий: string | null;
