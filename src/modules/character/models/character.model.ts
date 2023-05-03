@@ -1,8 +1,9 @@
-import { Column, DataType, Table } from 'sequelize-typescript';
-import { VtdTable } from 'src/common/models/vtdTable.model';
+import { Column, Table } from 'sequelize-typescript';
+import { WeldTypeColumn, weldTypeColumn } from 'src/common/consts/modelColumns';
+import { Defect } from 'src/common/models/defect.model';
 
 @Table
-export class Character extends VtdTable<Character> {
-  @Column({ type: DataType.STRING, field: 'weldType' })
-  'Тип сварного шва': string | null;
+export class Character extends Defect<Character> {
+  @Column(weldTypeColumn.options)
+  [weldTypeColumn.name]: WeldTypeColumn;
 }

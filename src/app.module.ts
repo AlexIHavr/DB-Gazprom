@@ -7,6 +7,8 @@ import { Vtd } from './modules/vtd/models/vtd.model';
 import { AnomalyModule } from './modules/anomaly/anomaly.module';
 import { Anomaly } from './modules/anomaly/models/anomaly.model';
 import { CharacterModule } from './modules/character/character.module';
+import { WeldModule } from './modules/weld/weld.module';
+import { BranchModule } from './modules/branch/branch.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { CharacterModule } from './modules/character/character.module';
     VtdModule,
     AnomalyModule,
     CharacterModule,
+    WeldModule,
+    BranchModule,
   ],
   controllers: [],
   providers: [],

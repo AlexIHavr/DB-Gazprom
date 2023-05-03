@@ -1,18 +1,17 @@
+import { InjectModel } from '@nestjs/sequelize';
+import { VtdTable } from 'src/common/models/VtdTable.model';
 import { Vtd } from 'src/modules/vtd/models/vtd.model';
 import { ServerError } from 'src/common/errors/serverError.error';
 
 import { GetAllByVtdIdDto } from './dto/getAllByVtdId.dto';
 import { CreateAllDto } from './dto/createAll.dto';
 import { VtdTableModel, VtdTableRows } from './types/vtdTable';
-import { InjectModel } from '@nestjs/sequelize';
-import { VtdTable } from 'src/common/models/vtdTable.model';
 
 export class VtdTableService {
   @InjectModel(Vtd)
   readonly vtdModel: typeof Vtd;
 
   readonly vtdTableModel: VtdTableModel;
-
   constructor(readonly initVtdTableModel: typeof VtdTable<object>) {
     this.vtdTableModel = initVtdTableModel as VtdTableModel;
   }
@@ -22,6 +21,8 @@ export class VtdTableService {
     if (!vtd) throw ServerError.NotFoundVtd();
 
     const rows = await this.vtdTableModel.findAll({ where: { vtdId } });
+
+    console.log(rows.length);
 
     return rows;
   }
