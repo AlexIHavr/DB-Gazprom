@@ -1,9 +1,10 @@
 import { Column, Table } from 'sequelize-typescript';
-import { WeldTypeColumn, WELD_TYPE_COLUMN } from 'src/common/consts/modelColumns';
+import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
+import { StringOrNullPrimitive } from 'src/common/types/primitives';
 import { Defect } from 'src/common/models/defect.model';
 
 @Table
 export class Character extends Defect<Character> {
-  @Column(WELD_TYPE_COLUMN.options)
-  [WELD_TYPE_COLUMN.name]: WeldTypeColumn;
+  @Column(COLUMN_ALIASES.weldType.options)
+  [COLUMN_ALIASES.weldType.name]: StringOrNullPrimitive;
 }

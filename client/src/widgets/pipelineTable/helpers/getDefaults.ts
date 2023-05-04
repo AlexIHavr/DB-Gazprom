@@ -31,6 +31,6 @@ export const getDefaultColumn = (value: ExcelValue, index: number): PipelineColu
 });
 
 export const getDefaultPipelineData = (excelRows: ExcelRows): PipelineData => ({
-  columns: [FIRST_COLUMN_NAME, ...excelRows[0]].map((value, index) => getDefaultColumn(value, index)),
-  rows: excelRows.slice(1).map((row, i) => getDefaultRow([i + 1, ...row])),
+  columns: excelRows.length ? [FIRST_COLUMN_NAME, ...excelRows[0]].map((value, index) => getDefaultColumn(value, index)) : [],
+  rows: excelRows.length ? excelRows.slice(1).map((row, i) => getDefaultRow([i + 1, ...row])) : [],
 });

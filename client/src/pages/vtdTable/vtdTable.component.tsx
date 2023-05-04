@@ -17,14 +17,14 @@ const VtdTable: FC = () => {
   const isValidType = vtdId && isValidTableType(type);
 
   const vtd = useMemo(() => vtds.find(({ id }) => id === vtdId), [vtds, vtdId]);
-  const vtdTable = isValidType && getPipelineTable({ pipelineTables, vtdId, type });
+  const pipelineTable = isValidType && getPipelineTable({ pipelineTables, vtdId, type });
 
   const setPipelineTable = useCallback(async () => {
-    if (vtd && isValidType && !vtdTable) {
+    if (vtd && isValidType && !pipelineTable) {
       const vtdTable = await getVtdTable({ vtdId, type });
-      if (vtdTable.length) addPipelineTable({ vtdId, type, excelRows: vtdTableParse(vtdTable) });
+      addPipelineTable({ vtdId, type, excelRows: vtdTableParse(vtdTable) });
     }
-  }, [addPipelineTable, getVtdTable, isValidType, type, vtd, vtdId, vtdTable]);
+  }, [addPipelineTable, getVtdTable, isValidType, type, vtd, vtdId, pipelineTable]);
 
   useEffect(() => {
     setPipelineTable();
@@ -40,7 +40,12 @@ const VtdTable: FC = () => {
 
           <h2>{TABLE_TYPES[type]}</h2>
 
-          {vtdTable ? <PipelineTable table={vtdTable} /> : <LoadTableButton vtdId={vtdId} type={type} />}
+          {pipelineTable &&
+            (pipelineTable.columns.length ? (
+              <PipelineTable table={pipelineTable} />
+            ) : (
+              <LoadTableButton vtdId={vtdId} type={type} />
+            ))}
         </>
       )}
     </div>

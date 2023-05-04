@@ -1,4 +1,5 @@
 import { Column, DataType } from 'sequelize-typescript';
+import { COLUMN_ALIASES } from '../consts/modelColumnAliases';
 
 import {
   HOUR_OPTIONS,
@@ -6,98 +7,98 @@ import {
   UNSIGNED_FLOAT_OPTIONS,
   UNSIGNED_SMALLINT_OPTIONS,
 } from '../consts/modelColumnOptions';
-import { DangerCountColumn, DANGER_COUNT_COLUMN } from '../consts/modelColumns';
+import { StringOrNullPrimitive } from '../types/primitives';
 
 import { Tube } from './tube.model';
 
 export class Defect<TModelAttributes extends object> extends Tube<TModelAttributes> {
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'fromLeftWeldToMaxPoint' })
-  'От левого шва до точки максимума, м': number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.fromLeftWeldToMaxPoint.name]: number | null;
 
-  @Column({ type: DataType.FLOAT, field: 'fromLeftWeldToStart' })
-  'От левого шва до начала, м': number | null;
+  @Column({ type: DataType.FLOAT })
+  [COLUMN_ALIASES.fromLeftWeldToStart.name]: number | null;
 
-  @Column({ ...NEGATIVE_FLOAT_OPTIONS, field: 'fromRightWeldToMaxPoint' })
-  'От правого шва до точки максимума, м': number | null;
+  @Column({ ...NEGATIVE_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.fromRightWeldToMaxPoint.name]: number | null;
 
-  @Column({ ...NEGATIVE_FLOAT_OPTIONS, field: 'fromRightWeldToStart' })
-  'От правого шва до начала, м': number | null;
+  @Column({ ...NEGATIVE_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.fromRightWeldToStart.name]: number | null;
 
-  @Column({ type: DataType.SMALLINT, field: 'fromLongWeldToMaxPoint' })
-  'От продольного шва до точки максимума, мм': number | null;
+  @Column({ type: DataType.SMALLINT })
+  [COLUMN_ALIASES.fromLongWeldToMaxPoint.name]: number | null;
 
-  @Column({ type: DataType.SMALLINT, field: 'fromLongWeldToCenter' })
-  'От продольного шва до центра, мм': number | null;
+  @Column({ type: DataType.SMALLINT })
+  [COLUMN_ALIASES.fromLongWeldToCenter.name]: number | null;
 
-  @Column({ type: DataType.SMALLINT, field: 'minDistanceToLongWeld' })
-  'Минимальное расстояние до продольного шва, мм': number | null;
+  @Column({ type: DataType.SMALLINT })
+  [COLUMN_ALIASES.minDistanceToLongWeld.name]: number | null;
 
-  @Column({ ...UNSIGNED_SMALLINT_OPTIONS, field: 'minDistanceToWeld' })
-  'Минимальное расстояние до кольцевого шва, мм': number | null;
+  @Column({ ...UNSIGNED_SMALLINT_OPTIONS })
+  [COLUMN_ALIASES.minDistanceToWeld.name]: number | null;
 
-  @Column({ type: DataType.STRING, field: 'fromRefPoint' })
-  'От репера, м': string | null;
+  @Column({ type: DataType.STRING })
+  [COLUMN_ALIASES.fromRefPoint.name]: string | null;
 
-  @Column({ type: DataType.STRING, field: 'toRefPoint' })
-  'До репера, м': string | null;
+  @Column({ type: DataType.STRING })
+  [COLUMN_ALIASES.toRefPoint.name]: string | null;
 
-  @Column({ type: DataType.STRING, allowNull: false, field: 'characterType' })
-  'Тип особенности': string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  [COLUMN_ALIASES.characterType.name]: string;
 
-  @Column({ type: DataType.STRING, field: 'characterSort' })
-  'Характер особенности': string | null;
+  @Column({ type: DataType.STRING })
+  [COLUMN_ALIASES.characterSort.name]: string | null;
 
-  @Column({ type: DataType.STRING, field: 'sizeClass' })
-  'Класс размера': string | null;
+  @Column({ type: DataType.STRING })
+  [COLUMN_ALIASES.sizeClass.name]: string | null;
 
-  @Column({ type: DataType.STRING, field: 'description' })
-  Описание: string | null;
+  @Column({ type: DataType.STRING })
+  [COLUMN_ALIASES.description.name]: string | null;
 
-  @Column({ type: DataType.STRING, allowNull: false, field: 'abbreviationType' })
-  'Тип аббр.': string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  [COLUMN_ALIASES.abbreviationType.name]: string;
 
-  @Column({ type: DataType.STRING, field: 'abbreviationSort' })
-  'Характер аббр.': string | null;
+  @Column({ type: DataType.STRING })
+  [COLUMN_ALIASES.abbreviationSort.name]: string | null;
 
-  @Column({ type: DataType.STRING, field: 'abbreviationSizeClass' })
-  'Класс размера аббр.': string | null;
+  @Column({ type: DataType.STRING })
+  [COLUMN_ALIASES.abbreviationSizeClass.name]: string | null;
 
-  @Column({ ...HOUR_OPTIONS, field: 'maxOrientation' })
-  'Ориентация точки максимума, ч:мин': string | null;
+  @Column({ ...HOUR_OPTIONS })
+  [COLUMN_ALIASES.maxOrientation.name]: string | null;
 
-  @Column({ ...HOUR_OPTIONS, field: 'centerOrientation' })
-  'Ориентация центра, ч:мин': string | null;
+  @Column({ ...HOUR_OPTIONS })
+  [COLUMN_ALIASES.centerOrientation.name]: string | null;
 
-  @Column({ ...UNSIGNED_SMALLINT_OPTIONS, field: 'length' })
-  'Длина, мм': number | null;
+  @Column({ ...UNSIGNED_SMALLINT_OPTIONS })
+  [COLUMN_ALIASES.length.name]: number | null;
 
-  @Column({ ...UNSIGNED_SMALLINT_OPTIONS, field: 'width' })
-  'Ширина, мм': number | null;
+  @Column({ ...UNSIGNED_SMALLINT_OPTIONS })
+  [COLUMN_ALIASES.width.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'depth' })
-  'Глубина, %': number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.depth.name]: number | null;
 
-  @Column({ type: DataType.CHAR(3), field: 'position' })
-  Расположение: string | null;
+  @Column({ type: DataType.CHAR(3) })
+  [COLUMN_ALIASES.position.name]: string | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'outsideInspectionTime' })
-  'Срок НО, лет': number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.outsideInspectionTime.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'PSC' })
-  КБД: number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.PSC.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'Pd' })
-  'Pd, МПа': number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.Pd.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'MAOP' })
-  'MAOP, МПа': number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.MAOP.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'Psw' })
-  'Psw, МПа': number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.Psw.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, field: 'Pf' })
-  'Pf, МПа': number | null;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  [COLUMN_ALIASES.Pf.name]: number | null;
 
-  @Column(DANGER_COUNT_COLUMN.options)
-  [DANGER_COUNT_COLUMN.name]: DangerCountColumn;
+  @Column(COLUMN_ALIASES.danger.options)
+  [COLUMN_ALIASES.danger.name]: StringOrNullPrimitive;
 }

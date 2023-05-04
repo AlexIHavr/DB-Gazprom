@@ -1,6 +1,6 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model } from 'sequelize-typescript';
 import { Vtd } from 'src/modules/vtd/models/vtd.model';
-import COLUMN_ALIASES from '../consts/modelColumnAliases';
+import { COLUMN_ALIASES } from '../consts/modelColumnAliases';
 
 import { ID_OPTIONS, UNSIGNED_FLOAT_OPTIONS, UNSIGNED_INTEGER_OPTIONS, VTD_ID_OPTIONS } from '../consts/modelColumnOptions';
 
@@ -21,15 +21,15 @@ export class VtdTable<TModelAttributes extends object = object> extends Model<TM
   @Column({ type: DataType.STRING, allowNull: false })
   [COLUMN_ALIASES.tubeNumber.name]: string;
 
-  @Column({ type: DataType.TEXT, field: 'comment' })
-  Комментарий: string | null;
+  @Column({ type: DataType.TEXT })
+  [COLUMN_ALIASES.comment.name]: string | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false, validate: { min: 51, max: 55 }, field: 'latitude' })
-  Широта: number;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false, validate: { min: 51, max: 55 } })
+  [COLUMN_ALIASES.latitude.name]: number;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false, validate: { min: 23, max: 32 }, field: 'longitude' })
-  Долгота: number;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false, validate: { min: 23, max: 32 } })
+  [COLUMN_ALIASES.longitude.name]: number;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false, field: 'altitude' })
-  Высота: number;
+  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false })
+  [COLUMN_ALIASES.altitude.name]: number;
 }
