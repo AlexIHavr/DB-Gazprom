@@ -1,10 +1,9 @@
 import { Column } from 'sequelize-typescript';
 import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
 import { HOUR_OPTIONS, UNSIGNED_FLOAT_OPTIONS } from 'src/common/consts/modelColumnOptions';
+import { Coordinate } from './coordinate.model';
 
-import { VtdTable } from './VtdTable.model';
-
-export class Tube<TModelAttributes extends object> extends VtdTable<TModelAttributes> {
+export class Tube<TModelAttributes extends object> extends Coordinate<TModelAttributes> {
   @Column(COLUMN_ALIASES.distance.options)
   [COLUMN_ALIASES.distance.name]: number;
 

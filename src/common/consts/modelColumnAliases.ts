@@ -9,6 +9,7 @@ export const COLUMN_ALIASES = {
   tubeNumber: {
     name: 'tubeNumber',
     alias: 'Номер трубы',
+    options: { type: DataType.STRING, allowNull: false } as ModelAttributeColumnOptions,
   },
   comment: {
     name: 'comment',
@@ -43,6 +44,7 @@ export const COLUMN_ALIASES = {
   equipmentLength: {
     name: 'equipmentLength',
     alias: 'Длина, м',
+    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
   },
   type: {
     name: 'type',
@@ -172,26 +174,32 @@ export const COLUMN_ALIASES = {
   outsideInspectionTime: {
     name: 'outsideInspectionTime',
     alias: 'Срок НО, лет',
+    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
   },
   PSC: {
     name: 'PSC',
     alias: 'КБД',
+    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
   },
   Pd: {
     name: 'Pd',
     alias: 'Pd, МПа',
+    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
   },
   MAOP: {
     name: 'MAOP',
     alias: 'MAOP, МПа',
+    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
   },
   Psw: {
     name: 'Psw',
     alias: 'Psw, МПа',
+    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
   },
   Pf: {
     name: 'Pf',
     alias: 'Pf, МПа',
+    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
   },
   danger: {
     name: 'danger',
@@ -267,13 +275,22 @@ export const COLUMN_ALIASES = {
     name: 'temperatureDifference',
     alias: 'Температурный перепад',
   },
-  markName: {
-    name: 'markName',
+  title: {
+    name: 'title',
     alias: 'Название',
+    options: { type: DataType.STRING } as ModelAttributeColumnOptions,
+  },
+  summaryValue: {
+    name: 'summaryValue',
+    alias: 'Значение',
   },
   nextMarkDistance: {
     name: 'nextMarkDistance',
     alias: 'До след. реп. точки, м',
+  },
+  tapSection: {
+    name: 'tapSection',
+    alias: 'Межкрановый участок',
   },
 } as const;
 

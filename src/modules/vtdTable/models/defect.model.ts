@@ -79,22 +79,22 @@ export class Defect<TModelAttributes extends object> extends Tube<TModelAttribut
   @Column({ type: DataType.CHAR(3) })
   [COLUMN_ALIASES.position.name]: string | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  @Column(COLUMN_ALIASES.outsideInspectionTime.options)
   [COLUMN_ALIASES.outsideInspectionTime.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  @Column(COLUMN_ALIASES.PSC.options)
   [COLUMN_ALIASES.PSC.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  @Column(COLUMN_ALIASES.Pd.options)
   [COLUMN_ALIASES.Pd.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  @Column(COLUMN_ALIASES.MAOP.options)
   [COLUMN_ALIASES.MAOP.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  @Column(COLUMN_ALIASES.Psw.options)
   [COLUMN_ALIASES.Psw.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS })
+  @Column(COLUMN_ALIASES.Pf.options)
   [COLUMN_ALIASES.Pf.name]: number | null;
 
   @Column(COLUMN_ALIASES.danger.options)

@@ -11,6 +11,7 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
   const [columnIndex, setColumnIndex] = useState(0);
   const [rowsOnPageCount, setRowsOnPageCount] = useState(0);
   const [columnsOnPageCount, setColumnsOnPageCount] = useState(0);
+  const [virtualScrollMaxWidth, setVirtualScrollMaxWidth] = useState('inherit');
 
   const virtualScrollRef = useRef<HTMLDivElement>(null);
   const virtualScrollContentRef = useRef<HTMLDivElement>(null);
@@ -30,9 +31,9 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
 
   const virtualScrollStyle = useMemo(
     () => ({
-      maxWidth: visibleColumns.length < (virtualScrollRef.current?.clientWidth || 0) ? 'fit-content' : 'inherit',
+      maxWidth: virtualScrollMaxWidth,
     }),
-    [visibleColumns.length],
+    [virtualScrollMaxWidth],
   );
 
   const virtualScrollContentStyle = useMemo(
@@ -79,7 +80,8 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
 
     setRowsOnPageCount(Math.floor((virtualScrollCurrent.clientHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
     setColumnsOnPageCount(Math.floor(virtualScrollCurrent.clientWidth / COLUMN_WIDTH) + VIRTUAL_COLUMNS_COUNT * 2);
-  }, [height, width]);
+    setVirtualScrollMaxWidth(visibleColumns.length < virtualScrollCurrent.clientWidth ? 'fit-content' : 'inherit');
+  }, [height, visibleColumns.length, width]);
 
   return (
     <div className={styles.virtualScroll} onScroll={virtualOnScroll} style={virtualScrollStyle} ref={virtualScrollRef}>

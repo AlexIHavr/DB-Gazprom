@@ -7,6 +7,8 @@ export enum TABLE_TYPES {
   weld = 'Поперечные сварные швы',
   equipment = 'Элементы обустройства',
   mark = 'Реперы',
+  tap = 'Межкрановый участок',
+  summary = 'Сводка результатов',
 }
 
 export const TABLE_TYPES_KEYS = Object.keys(TABLE_TYPES) as TableType[];

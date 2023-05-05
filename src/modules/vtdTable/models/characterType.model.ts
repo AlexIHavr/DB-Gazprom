@@ -1,9 +1,8 @@
 import { Column } from 'sequelize-typescript';
 import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
+import { Coordinate } from './coordinate.model';
 
-import { VtdTable } from './VtdTable.model';
-
-export class CharacterType<TModelAttributes extends object> extends VtdTable<TModelAttributes> {
+export class CharacterType<TModelAttributes extends object> extends Coordinate<TModelAttributes> {
   @Column(COLUMN_ALIASES.distance.options)
   [COLUMN_ALIASES.distance.name]: number;
 
