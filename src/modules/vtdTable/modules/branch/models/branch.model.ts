@@ -1,7 +1,6 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
 import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
 import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 'src/common/consts/modelColumnOptions';
-import { NumberPrimitive, StringOrNullPrimitive, StringPrimitive } from 'src/common/types/primitives';
 import { VtdTable } from 'src/modules/vtdTable/models/VtdTable.model';
 
 @Table
@@ -25,14 +24,14 @@ export class Branch extends VtdTable<Branch> {
   [COLUMN_ALIASES.angleInProjection.name]: string | null;
 
   @Column(COLUMN_ALIASES.type.options)
-  [COLUMN_ALIASES.type.name]: StringPrimitive;
+  [COLUMN_ALIASES.type.name]: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
   [COLUMN_ALIASES.direction.name]: string;
 
   @Column(COLUMN_ALIASES.anomaliesCount.options)
-  [COLUMN_ALIASES.anomaliesCount.name]: NumberPrimitive;
+  [COLUMN_ALIASES.anomaliesCount.name]: number;
 
   @Column(COLUMN_ALIASES.danger.options)
-  [COLUMN_ALIASES.danger.name]: StringOrNullPrimitive;
+  [COLUMN_ALIASES.danger.name]: string | null;
 }

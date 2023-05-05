@@ -6,7 +6,6 @@ import {
   UNSIGNED_FLOAT_OPTIONS,
   UNSIGNED_SMALLINT_OPTIONS,
 } from 'src/common/consts/modelColumnOptions';
-import { StringOrNullPrimitive } from 'src/common/types/primitives';
 
 import { Tube } from './tube.model';
 
@@ -41,7 +40,7 @@ export class Defect<TModelAttributes extends object> extends Tube<TModelAttribut
   @Column({ type: DataType.STRING })
   [COLUMN_ALIASES.toRefPoint.name]: string | null;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column(COLUMN_ALIASES.characterType.options)
   [COLUMN_ALIASES.characterType.name]: string;
 
   @Column({ type: DataType.STRING })
@@ -50,10 +49,10 @@ export class Defect<TModelAttributes extends object> extends Tube<TModelAttribut
   @Column({ type: DataType.STRING })
   [COLUMN_ALIASES.sizeClass.name]: string | null;
 
-  @Column({ type: DataType.STRING })
+  @Column(COLUMN_ALIASES.description.options)
   [COLUMN_ALIASES.description.name]: string | null;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column(COLUMN_ALIASES.abbreviationType.options)
   [COLUMN_ALIASES.abbreviationType.name]: string;
 
   @Column({ type: DataType.STRING })
@@ -99,5 +98,5 @@ export class Defect<TModelAttributes extends object> extends Tube<TModelAttribut
   [COLUMN_ALIASES.Pf.name]: number | null;
 
   @Column(COLUMN_ALIASES.danger.options)
-  [COLUMN_ALIASES.danger.name]: StringOrNullPrimitive;
+  [COLUMN_ALIASES.danger.name]: string | null;
 }

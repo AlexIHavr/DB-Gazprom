@@ -3,7 +3,7 @@ import { DataType } from 'sequelize-typescript';
 
 import { getColumnNames } from '../helpers/alias';
 
-import { UNSIGNED_SMALLINT_OPTIONS } from './modelColumnOptions';
+import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from './modelColumnOptions';
 
 export const COLUMN_ALIASES = {
   tubeNumber: {
@@ -33,10 +33,16 @@ export const COLUMN_ALIASES = {
   distance: {
     name: 'distance',
     alias: 'Расстояние, м',
+    options: { ...UNSIGNED_FLOAT_OPTIONS, allowNull: false } as ModelAttributeColumnOptions,
   },
   tubeLength: {
     name: 'tubeLength',
     alias: 'Длина трубы, м',
+    options: { ...UNSIGNED_FLOAT_OPTIONS, allowNull: false } as ModelAttributeColumnOptions,
+  },
+  equipmentLength: {
+    name: 'equipmentLength',
+    alias: 'Длина, м',
   },
   type: {
     name: 'type',
@@ -107,6 +113,7 @@ export const COLUMN_ALIASES = {
   characterType: {
     name: 'characterType',
     alias: 'Тип особенности',
+    options: { type: DataType.STRING, allowNull: false } as ModelAttributeColumnOptions,
   },
   characterSort: {
     name: 'characterSort',
@@ -119,10 +126,12 @@ export const COLUMN_ALIASES = {
   description: {
     name: 'description',
     alias: 'Описание',
+    options: { type: DataType.STRING } as ModelAttributeColumnOptions,
   },
   abbreviationType: {
     name: 'abbreviationType',
     alias: 'Тип аббр.',
+    options: { type: DataType.STRING, allowNull: false } as ModelAttributeColumnOptions,
   },
   abbreviationSort: {
     name: 'abbreviationSort',
@@ -257,6 +266,14 @@ export const COLUMN_ALIASES = {
   temperatureDifference: {
     name: 'temperatureDifference',
     alias: 'Температурный перепад',
+  },
+  markName: {
+    name: 'markName',
+    alias: 'Название',
+  },
+  nextMarkDistance: {
+    name: 'nextMarkDistance',
+    alias: 'До след. реп. точки, м',
   },
 } as const;
 
