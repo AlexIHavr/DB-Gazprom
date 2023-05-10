@@ -12,3 +12,4 @@ export enum TABLE_TYPES {
 }
 
 export const TABLE_TYPES_KEYS = Object.keys(TABLE_TYPES) as TableType[];
+export const TABLE_TYPES_ENTRIES = Object.entries(TABLE_TYPES) as [TableType, TABLE_TYPES][];

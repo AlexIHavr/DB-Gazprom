@@ -1,4 +1,4 @@
-import { Vtds } from '../../vtdTable/types/vtds';
+import { Vtds } from '../types/vtds';
 import { VTD_TREE_LEVELS_KEYS } from '../consts/vtdTreeLevels';
 import { VtdTree } from '../types/vtdTree';
 

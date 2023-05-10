@@ -5,6 +5,10 @@ class ClientError extends Error {
     super(message);
   }
 
+  static InvalidFileName(name: string) {
+    return new ClientError(`Неверное имя файла '${name}'`);
+  }
+
   static InvalidFileFormat() {
     return new ClientError('Неверный формат файла');
   }

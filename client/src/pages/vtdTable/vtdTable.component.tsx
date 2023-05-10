@@ -3,14 +3,15 @@ import { useParams } from 'react-router-dom';
 import { PipelineTable, usePipelineTableStore, PAGES, getPipelineTable } from 'widgets';
 
 import useVtdTableStore from './vtdTable.store';
-import LoadTableButton from './components/loadTableButton/loadTableButton.component';
 import { TABLE_TYPES } from './consts/tableTypes';
 import styles from './vtdTable.module.scss';
 import { isValidTableType } from './helpers/isValidTableType';
 import { vtdTableParse } from './helpers/vtdTableParser';
+import useVtdTreeStore from './../vtdTree/vtdTree.store';
 
 const VtdTable: FC = () => {
-  const [vtds, getVtdTable] = useVtdTableStore((state) => [state.vtds, state.getVtdTable]);
+  const vtds = useVtdTreeStore((state) => state.vtds);
+  const getVtdTable = useVtdTableStore((state) => state.getVtdTable);
   const [pipelineTables, addPipelineTable] = usePipelineTableStore((state) => [state.pipelineTables, state.addPipelineTable]);
 
   const { vtdId, type } = useParams<typeof PAGES.vtdTable.params>();
@@ -40,12 +41,7 @@ const VtdTable: FC = () => {
 
           <h2>{TABLE_TYPES[type]}</h2>
 
-          {pipelineTable &&
-            (pipelineTable.columns.length ? (
-              <PipelineTable table={pipelineTable} />
-            ) : (
-              <LoadTableButton vtdId={vtdId} type={type} />
-            ))}
+          {pipelineTable && (pipelineTable.columns.length ? <PipelineTable table={pipelineTable} /> : <h3>Данных нет</h3>)}
         </>
       )}
     </div>
