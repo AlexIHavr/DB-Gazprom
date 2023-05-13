@@ -1,0 +1,16 @@
+.loadTableButton {
+  margin: 10px 5px;
+  text-align: center;
+
+  span {
+    display: block;
+    width: var(--button-width);
+    background-color: green;
+  }
+
+  input:disabled + span {
+    cursor: default;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: none;
+  }
+}

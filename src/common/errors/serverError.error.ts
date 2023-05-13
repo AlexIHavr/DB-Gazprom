@@ -13,7 +13,15 @@ export class ServerError extends HttpException {
     return new ServerError(`'${columnName}' was not found`, HttpStatus.NOT_FOUND);
   }
 
+  static NoDataInVtdTable(vtdTableName: string) {
+    return new ServerError(`Vtd table '${vtdTableName}' has no data`, HttpStatus.NOT_FOUND);
+  }
+
   static ExistsVtdTable(vtdTableName: string) {
     return new ServerError(`Vtd table '${vtdTableName}' already exists`, HttpStatus.BAD_REQUEST);
+  }
+
+  static ExistsVtd() {
+    return new ServerError('Current Vtd already exists', HttpStatus.BAD_REQUEST);
   }
 }

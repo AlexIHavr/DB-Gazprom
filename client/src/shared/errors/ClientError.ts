@@ -16,6 +16,10 @@ class ClientError extends Error {
   static DuplicatedHeaders(headers: ExcelRow) {
     return new ClientError(`Есть повторяющиеся заголовки: ${headers.join('; ')}`);
   }
+
+  static EmptyInputValue(inputName: string) {
+    return new ClientError(`Есть незаполненное поле - '${inputName}'`);
+  }
 }
 
 export default ClientError;

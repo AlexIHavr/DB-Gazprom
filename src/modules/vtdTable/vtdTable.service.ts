@@ -5,9 +5,9 @@ import { ServerError } from 'src/common/errors/serverError.error';
 import { COLUMN_NAMES } from 'src/common/consts/modelColumnAliases';
 import { getAliasRows, getNameRow } from 'src/common/helpers/alias';
 
-import { GetAllByVtdIdDto } from './dto/getAllByVtdId.dto';
 import { CreateAllDto } from './dto/createAll.dto';
 import { VtdTableModel, VtdTableRows } from './types/vtdTable';
+import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
 export class VtdTableService {
   @InjectModel(Vtd)
@@ -18,7 +18,7 @@ export class VtdTableService {
     this.vtdTableModel = initVtdTableModel as VtdTableModel;
   }
 
-  async getAllByVtdId({ vtdId }: GetAllByVtdIdDto) {
+  async getAllByVtdId({ vtdId }: VtdIdDto) {
     const vtd = await this.vtdModel.findByPk(vtdId);
     if (!vtd) throw ServerError.NotFoundVtd();
 
@@ -55,5 +55,15 @@ export class VtdTableService {
     }
 
     return createdRows;
+  }
+
+  async deleteAllByVtdId({ vtdId }: VtdIdDto) {
+    const vtd = await this.vtdModel.findByPk(vtdId);
+    if (!vtd) throw ServerError.NotFoundVtd();
+
+    const deletedFirstRow = await this.vtdTableModel.findOne({ where: { vtdId } });
+    if (!deletedFirstRow) throw ServerError.NoDataInVtdTable(this.vtdTableModel.tableName);
+
+    return await this.vtdTableModel.destroy({ where: { vtdId } });
   }
 }

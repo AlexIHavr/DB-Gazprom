@@ -18,10 +18,10 @@ const NavLinks: FC = () => {
       </NavLink>
 
       {NAV_LINKS.map(
-        ({ path, name }) =>
-          name && (
-            <NavLink key={path} to={path} className={({ isActive }) => classNames({ [styles.active]: isActive })}>
-              <button className={classNames(globalStyles.btn, styles.navBtn)}>{name}</button>
+        (navLink) =>
+          'name' in navLink && (
+            <NavLink key={navLink.path} to={navLink.path} className={({ isActive }) => classNames({ [styles.active]: isActive })}>
+              <button className={classNames(globalStyles.btn, styles.navBtn)}>{navLink.name}</button>
             </NavLink>
           ),
       )}

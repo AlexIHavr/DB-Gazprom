@@ -14,8 +14,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const dbValidationErrors = exception instanceof ValidationError && exception.errors;
     const { message, name } = exception;
 
-    console.log(exception);
-
     response.status(status).json({
       name,
       message,

@@ -1,1 +1,1 @@
-export type TemplateNameProps = {};
+export type UseTemplateNameStore = {};

@@ -17,7 +17,18 @@ export const setInterceptors = (api: AxiosInstance) => {
     },
     (err: ServerError) => {
       if (axios.isAxiosError(err) && err.response?.data) {
-        addModalWindow({ type: 'error', message: err.response.data.message });
+        const errorData = err.response.data;
+
+        let message: string;
+
+        const errorResponse = errorData.errorResponse;
+        if (errorResponse) {
+          message = typeof errorResponse === 'string' ? errorResponse : errorResponse.message.join('\n');
+        } else {
+          message = errorData.message;
+        }
+
+        addModalWindow({ type: 'error', message });
       } else {
         addModalWindow({ type: 'error', message: err.message });
       }

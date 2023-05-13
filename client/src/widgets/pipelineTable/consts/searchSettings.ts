@@ -8,13 +8,13 @@ export enum SEARCH_COMPARE_TYPES {
   matchWholeWord = 'Совпадение целого слова',
 }
 
-export enum SORT_TYPES {
+export const enum SORT_TYPES {
   asc = 'Сортировка по возрастанию',
   desc = 'Сортировка по убыванию',
   none = 'Без сортировки',
 }
 
-export enum RANGE_SEARCH_TYPES {
+export const enum RANGE_SEARCH_TYPES {
   from = 'От',
   to = 'До',
 }

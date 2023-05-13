@@ -1,3 +1,5 @@
+import ClientError from 'shared/errors/ClientError';
+
 import usePreloaderStore from '../../preloader/preloader.store';
 import useModalWindowsStore from '../modalWindows.store';
 
@@ -18,7 +20,7 @@ export const modalWindowWrapper = async <ReturnType>(
 
     return result;
   } catch (err) {
-    addModalWindow({ type: 'error', message: (err as Error).message });
+    if (err instanceof ClientError) addModalWindow({ type: 'error', message: err.message });
     throw err;
   } finally {
     if (settings?.loading) setIsLoading(false);

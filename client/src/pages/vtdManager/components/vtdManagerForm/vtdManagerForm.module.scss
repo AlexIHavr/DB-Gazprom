@@ -1,0 +1,19 @@
+form.vtdManagerForm {
+  --button-width: 140px;
+
+  text-align: center;
+
+  .manageVtdButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  button {
+    text-shadow: none;
+    margin-right: 5px;
+    margin-left: 5px;
+    width: var(--button-width);
+  }
+}

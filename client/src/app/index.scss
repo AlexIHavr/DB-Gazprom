@@ -3,7 +3,7 @@
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: var(--base-font-family);
   background-color: #92c9ffc3;
   min-width: 800px;
 

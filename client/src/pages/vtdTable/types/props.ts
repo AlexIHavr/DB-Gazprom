@@ -1,1 +1,1 @@
-export type LoadTableButtonProps = { vtdId: string };
+export type LoadTableButtonProps = { vtdId?: string };

@@ -2,16 +2,15 @@ import { FC, useEffect, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { PipelineTable, usePipelineTableStore, PAGES, getPipelineTable } from 'widgets';
 
-import useVtdTableStore from './vtdTable.store';
 import { TABLE_TYPES } from './consts/tableTypes';
 import styles from './vtdTable.module.scss';
 import { isValidTableType } from './helpers/isValidTableType';
 import { vtdTableParse } from './helpers/vtdTableParser';
 import useVtdTreeStore from './../vtdTree/vtdTree.store';
+import vtdTableService from './services/vtdTable.service';
 
 const VtdTable: FC = () => {
   const vtds = useVtdTreeStore((state) => state.vtds);
-  const getVtdTable = useVtdTableStore((state) => state.getVtdTable);
   const [pipelineTables, addPipelineTable] = usePipelineTableStore((state) => [state.pipelineTables, state.addPipelineTable]);
 
   const { vtdId, type } = useParams<typeof PAGES.vtdTable.params>();
@@ -22,10 +21,10 @@ const VtdTable: FC = () => {
 
   const setPipelineTable = useCallback(async () => {
     if (vtd && isValidType && !pipelineTable) {
-      const vtdTable = await getVtdTable({ vtdId, type });
+      const vtdTable = await vtdTableService.getAllByVtdId(vtdId, type);
       addPipelineTable({ vtdId, type, excelRows: vtdTableParse(vtdTable) });
     }
-  }, [addPipelineTable, getVtdTable, isValidType, type, vtd, vtdId, pipelineTable]);
+  }, [addPipelineTable, isValidType, pipelineTable, type, vtd, vtdId]);
 
   useEffect(() => {
     setPipelineTable();

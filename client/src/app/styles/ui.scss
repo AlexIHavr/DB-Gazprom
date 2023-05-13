@@ -16,9 +16,30 @@ svg {
 }
 
 button {
+  font-family: var(--base-font-family);
   text-shadow: 1px 1px 1px black;
 }
 
-input[type='file'] {
-  display: none;
+input {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  border-radius: 5px 5px 5px 5px;
+
+  &:focus {
+    outline: 1px solid black;
+  }
+
+  &::-webkit-search-cancel-button {
+    cursor: pointer;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    display: none !important;
+  }
+
+  &[type='file'] {
+    display: none;
+  }
 }

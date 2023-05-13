@@ -5,6 +5,7 @@ import { PAGES } from 'widgets';
 const MainPage = lazy(() => import('./mainPage/mainPage.component'));
 const VtdTable = lazy(() => import('./vtdTable/vtdTable.component'));
 const VtdTree = lazy(() => import('./vtdTree/vtdTree.component'));
+const VtdManager = lazy(() => import('./vtdManager/vtdManager.component'));
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: `${PAGES.vtdTable.path}/:${PAGES.vtdTable.params.vtdId}/:${PAGES.vtdTable.params.type}`,
         Component: VtdTable,
+      },
+      {
+        path: `${PAGES.vtdManager.path}`,
+        Component: VtdManager,
       },
     ],
   },
