@@ -38,7 +38,7 @@ const VtdTable: FC = () => {
             {vtd.pipeline} - {vtd.section} - {vtd.year}
           </h1>
 
-          <h2>{TABLE_TYPES[type]}</h2>
+          <h2>{TABLE_TYPES[type].name}</h2>
 
           {pipelineTable && (pipelineTable.columns.length ? <PipelineTable table={pipelineTable} /> : <h3>Данных нет</h3>)}
         </>

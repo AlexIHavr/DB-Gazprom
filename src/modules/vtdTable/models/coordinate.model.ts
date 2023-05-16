@@ -1,6 +1,7 @@
 import { Column, DataType } from 'sequelize-typescript';
 import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
 import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_INTEGER_OPTIONS } from 'src/common/consts/modelColumnOptions';
+
 import { VtdTable } from './vtdTable.model';
 
 export class Coordinate<TModelAttributes extends object = object> extends VtdTable<TModelAttributes> {

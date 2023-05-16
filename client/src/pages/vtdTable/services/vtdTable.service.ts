@@ -1,7 +1,8 @@
 import { serverApi } from 'shared/api/api';
 
 import { CreateAllParams } from '../types/params';
-import { TableType, VtdTableResponse } from '../types/vtdTable';
+import { TableType } from '../types/tableType';
+import { VtdTableResponse } from '../types/vtdTable';
 
 class VtdTableService {
   async createAll({ vtdId, type, vtdTable }: CreateAllParams) {

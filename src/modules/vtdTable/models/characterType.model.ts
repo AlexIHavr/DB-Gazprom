@@ -1,5 +1,6 @@
 import { Column } from 'sequelize-typescript';
 import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
+
 import { Coordinate } from './coordinate.model';
 
 export class CharacterType<TModelAttributes extends object> extends Coordinate<TModelAttributes> {

@@ -7,20 +7,23 @@ import vtdTableService from '../../vtdTable/services/vtdTable.service';
 import vtdService from '../../vtdTree/services/vtdTree.service';
 import { VTD_TREE_LEVEL_NAMES } from '../../vtdTree/consts/vtdTreeLevels';
 import { VtdTreeLevel } from '../../vtdTree/types/vtdTree';
+import { TABLE_TYPE_GROUPS } from '../../vtdTable/consts/tableTypeGroups';
 
 export const createReport = async (vtdId: string, files: FileList) => {
   for (const file of Array.from(files)) {
     const noExpFileName = file.name.split('.')[0];
 
-    const typeEntry = TABLE_TYPES_ENTRIES.find(([, fileName]) => noExpFileName === fileName);
+    const tableType = TABLE_TYPES_ENTRIES.find(
+      ([, { name, groupName }]) => noExpFileName === name && groupName === TABLE_TYPE_GROUPS.report,
+    )?.[0];
 
     await modalWindowWrapper(
       `Файл ${file.name} успешно загружен`,
       async () => {
-        if (!typeEntry) throw ClientError.InvalidFileName(noExpFileName);
+        if (!tableType) throw ClientError.InvalidFileName(noExpFileName);
 
         const vtdTable = await excelParse(file);
-        await vtdTableService.createAll({ vtdId, type: typeEntry[0], vtdTable });
+        await vtdTableService.createAll({ vtdId, type: tableType, vtdTable });
       },
       { loading: true },
     );
@@ -31,7 +34,7 @@ export const removeReport = async (vtdId: string) => {
   for (const tableType of TABLE_TYPES_KEYS) {
     try {
       await modalWindowWrapper(
-        `Данные '${TABLE_TYPES[tableType]}' успешно удалены`,
+        `Данные '${TABLE_TYPES[tableType].name}' успешно удалены`,
         async () => {
           await vtdTableService.deleteAllByVtdId(vtdId, tableType);
         },

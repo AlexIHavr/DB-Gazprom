@@ -27,6 +27,8 @@ export type VtdTreeTableTypesProps = {
   id: string;
 };
 
+export type VtdTreeTableTypesGroupProps = VtdTreeTableTypesProps & { title: string };
+
 export type VtdTreeWrapperProps = {
   treeChildren: VtdTree;
   levelIndex?: number;

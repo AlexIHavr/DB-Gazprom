@@ -4,10 +4,10 @@ import { Vtd } from 'src/modules/vtd/models/vtd.model';
 import { ServerError } from 'src/common/errors/serverError.error';
 import { COLUMN_NAMES } from 'src/common/consts/modelColumnAliases';
 import { getAliasRows, getNameRow } from 'src/common/helpers/alias';
+import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
 import { CreateAllDto } from './dto/createAll.dto';
 import { VtdTableModel, VtdTableRows } from './types/vtdTable';
-import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
 export class VtdTableService {
   @InjectModel(Vtd)

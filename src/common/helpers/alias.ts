@@ -1,4 +1,5 @@
 import { Model } from 'sequelize-typescript';
+
 import { COLUMN_ALIASES, COLUMN_NAMES } from '../consts/modelColumnAliases';
 import { ColumnAliasesKeys, ColumnNames } from '../types/alias';
 import { CreationAttributes } from '../types/utility';

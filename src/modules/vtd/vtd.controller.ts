@@ -1,9 +1,8 @@
-import { Controller, Get, Delete, Body, UseInterceptors } from '@nestjs/common/decorators';
-import { Post } from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { Controller, Get, Delete, Body, UseInterceptors, Post } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { VtdIdDto } from 'src/common/dto/vtdId.dto';
-import { CreateOneDto } from './dto/createOne.dto';
 
+import { CreateOneDto } from './dto/createOne.dto';
 import { Vtd } from './models/vtd.model';
 import { VtdService } from './vtd.service';
 

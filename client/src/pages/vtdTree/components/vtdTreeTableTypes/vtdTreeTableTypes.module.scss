@@ -1,0 +1,13 @@
+.vtdTreeTableTypes {
+  display: flex;
+
+  .vtdTreeTableTypesGroup {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+
+    h4 {
+      margin: 0 0 5px 0;
+    }
+  }
+}

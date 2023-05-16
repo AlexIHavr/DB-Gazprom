@@ -1,9 +1,9 @@
 import { Body, Get, Post, Query, Delete } from '@nestjs/common/decorators';
+import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
 import { CreateAllDto } from './dto/createAll.dto';
 import { VtdTableService } from './vtdTable.service';
 import { VtdTableRows } from './types/vtdTable';
-import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
 export class VtdTableController {
   constructor(readonly vtdTableService: VtdTableService) {}
