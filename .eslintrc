@@ -10,13 +10,20 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "eslint-plugin-import"],
   "rules": {
     "semi": ["error", "always"],
-    "import/no-unresolved": "off",
     "no-debugger": "warn",
     "comma-dangle": ["error", "always-multiline"],
     "no-console": "warn",
+    "import/no-unresolved": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always"
+      }
+    ],
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
