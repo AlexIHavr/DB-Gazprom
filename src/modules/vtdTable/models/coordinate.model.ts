@@ -1,6 +1,7 @@
 import { Column, DataType } from 'sequelize-typescript';
-import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
 import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_INTEGER_OPTIONS } from 'src/common/consts/modelColumnOptions';
+
+import { COLUMN_ALIASES } from '../consts/modelColumnAliases';
 
 import { VtdTable } from './vtdTable.model';
 

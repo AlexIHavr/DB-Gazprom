@@ -1,11 +1,12 @@
 import { Column, DataType } from 'sequelize-typescript';
-import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
 import {
   HOUR_OPTIONS,
   NEGATIVE_FLOAT_OPTIONS,
   UNSIGNED_FLOAT_OPTIONS,
   UNSIGNED_SMALLINT_OPTIONS,
 } from 'src/common/consts/modelColumnOptions';
+
+import { COLUMN_ALIASES } from '../consts/modelColumnAliases';
 
 import { Tube } from './tube.model';
 

@@ -1,13 +1,13 @@
 import { InjectModel } from '@nestjs/sequelize';
-import { VtdTable } from 'src/modules/vtdTable/models/VtdTable.model';
 import { Vtd } from 'src/modules/vtd/models/vtd.model';
 import { ServerError } from 'src/common/errors/serverError.error';
-import { COLUMN_NAMES } from 'src/common/consts/modelColumnAliases';
-import { getAliasRows, getNameRow } from 'src/common/helpers/alias';
 import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
+import { VtdTable } from './models/VtdTable.model';
 import { CreateAllDto } from './dto/createAll.dto';
 import { VtdTableModel, VtdTableRows } from './types/vtdTable';
+import { getAliasRows, getNameRow } from './helpers/alias';
+import { COLUMN_NAMES } from './consts/modelColumnAliases';
 
 export class VtdTableService {
   @InjectModel(Vtd)

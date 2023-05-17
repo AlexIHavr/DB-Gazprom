@@ -1,9 +1,8 @@
 import { ModelAttributeColumnOptions } from 'sequelize';
 import { DataType } from 'sequelize-typescript';
+import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 'src/common/consts/modelColumnOptions';
 
-import { getColumnNames } from '../helpers/alias';
-
-import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from './modelColumnOptions';
+import { ColumnNames } from '../types/alias';
 
 export const COLUMN_ALIASES = {
   tubeNumber: {
@@ -294,4 +293,7 @@ export const COLUMN_ALIASES = {
   },
 } as const;
 
-export const COLUMN_NAMES = getColumnNames();
+export const COLUMN_NAMES = Object.values(COLUMN_ALIASES).reduce<ColumnNames>((prev, columnAlias) => {
+  prev[columnAlias.alias] = columnAlias.name;
+  return prev;
+}, {});

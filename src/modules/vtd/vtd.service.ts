@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { VtdIdDto } from 'src/common/dto/vtdId.dto';
+import { ServerError } from 'src/common/errors/serverError.error';
 
 import { Vtd } from './models/vtd.model';
-import { ServerError } from 'src/common/errors/serverError.error';
 import { CreateOneDto } from './dto/createOne.dto';
 
 @Injectable()

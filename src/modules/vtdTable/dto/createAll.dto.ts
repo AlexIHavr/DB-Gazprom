@@ -1,6 +1,7 @@
 import { IsUUID } from 'class-validator';
-import { VtdTable } from 'src/modules/vtdTable/models/VtdTable.model';
 import { CreationAttributes } from 'src/common/types/utility';
+
+import { VtdTable } from '../models/VtdTable.model';
 
 export class CreateAllDto {
   @IsUUID(4)

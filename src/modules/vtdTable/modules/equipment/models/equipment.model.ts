@@ -1,5 +1,5 @@
 import { Column, Table } from 'sequelize-typescript';
-import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
+import { COLUMN_ALIASES } from 'src/modules/vtdTable/consts/modelColumnAliases';
 import { CharacterType } from 'src/modules/vtdTable/models/characterType.model';
 
 @Table

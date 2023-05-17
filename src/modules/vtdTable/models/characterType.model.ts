@@ -1,5 +1,6 @@
 import { Column } from 'sequelize-typescript';
-import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
+
+import { COLUMN_ALIASES } from '../consts/modelColumnAliases';
 
 import { Coordinate } from './coordinate.model';
 

@@ -1,17 +1,10 @@
-import { Model } from 'sequelize-typescript';
+import { CreationAttributes } from 'src/common/types/utility';
 
 import { COLUMN_ALIASES, COLUMN_NAMES } from '../consts/modelColumnAliases';
-import { ColumnAliasesKeys, ColumnNames } from '../types/alias';
-import { CreationAttributes } from '../types/utility';
+import { VtdTable } from '../models/VtdTable.model';
+import { ColumnAliasesKeys } from '../types/alias';
 
-export const getColumnNames = () => {
-  return Object.values(COLUMN_ALIASES).reduce<ColumnNames>((prev, columnAlias) => {
-    prev[columnAlias.alias] = columnAlias.name;
-    return prev;
-  }, {});
-};
-
-export const getAliasRows = <M extends Model>(rows: M[]) => {
+export const getAliasRows = <M extends VtdTable>(rows: M[]) => {
   return rows.map((row) => {
     const aliasRow = {} as M;
 
@@ -30,7 +23,7 @@ export const getAliasRows = <M extends Model>(rows: M[]) => {
   });
 };
 
-export const getNameRow = <M extends CreationAttributes<Model>>(aliasRow: M) => {
+export const getNameRow = <M extends CreationAttributes<VtdTable>>(aliasRow: M) => {
   const nameRow = {} as M;
 
   for (const alias in aliasRow) {

@@ -1,5 +1,5 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
-import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
+import { COLUMN_ALIASES } from 'src/modules/vtdTable/consts/modelColumnAliases';
 import { HOUR_OPTIONS } from 'src/common/consts/modelColumnOptions';
 import { Defect } from 'src/modules/vtdTable/models/defect.model';
 

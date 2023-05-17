@@ -1,5 +1,5 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
-import { COLUMN_ALIASES } from 'src/common/consts/modelColumnAliases';
+import { COLUMN_ALIASES } from 'src/modules/vtdTable/consts/modelColumnAliases';
 import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 'src/common/consts/modelColumnOptions';
 import { Coordinate } from 'src/modules/vtdTable/models/coordinate.model';
 
