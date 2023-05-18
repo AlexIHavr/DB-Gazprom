@@ -1,15 +1,14 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
 import { COLUMN_ALIASES } from 'src/modules/vtdTable/consts/modelColumnAliases';
-import { HOUR_OPTIONS } from 'src/common/consts/modelColumnOptions';
 import { Defect } from 'src/modules/vtdTable/models/defect.model';
 
 @Table
 export class Anomaly extends Defect<Anomaly> {
-  @Column({ type: DataType.SMALLINT })
+  @Column(COLUMN_ALIASES.fromLongWeldToStart.options)
   [COLUMN_ALIASES.fromLongWeldToStart.name]: number | null;
 
-  @Column({ ...HOUR_OPTIONS, allowNull: false })
-  [COLUMN_ALIASES.startOrientation.name]: string;
+  @Column(COLUMN_ALIASES.startOrientation.options)
+  [COLUMN_ALIASES.startOrientation.name]: string | null;
 
   @Column({ type: DataType.TEXT })
   [COLUMN_ALIASES.tubeComment.name]: string | null;

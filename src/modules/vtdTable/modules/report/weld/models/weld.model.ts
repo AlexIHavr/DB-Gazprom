@@ -8,19 +8,19 @@ export class Weld extends Tube<Weld> {
   @Column(COLUMN_ALIASES.anomaliesCount.options)
   [COLUMN_ALIASES.anomaliesCount.name]: number;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false })
+  @Column(COLUMN_ALIASES.SMYS.options)
   [COLUMN_ALIASES.SMYS.name]: number;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false })
+  @Column(COLUMN_ALIASES.SMTS.options)
   [COLUMN_ALIASES.SMTS.name]: number;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column(COLUMN_ALIASES.plotCategory.options)
   [COLUMN_ALIASES.plotCategory.name]: string;
 
   @Column({ ...UNSIGNED_FLOAT_OPTIONS })
   [COLUMN_ALIASES.constructionalFactor.name]: number | null;
 
-  @Column({ ...UNSIGNED_FLOAT_OPTIONS, allowNull: false })
+  @Column(COLUMN_ALIASES.materialReliability.options)
   [COLUMN_ALIASES.materialReliability.name]: number;
 
   @Column({ type: DataType.STRING })
@@ -32,7 +32,7 @@ export class Weld extends Tube<Weld> {
   @Column(COLUMN_ALIASES.weldType.options)
   [COLUMN_ALIASES.weldType.name]: string | null;
 
-  @Column({ type: DataType.STRING })
+  @Column(COLUMN_ALIASES.steelMark.options)
   [COLUMN_ALIASES.steelMark.name]: string | null;
 
   @Column({ ...UNSIGNED_FLOAT_OPTIONS })

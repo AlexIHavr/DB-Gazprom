@@ -69,3 +69,13 @@ export const createVtd = async (formData: FormData) => {
     { loading: true },
   );
 };
+
+export const createForm = async (vtdId: string) => {
+  await modalWindowWrapper(
+    `Форма успешна создана`,
+    async () => {
+      await vtdTableService.createForm(vtdId);
+    },
+    { loading: true },
+  );
+};

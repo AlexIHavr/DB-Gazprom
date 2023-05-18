@@ -1,6 +1,6 @@
 import { ModelAttributeColumnOptions } from 'sequelize';
 import { DataType } from 'sequelize-typescript';
-import { UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 'src/common/consts/modelColumnOptions';
+import { HOUR_OPTIONS, UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 'src/common/consts/modelColumnOptions';
 
 import { ColumnNames } from '../types/alias';
 
@@ -17,6 +17,7 @@ export const COLUMN_ALIASES = {
   tubeComment: {
     name: 'tubeComment',
     alias: 'Комментарий к трубе',
+    options: { type: DataType.TEXT } as ModelAttributeColumnOptions,
   },
   latitude: {
     name: 'latitude',
@@ -94,6 +95,7 @@ export const COLUMN_ALIASES = {
   fromLongWeldToStart: {
     name: 'fromLongWeldToStart',
     alias: 'От продольного шва до точки начала дефекта, мм',
+    options: { type: DataType.SMALLINT } as ModelAttributeColumnOptions,
   },
   minDistanceToLongWeld: {
     name: 'minDistanceToLongWeld',
@@ -153,6 +155,7 @@ export const COLUMN_ALIASES = {
   startOrientation: {
     name: 'startOrientation',
     alias: 'Ориентация точки начала дефекта, ч:мин',
+    options: { ...HOUR_OPTIONS } as ModelAttributeColumnOptions,
   },
   length: {
     name: 'length',
@@ -241,14 +244,17 @@ export const COLUMN_ALIASES = {
   SMYS: {
     name: 'SMYS',
     alias: 'SMYS, МПа',
+    options: { ...UNSIGNED_FLOAT_OPTIONS, allowNull: false } as ModelAttributeColumnOptions,
   },
   SMTS: {
     name: 'SMTS',
     alias: 'SMTS, МПа',
+    options: { ...UNSIGNED_FLOAT_OPTIONS, allowNull: false } as ModelAttributeColumnOptions,
   },
   plotCategory: {
     name: 'plotCategory',
     alias: 'Категория участка',
+    options: { type: DataType.STRING, allowNull: false } as ModelAttributeColumnOptions,
   },
   constructionalFactor: {
     name: 'constructionalFactor',
@@ -257,6 +263,7 @@ export const COLUMN_ALIASES = {
   materialReliability: {
     name: 'materialReliability',
     alias: 'Коэффициент надёжности по материалу',
+    options: { ...UNSIGNED_FLOAT_OPTIONS, allowNull: false } as ModelAttributeColumnOptions,
   },
   isolationType: {
     name: 'isolationType',
@@ -269,6 +276,7 @@ export const COLUMN_ALIASES = {
   steelMark: {
     name: 'steelMark',
     alias: 'Марка стали',
+    options: { type: DataType.STRING } as ModelAttributeColumnOptions,
   },
   temperatureDifference: {
     name: 'temperatureDifference',
@@ -290,6 +298,10 @@ export const COLUMN_ALIASES = {
   tapSection: {
     name: 'tapSection',
     alias: 'Межкрановый участок',
+  },
+  km: {
+    name: 'km',
+    alias: 'КМ',
   },
 } as const;
 

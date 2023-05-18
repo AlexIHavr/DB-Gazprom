@@ -17,6 +17,10 @@ class VtdTableService {
   async deleteAllByVtdId(vtdId: string, type: TableType) {
     await serverApi.delete(`${type}/deleteAllByVtdId`, { data: { vtdId } });
   }
+
+  async createForm(vtdId: string) {
+    await serverApi.post('form/create', { vtdId });
+  }
 }
 
 export default new VtdTableService();
