@@ -1,6 +1,7 @@
 .vtdManagerForm {
-  --button-width: 140px;
-  --input-width: 400px;
+  --margin-left-button: 10px;
+  --button-width: 150px;
+  --input-width: calc(3 * var(--button-width) + 2 * var(--margin-left-button));
 
   .manageVtdButtons {
     display: flex;
@@ -12,9 +13,12 @@
 
     button {
       text-shadow: none;
-      margin-right: 5px;
-      margin-left: 5px;
+      margin-left: var(--margin-left-button);
       width: var(--button-width);
+
+      &:last-of-type {
+        margin: 0;
+      }
 
       &.removeReport {
         background-color: rgb(182, 6, 6);

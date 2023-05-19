@@ -20,6 +20,9 @@ export class Form extends Defect<Form> {
   @Column(COLUMN_ALIASES.tubeComment.options)
   [COLUMN_ALIASES.tubeComment.name]: string | null;
 
+  @Column(COLUMN_ALIASES.anomaliesCount.options)
+  [COLUMN_ALIASES.anomaliesCount.name]: number;
+
   @Column(COLUMN_ALIASES.plotCategory.options)
   [COLUMN_ALIASES.plotCategory.name]: string;
 

@@ -60,6 +60,7 @@ export const getCreatedFormRows = async ({
     if (formData.tubeNumber !== welds[weldIndex].tubeNumber) weldIndex++;
 
     const weld = welds[weldIndex];
+    formData.anomaliesCount = weld.anomaliesCount;
     formData.plotCategory = weld.plotCategory;
     formData.SMYS = weld.SMYS;
     formData.SMTS = weld.SMTS;
