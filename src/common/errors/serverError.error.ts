@@ -24,4 +24,8 @@ export class ServerError extends HttpException {
   static ExistsVtd() {
     return new ServerError('Current Vtd already exists', HttpStatus.BAD_REQUEST);
   }
+
+  static InvalidCountVtdData(fromTableName: string, toTableName: string) {
+    return new ServerError(`Count of ${fromTableName} does not equal count of ${toTableName}`, HttpStatus.BAD_REQUEST);
+  }
 }

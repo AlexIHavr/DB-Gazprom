@@ -8,3 +8,8 @@ export type GetVtdTreeChildrenParams = {
   selectIndex: number;
   level?: number;
 };
+
+export type CreateFormParams = {
+  vtdId: string;
+  startKm: string;
+};

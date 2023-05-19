@@ -8,7 +8,7 @@
   }
 
   input {
-    width: calc(var(--button-width) * 3 + 20px);
+    width: var(--input-width);
     border: 1px solid black;
   }
 }

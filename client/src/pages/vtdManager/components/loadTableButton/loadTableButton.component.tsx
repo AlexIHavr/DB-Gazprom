@@ -2,17 +2,21 @@ import { ChangeEvent, FC, memo } from 'react';
 import globalStyles from 'shared/styles/global.module.scss';
 
 import { SUPPORT_FORMATS_ACCEPT } from '../../../vtdTable/consts/supportFormats';
-import { LoadTableButtonProps } from '../../../vtdTable/types/props';
 import { createForm, createReport } from '../../helpers/serviceManager';
+import { CreateFormParams } from '../../../vtdManager/types/params';
 
 import styles from './loadTableButton.module.scss';
 
-const LoadTableButton: FC<LoadTableButtonProps> = ({ vtdId }) => {
+const LoadTableButton: FC<Partial<CreateFormParams>> = ({ vtdId, startKm }) => {
   const loadExcel = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (vtdId && e.target.files?.length) {
-      await createReport(vtdId, e.target.files);
-      await createForm(vtdId);
-      e.target.value = '';
+    if (startKm && vtdId && e.target.files?.length) {
+      try {
+        await createReport(vtdId, e.target.files);
+        await createForm({ vtdId, startKm });
+        e.target.value = '';
+      } catch (error) {
+        e.target.value = '';
+      }
     }
   };
 

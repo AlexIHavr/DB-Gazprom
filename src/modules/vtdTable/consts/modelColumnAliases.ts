@@ -5,6 +5,10 @@ import { HOUR_OPTIONS, UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 
 import { ColumnNames } from '../types/alias';
 
 export const COLUMN_ALIASES = {
+  number: {
+    name: 'number',
+    alias: 'Номер',
+  },
   tubeNumber: {
     name: 'tubeNumber',
     alias: 'Номер трубы',

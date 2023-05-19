@@ -3,6 +3,7 @@ import { serverApi } from 'shared/api/api';
 import { CreateAllParams } from '../types/params';
 import { TableType } from '../types/tableType';
 import { VtdTableResponse } from '../types/vtdTable';
+import { CreateFormParams } from '../../vtdManager/types/params';
 
 class VtdTableService {
   async createAll({ vtdId, type, vtdTable }: CreateAllParams) {
@@ -18,8 +19,8 @@ class VtdTableService {
     await serverApi.delete(`${type}/deleteAllByVtdId`, { data: { vtdId } });
   }
 
-  async createForm(vtdId: string) {
-    await serverApi.post('form/create', { vtdId });
+  async createForm({ vtdId, startKm }: CreateFormParams) {
+    await serverApi.post('form/create', { vtdId, startKm });
   }
 }
 

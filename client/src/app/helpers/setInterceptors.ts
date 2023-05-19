@@ -19,12 +19,20 @@ export const setInterceptors = (api: AxiosInstance) => {
       if (axios.isAxiosError(err) && err.response?.data) {
         const errorData = err.response.data;
 
-        let message: string;
+        let message = '';
 
         const errorResponse = errorData.errorResponse;
         if (errorResponse) {
-          message = typeof errorResponse === 'string' ? errorResponse : errorResponse.message.join('\n');
-        } else {
+          message += typeof errorResponse === 'string' ? errorResponse : errorResponse.message.join(';\n');
+        }
+
+        const dbValidationErrors = errorData.dbValidationErrors;
+        if (dbValidationErrors) {
+          message += dbValidationErrors.reduce((prev, value) => {
+            prev += value.message + ';\n';
+            return prev;
+          }, '');
+        } else if (!message) {
           message = errorData.message;
         }
 

@@ -13,12 +13,16 @@ class ClientError extends Error {
     return new ClientError('Неверный формат файла');
   }
 
-  static DuplicatedHeaders(headers: ExcelRow) {
-    return new ClientError(`Есть повторяющиеся заголовки: ${headers.join('; ')}`);
+  static DuplicatedHeaders(headers: ExcelRow, fileName: string) {
+    return new ClientError(`Есть повторяющиеся заголовки: '${headers.join('; ')}' в таблице '${fileName}'`);
   }
 
   static EmptyInputValue(inputName: string) {
     return new ClientError(`Есть незаполненное поле - '${inputName}'`);
+  }
+
+  static EmptyStartKm(name: string) {
+    return new ClientError(`Пустой километраж газопровода в файле ${name}`);
   }
 }
 

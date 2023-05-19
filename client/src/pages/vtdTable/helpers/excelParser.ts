@@ -19,13 +19,12 @@ export const excelParse = async (file: File): Promise<VtdTable> => {
         setTimeout(() => resolve(read(e.target?.result, { type: 'binary' }))),
       );
 
-      const workSheetName = workBook.SheetNames[PARSED_SHEET_NUMBER];
+      const workSheetName = workBook.SheetNames[PARSED_SHEET_NUMBER - 1];
       const workSheet = workBook.Sheets[workSheetName];
-
       const excelRows = utils.sheet_to_json<ExcelRow>(workSheet, { header: 1, defval: null }).slice(HEADER_ROW - 2);
 
       try {
-        const parsedExcelRows = excelRowsParse(excelRows);
+        const parsedExcelRows = excelRowsParse(excelRows, file.name);
 
         resolve(parsedExcelRows);
       } catch (error) {
@@ -39,7 +38,7 @@ export const excelParse = async (file: File): Promise<VtdTable> => {
   });
 };
 
-const excelRowsParse = (excelRows: ExcelRows): VtdTable => {
+const excelRowsParse = (excelRows: ExcelRows, fileName: string): VtdTable => {
   const headers = excelRows[0];
   const duplicatedHeaders: ExcelRow = [];
 
@@ -50,7 +49,7 @@ const excelRowsParse = (excelRows: ExcelRows): VtdTable => {
     return previous;
   }, []);
 
-  if (duplicatedHeaders.length) throw ClientError.DuplicatedHeaders(duplicatedHeaders);
+  if (duplicatedHeaders.length) throw ClientError.DuplicatedHeaders(duplicatedHeaders, fileName);
 
   return excelRows.slice(1).map((excelRow) => {
     return headers.reduce<VtdRow>((previous, header, i) => {

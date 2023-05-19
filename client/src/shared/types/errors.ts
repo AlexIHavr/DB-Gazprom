@@ -7,5 +7,5 @@ export type ServerError = AxiosError<{
   path: string;
   timestamp: string;
   errorResponse: string | { error: string; message: string[]; statusCode: number } | false;
-  dbValidationErrors: object[] | false;
+  dbValidationErrors: { message: string }[] | false;
 }>;

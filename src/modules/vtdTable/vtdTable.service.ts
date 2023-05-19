@@ -5,9 +5,10 @@ import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
 import { VtdTable } from './models/VtdTable.model';
 import { CreateAllDto } from './dto/createAll.dto';
-import { VtdTableModel, VtdTableRows } from './types/vtdTable';
-import { getAliasRows, getNameRow } from './helpers/alias';
-import { COLUMN_NAMES } from './consts/modelColumnAliases';
+import { VtdTableModel } from './types/vtdTable';
+import { getAliasRows } from './helpers/alias';
+import { getCreatedVtdTableRows } from './consts/getCreatedVtdTableRows';
+import { COLUMN_ALIASES } from './consts/modelColumnAliases';
 
 export class VtdTableService {
   @InjectModel(Vtd)
@@ -22,7 +23,7 @@ export class VtdTableService {
     const vtd = await this.vtdModel.findByPk(vtdId);
     if (!vtd) throw ServerError.NotFoundVtd();
 
-    const rows = await this.vtdTableModel.findAll({ where: { vtdId } });
+    const rows = await this.vtdTableModel.findAll({ where: { vtdId }, order: [[COLUMN_ALIASES.number.name, 'ASC']] });
     return getAliasRows(rows);
   }
 
@@ -30,29 +31,7 @@ export class VtdTableService {
     const vtd = await this.vtdModel.findByPk(vtdId);
     if (!vtd) throw ServerError.NotFoundVtd();
 
-    const firstRow = await this.vtdTableModel.findOne({ where: { vtdId } });
-    if (firstRow) throw ServerError.ExistsVtdTable(this.vtdTableModel.tableName);
-
-    const createdRows: VtdTableRows = [];
-    const modelAttributes = this.vtdTableModel.getAttributes();
-
-    //check vtdTable headers exist in model
-    Object.keys(vtdTable[0]).forEach((alias) => {
-      if (modelAttributes[COLUMN_NAMES[alias] || alias] === undefined) throw ServerError.NotFoundColumn(alias);
-    });
-
-    for (const row of vtdTable) {
-      let createdRow: VtdTable;
-
-      try {
-        createdRow = await this.vtdTableModel.create({ ...getNameRow(row), vtdId });
-      } catch (error) {
-        this.vtdTableModel.destroy({ where: { vtdId } });
-        throw error;
-      }
-
-      createdRows.push(createdRow);
-    }
+    const createdRows = await getCreatedVtdTableRows({ vtdId, vtdTable, vtdTableModel: this.vtdTableModel });
 
     return createdRows;
   }

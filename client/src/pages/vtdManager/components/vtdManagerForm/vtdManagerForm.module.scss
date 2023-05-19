@@ -1,19 +1,30 @@
-form.vtdManagerForm {
+.vtdManagerForm {
   --button-width: 140px;
-
-  text-align: center;
+  --input-width: 400px;
 
   .manageVtdButtons {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
+    width: var(--input-width);
     margin: 0 auto;
-  }
 
-  button {
-    text-shadow: none;
-    margin-right: 5px;
-    margin-left: 5px;
-    width: var(--button-width);
+    button {
+      text-shadow: none;
+      margin-right: 5px;
+      margin-left: 5px;
+      width: var(--button-width);
+
+      &.removeReport {
+        background-color: rgb(182, 6, 6);
+      }
+
+      &:disabled {
+        cursor: default;
+        background-color: rgba(0, 0, 0, 0.3);
+        box-shadow: none;
+      }
+    }
   }
 }

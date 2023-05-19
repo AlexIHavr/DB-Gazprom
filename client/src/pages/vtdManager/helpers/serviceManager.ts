@@ -8,6 +8,7 @@ import vtdService from '../../vtdTree/services/vtdTree.service';
 import { VTD_TREE_LEVEL_NAMES } from '../../vtdTree/consts/vtdTreeLevels';
 import { VtdTreeLevel } from '../../vtdTree/types/vtdTree';
 import { TABLE_TYPE_GROUPS } from '../../vtdTable/consts/tableTypeGroups';
+import { CreateFormParams } from '../types/params';
 
 export const createReport = async (vtdId: string, files: FileList) => {
   for (const file of Array.from(files)) {
@@ -70,11 +71,11 @@ export const createVtd = async (formData: FormData) => {
   );
 };
 
-export const createForm = async (vtdId: string) => {
+export const createForm = async ({ vtdId, startKm }: CreateFormParams) => {
   await modalWindowWrapper(
     `Форма успешна создана`,
     async () => {
-      await vtdTableService.createForm(vtdId);
+      await vtdTableService.createForm({ vtdId, startKm });
     },
     { loading: true },
   );

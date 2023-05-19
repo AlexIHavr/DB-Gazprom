@@ -1,11 +1,8 @@
-import { IsUUID } from 'class-validator';
+import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 import { CreationAttributes } from 'src/common/types/utility';
 
 import { VtdTable } from '../models/VtdTable.model';
 
-export class CreateAllDto {
-  @IsUUID(4)
-  readonly vtdId: string;
-
+export class CreateAllDto extends VtdIdDto {
   readonly vtdTable: CreationAttributes<VtdTable>[];
 }

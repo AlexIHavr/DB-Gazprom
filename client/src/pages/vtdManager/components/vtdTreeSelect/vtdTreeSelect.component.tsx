@@ -24,7 +24,13 @@ const VtdTreeSelect: FC<VtdTreeSelectProps> = ({ selectValues, setSelectValues }
         <div key={levelName} className={styles.vtdTreeSelect}>
           <h2>{VTD_TREE_LEVEL_NAMES[levelName]}</h2>
 
-          <input name={levelName} list={`${levelName}List`} onBlur={(e) => setSelectValuesOnBlur(e, selectIndex)} type="text" />
+          <input
+            name={levelName}
+            list={`${levelName}List`}
+            onBlur={(e) => setSelectValuesOnBlur(e, selectIndex)}
+            type="text"
+            required
+          />
 
           <datalist id={`${levelName}List`}>
             {getVtdTreeChildren({ vtdTree, selectValues, selectIndex }).map(({ header }) => (

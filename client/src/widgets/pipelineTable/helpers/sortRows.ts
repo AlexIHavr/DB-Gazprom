@@ -1,6 +1,17 @@
+import { ExcelValue } from 'shared/types/excel';
+
 import { SORT_TYPES } from '../consts/searchSettings';
 import { GetSortedRowsParams } from '../types/params';
 import { PipelineRows } from '../types/pipelineTable';
+
+const getParsedFloat = (cellValue: Exclude<ExcelValue, null>) => {
+  if (typeof cellValue === 'string') {
+    cellValue = cellValue.toLowerCase();
+    cellValue = isNaN(parseFloat(cellValue)) ? cellValue : parseFloat(cellValue);
+  }
+
+  return cellValue;
+};
 
 export const getDefaultSortedRows = (rows: PipelineRows) => {
   return [...rows].sort((nextRow, row) => {
@@ -17,15 +28,8 @@ export const getSortedRows = ({ sortType, index, rows }: GetSortedRowsParams) =>
       let cellValue = row.cells[index].value!;
       let nextCellValue = nextRow.cells[index].value!;
 
-      if (typeof cellValue === 'string') cellValue = cellValue.toLowerCase();
-      if (typeof nextCellValue === 'string') nextCellValue = nextCellValue.toLowerCase();
-
-      //sort number's string with number, e.g. tube number
-      if (typeof cellValue === 'number' && typeof nextCellValue === 'string') {
-        nextCellValue = isNaN(parseFloat(nextCellValue)) ? nextCellValue : parseFloat(nextCellValue);
-      } else if (typeof nextCellValue === 'number' && typeof cellValue === 'string') {
-        cellValue = isNaN(parseFloat(cellValue)) ? cellValue : parseFloat(cellValue);
-      }
+      cellValue = getParsedFloat(cellValue);
+      nextCellValue = getParsedFloat(nextCellValue);
 
       switch (sortType) {
         case SORT_TYPES.desc:
