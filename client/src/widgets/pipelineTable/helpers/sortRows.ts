@@ -7,7 +7,7 @@ import { PipelineRows } from '../types/pipelineTable';
 const getParsedFloat = (cellValue: Exclude<ExcelValue, null>) => {
   if (typeof cellValue === 'string') {
     cellValue = cellValue.toLowerCase();
-    cellValue = isNaN(parseFloat(cellValue)) ? cellValue : parseFloat(cellValue);
+    cellValue = cellValue.includes(' ') || isNaN(parseFloat(cellValue)) ? cellValue : parseFloat(cellValue);
   }
 
   return cellValue;

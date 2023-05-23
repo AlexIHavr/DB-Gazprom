@@ -1,4 +1,4 @@
-import { ExcelRow, ExcelRows, ExcelValue } from 'shared/types/excel';
+import { ExcelRows, ExcelValue } from 'shared/types/excel';
 
 import { SORT_TYPES } from '../consts/searchSettings';
 
@@ -6,7 +6,6 @@ import {
   PipelineColumnProperties,
   PipelineProperties,
   PipelineRows,
-  PipelineTable,
   PipelineTables,
   SearchCompareTypesValues,
 } from './pipelineTable';
@@ -23,16 +22,8 @@ export type IsSearchComparedCellValueParams = {
   searchCompareTypes: SearchCompareTypesValues;
 };
 
-export type GetAddedColumnTableParams = {
-  pipelineTable: PipelineTable;
-  name: string;
-  index: number;
-  values?: ExcelRow;
-};
-
 //store
 export type AddPipelineTableParams = PipelineProperties & { excelRows: ExcelRows };
 export type SetColumnsPropertiesParams = PipelineProperties & { properties: PipelineColumnProperties };
 export type SetColumnPropertiesParams = SetColumnsPropertiesParams & { index: number };
 export type SetPipelineTableRowsParams = PipelineProperties & { rows: PipelineRows };
-export type AddColumnParams = PipelineProperties & { name: string; index: number; values?: ExcelRow };

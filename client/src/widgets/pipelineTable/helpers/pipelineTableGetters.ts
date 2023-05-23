@@ -1,6 +1,9 @@
 import { ExcelRow } from 'shared/types/excel';
 
-import { GetUniqueRowsValuesParams } from '../types/params';
+import { GetPipelineTableParams, GetUniqueRowsValuesParams } from '../types/params';
+
+export const getPipelineTable = ({ pipelineTables, vtdId, type }: GetPipelineTableParams) =>
+  pipelineTables.find((pipelineTable) => pipelineTable.vtdId === vtdId && pipelineTable.type === type);
 
 export const getUniqueRowsValues = ({ rows, index, maxCount }: GetUniqueRowsValuesParams) => {
   const uniqueRowsValues: ExcelRow = [];

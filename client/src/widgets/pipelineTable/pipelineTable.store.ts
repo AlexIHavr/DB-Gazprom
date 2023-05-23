@@ -3,8 +3,7 @@ import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 
 import { UsePipelineTableStore } from './types/store';
-import { getPipelineTable } from './helpers/getPipelineTable';
-import { getAddedColumnTable } from './helpers/changePipelineTable';
+import { getPipelineTable } from './helpers/pipelineTableGetters';
 import { getDefaultPipelineData } from './helpers/getDefaults';
 
 const usePipelineTableStore = create<UsePipelineTableStore>()(
@@ -41,17 +40,6 @@ const usePipelineTableStore = create<UsePipelineTableStore>()(
           const pipelineTable = getPipelineTable({ pipelineTables: state.pipelineTables, vtdId, type });
 
           if (pipelineTable) pipelineTable.rows = rows;
-        }),
-
-      addColumn: ({ vtdId, type, name, index, values }) =>
-        set((state) => {
-          const pipelineTable = getPipelineTable({ pipelineTables: state.pipelineTables, vtdId, type });
-
-          if (pipelineTable) {
-            const addedColumnTable = getAddedColumnTable({ pipelineTable, name, index, values });
-            pipelineTable.rows = addedColumnTable.rows;
-            pipelineTable.columns = addedColumnTable.columns;
-          }
         }),
     })),
   ),

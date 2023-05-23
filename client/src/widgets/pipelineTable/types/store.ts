@@ -1,5 +1,4 @@
 import {
-  AddColumnParams,
   AddPipelineTableParams,
   SetColumnPropertiesParams,
   SetColumnsPropertiesParams,
@@ -13,5 +12,4 @@ export type UsePipelineTableStore = {
   setColumnProperties: ({ vtdId, type, index, properties }: SetColumnPropertiesParams) => void;
   setColumnsProperties: ({ vtdId, type, properties }: SetColumnsPropertiesParams) => void;
   setPipelineTableRows: ({ vtdId, type, rows }: SetPipelineTableRowsParams) => void;
-  addColumn: ({ vtdId, type, name, index, values }: AddColumnParams) => void;
 };
