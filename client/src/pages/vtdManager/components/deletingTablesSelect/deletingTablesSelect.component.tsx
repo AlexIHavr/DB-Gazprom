@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { TABLE_TYPES_VALUES } from '../pages/vtdTable/consts/tableTypes';
-import { ADDING_INPUTS } from '../pages/vtdManager/consts/addingInputs';
+import { TABLE_TYPES_VALUES } from '../../../vtdTable/consts/tableTypes';
+import { ADDING_INPUTS } from '../../consts/addingInputs';
 
 import styles from './deletingTablesSelect.module.scss';
 

@@ -7,7 +7,7 @@ import FileInput from '../fileInput/fileInput.component';
 import { SelectValues } from '../../../vtdManager/types/vtdTreeSelect';
 import { FILE_INPUTS_KEYS } from '../../consts/addingInputs';
 import ManageVtdButtons from '../manageVtdButtons/manageVtdButtons.component';
-import DeletingTablesSelect from '../../../../deletingTablesSelect/deletingTablesSelect.component';
+import DeletingTablesSelect from '../deletingTablesSelect/deletingTablesSelect.component';
 
 import styles from './vtdManagerForm.module.scss';
 
