@@ -4,6 +4,7 @@ import { TABLE_TYPE_GROUPS } from './tableTypeGroups';
 
 export const TABLE_TYPES = {
   form: { name: 'Форма ЛОиР', groupName: TABLE_TYPE_GROUPS.form },
+  joining: { name: 'Стыковка труб', groupName: TABLE_TYPE_GROUPS.form },
   anomaly: { name: 'Аномалии', groupName: TABLE_TYPE_GROUPS.report },
   character: { name: 'Выявленные особенности', groupName: TABLE_TYPE_GROUPS.report },
   branch: { name: 'Отводы', groupName: TABLE_TYPE_GROUPS.report },

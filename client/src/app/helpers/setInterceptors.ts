@@ -1,10 +1,11 @@
-import axios, { AxiosInstance } from 'axios';
-import { useModalWindowsStore, usePreloaderStore } from 'features';
-import { ServerError } from 'shared/types/errors';
+import { AxiosInstance } from 'axios';
+import { usePreloaderStore } from 'features';
+
+import { ServerError } from '../types/serverError';
+
+import { showServerError } from './showServerError';
 
 export const setInterceptors = (api: AxiosInstance) => {
-  const addModalWindow = useModalWindowsStore.getState().addModalWindow;
-
   api.interceptors.request.use((config) => {
     if (!usePreloaderStore.getState().isLoading) usePreloaderStore.setState({ isLoading: true });
     return config;
@@ -16,30 +17,7 @@ export const setInterceptors = (api: AxiosInstance) => {
       return config;
     },
     (err: ServerError) => {
-      if (axios.isAxiosError(err) && err.response?.data) {
-        const errorData = err.response.data;
-
-        let message = '';
-
-        const errorResponse = errorData.errorResponse;
-        if (errorResponse) {
-          message += typeof errorResponse === 'string' ? errorResponse : errorResponse.message.join(';\n');
-        }
-
-        const dbValidationErrors = errorData.dbValidationErrors;
-        if (dbValidationErrors) {
-          message += dbValidationErrors.reduce((prev, value) => {
-            prev += value.message + ';\n';
-            return prev;
-          }, '');
-        } else if (!message) {
-          message = errorData.message;
-        }
-
-        addModalWindow({ type: 'error', message });
-      } else {
-        addModalWindow({ type: 'error', message: err.message });
-      }
+      showServerError(err);
 
       if (usePreloaderStore.getState().isLoading) usePreloaderStore.setState({ isLoading: false });
       throw err;

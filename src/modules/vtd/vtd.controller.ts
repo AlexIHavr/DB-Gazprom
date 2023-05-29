@@ -1,5 +1,4 @@
-import { Controller, Get, Delete, Body, UseInterceptors, Post } from '@nestjs/common/decorators';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Delete, Body, Post } from '@nestjs/common/decorators';
 import { VtdIdDto } from 'src/common/dto/vtdId.dto';
 
 import { CreateOneDto } from './dto/createOne.dto';
@@ -15,7 +14,6 @@ export class VtdController {
     return this.vtdService.getAll();
   }
 
-  @UseInterceptors(FileInterceptor('file'))
   @Post('createOne')
   createOne(@Body() createOne: CreateOneDto): Promise<Vtd> {
     return this.vtdService.createOne(createOne);

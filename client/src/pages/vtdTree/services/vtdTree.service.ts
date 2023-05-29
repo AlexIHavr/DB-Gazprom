@@ -1,6 +1,7 @@
 import { vtdApi } from 'shared/api/api';
 
-import { Vtds } from '../types/vtds';
+import { Vtd, Vtds } from '../types/vtds';
+import { VtdTreeNames } from '../types/vtdTree';
 
 class VtdService {
   async getAll() {
@@ -12,8 +13,9 @@ class VtdService {
     await vtdApi.delete('deleteOneById', { data: { vtdId } });
   }
 
-  async createOne(formData: FormData) {
-    await vtdApi.post('createOne', formData);
+  async createOne(vtdData: VtdTreeNames) {
+    const { data } = await vtdApi.post<Vtd>('createOne', vtdData);
+    return data;
   }
 }
 

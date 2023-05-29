@@ -1,57 +1,40 @@
 import { FC, useMemo, useRef, useState } from 'react';
-import classNames from 'classnames';
-import globalStyles from 'shared/styles/global.module.scss';
 
-import { createVtd, removeReport, removeVtd } from '../../helpers/serviceManager';
 import useVtdTreeStore from '../../../vtdTree/vtdTree.store';
 import { getVtdIdBySelectValues } from '../../helpers/getVtdIdBySelectValues';
 import VtdTreeSelect from '../vtdTreeSelect/vtdTreeSelect.component';
-import LoadTableButton from '../loadTableButton/loadTableButton.component';
+import FileInput from '../fileInput/fileInput.component';
 import { SelectValues } from '../../../vtdManager/types/vtdTreeSelect';
+import { FILE_INPUTS_KEYS } from '../../consts/addingInputs';
+import ManageVtdButtons from '../manageVtdButtons/manageVtdButtons.component';
+import DeletingTablesSelect from '../../../../deletingTablesSelect/deletingTablesSelect.component';
 
 import styles from './vtdManagerForm.module.scss';
 
 const VtdManagerForm: FC = () => {
-  const formRef = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const [vtdTree, vtds] = useVtdTreeStore((state) => [state.vtdTree, state.vtds]);
+  const vtdTree = useVtdTreeStore((state) => state.vtdTree);
   const [selectValues, setSelectValues] = useState<SelectValues>([]);
 
   const vtdId = useMemo(() => getVtdIdBySelectValues(vtdTree, selectValues), [selectValues, vtdTree]);
-  const startKm = useMemo(() => vtds.find(({ id }) => id === vtdId)?.section.split('-')[0], [vtdId, vtds]);
-
-  const removeReportOnClick = () => {
-    if (vtdId) removeReport(vtdId);
-  };
-
-  const removeVtdOnClick = () => {
-    if (vtdId) removeVtd(vtdId);
-  };
-
-  const addVtdOnClick = () => {
-    if (formRef.current) createVtd(new FormData(formRef.current));
-  };
 
   return (
     <form className={styles.vtdManagerForm} ref={formRef} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.vtdTreeSelectWrapper}>
         <VtdTreeSelect selectValues={selectValues} setSelectValues={setSelectValues} />
+        <DeletingTablesSelect />
 
-        <div className={styles.manageVtdButtons}>
-          <LoadTableButton vtdId={vtdId} startKm={startKm} />
+        {FILE_INPUTS_KEYS.map((loadingFile) => (
+          <FileInput
+            key={loadingFile.name}
+            title={loadingFile.name}
+            inputName={loadingFile.name}
+            isMultiple={'isMultiple' in loadingFile ? loadingFile.isMultiple : false}
+          />
+        ))}
 
-          <button className={classNames(globalStyles.btn, styles.removeReport)} onClick={removeReportOnClick} disabled={!vtdId}>
-            Удалить отчет
-          </button>
-
-          <button className={globalStyles.btn} onClick={addVtdOnClick} disabled={!!vtdId}>
-            Добавить ВТД
-          </button>
-
-          <button className={classNames(globalStyles.btn, styles.removeReport)} onClick={removeVtdOnClick} disabled={!vtdId}>
-            Удалить ВТД
-          </button>
-        </div>
+        <ManageVtdButtons vtdId={vtdId} formRef={formRef} />
       </div>
     </form>
   );

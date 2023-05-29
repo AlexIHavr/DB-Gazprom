@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 
-import { getUniqueRowsValues } from '../../helpers/getUniqueRowsValue';
+import { getUniqueRowsValues } from '../../helpers/pipelineTableGetters';
 import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
 import usePipelineTableStore from '../../pipelineTable.store';
 import { ApplyExtendedFilterButtonProps } from '../../types/props';

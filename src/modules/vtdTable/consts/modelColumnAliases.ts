@@ -14,6 +14,10 @@ export const COLUMN_ALIASES = {
     alias: 'Номер трубы',
     options: { type: DataType.STRING, allowNull: false } as ModelAttributeColumnOptions,
   },
+  tubeNumberPrev: {
+    name: 'tubeNumberPrev',
+    alias: 'Номер трубы предыдущего ВТД',
+  },
   comment: {
     name: 'comment',
     alias: 'Комментарий',

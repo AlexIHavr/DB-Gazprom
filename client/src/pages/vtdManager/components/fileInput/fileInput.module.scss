@@ -1,0 +1,32 @@
+.fileInput {
+  margin: 10px 0;
+  text-align: center;
+
+  label {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  span {
+    display: block;
+    width: var(--button-width);
+    background-color: green;
+    margin-left: 10px;
+  }
+
+  input.fileInputText {
+    width: calc(var(--input-width) - var(--button-width) - var(--margin-button));
+    &:disabled {
+      background-color: white;
+      color: black;
+      border: none;
+    }
+  }
+
+  input:disabled + span {
+    cursor: default;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: none;
+  }
+}

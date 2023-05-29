@@ -6,7 +6,10 @@ export const getVtdTree = (vtds: Vtds, levelIndex = 0): VtdTree => {
   const level = VTD_TREE_LEVELS_KEYS[levelIndex];
 
   return vtds
-    .reduce<string[]>((prev, vtd) => (!prev.includes(vtd[level]) ? [...prev, vtd[level]] : prev), [])
+    .reduce<string[]>((prev, vtd) => {
+      if (!prev.includes(vtd[level])) prev.push(vtd[level]);
+      return prev;
+    }, [])
     .map((header) => {
       const filteredVtds = vtds.filter((vtd) => vtd[level] === header);
 

@@ -1,34 +1,13 @@
 .vtdManagerForm {
-  --margin-left-button: 10px;
+  --margin-button: 10px;
   --button-width: 150px;
-  --input-width: calc(3 * var(--button-width) + 2 * var(--margin-left-button));
+  --input-width: calc(3 * var(--button-width) + 2 * var(--margin-button));
 
-  .manageVtdButtons {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-    width: var(--input-width);
-    margin: 0 auto;
+  h2 {
+    margin: var(--margin-button) 0;
+  }
 
-    button {
-      text-shadow: none;
-      margin-left: var(--margin-left-button);
-      width: var(--button-width);
-
-      &:last-of-type {
-        margin: 0;
-      }
-
-      &.removeReport {
-        background-color: rgb(182, 6, 6);
-      }
-
-      &:disabled {
-        cursor: default;
-        background-color: rgba(0, 0, 0, 0.3);
-        box-shadow: none;
-      }
-    }
+  input {
+    border: 1px solid black;
   }
 }

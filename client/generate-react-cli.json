@@ -10,13 +10,11 @@
         "component": "src/templates/default/TemplateName.component.tsx",
         "style": "src/templates/default/TemplateName.module.scss",
         "store": "src/templates/default/TemplateName.store.ts",
-        "props": "src/templates/default/props.ts",
-        "storeType": "src/templates/default/store.ts"
+        "props": "src/templates/default/props.ts"
       },
       "path": "src",
       "withStyle": true,
       "withProps": true,
-      "withStoreType": true,
       "withTest": false,
       "withStore": true,
       "withLazy": false,

@@ -4,9 +4,9 @@ import ClientError from 'shared/errors/ClientError';
 
 import { SUPPORT_FORMATS } from '../consts/supportFormats';
 import { VtdRow, VtdTable } from '../types/vtdTable';
-import { HEADER_ROW, PARSED_SHEET_NUMBER } from '../consts/excelSettings';
+import { HEADER_ROW } from '../consts/excelSettings';
 
-export const excelParse = async (file: File): Promise<VtdTable> => {
+export const excelParse = async (file: File, fileName: string): Promise<VtdTable> => {
   if (!SUPPORT_FORMATS.some((format) => format === file.type)) throw ClientError.InvalidFileFormat();
 
   return new Promise((resolve, reject) => {
@@ -19,7 +19,10 @@ export const excelParse = async (file: File): Promise<VtdTable> => {
         setTimeout(() => resolve(read(e.target?.result, { type: 'binary' }))),
       );
 
-      const workSheetName = workBook.SheetNames[PARSED_SHEET_NUMBER - 1];
+      const workSheetName = workBook.SheetNames.find((sheetName) => sheetName === fileName);
+
+      if (!workSheetName) throw ClientError.WorkSheetNotFound(fileName);
+
       const workSheet = workBook.Sheets[workSheetName];
       const excelRows = utils.sheet_to_json<ExcelRow>(workSheet, { header: 1, defval: null }).slice(HEADER_ROW - 2);
 

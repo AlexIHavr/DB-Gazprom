@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { FormModule } from './modules/form/form/form.module';
+import { JoiningModule } from './modules/form/joining/joining.module';
 import { AnomalyModule } from './modules/report/anomaly/anomaly.module';
 import { BranchModule } from './modules/report/branch/branch.module';
 import { CharacterModule } from './modules/report/character/character.module';
@@ -21,6 +22,7 @@ import { WeldModule } from './modules/report/weld/weld.module';
     TapModule,
     SummaryModule,
     FormModule,
+    JoiningModule,
   ],
 })
 export class VtdTableModule {}

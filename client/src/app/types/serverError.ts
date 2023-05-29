@@ -6,6 +6,6 @@ export type ServerError = AxiosError<{
   status: number;
   path: string;
   timestamp: string;
-  errorResponse: string | { error: string; message: string[]; statusCode: number } | false;
+  errorResponse: string | { error: string; message: string[] | string; statusCode: number } | false;
   dbValidationErrors: { message: string }[] | false;
 }>;

@@ -8,7 +8,7 @@ import ApplyExtendedFilterButton from '../../ui/applyExtendedFilterButton/applyE
 import UniqueRowsValues from '../uniqueRowsValues/uniqueRowsValues.component';
 import { getSortedRows } from '../../helpers/sortRows';
 import { isRangeComparedCellValue, isSearchComparedCellValue } from '../../helpers/searchRows';
-import { getUniqueRowsValues } from '../../helpers/getUniqueRowsValue';
+import { getUniqueRowsValues } from '../../helpers/pipelineTableGetters';
 import { MAX_COUNT_UNIQUE_ROWS } from '../../consts/tableSettings';
 import { SEARCH_TYPES, SORT_TYPES } from '../../consts/searchSettings';
 

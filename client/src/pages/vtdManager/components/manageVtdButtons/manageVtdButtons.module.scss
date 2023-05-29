@@ -1,0 +1,23 @@
+.manageVtdButtons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  width: var(--input-width);
+  margin: var(--margin-button) auto;
+
+  button {
+    text-shadow: none;
+    width: var(--button-width);
+
+    &.removeReport {
+      background-color: rgb(182, 6, 6);
+    }
+
+    &:disabled {
+      cursor: default;
+      background-color: rgba(0, 0, 0, 0.3);
+      box-shadow: none;
+    }
+  }
+}
