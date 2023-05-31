@@ -4,7 +4,7 @@ import { VtdTreeSelectProps } from '../../types/props';
 
 import styles from './vtdTreeSelect.module.scss';
 import { VTD_TREE_LEVELS_KEYS, VTD_TREE_LEVEL_NAMES } from './../../../vtdTree/consts/vtdTreeLevels';
-import { getVtdTreeChildren } from './../../helpers/getVtdTreeChildren';
+import { getVtdTreeChildren } from './../../helpers/vtdGetters';
 import useVtdTreeStore from './../../../vtdTree/vtdTree.store';
 
 const VtdTreeSelect: FC<VtdTreeSelectProps> = ({ selectValues, setSelectValues }) => {

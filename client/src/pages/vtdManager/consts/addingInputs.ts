@@ -2,9 +2,11 @@ export const FILE_INPUTS = {
   report: {
     name: 'Отчет ВТД',
     isMultiple: true,
+    headerRow: 2,
   },
   joining: {
     name: 'Стыковка труб',
+    headerRow: 0,
   },
 } as const;
 

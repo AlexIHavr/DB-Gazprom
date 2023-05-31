@@ -9,11 +9,9 @@ import styles from './uniqueRowValue.module.scss';
 
 const UniqueRowValue: FC<UniqueRowValueProps> = ({ uniqueRowValue, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
   const toggleCheckedUniqueRowValueOnClick = (rowValue: ExcelValue) => {
-    setCheckedUniqueRowsValues((prev) => {
-      if (prev.includes(rowValue)) return prev.filter((value) => value !== rowValue);
-      prev.push(rowValue);
-      return prev;
-    });
+    setCheckedUniqueRowsValues((prev) =>
+      prev.includes(rowValue) ? prev.filter((value) => value !== rowValue) : [...prev, rowValue],
+    );
   };
 
   return (

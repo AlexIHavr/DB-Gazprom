@@ -1,39 +1,15 @@
-import { FC, memo, useMemo } from 'react';
+import { FC, memo } from 'react';
 import classNames from 'classnames';
 import globalStyles from 'shared/styles/global.module.scss';
 
-import { createForm, createReport, createVtd, removeReport, removeVtd, removeVtdTable } from '../../helpers/serviceManager';
-import { ADDING_INPUTS, FILE_INPUTS } from '../../consts/addingInputs';
-import useVtdTreeStore from '../../../vtdTree/vtdTree.store';
+import { removeReport, removeVtd, removeVtdTable } from '../../helpers/serviceManager';
+import { ADDING_INPUTS } from '../../consts/addingInputs';
 import { ManageVtdButtonsProps } from '../../types/props';
-import { getStartKm } from '../../helpers/getStartKm';
+import AddVtdButton from '../addVtdButton/addVtdButton.component';
 
 import styles from './manageVtdButtons.module.scss';
 
-const ManageVtdButtons: FC<ManageVtdButtonsProps> = ({ vtdId, formRef }) => {
-  const vtds = useVtdTreeStore((state) => state.vtds);
-
-  let startKm = useMemo(() => {
-    const vtd = vtds.find(({ id }) => id === vtdId);
-    if (vtd) return getStartKm(vtd);
-  }, [vtdId, vtds]);
-
-  const addVtdOnClick = async () => {
-    const formData = new FormData(formRef.current!);
-
-    if (!vtdId) {
-      const vtd = await createVtd(formData);
-
-      vtdId = vtd.id;
-      startKm = getStartKm(vtd);
-    }
-
-    if (startKm && vtdId) {
-      await createReport(vtdId, formData.getAll(FILE_INPUTS.report.name) as File[]);
-      await createForm({ vtdId, startKm });
-    }
-  };
-
+const ManageVtdButtons: FC<ManageVtdButtonsProps> = ({ vtdId, formRef, selectValues }) => {
   const removeVtdOnClick = async () => {
     if (vtdId) {
       await removeReport(vtdId);
@@ -50,9 +26,7 @@ const ManageVtdButtons: FC<ManageVtdButtonsProps> = ({ vtdId, formRef }) => {
 
   return (
     <div className={styles.manageVtdButtons}>
-      <button className={globalStyles.btn} onClick={addVtdOnClick}>
-        Добавить ВТД
-      </button>
+      <AddVtdButton vtdId={vtdId} formRef={formRef} selectValues={selectValues} />
 
       <button className={classNames(globalStyles.btn, styles.removeReport)} onClick={removeVtdOnClick} disabled={!vtdId}>
         Удалить ВТД

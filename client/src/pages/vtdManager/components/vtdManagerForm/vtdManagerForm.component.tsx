@@ -1,7 +1,7 @@
 import { FC, useMemo, useRef, useState } from 'react';
 
 import useVtdTreeStore from '../../../vtdTree/vtdTree.store';
-import { getVtdIdBySelectValues } from '../../helpers/getVtdIdBySelectValues';
+import { getVtdIdBySelectValues } from '../../helpers/vtdGetters';
 import VtdTreeSelect from '../vtdTreeSelect/vtdTreeSelect.component';
 import FileInput from '../fileInput/fileInput.component';
 import { SelectValues } from '../../../vtdManager/types/vtdTreeSelect';
@@ -21,21 +21,19 @@ const VtdManagerForm: FC = () => {
 
   return (
     <form className={styles.vtdManagerForm} ref={formRef} onSubmit={(e) => e.preventDefault()}>
-      <div className={styles.vtdTreeSelectWrapper}>
-        <VtdTreeSelect selectValues={selectValues} setSelectValues={setSelectValues} />
-        <DeletingTablesSelect />
+      <VtdTreeSelect selectValues={selectValues} setSelectValues={setSelectValues} />
+      <DeletingTablesSelect />
 
-        {FILE_INPUTS_KEYS.map((loadingFile) => (
-          <FileInput
-            key={loadingFile.name}
-            title={loadingFile.name}
-            inputName={loadingFile.name}
-            isMultiple={'isMultiple' in loadingFile ? loadingFile.isMultiple : false}
-          />
-        ))}
+      {FILE_INPUTS_KEYS.map((loadingFile) => (
+        <FileInput
+          key={loadingFile.name}
+          title={loadingFile.name}
+          inputName={loadingFile.name}
+          isMultiple={'isMultiple' in loadingFile ? loadingFile.isMultiple : false}
+        />
+      ))}
 
-        <ManageVtdButtons vtdId={vtdId} formRef={formRef} />
-      </div>
+      <ManageVtdButtons vtdId={vtdId} formRef={formRef} selectValues={selectValues} />
     </form>
   );
 };

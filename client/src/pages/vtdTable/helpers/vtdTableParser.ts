@@ -6,11 +6,6 @@ export const vtdTableParse = (vtdTable: VtdTableResponse): ExcelRows => {
   let emptyHeaders: string[] = [];
 
   const excelRows = vtdTable.reduce<ExcelRows>((previous, vtdRow, i) => {
-    delete vtdRow.id;
-    delete vtdRow.vtdId;
-    delete vtdRow.createdAt;
-    delete vtdRow.updatedAt;
-
     if (!i) {
       emptyHeaders = Object.keys(vtdRow);
       previous.push(emptyHeaders);

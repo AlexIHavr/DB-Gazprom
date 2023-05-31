@@ -1,4 +1,4 @@
-import { FC, memo, UIEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, memo, UIEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { PipelineTableProps } from '../../types/props';
 import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from '../../consts/tableSettings';
@@ -70,7 +70,7 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
     if (columnIndex !== newColumnIndex) setColumnIndex(newColumnIndex);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const virtualScrollCurrent = virtualScrollRef.current!;
     const documentElement = document.documentElement;
 

@@ -2,16 +2,19 @@ import { modalWindowWrapper } from 'features';
 import ClientError from 'shared/errors/ClientError';
 
 import { TABLE_TYPES, TABLE_TYPES_ENTRIES, TABLE_TYPES_KEYS } from '../../vtdTable/consts/tableTypes';
-import { excelParse } from '../../vtdTable/helpers/excelParser';
 import vtdTableService from '../../vtdTable/services/vtdTable.service';
 import vtdService from '../../vtdTree/services/vtdTree.service';
 import { TABLE_TYPE_GROUPS } from '../../vtdTable/consts/tableTypeGroups';
-import { CreateFormParams } from '../types/params';
+import { CreateFormParams, CreateJoiningParams } from '../types/params';
 import { VTD_TREE_LEVELS, VTD_TREE_LEVELS_KEYS, VTD_TREE_LEVEL_NAMES } from '../../vtdTree/consts/vtdTreeLevels';
+import { FILE_INPUTS } from '../consts/addingInputs';
+
+import { excelParse } from './excelParser';
+import { getNoExpFileName } from './vtdGetters';
 
 export const createReport = async (vtdId: string, files: File[]) => {
   for (const file of files) {
-    const noExpFileName = file.name.split('.')[0];
+    const noExpFileName = getNoExpFileName(file);
 
     const tableType = TABLE_TYPES_ENTRIES.find(
       ([, { name, groupName }]) => noExpFileName === name && groupName === TABLE_TYPE_GROUPS.report,
@@ -22,12 +25,26 @@ export const createReport = async (vtdId: string, files: File[]) => {
       async () => {
         if (!tableType) throw ClientError.InvalidFileName(file.name);
 
-        const vtdTable = await excelParse(file, noExpFileName);
+        const vtdTable = await excelParse(file, FILE_INPUTS.report.headerRow);
         await vtdTableService.createAll({ vtdId, type: tableType, vtdTable });
       },
       { loading: true },
     );
   }
+};
+
+export const createJoining = async ({ vtdId, vtdIdPrev, file }: CreateJoiningParams) => {
+  await modalWindowWrapper(
+    `Файл ${file.name} успешно загружен`,
+    async () => {
+      const vtdTable = await excelParse(file, FILE_INPUTS.joining.headerRow);
+
+      if (!vtdIdPrev) throw ClientError.PrevVtdNotFound();
+
+      await vtdTableService.createAll({ vtdId, type: 'joining', vtdTable: vtdTable.map((vtdRow) => ({ ...vtdRow, vtdIdPrev })) });
+    },
+    { loading: true },
+  );
 };
 
 export const removeVtdTable = async (vtdId: string, typeName: string) => {

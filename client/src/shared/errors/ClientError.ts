@@ -22,11 +22,15 @@ class ClientError extends Error {
   }
 
   static EmptyInputValues(inputNames: string[]) {
-    return new ClientError(`Есть незаполненные поля - '${inputNames.join('; ')}'`);
+    return new ClientError(`Есть незаполненные поля - ${inputNames.join('; ')}`);
   }
 
   static EmptyStartKm(name: string) {
     return new ClientError(`Пустой километраж газопровода в файле ${name}`);
+  }
+
+  static PrevVtdNotFound() {
+    return new ClientError('Предыдущее ВТД для данного газопровода не найдено');
   }
 
   static WorkSheetNotFound(name: string) {

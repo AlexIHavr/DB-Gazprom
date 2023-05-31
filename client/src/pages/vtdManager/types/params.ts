@@ -13,3 +13,9 @@ export type CreateFormParams = {
   vtdId: string;
   startKm: string;
 };
+
+export type CreateJoiningParams = {
+  vtdId: string;
+  vtdIdPrev?: string;
+  file: File;
+};

@@ -9,6 +9,7 @@ import { VtdTableModel } from './types/vtdTable';
 import { getAliasRows } from './helpers/alias';
 import { getCreatedVtdTableRows } from './consts/getCreatedVtdTableRows';
 import { COLUMN_ALIASES } from './consts/modelColumnAliases';
+import { VTD_ID_PREV } from './modules/form/joining/const/attributes';
 
 export class VtdTableService {
   @InjectModel(Vtd)
@@ -23,7 +24,13 @@ export class VtdTableService {
     const vtd = await this.vtdModel.findByPk(vtdId);
     if (!vtd) throw ServerError.NotFoundVtd();
 
-    const rows = await this.vtdTableModel.findAll({ where: { vtdId }, order: [[COLUMN_ALIASES.number.name, 'ASC']] });
+    const { id, vtdId: vtdIdAttribute, createdAt, updatedAt } = this.vtdTableModel.getAttributes();
+    const rows = await this.vtdTableModel.findAll({
+      where: { vtdId },
+      order: [[COLUMN_ALIASES.number.name, 'ASC']],
+      attributes: { exclude: [id.field, vtdIdAttribute.field, createdAt.field, updatedAt.field, VTD_ID_PREV] },
+    });
+
     return getAliasRows(rows);
   }
 

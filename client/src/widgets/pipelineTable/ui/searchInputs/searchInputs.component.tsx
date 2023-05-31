@@ -17,11 +17,9 @@ const SearchInputs: FC<SearchInputsProps> = ({
   setSearchCompareTypes,
 }) => {
   const setCompareTypesOnClick = (searchCompareType: SEARCH_COMPARE_TYPES) => {
-    setSearchCompareTypes((prev) => {
-      if (prev.includes(searchCompareType)) return prev.filter((value) => value !== searchCompareType);
-      prev.push(searchCompareType);
-      return prev;
-    });
+    setSearchCompareTypes((prev) =>
+      !prev.includes(searchCompareType) ? [...prev, searchCompareType] : prev.filter((value) => value !== searchCompareType),
+    );
   };
 
   return (

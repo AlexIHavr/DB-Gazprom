@@ -16,4 +16,5 @@ export type FileInputProps = {
 export type ManageVtdButtonsProps = {
   vtdId?: string;
   formRef: RefObject<HTMLFormElement>;
+  selectValues: SelectValues;
 };

@@ -18,6 +18,11 @@ export const getCreatedFormRows = async ({
   const anomalies = await anomalyModel.findAll({ where: { vtdId }, order: [[COLUMN_ALIASES.number.name, 'ASC']] });
   const welds = await weldModel.findAll({ where: { vtdId }, order: [[COLUMN_ALIASES.number.name, 'ASC']] });
 
+  //check empty models
+  if (!characters.length) throw ServerError.NoDataInVtdTable(characterModel.tableName);
+  if (!anomalies.length) throw ServerError.NoDataInVtdTable(anomalyModel.tableName);
+  if (!welds.length) throw ServerError.NoDataInVtdTable(weldModel.tableName);
+
   //check count anomalies in characters
   const anomaliesInCharacter = await characterModel.findAll({ where: { vtdId, characterType: ANOMALY_CELL_VALUE } });
   if (anomalies.length !== anomaliesInCharacter.length) {
