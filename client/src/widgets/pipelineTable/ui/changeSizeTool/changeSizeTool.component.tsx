@@ -1,8 +1,8 @@
 import { FC, memo } from 'react';
 
 import { ChangeSizeToolProps } from '../../types/props';
+import usePipelineTableStore from '../../pipelineTable.store';
 
-import usePipelineTableStore from './../../pipelineTable.store';
 import styles from './changeSizeTool.module.scss';
 
 const ChangeSizeTool: FC<ChangeSizeToolProps> = ({ vtdId, type, index, minWidth, width }) => {

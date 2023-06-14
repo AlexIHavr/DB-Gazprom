@@ -1,4 +1,4 @@
-import { FC, useMemo, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 
 import useVtdTreeStore from '../../../vtdTree/vtdTree.store';
 import { getVtdIdBySelectValues } from '../../helpers/vtdGetters';
@@ -17,7 +17,7 @@ const VtdManagerForm: FC = () => {
   const vtdTree = useVtdTreeStore((state) => state.vtdTree);
   const [selectValues, setSelectValues] = useState<SelectValues>([]);
 
-  const vtdId = useMemo(() => getVtdIdBySelectValues(vtdTree, selectValues), [selectValues, vtdTree]);
+  const vtdId = getVtdIdBySelectValues(vtdTree, selectValues);
 
   return (
     <form className={styles.vtdManagerForm} ref={formRef} onSubmit={(e) => e.preventDefault()}>

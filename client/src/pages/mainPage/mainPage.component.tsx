@@ -4,8 +4,7 @@ import { Navigation } from 'widgets';
 import { ModalWindows, Preloader } from 'features';
 
 import useVtdTreeStore from '../vtdTree/vtdTree.store';
-
-import { getVtdTree } from './../vtdTree/helpers/getVtdTree';
+import { getVtdTree } from '../vtdTree/helpers/getVtdTree';
 
 const MainPage: FC = () => {
   const [vtds, vtdTree, setVtdTree, setVtds] = useVtdTreeStore((state) => [

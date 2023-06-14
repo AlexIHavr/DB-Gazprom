@@ -1,11 +1,11 @@
 import { FC, memo } from 'react';
 
 import { VtdTreeSelectProps } from '../../types/props';
+import { VTD_TREE_LEVELS_KEYS, VTD_TREE_LEVEL_NAMES } from '../../../vtdTree/consts/vtdTreeLevels';
+import { getVtdTreeChildren } from '../../helpers/vtdGetters';
+import useVtdTreeStore from '../../../vtdTree/vtdTree.store';
 
 import styles from './vtdTreeSelect.module.scss';
-import { VTD_TREE_LEVELS_KEYS, VTD_TREE_LEVEL_NAMES } from './../../../vtdTree/consts/vtdTreeLevels';
-import { getVtdTreeChildren } from './../../helpers/vtdGetters';
-import useVtdTreeStore from './../../../vtdTree/vtdTree.store';
 
 const VtdTreeSelect: FC<VtdTreeSelectProps> = ({ selectValues, setSelectValues }) => {
   const vtdTree = useVtdTreeStore((state) => state.vtdTree);

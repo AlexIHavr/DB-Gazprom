@@ -2,8 +2,8 @@ import { FC, memo, UIEvent, useLayoutEffect, useMemo, useRef, useState } from 'r
 
 import { UniqueRowsValuesProps } from '../../types/props';
 import UniqueRowValue from '../uniqueRowValue/uniqueRowValue.component';
+import { UNIQUE_ROW_HEIGHT } from '../../consts/tableSettings';
 
-import { UNIQUE_ROW_HEIGHT } from './../../consts/tableSettings';
 import styles from './uniqueRowsValues.module.scss';
 
 const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
@@ -18,12 +18,9 @@ const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
 
   const uniqueRowsValuesRef = useRef<HTMLDivElement>(null);
 
-  const uniqueRowsValuesContentStyle = useMemo(
-    () => ({
-      height: (uniqueRowsValues.length + 1) * UNIQUE_ROW_HEIGHT,
-    }),
-    [uniqueRowsValues.length],
-  );
+  const uniqueRowsValuesContentStyle = {
+    height: (uniqueRowsValues.length + 1) * UNIQUE_ROW_HEIGHT,
+  };
 
   const uniqueRowsValuesOnDisplay = useMemo(
     () => uniqueRowsValues.slice(uniqueRowValueIndex, uniqueRowValueIndex + visibleCountUniqueRowsValues),

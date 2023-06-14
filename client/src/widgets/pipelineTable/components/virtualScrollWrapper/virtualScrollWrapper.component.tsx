@@ -29,12 +29,9 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
     [visibleRows, rowIndex, rowsOnPageCount],
   );
 
-  const virtualScrollStyle = useMemo(
-    () => ({
-      maxWidth: virtualScrollMaxWidth,
-    }),
-    [virtualScrollMaxWidth],
-  );
+  const virtualScrollStyle = {
+    maxWidth: virtualScrollMaxWidth,
+  };
 
   const virtualScrollContentStyle = useMemo(
     () => ({

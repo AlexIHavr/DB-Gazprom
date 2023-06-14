@@ -4,7 +4,7 @@ import { Vtd } from 'src/modules/vtd/models/vtd.model';
 import { COLUMN_ALIASES } from 'src/modules/vtdTable/consts/modelColumnAliases';
 import { VtdTable } from 'src/modules/vtdTable/models/vtdTable.model';
 
-import { VTD_ID_PREV } from './../const/attributes';
+import { VTD_ID_PREV } from '../const/attributes';
 
 @Table
 export class Joining extends VtdTable<Joining> {

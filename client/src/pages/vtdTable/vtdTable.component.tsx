@@ -1,12 +1,13 @@
-import { FC, useEffect, useMemo, useCallback } from 'react';
+import { FC, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { PipelineTable, usePipelineTableStore, PAGES, getPipelineTable } from 'widgets';
+
+import useVtdTreeStore from '../vtdTree/vtdTree.store';
 
 import { TABLE_TYPES } from './consts/tableTypes';
 import styles from './vtdTable.module.scss';
 import { isValidTableType } from './helpers/isValidTableType';
 import { vtdTableParse } from './helpers/vtdTableParser';
-import useVtdTreeStore from './../vtdTree/vtdTree.store';
 import vtdTableService from './services/vtdTable.service';
 
 const VtdTable: FC = () => {
@@ -16,7 +17,7 @@ const VtdTable: FC = () => {
   const { vtdId, type } = useParams<typeof PAGES.vtdTable.params>();
   const isValidType = vtdId && isValidTableType(type);
 
-  const vtd = useMemo(() => vtds.find(({ id }) => id === vtdId), [vtds, vtdId]);
+  const vtd = vtds.find(({ id }) => id === vtdId);
   const pipelineTable = isValidType && getPipelineTable({ pipelineTables, vtdId, type });
 
   const setPipelineTable = useCallback(async () => {

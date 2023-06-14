@@ -1,4 +1,4 @@
-import { FC, memo, MouseEvent, useMemo } from 'react';
+import { FC, memo, MouseEvent } from 'react';
 import classNames from 'classnames';
 
 import usePipelineTableStore from '../../pipelineTable.store';
@@ -15,10 +15,8 @@ const SortColumnButton: FC<SortColumnButtonProps> = ({ table, index, sortType })
     state.setPipelineTableRows,
   ]);
 
-  const columnSortType = useMemo(
-    () => (sortType === SORT_TYPES.none ? SORT_TYPES.asc : sortType === SORT_TYPES.asc ? SORT_TYPES.desc : SORT_TYPES.none),
-    [sortType],
-  );
+  const columnSortType =
+    sortType === SORT_TYPES.none ? SORT_TYPES.asc : sortType === SORT_TYPES.asc ? SORT_TYPES.desc : SORT_TYPES.none;
 
   const sortColumnOnMouseDown = (e: MouseEvent) => {
     if (e.button) return;

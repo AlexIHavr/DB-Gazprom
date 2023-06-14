@@ -3,8 +3,8 @@ import { FC, memo, MouseEvent } from 'react';
 
 import { HiddenColumnsManagerProps } from '../../types/props';
 import { ReactComponent as EyeRegular } from '../../assets/svg/eyeRegular.svg';
+import usePipelineTableStore from '../../pipelineTable.store';
 
-import usePipelineTableStore from './../../pipelineTable.store';
 import styles from './hiddenColumnsManager.module.scss';
 
 const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({

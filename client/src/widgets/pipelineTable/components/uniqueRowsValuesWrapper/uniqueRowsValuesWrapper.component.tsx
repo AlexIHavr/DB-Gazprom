@@ -29,7 +29,7 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
   const [checkedUniqueRowsValues, setCheckedUniqueRowsValues] = useState<ExcelRow>([]);
   const [isAddToFilter, setIsAddToFilter] = useState(false);
 
-  const inputValue = useMemo(() => searchValue || fromValue || toValue, [fromValue, searchValue, toValue]);
+  const inputValue = searchValue || fromValue || toValue;
 
   const filteredRowsBySearch = useMemo(() => {
     if (searchType === SEARCH_TYPES.search && searchValue) {

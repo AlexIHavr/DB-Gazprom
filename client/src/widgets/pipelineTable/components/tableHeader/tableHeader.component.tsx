@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useMemo, useRef } from 'react';
+import { FC, memo, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { COLUMN_WIDTH, COLUMN_HEIGHT } from '../../consts/tableSettings';
@@ -13,8 +13,8 @@ import styles from './tableHeader.module.scss';
 const TableHeader: FC<TableHeaderProps> = ({ table, column }) => {
   const tableCellRef = useRef<HTMLTableCellElement>(null);
 
-  const columnStyle = useMemo(() => ({ minWidth: COLUMN_WIDTH, maxWidth: COLUMN_WIDTH, height: COLUMN_HEIGHT }), []);
-  const headerTitle = useMemo(() => (column.value ? String(column.value) : ''), [column.value]);
+  const columnStyle = { minWidth: COLUMN_WIDTH, maxWidth: COLUMN_WIDTH, height: COLUMN_HEIGHT };
+  const headerTitle = column.value ? String(column.value) : '';
 
   useEffect(() => {
     const tableCellRefCurrent = tableCellRef.current!;

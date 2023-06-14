@@ -3,8 +3,7 @@ import { v4 } from 'uuid';
 
 import { SORT_TYPES } from '../consts/searchSettings';
 import { PipelineCell, PipelineColumn, PipelineRow, ExtendedFilter, PipelineData } from '../types/pipelineTable';
-
-import { COLUMN_WIDTH } from './../consts/tableSettings';
+import { COLUMN_WIDTH } from '../consts/tableSettings';
 
 export const getDefaultCell = (value: ExcelValue): PipelineCell => ({ value });
 

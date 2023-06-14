@@ -52,7 +52,7 @@ export const COLUMN_ALIASES = {
   equipmentLength: {
     name: 'equipmentLength',
     alias: 'Длина, м',
-    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
+    options: UNSIGNED_FLOAT_OPTIONS,
   },
   type: {
     name: 'type',
@@ -163,7 +163,7 @@ export const COLUMN_ALIASES = {
   startOrientation: {
     name: 'startOrientation',
     alias: 'Ориентация точки начала дефекта, ч:мин',
-    options: { ...HOUR_OPTIONS } as ModelAttributeColumnOptions,
+    options: HOUR_OPTIONS,
   },
   length: {
     name: 'length',
@@ -184,32 +184,32 @@ export const COLUMN_ALIASES = {
   outsideInspectionTime: {
     name: 'outsideInspectionTime',
     alias: 'Срок НО, лет',
-    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
+    options: UNSIGNED_FLOAT_OPTIONS,
   },
   PSC: {
     name: 'PSC',
     alias: 'КБД',
-    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
+    options: UNSIGNED_FLOAT_OPTIONS,
   },
   Pd: {
     name: 'Pd',
     alias: 'Pd, МПа',
-    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
+    options: UNSIGNED_FLOAT_OPTIONS,
   },
   MAOP: {
     name: 'MAOP',
     alias: 'MAOP, МПа',
-    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
+    options: UNSIGNED_FLOAT_OPTIONS,
   },
   Psw: {
     name: 'Psw',
     alias: 'Psw, МПа',
-    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
+    options: UNSIGNED_FLOAT_OPTIONS,
   },
   Pf: {
     name: 'Pf',
     alias: 'Pf, МПа',
-    options: { ...UNSIGNED_FLOAT_OPTIONS } as ModelAttributeColumnOptions,
+    options: UNSIGNED_FLOAT_OPTIONS,
   },
   danger: {
     name: 'danger',
