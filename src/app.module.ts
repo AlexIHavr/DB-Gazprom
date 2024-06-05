@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
-
-import { VtdModule } from './modules/vtd/vtd.module';
-import { VtdTableModule } from './modules/vtdTable/vtdTable.module';
+import { VtdModule } from '@vtd/vtd.module';
+import { VtdTableModule } from '@vtdTable/vtdTable.module';
 
 @Module({
   imports: [

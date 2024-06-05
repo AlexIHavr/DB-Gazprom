@@ -1,25 +1,25 @@
 import { Body, Get, Post, Query, Delete } from '@nestjs/common/decorators';
-import { VtdIdDto } from 'src/common/dto/vtdId.dto';
+import { VtdIdDto } from 'common/dto/vtdId.dto';
 
 import { CreateAllDto } from './dto/createAll.dto';
+import { VtdTableRows } from './types/vtdTable.type';
 import { VtdTableService } from './vtdTable.service';
-import { VtdTableRows } from './types/vtdTable';
 
 export class VtdTableController {
-  constructor(readonly vtdTableService: VtdTableService) {}
+  constructor(private readonly vtdTableService: VtdTableService) {}
 
   @Get('getAllByVtdId')
-  getAllByVtdId(@Query() getAllByVtdIdDto: VtdIdDto): Promise<VtdTableRows> {
+  public getAllByVtdId(@Query() getAllByVtdIdDto: VtdIdDto): Promise<VtdTableRows> {
     return this.vtdTableService.getAllByVtdId(getAllByVtdIdDto);
   }
 
   @Post('createAll')
-  createAll(@Body() createAllDto: CreateAllDto): Promise<VtdTableRows> {
+  public createAll(@Body() createAllDto: CreateAllDto): Promise<VtdTableRows> {
     return this.vtdTableService.createAll(createAllDto);
   }
 
   @Delete('deleteAllByVtdId')
-  deleteAllByVtdId(@Body() deleteAllByVtdIdDto: VtdIdDto): Promise<number> {
+  public deleteAllByVtdId(@Body() deleteAllByVtdIdDto: VtdIdDto): Promise<number> {
     return this.vtdTableService.deleteAllByVtdId(deleteAllByVtdIdDto);
   }
 }

@@ -1,8 +1,11 @@
 import { ModelAttributeColumnOptions } from 'sequelize';
 import { DataType } from 'sequelize-typescript';
-import { HOUR_OPTIONS, UNSIGNED_FLOAT_OPTIONS, UNSIGNED_SMALLINT_OPTIONS } from 'src/common/consts/modelColumnOptions';
-
-import { ColumnNames } from '../types/alias';
+import {
+  HOUR_OPTIONS,
+  UNSIGNED_FLOAT_OPTIONS,
+  UNSIGNED_SMALLINT_OPTIONS,
+} from 'common/consts/modelColumnOptions.const';
+import { ColumnNames } from '@vtdTable/types/alias.type';
 
 export const COLUMN_ALIASES = {
   number: {
@@ -313,7 +316,10 @@ export const COLUMN_ALIASES = {
   },
 } as const;
 
-export const COLUMN_NAMES = Object.values(COLUMN_ALIASES).reduce<ColumnNames>((prev, columnAlias) => {
-  prev[columnAlias.alias] = columnAlias.name;
-  return prev;
-}, {});
+export const COLUMN_NAMES = Object.values(COLUMN_ALIASES).reduce<ColumnNames>(
+  (acc, columnAlias) => {
+    acc[columnAlias.alias] = columnAlias.name;
+    return acc;
+  },
+  {},
+);

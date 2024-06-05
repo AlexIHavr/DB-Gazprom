@@ -1,55 +1,71 @@
 import { InjectModel } from '@nestjs/sequelize';
-import { Vtd } from 'src/modules/vtd/models/vtd.model';
-import { ServerError } from 'src/common/errors/serverError.error';
-import { VtdIdDto } from 'src/common/dto/vtdId.dto';
+import { Vtd } from '@vtd/models/vtd.model';
+import { ServerError } from 'common/errors/serverError.error';
+import { VtdIdDto } from 'common/dto/vtdId.dto';
 
-import { VtdTable } from './models/VtdTable.model';
+import { COLUMN_ALIASES } from './consts/modelColumnAliases.const';
+import { VTD_ID_PREV } from './modules/form/joining/const/attributes.const';
+import { VtdTable } from './models/vtdTable.model';
 import { CreateAllDto } from './dto/createAll.dto';
-import { VtdTableModel } from './types/vtdTable';
-import { getAliasRows } from './helpers/alias';
-import { getCreatedVtdTableRows } from './consts/getCreatedVtdTableRows';
-import { COLUMN_ALIASES } from './consts/modelColumnAliases';
-import { VTD_ID_PREV } from './modules/form/joining/const/attributes';
+import { VtdTableModel, VtdTableRows } from './types/vtdTable.type';
+import { getAliasRows } from './helpers/alias.helper';
+import { getCreatedVtdTableRows } from './consts/getCreatedVtdTableRows.const';
 
 export class VtdTableService {
   @InjectModel(Vtd)
-  readonly vtdModel: typeof Vtd;
+  protected readonly vtdModel: typeof Vtd;
 
-  readonly vtdTableModel: VtdTableModel;
-  constructor(readonly initVtdTableModel: typeof VtdTable<object>) {
+  private readonly vtdTableModel: VtdTableModel;
+
+  constructor(initVtdTableModel: typeof VtdTable<object>) {
     this.vtdTableModel = initVtdTableModel as VtdTableModel;
   }
 
-  async getAllByVtdId({ vtdId }: VtdIdDto) {
+  public async getAllByVtdId({ vtdId }: VtdIdDto): Promise<VtdTable<VtdTable<object>>[]> {
     const vtd = await this.vtdModel.findByPk(vtdId);
+
     if (!vtd) throw ServerError.NotFoundVtd();
 
     const { id, vtdId: vtdIdAttribute, createdAt, updatedAt } = this.vtdTableModel.getAttributes();
     const rows = await this.vtdTableModel.findAll({
       where: { vtdId },
       order: [[COLUMN_ALIASES.number.name, 'ASC']],
-      attributes: { exclude: [id.field, vtdIdAttribute.field, createdAt.field, updatedAt.field, VTD_ID_PREV] },
+      attributes: {
+        exclude: [
+          id.field ?? '',
+          vtdIdAttribute.field ?? '',
+          createdAt?.field ?? '',
+          updatedAt?.field ?? '',
+          VTD_ID_PREV,
+        ],
+      },
     });
 
     return getAliasRows(rows);
   }
 
-  async createAll({ vtdId, vtdTable }: CreateAllDto) {
+  public async createAll({ vtdId, vtdTable }: CreateAllDto): Promise<VtdTableRows> {
     const vtd = await this.vtdModel.findByPk(vtdId);
     if (!vtd) throw ServerError.NotFoundVtd();
 
-    const createdRows = await getCreatedVtdTableRows({ vtdId, vtdTable, vtdTableModel: this.vtdTableModel });
+    const createdRows = await getCreatedVtdTableRows({
+      vtdId,
+      vtdTable,
+      vtdTableModel: this.vtdTableModel,
+    });
 
     return createdRows;
   }
 
-  async deleteAllByVtdId({ vtdId }: VtdIdDto) {
+  public async deleteAllByVtdId({ vtdId }: VtdIdDto): Promise<number> {
     const vtd = await this.vtdModel.findByPk(vtdId);
+
     if (!vtd) throw ServerError.NotFoundVtd();
 
     const deletedFirstRow = await this.vtdTableModel.findOne({ where: { vtdId } });
+
     if (!deletedFirstRow) throw ServerError.NoDataInVtdTable(this.vtdTableModel.tableName);
 
-    return await this.vtdTableModel.destroy({ where: { vtdId } });
+    return this.vtdTableModel.destroy({ where: { vtdId } });
   }
 }

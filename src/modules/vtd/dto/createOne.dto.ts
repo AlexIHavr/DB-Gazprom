@@ -2,17 +2,17 @@ import { IsNotEmpty, IsNumberString, Length, Matches } from 'class-validator';
 
 export class CreateOneDto {
   @IsNotEmpty()
-  readonly type: string;
+  public readonly type: string;
 
   @IsNotEmpty()
-  readonly pipeline: string;
+  public readonly pipeline: string;
 
   @IsNotEmpty()
   @Matches(/^\d+-\d+$/g)
-  readonly section: string;
+  public readonly section: string;
 
   @IsNotEmpty()
   @IsNumberString()
   @Length(4)
-  readonly year: string;
+  public readonly year: string;
 }

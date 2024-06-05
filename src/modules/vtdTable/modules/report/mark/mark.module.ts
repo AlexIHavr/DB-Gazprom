@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Vtd } from 'src/modules/vtd/models/vtd.model';
+import { Vtd } from '@vtd/models/vtd.model';
 
+import { Mark } from './models/mark.model';
 import { MarkController } from './mark.controller';
 import { MarkService } from './mark.service';
-import { Mark } from './models/mark.model';
 
 @Module({
   controllers: [MarkController],

@@ -1,20 +1,20 @@
 import { DataType, Column, Model, Table } from 'sequelize-typescript';
-import { ID_OPTIONS } from 'src/common/consts/modelColumnOptions';
+import { ID_OPTIONS } from 'common/consts/modelColumnOptions.const';
 
 @Table
-export class Vtd extends Model<Vtd> {
+export class Vtd extends Model<Vtd, Partial<Vtd>> {
   @Column(ID_OPTIONS)
-  id: string;
+  public declare id: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  type: string;
+  public type: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  pipeline: string;
+  public pipeline: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  section: string;
+  public section: string;
 
   @Column({ type: DataType.CHAR(4), allowNull: false })
-  year: string;
+  public year: string;
 }

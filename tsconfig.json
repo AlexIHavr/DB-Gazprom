@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "ESNext",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
+    "baseUrl": "src",
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@vtd/*": ["modules/vtd/*"],
+      "@vtdTable/*": ["modules/vtdTable/*"],
+    }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "client"],
+  "include": ["src", "./*", ".eslintrc.cjs"]
 }

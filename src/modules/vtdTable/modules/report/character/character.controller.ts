@@ -1,11 +1,11 @@
 import { Controller } from '@nestjs/common';
-import { VtdTableController } from 'src/modules/vtdTable/vtdTable.controller';
+import { VtdTableController } from '@vtdTable/vtdTable.controller';
 
 import { CharacterService } from './character.service';
 
 @Controller('character')
 export class CharacterController extends VtdTableController {
-  constructor(readonly characterService: CharacterService) {
+  constructor(private readonly characterService: CharacterService) {
     super(characterService);
   }
 }

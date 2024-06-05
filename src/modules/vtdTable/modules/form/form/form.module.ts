@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Vtd } from 'src/modules/vtd/models/vtd.model';
-import { Character } from 'src/modules/vtdTable/modules/report/character/models/character.model';
-import { Anomaly } from 'src/modules/vtdTable/modules/report/anomaly/models/anomaly.model';
-import { Weld } from 'src/modules/vtdTable/modules/report/weld/models/weld.model';
+import { Vtd } from '@vtd/models/vtd.model';
+import { Character } from '@vtdTable/modules/report/character/models/character.model';
+import { Anomaly } from '@vtdTable/modules/report/anomaly/models/anomaly.model';
+import { Weld } from '@vtdTable/modules/report/weld/models/weld.model';
 
 import { FormController } from './form.controller';
 import { FormService } from './form.service';

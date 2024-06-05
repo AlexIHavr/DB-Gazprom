@@ -1,28 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { ServerError } from 'src/common/errors/serverError.error';
-import { VtdTableService } from 'src/modules/vtdTable/vtdTable.service';
-import { Character } from 'src/modules/vtdTable/modules/report/character/models/character.model';
-import { Anomaly } from 'src/modules/vtdTable/modules/report/anomaly/models/anomaly.model';
-import { Weld } from 'src/modules/vtdTable/modules/report/weld/models/weld.model';
+import { ServerError } from 'common/errors/serverError.error';
+import { VtdTableService } from '@vtdTable/vtdTable.service';
+import { Character } from '@vtdTable/modules/report/character/models/character.model';
+import { Anomaly } from '@vtdTable/modules/report/anomaly/models/anomaly.model';
+import { Weld } from '@vtdTable/modules/report/weld/models/weld.model';
 
 import { Form } from './models/form.model';
 import { CreateDto } from './dto/create.dto';
-import { getCreatedFormRows } from './helpers/getCreatedFormRows';
+import { getCreatedFormRows } from './helpers/getCreatedFormRows.helper';
 
 @Injectable()
 export class FormService extends VtdTableService {
   constructor(
-    @InjectModel(Form) readonly formModel: typeof Form,
-    @InjectModel(Character) readonly characterModel: typeof Character,
-    @InjectModel(Anomaly) readonly anomalyModel: typeof Anomaly,
-    @InjectModel(Weld) readonly weldModel: typeof Weld,
+    @InjectModel(Form) private readonly formModel: typeof Form,
+    @InjectModel(Character) private readonly characterModel: typeof Character,
+    @InjectModel(Anomaly) private readonly anomalyModel: typeof Anomaly,
+    @InjectModel(Weld) private readonly weldModel: typeof Weld,
   ) {
     super(formModel);
   }
 
-  async create({ vtdId, startKm }: CreateDto) {
+  public async create({ vtdId, startKm }: CreateDto): Promise<Form[]> {
     const vtd = await this.vtdModel.findByPk(vtdId);
+
     if (!vtd) throw ServerError.NotFoundVtd();
 
     const createdFormRows = await getCreatedFormRows({

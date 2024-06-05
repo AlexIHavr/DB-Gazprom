@@ -1,11 +1,11 @@
 import { Controller } from '@nestjs/common';
-import { VtdTableController } from 'src/modules/vtdTable/vtdTable.controller';
+import { VtdTableController } from '@vtdTable/vtdTable.controller';
 
 import { WeldService } from './weld.service';
 
 @Controller('weld')
 export class WeldController extends VtdTableController {
-  constructor(readonly weldService: WeldService) {
+  constructor(private readonly weldService: WeldService) {
     super(weldService);
   }
 }

@@ -1,8 +1,7 @@
-import { VtdIdDto } from 'src/common/dto/vtdId.dto';
-import { CreationAttributes } from 'src/common/types/utility';
-
-import { VtdTable } from '../models/VtdTable.model';
+import { VtdIdDto } from 'common/dto/vtdId.dto';
+import { CreationAttributes } from 'common/types/utility.type';
+import { VtdTable } from '@vtdTable/models/vtdTable.model';
 
 export class CreateAllDto extends VtdIdDto {
-  readonly vtdTable: CreationAttributes<VtdTable>[];
+  public readonly vtdTable: CreationAttributes<VtdTable>[];
 }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Vtd } from 'src/modules/vtd/models/vtd.model';
+import { Vtd } from '@vtd/models/vtd.model';
 
 import { Summary } from './models/summary.model';
 import { SummaryController } from './summary.controller';

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { VtdIdDto } from 'src/common/dto/vtdId.dto';
-import { ServerError } from 'src/common/errors/serverError.error';
+import { VtdIdDto } from 'common/dto/vtdId.dto';
+import { ServerError } from 'common/errors/serverError.error';
 
 import { Vtd } from './models/vtd.model';
 import { CreateOneDto } from './dto/createOne.dto';
@@ -10,7 +10,7 @@ import { CreateOneDto } from './dto/createOne.dto';
 export class VtdService {
   constructor(@InjectModel(Vtd) private readonly vtdModel: typeof Vtd) {}
 
-  getAll() {
+  public getAll(): Promise<Vtd[]> {
     const { type, pipeline, section, year } = this.vtdModel.getAttributes();
 
     return this.vtdModel.findAll({
@@ -23,15 +23,17 @@ export class VtdService {
     });
   }
 
-  async createOne({ type, pipeline, section, year }: CreateOneDto) {
+  public async createOne({ type, pipeline, section, year }: CreateOneDto): Promise<Vtd> {
     const vtd = await this.vtdModel.findOne({ where: { type, pipeline, section, year } });
+
     if (vtd) throw ServerError.ExistsVtd();
 
     return this.vtdModel.create({ type, pipeline, section, year });
   }
 
-  async deleteOneById({ vtdId }: VtdIdDto) {
+  public async deleteOneById({ vtdId }: VtdIdDto): Promise<number> {
     const vtd = await this.vtdModel.findByPk(vtdId);
+
     if (!vtd) throw ServerError.NotFoundVtd();
 
     return this.vtdModel.destroy({ where: { id: vtdId } });
