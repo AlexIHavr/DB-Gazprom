@@ -17,7 +17,7 @@ const SelectSearchTypes: FC<SelectSearchTypesProps> = ({ searchType, setSearchTy
           key={searchTypeValue}
           title={searchTypeValue}
           className={classNames({ [pipelineTableStyles.active]: searchType === searchTypeValue })}
-          onClick={() => setSearchType(searchTypeValue)}
+          onClick={(): void => setSearchType(searchTypeValue)}
         >
           {searchTypeValue === SEARCH_TYPES.search ? <SearchSolid /> : <ArraySolid />}
         </button>

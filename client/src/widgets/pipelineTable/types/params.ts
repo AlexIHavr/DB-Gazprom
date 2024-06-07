@@ -10,10 +10,14 @@ import {
   SearchCompareTypesValues,
 } from './pipelineTable';
 
-//helpers
+// helpers
 export type GetUniqueRowsValuesParams = { rows: PipelineRows; index: number; maxCount?: number };
 export type GetSortedRowsParams = { rows: PipelineRows; index: number; sortType: SORT_TYPES };
-export type IsRangeComparedCellValueParams = { cellValue: ExcelValue; fromValue: string; toValue: string };
+export type IsRangeComparedCellValueParams = {
+  cellValue: ExcelValue;
+  fromValue: string;
+  toValue: string;
+};
 export type GetPipelineTableParams = PipelineProperties & { pipelineTables: PipelineTables };
 
 export type IsSearchComparedCellValueParams = {
@@ -22,8 +26,10 @@ export type IsSearchComparedCellValueParams = {
   searchCompareTypes: SearchCompareTypesValues;
 };
 
-//store
+// store
 export type AddPipelineTableParams = PipelineProperties & { excelRows: ExcelRows };
-export type SetColumnsPropertiesParams = PipelineProperties & { properties: PipelineColumnProperties };
+export type SetColumnsPropertiesParams = PipelineProperties & {
+  properties: PipelineColumnProperties;
+};
 export type SetColumnPropertiesParams = SetColumnsPropertiesParams & { index: number };
 export type SetPipelineTableRowsParams = PipelineProperties & { rows: PipelineRows };

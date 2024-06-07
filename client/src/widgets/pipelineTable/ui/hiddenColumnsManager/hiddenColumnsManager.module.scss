@@ -1,21 +1,25 @@
 .hiddenColumnsManager {
-  display: flex;
-  transform-origin: top;
-  flex-direction: column;
   position: absolute;
+  z-index: 100000;
   top: calc(100% + 6px);
+  transform-origin: top;
+  transform: scale(0);
+
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
   width: 400px;
   max-height: 300px;
-  color: black;
-  text-shadow: none;
-  box-shadow: 0 1px 5px black;
+
   font-size: 1rem;
   font-weight: bold;
+  color: black;
+  text-shadow: none;
+
   background-color: white;
   border-radius: 0 0 10px 10px;
-  overflow-y: auto;
-  z-index: 100000;
-  transform: scale(0);
+  box-shadow: 0 1px 5px black;
 
   div {
     display: flex;
@@ -28,7 +32,7 @@
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.15);
+      background-color: rgb(0 0 0 / 15%);
     }
 
     &:not(:first-of-type) {

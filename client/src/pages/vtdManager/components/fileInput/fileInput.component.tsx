@@ -9,7 +9,7 @@ import styles from './fileInput.module.scss';
 const FileInput: FC<FileInputProps> = ({ title, inputName, isMultiple }) => {
   const fileInputTextRef = useRef<HTMLInputElement>(null);
 
-  const showFileNamesOnChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const showFileNamesOnChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (fileInputTextRef.current && e.target.files?.length) {
       fileInputTextRef.current.value = Array.from(e.target.files)
         .map(({ name }) => name)

@@ -7,16 +7,27 @@ import { ReactComponent as CheckBoxRegular } from '../../assets/svg/checkBoxRegu
 
 import styles from './uniqueRowValue.module.scss';
 
-const UniqueRowValue: FC<UniqueRowValueProps> = ({ uniqueRowValue, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
-  const toggleCheckedUniqueRowValueOnClick = (rowValue: ExcelValue) => {
+const UniqueRowValue: FC<UniqueRowValueProps> = ({
+  uniqueRowValue,
+  checkedUniqueRowsValues,
+  setCheckedUniqueRowsValues,
+}) => {
+  const toggleCheckedUniqueRowValueOnClick = (rowValue: ExcelValue): void => {
     setCheckedUniqueRowsValues((prev) =>
       prev.includes(rowValue) ? prev.filter((value) => value !== rowValue) : [...prev, rowValue],
     );
   };
 
   return (
-    <div className={styles.uniqueRowValue} onClick={() => toggleCheckedUniqueRowValueOnClick(uniqueRowValue)}>
-      {checkedUniqueRowsValues.includes(uniqueRowValue) ? <CheckBoxRegular /> : <CheckBoxBlackRegular />}
+    <div
+      className={styles.uniqueRowValue}
+      onClick={(): void => toggleCheckedUniqueRowValueOnClick(uniqueRowValue)}
+    >
+      {checkedUniqueRowsValues.includes(uniqueRowValue) ? (
+        <CheckBoxRegular />
+      ) : (
+        <CheckBoxBlackRegular />
+      )}
       <span>{uniqueRowValue === null ? '(Пустые)' : uniqueRowValue}</span>
     </div>
   );

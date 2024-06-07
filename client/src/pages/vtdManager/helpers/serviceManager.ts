@@ -1,18 +1,27 @@
 import { modalWindowWrapper } from 'features';
 import ClientError from 'shared/errors/ClientError';
 
-import { TABLE_TYPES, TABLE_TYPES_ENTRIES, TABLE_TYPES_KEYS } from '../../vtdTable/consts/tableTypes';
+import {
+  TABLE_TYPES,
+  TABLE_TYPES_ENTRIES,
+  TABLE_TYPES_KEYS,
+} from '../../vtdTable/consts/tableTypes';
 import vtdTableService from '../../vtdTable/services/vtdTable.service';
 import vtdService from '../../vtdTree/services/vtdTree.service';
 import { TABLE_TYPE_GROUPS } from '../../vtdTable/consts/tableTypeGroups';
 import { CreateFormParams, CreateJoiningParams } from '../types/params';
-import { VTD_TREE_LEVELS, VTD_TREE_LEVELS_KEYS, VTD_TREE_LEVEL_NAMES } from '../../vtdTree/consts/vtdTreeLevels';
+import {
+  VTD_TREE_LEVELS,
+  VTD_TREE_LEVELS_KEYS,
+  VTD_TREE_LEVEL_NAMES,
+} from '../../vtdTree/consts/vtdTreeLevels';
 import { FILE_INPUTS } from '../consts/addingInputs';
+import { Vtd } from '../../vtdTree/types/vtds';
 
 import { excelParse } from './excelParser';
 import { getNoExpFileName } from './vtdGetters';
 
-export const createReport = async (vtdId: string, files: File[]) => {
+export const createReport = async (vtdId: string, files: File[]): Promise<void> => {
   for (const file of files) {
     const noExpFileName = getNoExpFileName(file);
 
@@ -33,7 +42,11 @@ export const createReport = async (vtdId: string, files: File[]) => {
   }
 };
 
-export const createJoining = async ({ vtdId, vtdIdPrev, file }: CreateJoiningParams) => {
+export const createJoining = async ({
+  vtdId,
+  vtdIdPrev,
+  file,
+}: CreateJoiningParams): Promise<void> => {
   await modalWindowWrapper(
     `Файл ${file.name} успешно загружен`,
     async () => {
@@ -41,13 +54,17 @@ export const createJoining = async ({ vtdId, vtdIdPrev, file }: CreateJoiningPar
 
       if (!vtdIdPrev) throw ClientError.PrevVtdNotFound();
 
-      await vtdTableService.createAll({ vtdId, type: 'joining', vtdTable: vtdTable.map((vtdRow) => ({ ...vtdRow, vtdIdPrev })) });
+      await vtdTableService.createAll({
+        vtdId,
+        type: 'joining',
+        vtdTable: vtdTable.map((vtdRow) => ({ ...vtdRow, vtdIdPrev })),
+      });
     },
     { loading: true },
   );
 };
 
-export const removeVtdTable = async (vtdId: string, typeName: string) => {
+export const removeVtdTable = async (vtdId: string, typeName: string): Promise<void> => {
   await modalWindowWrapper(
     `Данные '${typeName}' успешно удалены`,
     async () => {
@@ -61,7 +78,7 @@ export const removeVtdTable = async (vtdId: string, typeName: string) => {
   );
 };
 
-export const removeReport = async (vtdId: string) => {
+export const removeReport = async (vtdId: string): Promise<void> => {
   for (const tableType of TABLE_TYPES_KEYS) {
     try {
       await modalWindowWrapper(
@@ -77,7 +94,7 @@ export const removeReport = async (vtdId: string) => {
   }
 };
 
-export const removeVtd = async (vtdId: string) => {
+export const removeVtd = async (vtdId: string): Promise<void> => {
   await modalWindowWrapper(
     `ВТД успешно удалено`,
     async () => {
@@ -87,7 +104,7 @@ export const removeVtd = async (vtdId: string) => {
   );
 };
 
-export const createVtd = async (formData: FormData) => {
+export const createVtd = async (formData: FormData): Promise<Vtd> => {
   return await modalWindowWrapper(
     `ВТД успешно добавлен`,
     async () => {
@@ -109,7 +126,7 @@ export const createVtd = async (formData: FormData) => {
   );
 };
 
-export const createForm = async ({ vtdId, startKm }: CreateFormParams) => {
+export const createForm = async ({ vtdId, startKm }: CreateFormParams): Promise<void> => {
   await modalWindowWrapper(
     `Форма успешна создана`,
     async () => {

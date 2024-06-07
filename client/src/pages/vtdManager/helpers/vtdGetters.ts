@@ -2,11 +2,15 @@ import { Vtd } from '../../vtdTree/types/vtds';
 import { VtdTree } from '../../vtdTree/types/vtdTree';
 import { GetVtdTreeChildrenParams } from '../types/params';
 
-export const getStartKm = (vtd: Vtd) => {
+export const getStartKm = (vtd: Vtd): string => {
   return vtd.section.split('-')[0];
 };
 
-export const getVtdIdBySelectValues = (vtdTree: VtdTree, selectValues: string[], level: number = 0): string | undefined => {
+export const getVtdIdBySelectValues = (
+  vtdTree: VtdTree,
+  selectValues: string[],
+  level: number = 0,
+): string | undefined => {
   const nextVtd = vtdTree.find(({ header }) => header === selectValues[level]);
 
   if (!nextVtd) return;
@@ -15,7 +19,12 @@ export const getVtdIdBySelectValues = (vtdTree: VtdTree, selectValues: string[],
   return getVtdIdBySelectValues(nextVtd.children, selectValues, level + 1);
 };
 
-export const getVtdTreeChildren = ({ vtdTree, selectValues, selectIndex, level = 0 }: GetVtdTreeChildrenParams): VtdTree => {
+export const getVtdTreeChildren = ({
+  vtdTree,
+  selectValues,
+  selectIndex,
+  level = 0,
+}: GetVtdTreeChildrenParams): VtdTree => {
   if (!vtdTree.length) return [];
   if (level === selectIndex) return vtdTree;
 
@@ -27,6 +36,6 @@ export const getVtdTreeChildren = ({ vtdTree, selectValues, selectIndex, level =
   });
 };
 
-export const getNoExpFileName = (file: File) => {
+export const getNoExpFileName = (file: File): string => {
   return file.name.split('.')[0];
 };

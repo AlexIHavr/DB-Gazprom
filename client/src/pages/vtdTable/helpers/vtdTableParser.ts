@@ -19,7 +19,7 @@ export const vtdTableParse = (vtdTable: VtdTableResponse): ExcelRows => {
 
   const headers = excelRows[0];
 
-  //remove empty columns
+  // remove empty columns
   return excelRows.map((excelRow) => {
     return excelRow.filter((_, i) => !emptyHeaders.includes(headers[i] + ''));
   });

@@ -12,7 +12,10 @@ import vtdTableService from './services/vtdTable.service';
 
 const VtdTable: FC = () => {
   const vtds = useVtdTreeStore((state) => state.vtds);
-  const [pipelineTables, addPipelineTable] = usePipelineTableStore((state) => [state.pipelineTables, state.addPipelineTable]);
+  const [pipelineTables, addPipelineTable] = usePipelineTableStore((state) => [
+    state.pipelineTables,
+    state.addPipelineTable,
+  ]);
 
   const { vtdId, type } = useParams<typeof PAGES.vtdTable.params>();
   const isValidType = vtdId && isValidTableType(type);
@@ -41,7 +44,12 @@ const VtdTable: FC = () => {
 
           <h2>{TABLE_TYPES[type].name}</h2>
 
-          {pipelineTable && (pipelineTable.columns.length ? <PipelineTable table={pipelineTable} /> : <h3>Данных нет</h3>)}
+          {pipelineTable &&
+            (pipelineTable.columns.length ? (
+              <PipelineTable table={pipelineTable} />
+            ) : (
+              <h3>Данных нет</h3>
+            ))}
         </>
       )}
     </div>

@@ -21,14 +21,22 @@ const TableManagePanel: FC<TableManagePanelProps> = ({ table: { vtdId, type, col
     state.setPipelineTableRows,
   ]);
 
-  const resetColumns = (properties: PipelineColumnProperties = {}) => {
+  const resetColumns = (properties: PipelineColumnProperties = {}): void => {
     setColumnsProperties({
       vtdId,
       type,
-      properties: { ...properties, sortType: SORT_TYPES.none, extendedFilter: getDefaultExtendedFilter() },
+      properties: {
+        ...properties,
+        sortType: SORT_TYPES.none,
+        extendedFilter: getDefaultExtendedFilter(),
+      },
     });
 
-    setPipelineTableRows({ vtdId, type, rows: getDefaultSortedRows(rows.map((row) => ({ ...row, hidden: false }))) });
+    setPipelineTableRows({
+      vtdId,
+      type,
+      rows: getDefaultSortedRows(rows.map((row) => ({ ...row, hidden: false }))),
+    });
   };
 
   const isDisabledResetColumns = useMemo(
@@ -43,13 +51,23 @@ const TableManagePanel: FC<TableManagePanelProps> = ({ table: { vtdId, type, col
   return (
     <div className={styles.tableManagePanel}>
       <ShowColumnsButton vtdId={vtdId} type={type} columns={columns} />
-      <button title="Убрать все фильтры" onClick={() => resetColumns()} disabled={isDisabledResetColumns}>
+      <button
+        title="Убрать все фильтры"
+        onClick={(): void => resetColumns()}
+        disabled={isDisabledResetColumns}
+      >
         <FilterOffSolid />
       </button>
-      <button title="Сброс таблицы" onClick={() => resetColumns({ width: COLUMN_WIDTH, hidden: false })}>
+      <button
+        title="Сброс таблицы"
+        onClick={(): void => resetColumns({ width: COLUMN_WIDTH, hidden: false })}
+      >
         <RestartSolid />
       </button>
-      <button title="Выгрузить таблицу" onClick={() => uploadPipelineTable({ columns, rows }, type)}>
+      <button
+        title="Выгрузить таблицу"
+        onClick={(): void => uploadPipelineTable({ columns, rows }, type)}
+      >
         <UploadFile />
       </button>
     </div>

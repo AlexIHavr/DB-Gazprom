@@ -1,17 +1,19 @@
 .preloader {
   --preloader-size: 60px;
 
-  width: var(--preloader-size);
-  height: var(--preloader-size);
   position: fixed;
+  z-index: 100;
   top: calc(100vh / 2 - var(--preloader-size) / 2);
   left: calc(100vw / 2 - var(--preloader-size) / 2);
-  z-index: 100;
+
+  width: var(--preloader-size);
+  height: var(--preloader-size);
+
   border: 5px solid var(--base-color);
   border-right-color: transparent;
   border-radius: 50%;
+
   animation: preloader-rotate 1.2s linear infinite;
-  border-radius: 50%;
 }
 
 @keyframes preloader-rotate {

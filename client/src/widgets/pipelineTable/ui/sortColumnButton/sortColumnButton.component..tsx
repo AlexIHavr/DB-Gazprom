@@ -16,12 +16,16 @@ const SortColumnButton: FC<SortColumnButtonProps> = ({ table, index, sortType })
   ]);
 
   const columnSortType =
-    sortType === SORT_TYPES.none ? SORT_TYPES.asc : sortType === SORT_TYPES.asc ? SORT_TYPES.desc : SORT_TYPES.none;
+    sortType === SORT_TYPES.none
+      ? SORT_TYPES.asc
+      : sortType === SORT_TYPES.asc
+        ? SORT_TYPES.desc
+        : SORT_TYPES.none;
 
-  const sortColumnOnMouseDown = (e: MouseEvent) => {
+  const sortColumnOnMouseDown = (e: MouseEvent): void => {
     if (e.button) return;
 
-    //remove sortedColumn
+    // remove sortedColumn
     const sortedColumn = table.columns.find(({ sortType }) => sortType !== SORT_TYPES.none);
     if (sortedColumn) {
       setColumnProperties({
@@ -32,10 +36,15 @@ const SortColumnButton: FC<SortColumnButtonProps> = ({ table, index, sortType })
       });
     }
 
-    //change sortedColumn
-    setColumnProperties({ vtdId: table.vtdId, type: table.type, index, properties: { sortType: columnSortType } });
+    // change sortedColumn
+    setColumnProperties({
+      vtdId: table.vtdId,
+      type: table.type,
+      index,
+      properties: { sortType: columnSortType },
+    });
 
-    //set sortedRows
+    // set sortedRows
     setPipelineTableRows({
       vtdId: table.vtdId,
       type: table.type,

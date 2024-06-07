@@ -1,7 +1,11 @@
 import { SEARCH_COMPARE_TYPES } from '../consts/searchSettings';
 import { IsRangeComparedCellValueParams, IsSearchComparedCellValueParams } from '../types/params';
 
-export const isSearchComparedCellValue = ({ cellValue, searchValue, searchCompareTypes }: IsSearchComparedCellValueParams) => {
+export const isSearchComparedCellValue = ({
+  cellValue,
+  searchValue,
+  searchCompareTypes,
+}: IsSearchComparedCellValueParams): boolean => {
   if (cellValue === null) return false;
 
   const stringValue = String(cellValue);
@@ -18,7 +22,11 @@ export const isSearchComparedCellValue = ({ cellValue, searchValue, searchCompar
   return stringValue.toLowerCase().includes(searchValue.toLowerCase());
 };
 
-export const isRangeComparedCellValue = ({ cellValue, fromValue, toValue }: IsRangeComparedCellValueParams) => {
+export const isRangeComparedCellValue = ({
+  cellValue,
+  fromValue,
+  toValue,
+}: IsRangeComparedCellValueParams): string | number | boolean => {
   if (cellValue === null) return false;
 
   if (fromValue && toValue) return cellValue >= fromValue && cellValue <= toValue;

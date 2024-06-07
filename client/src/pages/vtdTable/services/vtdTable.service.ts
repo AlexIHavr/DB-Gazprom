@@ -6,20 +6,22 @@ import { VtdTableResponse } from '../types/vtdTable';
 import { CreateFormParams } from '../../vtdManager/types/params';
 
 class VtdTableService {
-  async createAll({ vtdId, type, vtdTable }: CreateAllParams) {
+  public async createAll({ vtdId, type, vtdTable }: CreateAllParams): Promise<void> {
     await serverApi.post(`${type}/createAll`, { vtdId, vtdTable });
   }
 
-  async getAllByVtdId(vtdId: string, type: TableType) {
-    const { data } = await serverApi.get<VtdTableResponse>(`${type}/getAllByVtdId`, { params: { vtdId } });
+  public async getAllByVtdId(vtdId: string, type: TableType): Promise<VtdTableResponse> {
+    const { data } = await serverApi.get<VtdTableResponse>(`${type}/getAllByVtdId`, {
+      params: { vtdId },
+    });
     return data;
   }
 
-  async deleteAllByVtdId(vtdId: string, type: TableType) {
+  public async deleteAllByVtdId(vtdId: string, type: TableType): Promise<void> {
     await serverApi.delete(`${type}/deleteAllByVtdId`, { data: { vtdId } });
   }
 
-  async createForm({ vtdId, startKm }: CreateFormParams) {
+  public async createForm({ vtdId, startKm }: CreateFormParams): Promise<void> {
     await serverApi.post('form/create', { vtdId, startKm });
   }
 }

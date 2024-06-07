@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, FocusEvent, memo } from 'react';
 
 import { VtdTreeSelectProps } from '../../types/props';
 import { VTD_TREE_LEVELS_KEYS, VTD_TREE_LEVEL_NAMES } from '../../../vtdTree/consts/vtdTreeLevels';
@@ -10,7 +10,7 @@ import styles from './vtdTreeSelect.module.scss';
 const VtdTreeSelect: FC<VtdTreeSelectProps> = ({ selectValues, setSelectValues }) => {
   const vtdTree = useVtdTreeStore((state) => state.vtdTree);
 
-  const setSelectValuesOnBlur = (e: React.FocusEvent<HTMLInputElement>, selectIndex: number) => {
+  const setSelectValuesOnBlur = (e: FocusEvent<HTMLInputElement>, selectIndex: number): void => {
     setSelectValues((prev) => {
       const newPrev = [...prev];
       newPrev[selectIndex] = e.target.value;
@@ -24,7 +24,12 @@ const VtdTreeSelect: FC<VtdTreeSelectProps> = ({ selectValues, setSelectValues }
         <div key={levelName} className={styles.vtdTreeSelect}>
           <h2>{VTD_TREE_LEVEL_NAMES[levelName]}</h2>
 
-          <input name={levelName} list={`${levelName}List`} onBlur={(e) => setSelectValuesOnBlur(e, selectIndex)} type="text" />
+          <input
+            name={levelName}
+            list={`${levelName}List`}
+            onBlur={(e): void => setSelectValuesOnBlur(e, selectIndex)}
+            type="text"
+          />
 
           <datalist id={`${levelName}List`}>
             {getVtdTreeChildren({ vtdTree, selectValues, selectIndex }).map(({ header }) => (

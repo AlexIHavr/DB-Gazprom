@@ -27,27 +27,37 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
     state.setPipelineTableRows,
   ]);
 
-  const applyExtendedFilterOnClick = () => {
+  const applyExtendedFilterOnClick = (): void => {
     let newCheckedUniqueRowsValues = checkedUniqueRowsValues;
 
-    //filtering newCheckedUniqueRowsValues
+    // filtering newCheckedUniqueRowsValues
     if (isAddToFilter) {
       newCheckedUniqueRowsValues = (
         columnCheckedUniqueRowsValues.length
           ? columnCheckedUniqueRowsValues
           : getUniqueRowsValues({ rows: filteredRows, index, maxCount: MAX_COUNT_UNIQUE_ROWS })
       )
-        .filter((uniqueValue) => checkedUniqueRowsValues.includes(uniqueValue) || !uniqueRowsValues.includes(uniqueValue))
-        .concat(checkedUniqueRowsValues.filter((uniqueValue) => !columnCheckedUniqueRowsValues.includes(uniqueValue)));
+        .filter(
+          (uniqueValue) =>
+            checkedUniqueRowsValues.includes(uniqueValue) ||
+            !uniqueRowsValues.includes(uniqueValue),
+        )
+        .concat(
+          checkedUniqueRowsValues.filter(
+            (uniqueValue) => !columnCheckedUniqueRowsValues.includes(uniqueValue),
+          ),
+        );
     }
 
     const newFilteredRows = filteredRows.map((row) =>
-      !row.hidden && !newCheckedUniqueRowsValues.includes(row.cells[index].value) ? { ...row, hidden: true } : row,
+      !row.hidden && !newCheckedUniqueRowsValues.includes(row.cells[index].value)
+        ? { ...row, hidden: true }
+        : row,
     );
 
     setPipelineTableRows({ vtdId, type, rows: newFilteredRows });
 
-    //reset newCheckedUniqueRowsValues for choosing all values
+    // reset newCheckedUniqueRowsValues for choosing all values
     if (
       uniqueRowsValues.length === checkedUniqueRowsValues.length &&
       !(searchValue || fromValue || toValue) &&
@@ -56,15 +66,21 @@ const ApplyExtendedFilterButton: FC<ApplyExtendedFilterButtonProps> = ({
       newCheckedUniqueRowsValues = [];
     }
 
-    //set inputValues
-    const inputValues = searchType === SEARCH_TYPES.search ? { searchValue } : { fromValue, toValue };
+    // set inputValues
+    const inputValues =
+      searchType === SEARCH_TYPES.search ? { searchValue } : { fromValue, toValue };
 
     setColumnProperties({
       vtdId,
       type,
       index,
       properties: {
-        extendedFilter: { visible: false, checkedUniqueRowsValues: newCheckedUniqueRowsValues, searchType, ...inputValues },
+        extendedFilter: {
+          visible: false,
+          checkedUniqueRowsValues: newCheckedUniqueRowsValues,
+          searchType,
+          ...inputValues,
+        },
       },
     });
   };

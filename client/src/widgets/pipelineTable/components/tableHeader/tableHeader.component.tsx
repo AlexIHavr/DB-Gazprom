@@ -28,7 +28,9 @@ const TableHeader: FC<TableHeaderProps> = ({ table, column }) => {
     <th
       ref={tableCellRef}
       style={columnStyle}
-      className={classNames(styles.tableHeader, { [styles.showExtendedFilter]: column.extendedFilter.visible })}
+      className={classNames(styles.tableHeader, {
+        [styles.showExtendedFilter]: column.extendedFilter.visible,
+      })}
     >
       <span title={headerTitle}>{column.value}</span>
       <ChangeSizeTool
@@ -40,7 +42,11 @@ const TableHeader: FC<TableHeaderProps> = ({ table, column }) => {
       />
       <div className={styles.manageColumnButtons}>
         <HideColumnButton vtdId={table.vtdId} type={table.type} index={column.index} />
-        <ExtendedFilterWrapper table={table} index={column.index} extendedFilter={column.extendedFilter} />
+        <ExtendedFilterWrapper
+          table={table}
+          index={column.index}
+          extendedFilter={column.extendedFilter}
+        />
         <SortColumnButton table={table} index={column.index} sortType={column.sortType} />
       </div>
     </th>

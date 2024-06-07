@@ -1,8 +1,8 @@
 .navLinks {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
   flex-grow: 1;
+  align-items: center;
+  justify-content: space-around;
 
   .gazpromLogoBtn {
     padding: 0;
@@ -26,9 +26,9 @@
 
   a {
     &:not(.gazpromLogoLink) {
-      text-decoration: none;
       color: inherit;
-      box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+      text-decoration: none;
+      box-shadow: 1px 2px 3px rgb(0 0 0 / 50%);
       transition: 0.2s;
 
       button {
@@ -36,7 +36,7 @@
       }
 
       &:hover:not(.active) {
-        box-shadow: 1px 2px 7px rgba(0, 0, 0, 0.8);
+        box-shadow: 1px 2px 7px rgb(0 0 0 / 80%);
       }
     }
 

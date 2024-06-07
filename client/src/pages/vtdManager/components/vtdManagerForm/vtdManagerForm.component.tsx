@@ -20,7 +20,11 @@ const VtdManagerForm: FC = () => {
   const vtdId = getVtdIdBySelectValues(vtdTree, selectValues);
 
   return (
-    <form className={styles.vtdManagerForm} ref={formRef} onSubmit={(e) => e.preventDefault()}>
+    <form
+      className={styles.vtdManagerForm}
+      ref={formRef}
+      onSubmit={(e): void => e.preventDefault()}
+    >
       <VtdTreeSelect selectValues={selectValues} setSelectValues={setSelectValues} />
       <DeletingTablesSelect />
 

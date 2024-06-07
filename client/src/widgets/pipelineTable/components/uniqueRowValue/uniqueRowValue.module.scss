@@ -1,12 +1,15 @@
 .uniqueRowValue {
+  cursor: pointer;
+
   position: relative;
+
   display: flex;
   align-items: center;
   justify-content: left;
-  margin: 3px 10px;
+
   width: fit-content;
   min-width: 100px;
-  cursor: pointer;
+  margin: 3px 10px;
 
   span {
     margin-left: 10px;

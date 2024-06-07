@@ -14,7 +14,7 @@ import {
   SearchCompareTypesValues,
 } from './pipelineTable';
 
-//components
+// components
 export type TableManagePanelProps = { table: PipelineTable };
 export type PipelineTableProps = TableManagePanelProps & { height?: number; width?: number };
 
@@ -54,7 +54,7 @@ export type UniqueRowsProps = PipelineProperties & {
 
 export type UniqueRowValueProps = {
   checkedUniqueRowsValues: ExcelRow;
-  setCheckedUniqueRowsValues: React.Dispatch<React.SetStateAction<ExcelRow>>;
+  setCheckedUniqueRowsValues: Dispatch<SetStateAction<ExcelRow>>;
   uniqueRowValue: ExcelValue;
 };
 
@@ -64,7 +64,7 @@ export type UniqueRowsValuesProps = Omit<UniqueRowValueProps, 'uniqueRowValue'> 
   inputValue: string;
 };
 
-//ui
+// ui
 export type ShowColumnsButtonProps = PipelineProperties & { columns: PipelineColumns };
 
 export type HiddenColumnsManagerProps = PipelineProperties & {
@@ -121,7 +121,10 @@ export type AddToFilterButtonProps = {
   setIsAddToFilter: Dispatch<SetStateAction<boolean>>;
 };
 
-export type SelectAllButtonProps = Omit<UniqueRowsValuesProps, 'columnCheckedUniqueRowsValues' | 'inputValue'>;
+export type SelectAllButtonProps = Omit<
+  UniqueRowsValuesProps,
+  'columnCheckedUniqueRowsValues' | 'inputValue'
+>;
 
 export type ApplyExtendedFilterButtonProps = PipelineProperties &
   Omit<UniqueRowsProps, 'searchCompareTypes'> &

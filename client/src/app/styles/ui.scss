@@ -9,10 +9,10 @@ svg {
 }
 
 svg {
-  fill: currentColor;
   width: 1em;
   height: 1em;
   font-size: 1.5rem;
+  fill: currentcolor;
 }
 
 button {
@@ -22,14 +22,12 @@ button {
 
 input {
   padding: 10px;
-  font-size: 1rem;
-  border: none;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-  border-radius: 5px 5px 5px 5px;
 
-  &:focus {
-    outline: 1px solid black;
-  }
+  font-size: 1rem;
+
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgb(0 0 0 / 50%);
 
   &::-webkit-search-cancel-button {
     cursor: pointer;
@@ -37,6 +35,10 @@ input {
 
   &::-webkit-calendar-picker-indicator {
     display: none !important;
+  }
+
+  &:focus {
+    outline: 1px solid black;
   }
 
   &[type='file'] {

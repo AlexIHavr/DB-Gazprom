@@ -5,14 +5,21 @@ import { RangeInputsProps } from '../../types/props';
 
 import styles from './rangeInputs.module.scss';
 
-const RangeInputs: FC<RangeInputsProps> = ({ columnFromValue, columnToValue, fromValue, toValue, setFromValue, setToValue }) => {
+const RangeInputs: FC<RangeInputsProps> = ({
+  columnFromValue,
+  columnToValue,
+  fromValue,
+  toValue,
+  setFromValue,
+  setToValue,
+}) => {
   return (
     <div className={styles.rangeInputs}>
       <div className={styles.fromInput}>
         <input
           placeholder={columnFromValue || RANGE_SEARCH_TYPES.from}
           type="search"
-          onChange={(e) => setFromValue(e.target.value)}
+          onChange={(e): void => setFromValue(e.target.value)}
           value={fromValue}
         />
       </div>
@@ -20,7 +27,7 @@ const RangeInputs: FC<RangeInputsProps> = ({ columnFromValue, columnToValue, fro
         <input
           placeholder={columnToValue || RANGE_SEARCH_TYPES.to}
           type="search"
-          onChange={(e) => setToValue(e.target.value)}
+          onChange={(e): void => setToValue(e.target.value)}
           value={toValue}
         />
       </div>

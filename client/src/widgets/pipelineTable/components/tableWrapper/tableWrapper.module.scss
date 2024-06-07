@@ -1,8 +1,8 @@
 .tableWrapper {
+  --cell-border: 1px solid black;
+
   position: relative;
   border-spacing: 0;
-
-  --cell-border: 1px solid black;
 
   td {
     padding: 0;
@@ -11,9 +11,9 @@
   td,
   th {
     text-align: center;
-    border-bottom: var(--cell-border);
-    border-right: var(--cell-border);
     text-overflow: ellipsis;
+    border-right: var(--cell-border);
+    border-bottom: var(--cell-border);
 
     &:first-of-type {
       border-left: var(--cell-border);

@@ -1,11 +1,23 @@
 import { ExcelRow } from 'shared/types/excel';
 
 import { GetPipelineTableParams, GetUniqueRowsValuesParams } from '../types/params';
+import { PipelineTable } from '../types/pipelineTable';
 
-export const getPipelineTable = ({ pipelineTables, vtdId, type }: GetPipelineTableParams) =>
-  pipelineTables.find((pipelineTable) => pipelineTable.vtdId === vtdId && pipelineTable.type === type);
+export const getPipelineTable = ({
+  pipelineTables,
+  vtdId,
+  type,
+}: GetPipelineTableParams): PipelineTable | undefined => {
+  return pipelineTables.find(
+    (pipelineTable) => pipelineTable.vtdId === vtdId && pipelineTable.type === type,
+  );
+};
 
-export const getUniqueRowsValues = ({ rows, index, maxCount }: GetUniqueRowsValuesParams) => {
+export const getUniqueRowsValues = ({
+  rows,
+  index,
+  maxCount,
+}: GetUniqueRowsValuesParams): ExcelRow => {
   const uniqueRowsValues: ExcelRow = [];
 
   for (const row of rows) {

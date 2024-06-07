@@ -1,13 +1,15 @@
 .applyExtendedFilter {
-  margin: 5px auto;
   width: 20%;
-  box-shadow: 1px 1px 3px black;
-  text-shadow: none;
+  margin: 5px auto;
+
   font-weight: bold;
+  text-shadow: none;
+
   border-radius: 5px !important;
+  box-shadow: 1px 1px 3px black;
 
   &:disabled {
-    background-color: rgba(0, 0, 0, 0.1) !important;
+    background-color: rgb(0 0 0 / 10%) !important;
     box-shadow: none;
     transition: none;
   }

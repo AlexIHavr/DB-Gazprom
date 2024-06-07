@@ -7,9 +7,15 @@ import uniqueRowValueStyles from '../../components/uniqueRowValue/uniqueRowValue
 
 import styles from './selectAllButton.module.scss';
 
-const SelectAllButton: FC<SelectAllButtonProps> = ({ uniqueRowsValues, checkedUniqueRowsValues, setCheckedUniqueRowsValues }) => {
-  const toggleSelectAllOnClick = () => {
-    setCheckedUniqueRowsValues((prev) => (prev.length === uniqueRowsValues.length ? [] : uniqueRowsValues));
+const SelectAllButton: FC<SelectAllButtonProps> = ({
+  uniqueRowsValues,
+  checkedUniqueRowsValues,
+  setCheckedUniqueRowsValues,
+}) => {
+  const toggleSelectAllOnClick = (): void => {
+    setCheckedUniqueRowsValues((prev) =>
+      prev.length === uniqueRowsValues.length ? [] : uniqueRowsValues,
+    );
   };
 
   return (

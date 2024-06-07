@@ -12,7 +12,7 @@ const AddToFilterButton: FC<AddToFilterButtonProps> = ({ isAddToFilter, setIsAdd
   return (
     <div
       className={classNames(uniqueRowValueStyles.uniqueRowValue, styles.addToFilterButton)}
-      onClick={() => setIsAddToFilter((prev) => !prev)}
+      onClick={(): void => setIsAddToFilter((prev) => !prev)}
     >
       {isAddToFilter ? <CheckBoxRegular /> : <CheckBoxBlackRegular />}
       <span>Добавить в фильтр</span>

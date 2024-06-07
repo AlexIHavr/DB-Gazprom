@@ -1,16 +1,16 @@
 .vtdTreeRootMain {
   margin: 10px 0;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
+  box-shadow: 1px 2px 5px rgb(0 0 0 / 50%);
 }
 
 .vtdTreeRoot {
-  background-color: var(--base-color);
   cursor: pointer;
+  background-color: var(--base-color);
 
   .vtdTreeRoot {
-    box-shadow: none;
-    border-radius: 0;
     border-top: 2px solid white;
+    border-radius: 0;
+    box-shadow: none;
   }
 }

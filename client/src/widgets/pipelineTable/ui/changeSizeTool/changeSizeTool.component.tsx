@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, MouseEvent as ReactMouseEvent, memo } from 'react';
 
 import { ChangeSizeToolProps } from '../../types/props';
 import usePipelineTableStore from '../../pipelineTable.store';
@@ -8,14 +8,14 @@ import styles from './changeSizeTool.module.scss';
 const ChangeSizeTool: FC<ChangeSizeToolProps> = ({ vtdId, type, index, minWidth, width }) => {
   const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
 
-  const onMouseDownChangeSizeTool = (e: React.MouseEvent) => {
+  const onMouseDownChangeSizeTool = (e: ReactMouseEvent<HTMLDivElement>): void => {
     if (e.button) return;
 
     const parentElem = (e.target as HTMLDivElement).parentElement;
     let startPageX = e.pageX;
     let columnWidth = width;
 
-    const onMouseMove = (event: MouseEvent) => {
+    const onMouseMove = (event: MouseEvent): void => {
       if (parentElem) {
         columnWidth = parentElem.offsetWidth + event.pageX - startPageX;
 

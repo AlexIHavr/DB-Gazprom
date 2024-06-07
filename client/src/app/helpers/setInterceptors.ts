@@ -5,9 +5,10 @@ import { ServerError } from '../types/serverError';
 
 import { showServerError } from './showServerError';
 
-export const setInterceptors = (api: AxiosInstance) => {
+export const setInterceptors = (api: AxiosInstance): void => {
   api.interceptors.request.use((config) => {
     if (!usePreloaderStore.getState().isLoading) usePreloaderStore.setState({ isLoading: true });
+
     return config;
   });
 

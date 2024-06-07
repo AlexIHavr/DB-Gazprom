@@ -4,8 +4,14 @@ import { VtdTreeDetailsProps } from '../../types/props';
 
 import styles from './vtdTreeDetails.module.scss';
 
-const VtdTreeDetails: FC<VtdTreeDetailsProps> = ({ children, level, levelExpanded, levelHeight, setLevelsHeight }) => {
-  const setLevelHeightOnTransitionEnd = () => {
+const VtdTreeDetails: FC<VtdTreeDetailsProps> = ({
+  children,
+  level,
+  levelExpanded,
+  levelHeight,
+  setLevelsHeight,
+}) => {
+  const setLevelHeightOnTransitionEnd = (): void => {
     if (levelHeight) setLevelsHeight((prev) => ({ ...prev, [level]: 'auto' }));
   };
 
@@ -14,7 +20,11 @@ const VtdTreeDetails: FC<VtdTreeDetailsProps> = ({ children, level, levelExpande
   }, [level, levelExpanded, levelHeight, setLevelsHeight]);
 
   return (
-    <div className={styles.vtdTreeDetails} style={{ height: levelHeight }} onTransitionEnd={setLevelHeightOnTransitionEnd}>
+    <div
+      className={styles.vtdTreeDetails}
+      style={{ height: levelHeight }}
+      onTransitionEnd={setLevelHeightOnTransitionEnd}
+    >
       {children}
     </div>
   );

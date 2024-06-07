@@ -9,13 +9,17 @@ import styles from './hideColumnButton.module.scss';
 const HideColumnButton: FC<HideColumnButtonProps> = ({ vtdId, type, index }) => {
   const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
 
-  const hideColumnOnMouseDown = (e: MouseEvent) => {
+  const hideColumnOnMouseDown = (e: MouseEvent): void => {
     if (e.button) return;
     setColumnProperties({ vtdId, type, index, properties: { hidden: true } });
   };
 
   return (
-    <button title="Скрыть колонку" className={styles.hideColumnButton} onMouseDown={hideColumnOnMouseDown}>
+    <button
+      title="Скрыть колонку"
+      className={styles.hideColumnButton}
+      onMouseDown={hideColumnOnMouseDown}
+    >
       <EyeSlashSolid />
     </button>
   );

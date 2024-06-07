@@ -18,19 +18,25 @@ const ExtendedFilterButton: FC<ExtendedFilterButtonProps> = ({
   const setColumnProperties = usePipelineTableStore((state) => state.setColumnProperties);
   const extendedFilterButtonRef = useRef<HTMLButtonElement>(null);
 
-  const showExtendedFilter = (e: MouseEvent) => {
+  const showExtendedFilter = (e: MouseEvent): void => {
     if (e.button) return;
     e.stopPropagation();
 
     const addRightOffset = 50;
-    const extendedFilterWrapper = extendedFilterButtonRef.current!.nextElementSibling! as HTMLDivElement;
-    const leftOffset = extendedFilterWrapper.getBoundingClientRect().left + extendedFilterWrapper.offsetWidth + addRightOffset;
+    const extendedFilterWrapper = extendedFilterButtonRef.current!
+      .nextElementSibling! as HTMLDivElement;
+    const leftOffset =
+      extendedFilterWrapper.getBoundingClientRect().left +
+      extendedFilterWrapper.offsetWidth +
+      addRightOffset;
 
     setRightDirection(leftOffset > document.documentElement.clientWidth);
 
-    const visibleExtendedFilter = columns.find((column) => column.index !== index && column.extendedFilter.visible);
+    const visibleExtendedFilter = columns.find(
+      (column) => column.index !== index && column.extendedFilter.visible,
+    );
 
-    //hide visible extendedFilter
+    // hide visible extendedFilter
     if (visibleExtendedFilter) {
       setColumnProperties({
         vtdId,
@@ -40,7 +46,7 @@ const ExtendedFilterButton: FC<ExtendedFilterButtonProps> = ({
       });
     }
 
-    //toggle current extendedFilter
+    // toggle current extendedFilter
     setColumnProperties({
       vtdId,
       type,

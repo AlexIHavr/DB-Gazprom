@@ -23,20 +23,27 @@ const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
   };
 
   const uniqueRowsValuesOnDisplay = useMemo(
-    () => uniqueRowsValues.slice(uniqueRowValueIndex, uniqueRowValueIndex + visibleCountUniqueRowsValues),
+    () =>
+      uniqueRowsValues.slice(
+        uniqueRowValueIndex,
+        uniqueRowValueIndex + visibleCountUniqueRowsValues,
+      ),
     [uniqueRowValueIndex, uniqueRowsValues, visibleCountUniqueRowsValues],
   );
 
-  const uniqueRowsValuesOnScroll = (e: UIEvent<HTMLDivElement>) => {
+  const uniqueRowsValuesOnScroll = (e: UIEvent<HTMLDivElement>): void => {
     const newUniqueRowValueIndex = Math.floor(e.currentTarget.scrollTop / UNIQUE_ROW_HEIGHT);
-    if (uniqueRowValueIndex !== newUniqueRowValueIndex) setUniqueRowsValueIndex(newUniqueRowValueIndex);
+    if (uniqueRowValueIndex !== newUniqueRowValueIndex)
+      setUniqueRowsValueIndex(newUniqueRowValueIndex);
 
     const uniqueRowsValuesOnDisplay = e.currentTarget.firstChild!.firstChild as HTMLDivElement;
     uniqueRowsValuesOnDisplay.style.top = e.currentTarget.scrollTop + 'px';
   };
 
   useLayoutEffect(() => {
-    setVisibleCountUniqueRowsValues(Math.ceil(uniqueRowsValuesRef.current!.offsetHeight / UNIQUE_ROW_HEIGHT) - 1);
+    setVisibleCountUniqueRowsValues(
+      Math.ceil(uniqueRowsValuesRef.current!.offsetHeight / UNIQUE_ROW_HEIGHT) - 1,
+    );
 
     setCheckedUniqueRowsValues(
       !columnCheckedUniqueRowsValues.length || inputValue
@@ -46,7 +53,11 @@ const UniqueRowsValues: FC<UniqueRowsValuesProps> = ({
   }, [columnCheckedUniqueRowsValues, inputValue, setCheckedUniqueRowsValues, uniqueRowsValues]);
 
   return (
-    <div className={styles.uniqueRowsValues} onScroll={uniqueRowsValuesOnScroll} ref={uniqueRowsValuesRef}>
+    <div
+      className={styles.uniqueRowsValues}
+      onScroll={uniqueRowsValuesOnScroll}
+      ref={uniqueRowsValuesRef}
+    >
       <div className={styles.uniqueRowsValuesContent} style={uniqueRowsValuesContentStyle}>
         <div className={styles.uniqueRowsValuesOnDisplay}>
           {uniqueRowsValuesOnDisplay.map((uniqueRowValue, i) => (

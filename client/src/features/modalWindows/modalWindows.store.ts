@@ -8,13 +8,13 @@ const useModalWindowsStore = create<UseModalWindowsStore>()(
   immer((set) => ({
     modalWindows: [],
 
-    addModalWindow: (modalWindow) => {
+    addModalWindow: (modalWindow): void => {
       set((state) => {
         state.modalWindows.push({ id: v4(), ...modalWindow });
       });
     },
 
-    removeModalWindow: (id) => {
+    removeModalWindow: (id): void => {
       set((state) => {
         state.modalWindows = state.modalWindows.filter((modalWindow) => modalWindow.id !== id);
       });

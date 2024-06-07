@@ -7,7 +7,7 @@ export const modalWindowWrapper = async <ReturnType>(
   successMessage: string,
   func: () => ReturnType,
   settings?: { loading: boolean },
-) => {
+): Promise<ReturnType> => {
   const setIsLoading = usePreloaderStore.getState().setIsLoading;
   const addModalWindow = useModalWindowsStore.getState().addModalWindow;
 

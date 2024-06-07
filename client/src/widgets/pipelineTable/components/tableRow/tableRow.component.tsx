@@ -18,7 +18,12 @@ const TableRow: FC<TableRowProps> = ({ cells, columnsOnPage }) => {
       {cells
         .filter((_, i) => columnsOnPage.find(({ index }) => i === index))
         .map((cell) => (
-          <td key={v4()} className={styles.tableCell} style={rowStyle} title={cell.value ? String(cell.value) : ''}>
+          <td
+            key={v4()}
+            className={styles.tableCell}
+            style={rowStyle}
+            title={cell.value ? String(cell.value) : ''}
+          >
             {cell.value}
           </td>
         ))}

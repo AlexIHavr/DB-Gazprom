@@ -3,16 +3,18 @@
   --width-offset: 10px;
 
   position: absolute;
+  z-index: 2;
   top: 25px;
   left: var(--width-offset);
+  transform-origin: top left;
+  transform: scale(0);
+
   width: var(--width);
   padding: 5px 0;
-  box-shadow: 0 1px 5px black;
-  transform-origin: top left;
+
   background-color: white;
-  z-index: 2;
-  transform: scale(0);
   border-radius: 0 0 10px 10px;
+  box-shadow: 0 1px 5px black;
 
   &.visibleExtendedFilterWrapper {
     transform: scale(1);
@@ -20,7 +22,7 @@
   }
 
   &.rightDirection {
-    transform-origin: top right;
     left: calc(var(--width-offset) - var(--width));
+    transform-origin: top right;
   }
 }

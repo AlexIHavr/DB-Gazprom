@@ -2,10 +2,10 @@
 @import './styles/ui';
 
 body {
+  min-width: 800px;
   margin: 0;
   font-family: var(--base-font-family);
   background-color: #92c9ffc3;
-  min-width: 800px;
 
   * {
     box-sizing: border-box;

@@ -19,14 +19,14 @@ const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({
     state.setColumnsProperties,
   ]);
 
-  const showColumnOnClick = (e: MouseEvent<HTMLDivElement>, index: number) => {
+  const showColumnOnClick = (e: MouseEvent<HTMLDivElement>, index: number): void => {
     e.stopPropagation();
 
     setColumnProperties({ vtdId, type, index, properties: { hidden: false } });
     if (hiddenColumns.length === 1) setShowVisiblyColumns(false);
   };
 
-  const showAllColumnsOnClick = (e: MouseEvent<HTMLDivElement>) => {
+  const showAllColumnsOnClick = (e: MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
 
     setColumnsProperties({ vtdId, type, properties: { hidden: false } });
@@ -34,11 +34,15 @@ const HiddenColumnsManager: FC<HiddenColumnsManagerProps> = ({
   };
 
   return (
-    <div className={classNames(styles.hiddenColumnsManager, { [styles.showHiddenColumnsManager]: showHiddenColumns })}>
+    <div
+      className={classNames(styles.hiddenColumnsManager, {
+        [styles.showHiddenColumnsManager]: showHiddenColumns,
+      })}
+    >
       {showHiddenColumns && (
         <>
           {hiddenColumns.map(({ id, value, index }) => (
-            <div key={id} onClick={(e) => showColumnOnClick(e, index)}>
+            <div key={id} onClick={(e): void => showColumnOnClick(e, index)}>
               <EyeRegular />
               <span>{value}</span>
             </div>

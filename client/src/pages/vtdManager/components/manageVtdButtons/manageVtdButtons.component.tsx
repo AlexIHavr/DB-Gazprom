@@ -10,14 +10,14 @@ import AddVtdButton from '../addVtdButton/addVtdButton.component';
 import styles from './manageVtdButtons.module.scss';
 
 const ManageVtdButtons: FC<ManageVtdButtonsProps> = ({ vtdId, formRef, selectValues }) => {
-  const removeVtdOnClick = async () => {
+  const removeVtdOnClick = async (): Promise<void> => {
     if (vtdId) {
       await removeReport(vtdId);
       await removeVtd(vtdId);
     }
   };
 
-  const removeVtdTableOnClick = async () => {
+  const removeVtdTableOnClick = async (): Promise<void> => {
     if (vtdId) {
       const formData = new FormData(formRef.current!);
       await removeVtdTable(vtdId, formData.get(ADDING_INPUTS.deletingTable.name) as string);
@@ -28,11 +28,19 @@ const ManageVtdButtons: FC<ManageVtdButtonsProps> = ({ vtdId, formRef, selectVal
     <div className={styles.manageVtdButtons}>
       <AddVtdButton vtdId={vtdId} formRef={formRef} selectValues={selectValues} />
 
-      <button className={classNames(globalStyles.btn, styles.removeReport)} onClick={removeVtdOnClick} disabled={!vtdId}>
+      <button
+        className={classNames(globalStyles.btn, styles.removeReport)}
+        onClick={removeVtdOnClick}
+        disabled={!vtdId}
+      >
         Удалить ВТД
       </button>
 
-      <button className={classNames(globalStyles.btn, styles.removeReport)} onClick={removeVtdTableOnClick} disabled={!vtdId}>
+      <button
+        className={classNames(globalStyles.btn, styles.removeReport)}
+        onClick={removeVtdTableOnClick}
+        disabled={!vtdId}
+      >
         Удалить таблицу
       </button>
     </div>

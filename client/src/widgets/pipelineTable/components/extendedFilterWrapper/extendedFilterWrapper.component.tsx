@@ -15,7 +15,7 @@ const ExtendedFilterWrapper: FC<ExtendedFilterProps> = ({ table, index, extended
   useEffect(() => {
     if (!extendedFilter.visible) return;
 
-    const hideExtendedFilter = (e: MouseEvent) => {
+    const hideExtendedFilter = (e: MouseEvent): void => {
       if (e.button) return;
 
       setColumnProperties({
@@ -47,9 +47,11 @@ const ExtendedFilterWrapper: FC<ExtendedFilterProps> = ({ table, index, extended
           [styles.visibleExtendedFilterWrapper]: extendedFilter.visible,
           [styles.rightDirection]: rightDirection,
         })}
-        onMouseDown={(e) => e.stopPropagation()}
+        onMouseDown={(e): void => e.stopPropagation()}
       >
-        {extendedFilter.visible && <ExtendedFilter table={table} index={index} extendedFilter={extendedFilter} />}
+        {extendedFilter.visible && (
+          <ExtendedFilter table={table} index={index} extendedFilter={extendedFilter} />
+        )}
       </div>
     </>
   );

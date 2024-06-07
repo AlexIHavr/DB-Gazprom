@@ -14,11 +14,13 @@ const VtdTreeTableTypes: FC<VtdTreeTableTypesProps> = ({ id }) => {
       {TABLE_TYPE_GROUPS_VALUES.map((group) => (
         <div key={group} className={styles.vtdTreeTableTypesGroup}>
           <h4>{group}</h4>
-          {TABLE_TYPES_ENTRIES.filter(([, { groupName }]) => groupName === group).map(([type, { name }]) => (
-            <NavLink key={type} to={`${PAGES.vtdTable.path}/${id}/${type}`}>
-              <span>{name}</span>
-            </NavLink>
-          ))}
+          {TABLE_TYPES_ENTRIES.filter(([, { groupName }]) => groupName === group).map(
+            ([type, { name }]) => (
+              <NavLink key={type} to={`${PAGES.vtdTable.path}/${id}/${type}`}>
+                <span>{name}</span>
+              </NavLink>
+            ),
+          )}
         </div>
       ))}
     </div>

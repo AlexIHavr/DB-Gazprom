@@ -9,7 +9,12 @@ const VtdTreeWrapper: FC<VtdTreeWrapperProps> = ({ treeChildren, levelIndex = 0 
   return (
     <>
       {treeChildren.map(({ header, children, id }) => (
-        <VtdTreeRoot key={header} header={header} level={VTD_TREE_LEVELS_KEYS[levelIndex]} useH3={!levelIndex}>
+        <VtdTreeRoot
+          key={header}
+          header={header}
+          level={VTD_TREE_LEVELS_KEYS[levelIndex]}
+          useH3={!levelIndex}
+        >
           {children ? (
             <VtdTreeWrapper treeChildren={children} levelIndex={levelIndex + 1}></VtdTreeWrapper>
           ) : (

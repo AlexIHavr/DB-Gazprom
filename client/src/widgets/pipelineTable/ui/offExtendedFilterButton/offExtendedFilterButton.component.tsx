@@ -6,13 +6,19 @@ import { ReactComponent as FilterOffSolid } from '../../assets/svg/filterOffSoli
 
 import styles from './offExtendedFilterButton.module.scss';
 
-const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({ vtdId, type, index, disabled, filteredRows }) => {
+const OffExtendedFilterButton: FC<OffExtendedFilterButtonProps> = ({
+  vtdId,
+  type,
+  index,
+  disabled,
+  filteredRows,
+}) => {
   const [setColumnProperties, setPipelineTableRows] = usePipelineTableStore((state) => [
     state.setColumnProperties,
     state.setPipelineTableRows,
   ]);
 
-  const offExtendedFilterOnClick = () => {
+  const offExtendedFilterOnClick = (): void => {
     setPipelineTableRows({ vtdId, type, rows: filteredRows });
 
     setColumnProperties({

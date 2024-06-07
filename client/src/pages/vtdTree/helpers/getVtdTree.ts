@@ -13,7 +13,8 @@ export const getVtdTree = (vtds: Vtds, levelIndex = 0): VtdTree => {
     .map((header) => {
       const filteredVtds = vtds.filter((vtd) => vtd[level] === header);
 
-      if (levelIndex === VTD_TREE_LEVELS_KEYS.length - 1) return { id: filteredVtds[0].id, header: filteredVtds[0][level] };
+      if (levelIndex === VTD_TREE_LEVELS_KEYS.length - 1)
+        return { id: filteredVtds[0].id, header: filteredVtds[0][level] };
 
       return { header, children: getVtdTree(filteredVtds, levelIndex + 1) };
     });

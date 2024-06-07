@@ -34,7 +34,12 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
   const filteredRowsBySearch = useMemo(() => {
     if (searchType === SEARCH_TYPES.search && searchValue) {
       return filteredRows.map((row) =>
-        !row.hidden && !isSearchComparedCellValue({ cellValue: row.cells[index].value, searchValue, searchCompareTypes })
+        !row.hidden &&
+        !isSearchComparedCellValue({
+          cellValue: row.cells[index].value,
+          searchValue,
+          searchCompareTypes,
+        })
           ? { ...row, hidden: true }
           : row,
       );
@@ -42,7 +47,8 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
 
     if (searchType === SEARCH_TYPES.range && (fromValue || toValue)) {
       return filteredRows.map((row) =>
-        !row.hidden && !isRangeComparedCellValue({ cellValue: row.cells[index].value, fromValue, toValue })
+        !row.hidden &&
+        !isRangeComparedCellValue({ cellValue: row.cells[index].value, fromValue, toValue })
           ? { ...row, hidden: true }
           : row,
       );
@@ -51,7 +57,10 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
     return filteredRows;
   }, [filteredRows, searchType, searchValue, index, searchCompareTypes, fromValue, toValue]);
 
-  const visibleRows = useMemo(() => filteredRowsBySearch.filter(({ hidden }) => !hidden), [filteredRowsBySearch]);
+  const visibleRows = useMemo(
+    () => filteredRowsBySearch.filter(({ hidden }) => !hidden),
+    [filteredRowsBySearch],
+  );
 
   const uniqueRowsValues = useMemo(
     () =>
@@ -68,14 +77,18 @@ const UniqueRowsValuesWrapper: FC<UniqueRowsProps> = ({
   return (
     <div className={styles.uniqueRowsValuesWrapper}>
       {uniqueRowsValues.length >= MAX_COUNT_UNIQUE_ROWS && (
-        <div className={styles.maxCountUniqueRowsValues}>Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов</div>
+        <div className={styles.maxCountUniqueRowsValues}>
+          Показаны {MAX_COUNT_UNIQUE_ROWS} уникальных элементов
+        </div>
       )}
       <SelectAllButton
         uniqueRowsValues={uniqueRowsValues}
         checkedUniqueRowsValues={checkedUniqueRowsValues}
         setCheckedUniqueRowsValues={setCheckedUniqueRowsValues}
       />
-      {inputValue && <AddToFilterButton isAddToFilter={isAddToFilter} setIsAddToFilter={setIsAddToFilter} />}
+      {inputValue && (
+        <AddToFilterButton isAddToFilter={isAddToFilter} setIsAddToFilter={setIsAddToFilter} />
+      )}
       <UniqueRowsValues
         uniqueRowsValues={uniqueRowsValues}
         checkedUniqueRowsValues={checkedUniqueRowsValues}

@@ -4,16 +4,16 @@ import { Vtd, Vtds } from '../types/vtds';
 import { VtdTreeNames } from '../types/vtdTree';
 
 class VtdService {
-  async getAll() {
+  public async getAll(): Promise<Vtds> {
     const { data } = await vtdApi.get<Vtds>('/getAll');
     return data;
   }
 
-  async deleteOneById(vtdId: string) {
+  public async deleteOneById(vtdId: string): Promise<void> {
     await vtdApi.delete('deleteOneById', { data: { vtdId } });
   }
 
-  async createOne(vtdData: VtdTreeNames) {
+  public async createOne(vtdData: VtdTreeNames): Promise<Vtd> {
     const { data } = await vtdApi.post<Vtd>('createOne', vtdData);
     return data;
   }

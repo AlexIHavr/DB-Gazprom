@@ -9,12 +9,12 @@ const useVtdTreeStore = create<UseVtdTreeStore>()(
     vtds: [],
     vtdTree: [],
 
-    setVtds: async () => {
+    setVtds: async (): Promise<void> => {
       const vtds = await vtdService.getAll();
       set({ vtds });
     },
 
-    setVtdTree: (vtdTree) => set({ vtdTree }),
+    setVtdTree: (vtdTree): void => set({ vtdTree }),
   })),
 );
 

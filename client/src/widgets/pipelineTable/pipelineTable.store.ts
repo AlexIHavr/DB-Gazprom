@@ -11,36 +11,59 @@ const usePipelineTableStore = create<UsePipelineTableStore>()(
     immer((set) => ({
       pipelineTables: [],
 
-      addPipelineTable: async ({ vtdId, type, excelRows }) =>
+      addPipelineTable: async ({ vtdId, type, excelRows }): Promise<void> => {
         set((state) => {
-          const pipelineTableFromStore = getPipelineTable({ pipelineTables: state.pipelineTables, vtdId, type });
-          if (!pipelineTableFromStore) state.pipelineTables.push({ vtdId, type, ...getDefaultPipelineData(excelRows) });
-        }),
+          const pipelineTableFromStore = getPipelineTable({
+            pipelineTables: state.pipelineTables,
+            vtdId,
+            type,
+          });
+          if (!pipelineTableFromStore)
+            state.pipelineTables.push({ vtdId, type, ...getDefaultPipelineData(excelRows) });
+        });
+      },
 
-      setColumnProperties: ({ vtdId, type, index, properties }) =>
+      setColumnProperties: ({ vtdId, type, index, properties }): void => {
         set((state) => {
-          const pipelineTable = getPipelineTable({ pipelineTables: state.pipelineTables, vtdId, type });
+          const pipelineTable = getPipelineTable({
+            pipelineTables: state.pipelineTables,
+            vtdId,
+            type,
+          });
 
-          if (pipelineTable) pipelineTable.columns[index] = { ...pipelineTable.columns[index], ...properties };
-        }),
+          if (pipelineTable)
+            pipelineTable.columns[index] = { ...pipelineTable.columns[index], ...properties };
+        });
+      },
 
-      setColumnsProperties: ({ vtdId, type, properties }) =>
+      setColumnsProperties: ({ vtdId, type, properties }): void => {
         set((state) => {
-          const pipelineTable = getPipelineTable({ pipelineTables: state.pipelineTables, vtdId, type });
+          const pipelineTable = getPipelineTable({
+            pipelineTables: state.pipelineTables,
+            vtdId,
+            type,
+          });
 
           if (pipelineTable) {
             pipelineTable.columns.forEach(
-              ({ index }) => (pipelineTable.columns[index] = { ...pipelineTable.columns[index], ...properties }),
+              ({ index }) =>
+                (pipelineTable.columns[index] = { ...pipelineTable.columns[index], ...properties }),
             );
           }
-        }),
+        });
+      },
 
-      setPipelineTableRows: ({ vtdId, type, rows }) =>
+      setPipelineTableRows: ({ vtdId, type, rows }): void => {
         set((state) => {
-          const pipelineTable = getPipelineTable({ pipelineTables: state.pipelineTables, vtdId, type });
+          const pipelineTable = getPipelineTable({
+            pipelineTables: state.pipelineTables,
+            vtdId,
+            type,
+          });
 
           if (pipelineTable) pipelineTable.rows = rows;
-        }),
+        });
+      },
     })),
   ),
 );

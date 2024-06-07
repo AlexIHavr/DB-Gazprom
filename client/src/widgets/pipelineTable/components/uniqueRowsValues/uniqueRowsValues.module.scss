@@ -11,9 +11,10 @@
 
     .uniqueRowsValuesOnDisplay {
       position: relative;
+
       div {
-        margin: 0 10px;
         height: var(--div-height);
+        margin: 0 10px;
 
         span {
           font-weight: normal;

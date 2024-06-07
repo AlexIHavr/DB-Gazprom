@@ -1,7 +1,12 @@
 import { FC, memo, UIEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { PipelineTableProps } from '../../types/props';
-import { COLUMN_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT, VIRTUAL_COLUMNS_COUNT } from '../../consts/tableSettings';
+import {
+  COLUMN_HEIGHT,
+  COLUMN_WIDTH,
+  ROW_HEIGHT,
+  VIRTUAL_COLUMNS_COUNT,
+} from '../../consts/tableSettings';
 import TableWrapper from '../tableWrapper/tableWrapper.component';
 
 import styles from './virtualScrollWrapper.module.scss';
@@ -16,7 +21,10 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
   const virtualScrollRef = useRef<HTMLDivElement>(null);
   const virtualScrollContentRef = useRef<HTMLDivElement>(null);
 
-  const visibleColumns = useMemo(() => table.columns.filter(({ hidden }) => !hidden), [table.columns]);
+  const visibleColumns = useMemo(
+    () => table.columns.filter(({ hidden }) => !hidden),
+    [table.columns],
+  );
   const visibleRows = useMemo(() => table.rows.filter(({ hidden }) => !hidden), [table.rows]);
 
   const columnsOnPage = useMemo(
@@ -43,12 +51,14 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
 
   const tableStyle = useMemo(
     () => ({
-      left: visibleColumns.slice(0, columnIndex).reduce((sumWidth, { width }) => sumWidth + width, 0),
+      left: visibleColumns
+        .slice(0, columnIndex)
+        .reduce((sumWidth, { width }) => sumWidth + width, 0),
     }),
     [columnIndex, visibleColumns],
   );
 
-  const virtualOnScroll = (e: UIEvent<HTMLDivElement>) => {
+  const virtualOnScroll = (e: UIEvent<HTMLDivElement>): void => {
     const newRowIndex = Math.floor(e.currentTarget.scrollTop / ROW_HEIGHT);
     const pipelineTable = e.currentTarget.firstChild!.firstChild as HTMLTableElement;
 
@@ -71,19 +81,41 @@ const VirtualScrollWrapper: FC<PipelineTableProps> = ({ table, width, height }) 
     const virtualScrollCurrent = virtualScrollRef.current!;
     const documentElement = document.documentElement;
 
-    virtualScrollCurrent.style.height = (height || documentElement.clientHeight - virtualScrollCurrent.offsetTop) + 'px';
-    virtualScrollCurrent.style.width = (width || documentElement.clientWidth - virtualScrollCurrent.offsetLeft) + 'px';
+    virtualScrollCurrent.style.height =
+      (height || documentElement.clientHeight - virtualScrollCurrent.offsetTop) + 'px';
+    virtualScrollCurrent.style.width =
+      (width || documentElement.clientWidth - virtualScrollCurrent.offsetLeft) + 'px';
     virtualScrollContentRef.current!.style.minHeight = virtualScrollCurrent.style.height;
 
-    setRowsOnPageCount(Math.floor((virtualScrollCurrent.clientHeight - COLUMN_HEIGHT) / ROW_HEIGHT));
-    setColumnsOnPageCount(Math.floor(virtualScrollCurrent.clientWidth / COLUMN_WIDTH) + VIRTUAL_COLUMNS_COUNT * 2);
-    setVirtualScrollMaxWidth(visibleColumns.length < virtualScrollCurrent.clientWidth ? 'fit-content' : 'inherit');
+    setRowsOnPageCount(
+      Math.floor((virtualScrollCurrent.clientHeight - COLUMN_HEIGHT) / ROW_HEIGHT),
+    );
+    setColumnsOnPageCount(
+      Math.floor(virtualScrollCurrent.clientWidth / COLUMN_WIDTH) + VIRTUAL_COLUMNS_COUNT * 2,
+    );
+    setVirtualScrollMaxWidth(
+      visibleColumns.length < virtualScrollCurrent.clientWidth ? 'fit-content' : 'inherit',
+    );
   }, [height, visibleColumns.length, width]);
 
   return (
-    <div className={styles.virtualScroll} onScroll={virtualOnScroll} style={virtualScrollStyle} ref={virtualScrollRef}>
-      <div style={virtualScrollContentStyle} className={styles.virtualScrollContent} ref={virtualScrollContentRef}>
-        <TableWrapper table={table} columnsOnPage={columnsOnPage} rowsOnPage={rowsOnPage} style={tableStyle} />
+    <div
+      className={styles.virtualScroll}
+      onScroll={virtualOnScroll}
+      style={virtualScrollStyle}
+      ref={virtualScrollRef}
+    >
+      <div
+        style={virtualScrollContentStyle}
+        className={styles.virtualScrollContent}
+        ref={virtualScrollContentRef}
+      >
+        <TableWrapper
+          table={table}
+          columnsOnPage={columnsOnPage}
+          rowsOnPage={rowsOnPage}
+          style={tableStyle}
+        />
       </div>
     </div>
   );

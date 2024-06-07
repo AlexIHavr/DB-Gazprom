@@ -4,7 +4,7 @@ import { UsePreloaderStore } from './types/store';
 
 const usePreloaderStore = create<UsePreloaderStore>()((set) => ({
   isLoading: false,
-  setIsLoading: (isLoading) => set({ isLoading }),
+  setIsLoading: (isLoading): void => set({ isLoading }),
 }));
 
 export default usePreloaderStore;

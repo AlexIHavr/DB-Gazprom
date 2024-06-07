@@ -1,15 +1,13 @@
 .extendedFilterButton {
   left: 0;
 
-  &.show {
+  &.show,
+  &.activated {
     opacity: 1;
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgb(0 0 0 / 4%);
   }
 
-  &.activated {
-    @extend .show;
-    svg {
-      color: red;
-    }
+  &.activated svg {
+    color: red;
   }
 }

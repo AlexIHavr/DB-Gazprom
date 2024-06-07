@@ -29,14 +29,15 @@ const excelRowsParse = (excelRows: ExcelRows, fileName: string): VtdTable => {
 };
 
 export const excelParse = async (file: File, headerRow: number): Promise<VtdTable> => {
-  if (!SUPPORT_FORMATS.some((format) => format === file.type)) throw ClientError.InvalidFileFormat();
+  if (!SUPPORT_FORMATS.some((format) => format === file.type))
+    throw ClientError.InvalidFileFormat();
 
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
     reader.readAsArrayBuffer(file);
 
-    reader.onload = async (e) => {
+    reader.onload = async (e): Promise<void> => {
       const workBook: WorkBook = await new Promise((resolve) =>
         setTimeout(() => resolve(read(e.target?.result, { type: 'binary' }))),
       );
@@ -47,7 +48,9 @@ export const excelParse = async (file: File, headerRow: number): Promise<VtdTabl
       if (!workSheetName) throw ClientError.WorkSheetNotFound(fileName);
 
       const workSheet = workBook.Sheets[workSheetName];
-      const excelRows = utils.sheet_to_json<ExcelRow>(workSheet, { header: 1, defval: null }).slice(headerRow);
+      const excelRows = utils
+        .sheet_to_json<ExcelRow>(workSheet, { header: 1, defval: null })
+        .slice(headerRow);
 
       try {
         const parsedExcelRows = excelRowsParse(excelRows, file.name);
@@ -58,7 +61,7 @@ export const excelParse = async (file: File, headerRow: number): Promise<VtdTabl
       }
     };
 
-    reader.onerror = () => {
+    reader.onerror = (): void => {
       reject(reader.error);
     };
   });

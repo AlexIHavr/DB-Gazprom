@@ -2,24 +2,25 @@ import { ExcelValue } from 'shared/types/excel';
 
 import { SORT_TYPES } from '../consts/searchSettings';
 import { GetSortedRowsParams } from '../types/params';
-import { PipelineRows } from '../types/pipelineTable';
+import { PipelineRow, PipelineRows } from '../types/pipelineTable';
 
-const getParsedFloat = (cellValue: Exclude<ExcelValue, null>) => {
+const getParsedFloat = (cellValue: Exclude<ExcelValue, null>): string | number => {
   if (typeof cellValue === 'string') {
     cellValue = cellValue.toLowerCase();
-    cellValue = cellValue.includes(' ') || isNaN(parseFloat(cellValue)) ? cellValue : parseFloat(cellValue);
+    cellValue =
+      cellValue.includes(' ') || isNaN(parseFloat(cellValue)) ? cellValue : parseFloat(cellValue);
   }
 
   return cellValue;
 };
 
-export const getDefaultSortedRows = (rows: PipelineRows) => {
+export const getDefaultSortedRows = (rows: PipelineRows): PipelineRow[] => {
   return [...rows].sort((nextRow, row) => {
     return Number(nextRow.cells[0].value) - Number(row.cells[0].value);
   });
 };
 
-export const getSortedRows = ({ sortType, index, rows }: GetSortedRowsParams) => {
+export const getSortedRows = ({ sortType, index, rows }: GetSortedRowsParams): PipelineRows => {
   if (sortType === SORT_TYPES.none) return rows;
 
   return rows

@@ -11,7 +11,7 @@ const ShowColumnsButton: FC<ShowColumnsButtonProps> = ({ vtdId, type, columns })
 
   const hiddenColumns = useMemo(() => columns.filter(({ hidden }) => hidden), [columns]);
 
-  const showVisiblyColumnsOnClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const showVisiblyColumnsOnClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     setShowVisiblyColumns((prev) => !prev);
   };
@@ -19,7 +19,7 @@ const ShowColumnsButton: FC<ShowColumnsButtonProps> = ({ vtdId, type, columns })
   useEffect(() => {
     if (!showHiddenColumns) return;
 
-    const hideVisibleColumns = () => setShowVisiblyColumns(false);
+    const hideVisibleColumns = (): void => setShowVisiblyColumns(false);
 
     document.addEventListener('click', hideVisibleColumns);
 

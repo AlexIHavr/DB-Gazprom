@@ -3,7 +3,7 @@ import { useModalWindowsStore } from 'features';
 
 import { ServerError } from '../types/serverError';
 
-export const showServerError = (error: ServerError) => {
+export const showServerError = (error: ServerError): void => {
   const addModalWindow = useModalWindowsStore.getState().addModalWindow;
 
   if (axios.isAxiosError(error) && error.response?.data) {
@@ -12,12 +12,15 @@ export const showServerError = (error: ServerError) => {
     let message = '';
 
     const errorResponse = errorData.errorResponse;
+
     if (errorResponse) {
       if (typeof errorResponse === 'string') message += errorResponse;
-      else if (typeof errorResponse.message === 'object') message += errorResponse.message.join(';\n');
+      else if (typeof errorResponse.message === 'object')
+        message += errorResponse.message.join(';\n');
     }
 
     const dbValidationErrors = errorData.dbValidationErrors;
+
     if (dbValidationErrors) {
       message += dbValidationErrors.reduce((prev, value) => {
         prev += value.message + ';\n';
