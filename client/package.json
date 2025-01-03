@@ -16,6 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "cc": "generate-react component",
     "ccp": "generate-react component --type=pure",
     "lint": "eslint && npx stylelint *.scss",

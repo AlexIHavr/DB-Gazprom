@@ -9,7 +9,7 @@
     "server:prod": "node dist/main",
     "server:build": "nest build",
     "client": "npm start --prefix ./client",
-    "client:build": "npm run build --prefix ../client",
+    "client:build": "npm run build --prefix ./client",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "format": "prettier ./src --write",
