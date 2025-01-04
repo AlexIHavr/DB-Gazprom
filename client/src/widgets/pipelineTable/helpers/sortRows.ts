@@ -4,7 +4,7 @@ import { SORT_TYPES } from '../consts/searchSettings';
 import { GetSortedRowsParams } from '../types/params';
 import { PipelineRow, PipelineRows } from '../types/pipelineTable';
 
-const getParsedFloat = (cellValue: Exclude<ExcelValue, null>): string | number => {
+export const getParsedFloat = (cellValue: Exclude<ExcelValue, null>): string | number => {
   if (typeof cellValue === 'string') {
     cellValue = cellValue.toLowerCase();
     cellValue =

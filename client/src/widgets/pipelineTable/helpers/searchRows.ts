@@ -1,6 +1,8 @@
 import { SEARCH_COMPARE_TYPES } from '../consts/searchSettings';
 import { IsRangeComparedCellValueParams, IsSearchComparedCellValueParams } from '../types/params';
 
+import { getParsedFloat } from './sortRows';
+
 export const isSearchComparedCellValue = ({
   cellValue,
   searchValue,
@@ -29,9 +31,21 @@ export const isRangeComparedCellValue = ({
 }: IsRangeComparedCellValueParams): string | number | boolean => {
   if (cellValue === null) return false;
 
-  if (fromValue && toValue) return cellValue >= fromValue && cellValue <= toValue;
-  if (fromValue) return cellValue >= fromValue;
-  if (toValue) return cellValue <= toValue;
+  const parsedCellValue = getParsedFloat(cellValue);
+  const parsedFromValue = getParsedFloat(fromValue);
+  const parsedToValue = getParsedFloat(toValue);
+
+  if (fromValue && toValue) {
+    return parsedCellValue >= parsedFromValue && parsedCellValue <= parsedToValue;
+  }
+
+  if (fromValue) {
+    return parsedCellValue >= parsedFromValue;
+  }
+
+  if (toValue) {
+    return parsedCellValue <= parsedToValue;
+  }
 
   return cellValue;
 };
